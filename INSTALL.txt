@@ -23,7 +23,7 @@ Initial Installation
  php_flag register_globals Off
  php_flag magic_quotes_gpc Off
  php_flag magic_quotes_runtime Off
- php_flag short_open_tags On
+ php_flag short_open_tag On
 
  <Directory /path/to/docweb/www>
   Allowoverride FileInfo Options Limit
