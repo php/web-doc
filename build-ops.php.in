@@ -1,0 +1,12 @@
+<?php
+// $Id$
+// autoconf-generated file for docweb
+
+define('CRON_DIR',    '@CRONDIR@');
+define('CVS_DIR',     '@CVSDIR@');
+define('PATH_ROOT',   '@DOCWEB@');
+define('SCRIPTS_DIR', '@SCRIPTSDIR@');
+define('SQL_DIR',     '@SQLDIR@');
+define('SQLITE_DIR',  '@SQLITEDIR@');
+
+?>

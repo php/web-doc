@@ -86,7 +86,7 @@ class DocWeb_Language
         }
         
         // use this file:
-        $entFile = PATH_ROOT . "/cvs/phpdoc-all/$lang/docweb/main.ent";
+        $entFile = CVS_DIR ."/phpdoc-all/$lang/docweb/main.ent";
         
         if (is_readable($entFile)) {
             // file is good; get its contents

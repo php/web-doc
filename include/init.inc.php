@@ -23,10 +23,8 @@ $Id$
 
 error_reporting(E_ALL);
 
-// paths
-define('PATH_ROOT',  realpath(dirname(__FILE__) . '/../'));
-define('SQLITE_DIR', PATH_ROOT . '/sqlite/');
-define('CVS_DIR',    PATH_ROOT . '/cvs/');
+// get paths
+require_once('../build-ops.php');
 
 // project & language config
 require_once('lib_proj_lang.inc.php');
