@@ -65,17 +65,18 @@ exit(0);
   **/
 
 // define some common variables
-include '/home/user/doc/include/lib_general.inc.php';
+include '../include/lib_general.inc.php';
 
 // grab the documentation type
 $TYPE = array_shift($argv);
 
+/** Disable for now, function not found using grep **/
 // check for validity
-if (!documentation_exists($TYPE)) {
-	die("$TYPE is not a valid documentation type\n");
-} else {
+//if (!documentation_exists($TYPE)) {
+//	die("$TYPE is not a valid documentation type\n");
+//} else {
 	$DOCS = CVS_DIR . get_cvs_dir($TYPE);
-}
+//}
 
 // $argv was shifted before
 $LANGS = $argv;

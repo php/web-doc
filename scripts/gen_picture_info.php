@@ -1,16 +1,16 @@
 <?php
-include '/home/user/doc/include/jpgraph/jpgraph.php';
-include '/home/user/doc/include/jpgraph/jpgraph_pie.php';
-include '/home/user/doc/include/jpgraph/jpgraph_pie3d.php';
+include '../include/jpgraph/jpgraph.php';
+include '../include/jpgraph/jpgraph_pie.php';
+include '../include/jpgraph/jpgraph_pie3d.php';
 
-include '/home/user/doc/include/lib_general.inc.php';
-include '/home/user/doc/include/lib_revcheck.inc.php';
+include '../include/lib_general.inc.php';
+include '../include/lib_revcheck.inc.php';
 
 $plop = array_shift($argv);
 
 $TYPE = array_shift($argv); // Type of documentation
 
-
+/** make this work for now 
 // documentation exist ?
 if (!documentation_exists($TYPE)) {
   
@@ -18,7 +18,7 @@ if (!documentation_exists($TYPE)) {
   exit(0);
   
 }
-
+*/
 
 foreach( $argv as $lang ) {
 
@@ -105,7 +105,7 @@ $p1->value->Show(false);
 $p1->SetLegends($legend);
 
 $graph->Add($p1);
-$graph->Stroke('/home/user/doc/www/images/info_revcheck_' . $TYPE . '_' . $lang . '.png');
+$graph->Stroke('../www/images/info_revcheck_' . $TYPE . '_' . $lang . '.png');
 
 
 return TRUE;

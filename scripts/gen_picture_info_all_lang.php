@@ -1,9 +1,9 @@
 <?php
-include '/home/user/doc/include/jpgraph/jpgraph.php';
-include '/home/user/doc/include/jpgraph/jpgraph_bar.php';
+include '../include/jpgraph/jpgraph.php';
+include '../include/jpgraph/jpgraph_bar.php';
 
-include '/home/user/doc/include/lib_general.inc.php';
-include '/home/user/doc/include/lib_revcheck.inc.php';
+include '../include/lib_general.inc.php';
+include '../include/lib_revcheck.inc.php';
 
 
 // Couleurs des barres, suivant le type de la doc
@@ -19,7 +19,7 @@ $type_col_bar = array(
 
 
 
-foreach($TYPES as $type => $pos) {
+foreach($type_col_bar as $type => $pos) {
 
 
   if( is_file(SQLITE_DIR . 'rev.' . $type . '.sqlite') && filesize(SQLITE_DIR . 'rev.' . $type . '.sqlite') != 0 ) {
@@ -111,7 +111,7 @@ $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 
 // Display the graph
-$graph->Stroke('/home/user/doc/www/images/info_revcheck_' . $TYPE . '_all_lang.png');
+$graph->Stroke('../www/images/info_revcheck_' . $TYPE . '_all_lang.png');
 
 }
 
