@@ -1,6 +1,6 @@
 #!/bin/bash
 # +----------------------------------------------------------------------+
-# | PHP Documentation Site Source Code                                   |
+# | PHP Documentation Tools Site Source Code                             |
 # +----------------------------------------------------------------------+
 # | Copyright (c) 1997-2004 The PHP Group                                |
 # +----------------------------------------------------------------------+
@@ -15,7 +15,7 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.4 2004-09-02 18:45:11 sean Exp $
+# $Id: populatedocs.sh,v 1.5 2004-09-05 06:36:08 sean Exp $
 
 cd /home/pure-ftpd-users/php001/docs.php.mirrors.powertrip.co.za
 /bin/mkdir cvs
