@@ -8,5 +8,8 @@ define('PATH_ROOT',   '@DOCWEB@');
 define('SCRIPTS_DIR', '@SCRIPTSDIR@');
 define('SQL_DIR',     '@SQLDIR@');
 define('SQLITE_DIR',  '@SQLITEDIR@');
+define('FILES_DIR',   '@FILESDIR@');
+define('WWW_USER',    '@WWWUSER@');
+define('WWW_GROUP',   '@WWWGROUP@');
 
 ?>

@@ -23,6 +23,12 @@ ac_help="$ac_help
   --with-sql-dir[=DIR]       SQL source location  [default=`pwd`/sql]"
 ac_help="$ac_help
   --with-sqlite-dir[=DIR]    SQLite repository location  [default=`pwd`/sqlite]"
+ac_help="$ac_help
+  --with-files-dir[=DIR]     'files' location (for RFC, etc)  [default=`pwd`/files]"
+ac_help="$ac_help
+  --with-www-user[=USER]     Web Server user  [default=`whoami`]"
+ac_help="$ac_help
+  --with-www-group[=GROUP]   Web Server group  [default=`groups | cut -d" " -f1`]"
 
 # Initialize some variables set by options.
 # The variables have the same names as the options, with
@@ -534,13 +540,36 @@ fi
 
 
 
+  test -f config.nice && mv config.nice config.nice.old
+  rm -f config.nice.old
+  cat >config.nice<<EOF
+#! /bin/sh
+#
+# Created by configure
+
+EOF
+
+  for var in CFLAGS CXXFLAGS CPPFLAGS LDFLAGS LIBS CC CXX; do
+    eval val=\$$var
+    if test -n "$val"; then
+      echo "$var='$val' \\" >> config.nice
+    fi
+  done
+
+  for arg in $0 "$@"; do
+    echo "'$arg' \\" >> config.nice
+  done
+  echo '"$@"' >> config.nice
+  chmod +x config.nice
+
+
 # Check whether --with-php or --without-php was given.
 if test "${with_php+set}" = set; then
   withval="$with_php"
   
   if test $withval != "yes"; then
     echo $ac_n "checking for php""... $ac_c" 1>&6
-echo "configure:544: checking for php" >&5
+echo "configure:573: checking for php" >&5
     if test -x $withval; then
       PHP=$withval
       echo "$ac_t""$PHP" 1>&6
@@ -552,14 +581,14 @@ echo "configure:544: checking for php" >&5
   else
     if test -e ../phpdoc-tools/php.bat ; then
       echo $ac_n "checking for php""... $ac_c" 1>&6
-echo "configure:556: checking for php" >&5
+echo "configure:585: checking for php" >&5
       PHP=../phpdoc-tools/php.bat
       echo "$ac_t""$PHP" 1>&6
     else
       # Extract the first word of ""php"", so it can be a program name with args.
 set dummy "php"; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:563: checking for $ac_word" >&5
+echo "configure:592: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_PHP'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -596,7 +625,7 @@ fi
         # Extract the first word of ""php4"", so it can be a program name with args.
 set dummy "php4"; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:600: checking for $ac_word" >&5
+echo "configure:629: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_PHP4'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -638,14 +667,14 @@ else
   
   if test -e ../phpdoc-tools/php.bat ; then
     echo $ac_n "checking for php""... $ac_c" 1>&6
-echo "configure:642: checking for php" >&5
+echo "configure:671: checking for php" >&5
     PHP=../phpdoc-tools/php.bat
     echo "$ac_t""$PHP" 1>&6
   else
     # Extract the first word of ""php"", so it can be a program name with args.
 set dummy "php"; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:649: checking for $ac_word" >&5
+echo "configure:678: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_PHP'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -682,7 +711,7 @@ fi
       # Extract the first word of ""php4"", so it can be a program name with args.
 set dummy "php4"; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:686: checking for $ac_word" >&5
+echo "configure:715: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_PHP4'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -731,7 +760,7 @@ if test "${with_cron_dir+set}" = set; then
   withval="$with_cron_dir"
   CRONDIR="$withval"
 else
-  CRONDIR="`pwd`/cron"
+  CRONDIR="`pwd`/cron/"
 fi
 
 
@@ -740,7 +769,7 @@ if test "${with_cvs_dir+set}" = set; then
   withval="$with_cvs_dir"
   CVSDIR="$withval"
 else
-  CVSDIR="`pwd`/cvs"
+  CVSDIR="`pwd`/cvs/"
 fi
 
 
@@ -749,7 +778,7 @@ if test "${with_scripts_dir+set}" = set; then
   withval="$with_scripts_dir"
   SCRIPTSDIR="$withval"
 else
-  SCRIPTSDIR="`pwd`/scripts"
+  SCRIPTSDIR="`pwd`/scripts/"
 fi
 
 
@@ -758,7 +787,7 @@ if test "${with_sql_dir+set}" = set; then
   withval="$with_sql_dir"
   SQLDIR="$withval"
 else
-  SQLDIR="`pwd`/sql"
+  SQLDIR="`pwd`/sql/"
 fi
 
 
@@ -767,11 +796,42 @@ if test "${with_sqlite_dir+set}" = set; then
   withval="$with_sqlite_dir"
   SQLITEDIR="$withval"
 else
-  SQLITEDIR="`pwd`/sqlite"
+  SQLITEDIR="`pwd`/sqlite/"
+fi
+
+
+# Check whether --with-files-dir or --without-files-dir was given.
+if test "${with_files_dir+set}" = set; then
+  withval="$with_files_dir"
+  FILESDIR="$withval"
+else
+  FILESDIR="`pwd`/files/"
+fi
+
+
+
+# Check whether --with-www-user or --without-www-user was given.
+if test "${with_www_user+set}" = set; then
+  withval="$with_www_user"
+  WWWUSER="$withval"
+else
+  WWWUSER="`whoami`"
+fi
+
+
+# Check whether --with-www-group or --without-www-group was given.
+if test "${with_www_group+set}" = set; then
+  withval="$with_www_group"
+  WWWGROUP="$withval"
+else
+  WWWGROUP="`groups | cut -d" " -f1`"
 fi
 
 
 DOCWEB=`pwd`
+
+
+
 
 
 
@@ -932,6 +992,9 @@ s%@DOCWEB@%$DOCWEB%g
 s%@SCRIPTSDIR@%$SCRIPTSDIR%g
 s%@SQLDIR@%$SQLDIR%g
 s%@SQLITEDIR@%$SQLITEDIR%g
+s%@FILESDIR@%$FILESDIR%g
+s%@WWWUSER@%$WWWUSER%g
+s%@WWWGROUP@%$WWWGROUP%g
 
 CEOF
 EOF

@@ -3,6 +3,7 @@
 
 AC_PREREQ(2.13)
 AC_INIT()
+DOCWEB_CONFIG_NICE(config.nice)
 
 dnl "stolen" from livedocs:
 AC_ARG_WITH(php,[  --with-php[=PATH]          Look for PHP executable needed for docweb scripts],
@@ -68,6 +69,19 @@ AC_ARG_WITH(sqlite-dir,[  --with-sqlite-dir[=DIR]    SQLite repository location 
   [SQLITEDIR="$withval"],
   [SQLITEDIR="`pwd`/sqlite/"])
 
+AC_ARG_WITH(files-dir,[  --with-files-dir[=DIR]     'files' location (for RFC, etc)  [default=`pwd`/files]],
+  [FILESDIR="$withval"],
+  [FILESDIR="`pwd`/files/"])
+
+
+AC_ARG_WITH(www-user,[  --with-www-user[=USER]     Web Server user  [default=`whoami`]],
+  [WWWUSER="$withval"],
+  [WWWUSER="`whoami`"])
+
+AC_ARG_WITH(www-group,[  --with-www-group[=GROUP]   Web Server group  [default=`groups | cut -d" " -f1`]],
+  [WWWGROUP="$withval"],
+  [WWWGROUP="`groups | cut -d" " -f1`"])
+
 DOCWEB=`pwd`
 
 AC_SUBST(CRONDIR)
@@ -76,6 +90,9 @@ AC_SUBST(DOCWEB)
 AC_SUBST(SCRIPTSDIR)
 AC_SUBST(SQLDIR)
 AC_SUBST(SQLITEDIR)
+AC_SUBST(FILESDIR)
+AC_SUBST(WWWUSER)
+AC_SUBST(WWWGROUP)
 
 AC_OUTPUT(build-ops.php build-ops)
 
