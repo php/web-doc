@@ -1,7 +1,7 @@
 <?php
 /*
 +----------------------------------------------------------------------+
-| PHP Documentations Site Source Code                                  |
+| PHP Documentation Site Source Code                                   |
 +----------------------------------------------------------------------+
 | Copyright (c) 1997-2004 The PHP Group                                |
 +----------------------------------------------------------------------+
@@ -36,7 +36,7 @@ $PROJECTS = array(
     'gtk'      => array('PHP-GTK Documentation', 'php-gtk-docs'),
     'livedocs' => array('Livedocs',              ''),
     'pecl'     => array('PECL Documentation',    ''),
-    'www'      => array('Documentations',        ''),
+    'www'      => array('Documentation',         ''),
 );
 
 // Supported languages
@@ -119,8 +119,8 @@ function site_header($title = '', $style = array())
     $lang       = 'en'; //LANGC;
     $master_url = get_resource_url();
     $encoding   = "iso-8859-1"; // for now
-    $page_title = ($title ? $title . ' - PHP Documentations' : 'PHP Documentations');
-    $page_h1    = ($title ? $title : 'PHP Documentations');
+    $page_title = ($title ? $title . ' - PHP Documentation' : 'PHP Documentation');
+    $page_h1    = ($title ? $title : 'PHP Documentation');
 
     $languages = site_nav_langs();
     $projects  = site_nav_projects();

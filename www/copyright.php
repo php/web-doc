@@ -15,7 +15,7 @@ echo site_header('Copyright');
 <h2>Documentation Copyright</h2>
 
 <p>
- The documentations of the different projects we tie together are under
+ The documentation of the different projects we tie together is under
  different licenses, so you need to check the copyright notices in the
  respective manuals for more information. In case you have questions not
  handled in the licenses, please ask at

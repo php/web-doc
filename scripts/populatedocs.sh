@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 # +----------------------------------------------------------------------+
 # | PHP Documentation Site Source Code                                   |
 # +----------------------------------------------------------------------+
@@ -15,7 +15,7 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.3 2004-08-06 07:57:40 vincent Exp $
+# $Id: populatedocs.sh,v 1.4 2004-09-02 18:45:11 sean Exp $
 
 cd /home/pure-ftpd-users/php001/docs.php.mirrors.powertrip.co.za
 /bin/mkdir cvs
