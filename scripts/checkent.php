@@ -58,7 +58,7 @@ if (extension_loaded('openssl')) {
 
 // constants for errors
 define('UNKNOWN_HOST',        1);
-define('FTP_CONNECT',         2;
+define('FTP_CONNECT',         2);
 define('FTP_LOGIN',           3);
 define('FTP_NO_FILE',         4);
 define('HTTP_CONNECT',        5);
