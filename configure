@@ -29,6 +29,8 @@ ac_help="$ac_help
   --with-www-user[=USER]     Web Server user  [default=`whoami`]"
 ac_help="$ac_help
   --with-www-group[=GROUP]   Web Server group  [default=`groups | cut -d" " -f1`]"
+ac_help="$ac_help
+  --with-livedocs[=URL]      URL to livedocs mirror  [default=http://docs.php.net/]"
 
 # Initialize some variables set by options.
 # The variables have the same names as the options, with
@@ -569,7 +571,7 @@ if test "${with_php+set}" = set; then
   
   if test $withval != "yes"; then
     echo $ac_n "checking for php""... $ac_c" 1>&6
-echo "configure:573: checking for php" >&5
+echo "configure:575: checking for php" >&5
     if test -x $withval; then
       PHP=$withval
       echo "$ac_t""$PHP" 1>&6
@@ -581,14 +583,14 @@ echo "configure:573: checking for php" >&5
   else
     if test -e ../phpdoc-tools/php.bat ; then
       echo $ac_n "checking for php""... $ac_c" 1>&6
-echo "configure:585: checking for php" >&5
+echo "configure:587: checking for php" >&5
       PHP=../phpdoc-tools/php.bat
       echo "$ac_t""$PHP" 1>&6
     else
       # Extract the first word of ""php"", so it can be a program name with args.
 set dummy "php"; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:592: checking for $ac_word" >&5
+echo "configure:594: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_PHP'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -625,7 +627,7 @@ fi
         # Extract the first word of ""php4"", so it can be a program name with args.
 set dummy "php4"; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:629: checking for $ac_word" >&5
+echo "configure:631: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_PHP4'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -667,14 +669,14 @@ else
   
   if test -e ../phpdoc-tools/php.bat ; then
     echo $ac_n "checking for php""... $ac_c" 1>&6
-echo "configure:671: checking for php" >&5
+echo "configure:673: checking for php" >&5
     PHP=../phpdoc-tools/php.bat
     echo "$ac_t""$PHP" 1>&6
   else
     # Extract the first word of ""php"", so it can be a program name with args.
 set dummy "php"; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:678: checking for $ac_word" >&5
+echo "configure:680: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_PHP'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -711,7 +713,7 @@ fi
       # Extract the first word of ""php4"", so it can be a program name with args.
 set dummy "php4"; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:715: checking for $ac_word" >&5
+echo "configure:717: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_PHP4'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -828,6 +830,15 @@ else
 fi
 
 
+# Check whether --with-livedocs or --without-livedocs was given.
+if test "${with_livedocs+set}" = set; then
+  withval="$with_livedocs"
+  LIVEDOCS="$withval"
+else
+  LIVEDOCS="http://docs.php.net/"
+fi
+
+
 DOCWEB=`pwd`
 
 if test `uname|grep CYGWIN` ; then
@@ -840,6 +851,7 @@ if test `uname|grep CYGWIN` ; then
   SQLITEDIR=`cygpath -m $SQLITEDIR`
   FILESDIR=`cygpath -m $FILESDIR`
 fi
+
 
 
 
@@ -1008,6 +1020,7 @@ s%@SQLITEDIR@%$SQLITEDIR%g
 s%@FILESDIR@%$FILESDIR%g
 s%@WWWUSER@%$WWWUSER%g
 s%@WWWGROUP@%$WWWGROUP%g
+s%@LIVEDOCS@%$LIVEDOCS%g
 
 CEOF
 EOF
