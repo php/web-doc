@@ -86,6 +86,13 @@ function generation_image($TYPE, $lang) {
     $graph->subtitle->Align('left');
     $graph->subtitle->SetColor('darkred');
 
+    $t1 = new Text(date('dmyGi')); 
+    $t1->Pos(522,294);
+    $t1->SetFont(FF_FONT1,FS_NORMAL);
+    $t1->Align("right", 'bottom'); 
+    $t1->SetColor("black");
+    $graph->AddText($t1);
+
     $p1 = new PiePlot3D($data);
     $p1->SetSliceColors(array("#68d888", "#ff6347", "#eee8aa", "#dcdcdc", "#f4a460"));
     if ($noExplode != 1) {
