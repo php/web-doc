@@ -826,9 +826,9 @@ return true; // !!!
         $headers = "CC: ". implode(", ", $to) . "\n";
         $headers .= "From: " . PROPOSAL_MAIL_FROM . "\n";
         $headers .= "Reply-To: " . $actorinfo['email'] . "\n";
-        $headers .= "X-Mailer: " . "RFC, Docweb Proposal System" . "\n"; // !!!
+        $headers .= "X-Mailer: " . "RFC, Docweb Proposal System <http://docs.php.net/>" . "\n"; // !!!
         $headers .= "X-RFC-Category: " . $this->pkg_category . "\n";
-        $headers .= "X-RFC-Package: " . $this->pkg_name . "\n";
+        $headers .= "X-RFC-Name: " . $this->pkg_name . "\n";
         $headers .= "X-RFC-Status: " . $this->getStatus() . "\n";
 
         $res = mail($email['to'], $email['subject'], $email['text'],

@@ -86,9 +86,6 @@ switch ($proposal->markup) {
     <li>
      Proposer: <?php echo $proposal->user_handle; ?>
     </li>
-  <!-- Not needed IMO  <li>
-     License: <?php echo htmlspecialchars($proposal->pkg_license) ?>
-    </li>-->
    </ul>
   </td>
 
@@ -144,9 +141,8 @@ if ($proposal->status == 'finished') {
  </tr>
 
  <tr>
- <!-- <th class="headrow" style="width: 50%">&raquo; Dependencies</th>-->
   <th class="headrow" style="width: 50%">&raquo; Links</th>
-  <!-- new --><th class="headrow" style="width: 50%">&raquo;Files</th>
+  <th class="headrow" style="width: 50%">&raquo;Files</th>
  </tr>
  <tr>
 

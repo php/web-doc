@@ -44,7 +44,7 @@ if (!empty($_GET['isDeleted'])) {
 
 if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
     echo site_header('RFC :: Delete :: Invalid Request');
-    echo "<h1>Delete Proposal</h1>\n";
+    echo "<h1>Delete Proposal Error</h1>\n";
     report_error('The requested proposal does not exist.');
     echo site_footer();
     exit;

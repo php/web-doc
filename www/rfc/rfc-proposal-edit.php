@@ -73,7 +73,7 @@ if (strlen($_GET['delete']) >= 32 &&
         $res = $dbh->query($sql);
         
         // this might need some more security
-        unlink('./../../' . $hash);
+        unlink('./../../files/' . $hash);
         
         report_success('File deleted!');
         }
@@ -150,7 +150,6 @@ $categoryNewElements[] =& HTML_QuickForm::createElement('text', 'pkg_category_ne
 $categoryNew = $form->addGroup($categoryNewElements, 'pkg_category_new', 'New category:', '(only use if really needed)<br />');
 
 $form->addElement('text', 'pkg_name', 'Name:');
-//$form->addElement('text', 'pkg_license', 'License:'); // not needed IMO
 
 $form->addElement('textarea', 'pkg_describtion', 'Description:', array('rows' => 20, 'cols' => '80'));
 $form->addElement('select', 'markup', 'Markup', array('bbcode' => 'BBCode', 'wiki' => 'Wiki'));
@@ -158,10 +157,6 @@ $form->addElement('select', 'markup', 'Markup', array('bbcode' => 'BBCode', 'wik
 $helpLinks[] =& HTML_QuickForm::createElement('link', 'help_bbcode', '_blank', 'rfc-bbcode-help.php', 'You can use BBCode inside your description', array('target' => '_blank'));
 $helpLinks[] =& HTML_QuickForm::createElement('link', 'help_wiki', '_blank', 'http://wiki.ciaweb.net/yawiki/index.php?area=Text_Wiki&page=WikiRules', 'or Wiki markup', array('target' => '_blank'));
 $form->addGroup($helpLinks, 'markup_help', '', ' ');
-
-// this seems not needed for an RFC system // !!!
-//$form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '80'));
-//$form->addElement('static', '', '', 'List seperated by linefeeds. Please use the word \'none\' if you are sure there are no dependencies');
 
 $form->addElement('file', 'thefile', '');
 $form->addElement('static', '', '', 'Upload a file or link to your files');
@@ -179,18 +174,16 @@ $form->addElement('static', '', '', 'Upload a file or link to your files');
         $filecount++;
 
 $form->addElement('static', '', '', 'You have uploaded '.$filecount.' file(s). To delete, click on the file');
-//$form->addElement('static', '', '', 'To delete, click on the file');
-
 
 if (!empty($proposal->pkg_filehash)) {
     $list = explode("|", htmlspecialchars($proposal->pkg_filehash));
-foreach ($list as $hash) {
-if ($hash == '')
-    continue;
+    foreach ($list as $hash) {
+        if ($hash == '')
+            continue;
     
-    $file = substr($hash, 0, -32);
+        $file = substr($hash, 0, -32);
 
-$form->addElement('static', '', '', '<a href="?id='.$id.'&delete='.$hash.'">'.$file.'</a>');
+        $form->addElement('static', '', '', '<li><a href="?id='.$id.'&delete='.$hash.'">'.$file.'</a></li>');
 
 }
 }
@@ -276,15 +269,11 @@ if ($proposal != null) {
 
 $form->applyFilter('pkg_name', 'trim');
 $form->applyFilter('pkg_describtion', 'trim');
-//$form->applyFilter('pkg_deps', 'trim');
 
 $form->addRule('pkg_category', 'You have to select a category!', 'required', '', 'server');
 $form->addRule('pkg_name', 'You have to enter a name!', 'required', '', 'server');
-//$form->addRule('pkg_license', 'you have to specify the license of your package!', 'required', '', 'server'); // not needed IMO
 $form->addRule('pkg_describtion', 'You have to enter a description!', 'required', '', 'server');
-//$form->addRule('link[0]', '2 links are required as minimum!', 'required', '', 'server');
-//$form->addRule('link[1]', '2 links are required as minimum!', 'required', '', 'server');
-// links are not always needed
+
 
 if (isset($_POST['submit'])) {
     if ($form->validate()) {

@@ -139,14 +139,13 @@ td.ulcell {
 
 #nav {
     width: 100%;
-    /*border-top: 1px solid #000;*/
+    padding: 6px;
     display: block;
     margin-bottom: 35px;
     clear: left;
 }
 
 #nav a {
-    /*float: left;*/
     font-weight: bold;
     font-size: 80%;
     text-decoration: none;
@@ -154,7 +153,6 @@ td.ulcell {
     margin-right: 5px;
     padding: 5px;
     border: 1px solid #ccc;
-    /*border-right: 1px solid #ccc;*/
 }
 
 #nav a.active {
@@ -163,4 +161,48 @@ td.ulcell {
 
 #nav a:hover {
     background: #ddf;
+}
+
+/* === User Submission Responses === */
+
+div.errors,
+div.warnings,
+div.explain,
+div.success {
+    margin: 4px;
+    padding: 6px;
+    width: 65%;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+div.errors {
+    border: 1px dashed #660000;
+    background: #fee;
+    color: #660000;
+}
+
+div.warnings {
+    border: 1px dashed #ff8c00;
+    background: #ffa;
+    color: #ff8c00;
+}
+
+div.explain {
+    border: 1px dashed #000066;
+    color: #000066;
+}
+
+div.success {
+    border: 1px dashed #006600;
+    background-color: #CCFF99;
+    color: #006600;
+}
+
+div.errors ul,
+div.warnings ul,
+div.explain ul,
+div.success ul {
+    margin-top: 0em;
+    margin-bottom: 0em;
 }

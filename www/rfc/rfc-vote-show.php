@@ -33,7 +33,7 @@ $handle = htmlspecialchars(@$_GET['handle']);
 if (!$proposal =& proposal::get($dbh, @$_GET['id']) || !$handle)
 {
     echo site_header('RFC :: Vote Details :: Invalid Request');
-    echo "<h1>Vote Details</h1>\n";
+    echo "<h1>Vote Details Error</h1>\n";
     report_error('The requested proposal or user does not exist.');
     echo site_footer();
     exit;
@@ -68,7 +68,7 @@ if (!$vote) {
     echo "<ul>\n";
 
     echo ' <li>Voter: ';
-  //  echo user_link($handle); // !!!
+  //  echo user_link($handle); // !!! user_link() will return the full name 
   echo $handle;
     echo "</li>\n";
 

@@ -5,7 +5,10 @@ Initial Instatllation
    documentation for the site.
 2. Create the sqlite directory and 'chown www:www sqlite' or the equivalent
    user who apache runs under.
-3. Configure the virtual host under apache.  Current 'suggested settings' are:
+3. Create the files directory and 'chown www:www files' or the equivalent
+   user who apache runs under.  
+4. The PEAR packages for the RFC System can be found at include/rfc/PACKAGES
+5. Configure the virtual host under apache.  Current 'suggested settings' are:
 
 <VirtualHost 65.75.184.99:80>
 ServerName docweb.php.mirrors.powertrip.co.za

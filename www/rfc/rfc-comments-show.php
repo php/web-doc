@@ -30,7 +30,7 @@ require_once '../../include/rfc/rfc.php';
 
 if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
     echo site_header('RFC :: Comments :: Invalid Request');
-    echo "<h1>Comments for</h1>\n";
+    echo "<h1>Comments Error</h1>\n";
     report_error('The requested proposal does not exist.');
     echo site_footer();
     exit;
