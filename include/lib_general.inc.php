@@ -215,6 +215,15 @@ function site_nav_provider()
         $links['doc-howto']    = BASE_URL . '/dochowto/index.php';
     }
 
+    switch(SITE) {
+        case 'php':
+        case 'pear':
+        case 'smarty':
+        case 'gtk':
+            $links['checkent']     = BASE_URL . '/checkent.php';
+            break;
+   }
+
     // English only
     if (LANGC == 'all' || LANGC == 'en') {
 
@@ -224,8 +233,6 @@ function site_nav_provider()
 
             case 'pear':
             case 'smarty':
-                $links['checkent']     = BASE_URL . '/checkent.php';
-                break;
         }
     }
 
