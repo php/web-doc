@@ -68,7 +68,7 @@ $LANGUAGES = array(
 );
 
 // If PHP is running as an Apache module, get
-if (php_sapi_name() == 'apache') {
+if (substr(php_sapi_name(), 0, 6) == 'apache') {
 
     // Grab subdomains if provided
     $domains = explode(
