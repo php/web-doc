@@ -29,3 +29,5 @@ php_flag magic_quotes_runtime Off
 php_value include_path "/home/pure-ftpd-users/php001/docs.php.mirrors.powertrip.co.za/include:/usr/local/share/pear"
 </IfModule>
 </VirtualHost>
+6. Copy include/lib_site_conf.inc.php to include/lib_site_conf_local.inc.php and
+   edit it appropriately for your local configuration
