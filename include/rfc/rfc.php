@@ -710,14 +710,14 @@ return true; // !!!
 
     function sendActionEmail($event, $userType, $user_handle = null, $comment = '')
     { // !!!
-        global $dbh, $karma;
+        global $dbh, $karma, $auth;
 
         if (empty($karma)) {
          //   $karma =& new Damblan_Karma($dbh); // !!!
         }
-	
-	$master_url = get_resource_url();
-	require dirname(__FILE__) . '/rfc-emails.php';
+
+        $master_url = get_resource_url();
+        require dirname(__FILE__) . '/rfc-emails.php';
         $email = $proposalEmailTexts[$event];
         if (empty($email)) {
             return PEAR::raiseError("Email template for $event not found");
@@ -813,7 +813,7 @@ return true; // !!!
                               (isset($vote)) ? $vote_url : "",
                               PROPOSAL_MAIL_DOC_DEV,
                               PROPOSAL_MAIL_DOC_GROUP,
-                              (isset($comment)) ? $comment : '',
+                              (isset($comment)) ? wordwrap($comment) : '',
                               (isset($vote_result)) ? $vote_result : '',
                               (isset($vote_conditional)) ? $vote_conditional : ""
                               );
@@ -821,15 +821,26 @@ return true; // !!!
         $email = preg_replace($replace, $replacements, $email);
         $email['text'] .= PROPOSAL_EMAIL_POSTFIX;
 
+        if (is_object($auth)) {
+            $from = '"' . $auth->name . '" <' . $auth->email . '>';
+        } else {
+            $from = PROPOSAL_MAIL_FROM ;
+        }
+        
         $to = explode(", ", $email['to']);
         $email['to'] = array_shift($to);
         $headers = "CC: ". implode(", ", $to) . "\n";
-        $headers .= "From: " . PROPOSAL_MAIL_FROM . "\n";
-        $headers .= "Reply-To: " . $actorinfo['email'] . "\n";
+        $headers .= "From: " . $from . "\n";
         $headers .= "X-Mailer: " . "RFC, Docweb Proposal System <http://docs.php.net/>" . "\n"; // !!!
         $headers .= "X-RFC-Category: " . $this->pkg_category . "\n";
         $headers .= "X-RFC-Name: " . $this->pkg_name . "\n";
         $headers .= "X-RFC-Status: " . $this->getStatus() . "\n";
+        
+        if ($event == "change_status_proposal") {
+            $headers .= "Message-ID: <proposal-" . $this->id . "@doc.php.net>\n";
+        } else {
+            $headers .= "In-Reply-To: <proposal-" . $this->id . "@doc.php.net>\n";
+        }
 
         $res = mail($email['to'], $email['subject'], $email['text'],
                     $headers, '-f doc-web@lists.php.net'); // !!!
