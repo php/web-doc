@@ -75,7 +75,22 @@ foreach ($proposals as $proposal) {
     if (!isset($users[$proposal->user_handle])) {
         $users[$proposal->user_handle] = array('Test','name'=>'TestUser');// user::info($proposal->user_handle); // !!!
     }
+    
+    $already_voted = false;
+    if (isset($_COOKIE['PEAR_USER']) && $proposal->getStatus(true) == "Called for Votes") {
+        $proposal->getVotes($dbh);
+
+        if (in_array($_COOKIE['PEAR_USER'], array_keys($proposal->votes))) {
+            $already_voted = true;
+        }
+    }
+
     echo "<li>";
+    
+    if ($already_voted) {
+        echo '(Already voted) ';
+    }
+    
     print_link('rfc-proposal-show.php?id=' . $proposal->id,
                htmlspecialchars($proposal->pkg_category) . ' :: '
                . htmlspecialchars($proposal->pkg_name)); 
