@@ -84,6 +84,7 @@ AC_ARG_WITH(www-group,[  --with-www-group[=GROUP]   Web Server group  [default=`
 
 DOCWEB=`pwd`
 
+AC_SUBST(PHP)
 AC_SUBST(CRONDIR)
 AC_SUBST(CVSDIR)
 AC_SUBST(DOCWEB)

@@ -2,6 +2,7 @@
 // $Id$
 // autoconf-generated file for docweb
 
+define('PHP_BINARY',  '@PHP@');
 define('CRON_DIR',    '@CRONDIR@');
 define('CVS_DIR',     '@CVSDIR@');
 define('PATH_ROOT',   '@DOCWEB@');
