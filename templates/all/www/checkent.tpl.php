@@ -11,6 +11,11 @@ if ($isComplete) { ?>
 <?php } else { ?>
     <h3>Check not complete.</h3>
 <?php } ?>
+<?php if($wideMode) { ?>
+Viewing in wide mode. <a href="checkent.php?wideMode=0">Switch to normal mode?</a><br />
+<?php } else { ?>
+<a href="checkent.php?wideMode=1">Switch to wide mode?</a><br />
+<?php } ?>
 <br />
 
 <?php foreach ($entData as $resultType => $results) { ?>
@@ -18,18 +23,27 @@ if ($isComplete) { ?>
     <table border="0">
         <tr>
             <th>Entity Name</th>
-            <th>URL</th>
             <?php if ($extraCol[$resultType]) { ?>
+	        <?php if ($wideMode) { ?>
+                    <th>URL</th>
+		<?php } ?>
                 <th>Redirect URL</th>
-        <?php } ?>
+            <?php } else { ?>
+                <th>URL</th>
+	    <?php } ?>
         </tr>
         <?php foreach ($results AS $r) { ?>
             <tr>
-                <td><?php echo $r['entity']; ?></td>
                 <?php if ($extraCol[$resultType]) { ?>
-                    <td><a href ="<?php echo $r['url']; ?>" rel="nofollow"><?php echo $r['url']; ?></a></td>
-                    <td><a href ="<?php echo $r['return_val']; ?>" rel="nofollow"><?php echo $r['return_val']; ?></a></td>
+		    <?php if ($wideMode) { ?>
+                        <td><?php echo $r['entity']; ?></td>
+                        <td><a href="<?php echo $r['url']; ?>" rel="nofollow"><?php echo $r['url']; ?></a></td>
+		    <?php } else { ?>
+                        <td><a href="<?php echo $r['url']; ?>"><?php echo $r['entity']; ?></a></td>
+		    <?php } ?>
+                    <td><a href="<?php echo $r['return_val']; ?>" rel="nofollow"><?php echo $r['return_val']; ?></a></td>
                 <?php } else { ?>
+                    <td><?php echo $r['entity']; ?></td>
                     <td><a href="<?php echo $r['url']; ?>" rel="nofollow"><?php echo $r['url']; ?></a></td>
                 <?php } ?>
             </tr>
