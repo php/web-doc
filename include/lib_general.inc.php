@@ -123,36 +123,6 @@ function format_email($email)
     return str_replace(array('@', '.'), array(' at ', ' dot '), $email);
 }
 
-function get_comment($idx, $section, $doc, $file)
-{
-    $data = array();
-
-    $sql = 'SELECT
-             id, file, doc, user, date, note
-
-             FROM
-             comments
-
-             WHERE
-             section=\'' . $section . '\' AND
-             file=\'' . $file . '\' AND
-             doc=\'' . $doc . '\'
-
-             ORDER BY
-             date DESC';
-    $result = @sqlite_query($idx, $sql);
-
-    $data['nb_rows'] = sqlite_num_rows($result);
-
-    if ($data['nb_rows'] > 0) {
-        $data['rows'] = array();
-        while ($row = sqlite_fetch_array($result)) {
-            $data['rows'][] = $row;
-        }
-    }
-
-    return $data;
-}
 
 /**
 * @return string

@@ -48,26 +48,18 @@ if (!isset($inCli) OR $inCli != true) {
     define('URI',   isset($uri)      ? $uri      : $_SERVER['REQUEST_URI']);
     define('LANGD', $LANGUAGES[LANGC]);
 
-    // set up BASE_URL
-    if (isset($_SERVER['REDIRECT_STATUS']) &&
-        $_SERVER['REDIRECT_STATUS'] == '404') {
-        // 404 error, revert to /project/language
-        $baseURL = '/' . SITE . '/' . LANGC . '/';
-        
-    } elseif (substr($_SERVER['REQUEST_URI'], -1, 1) == '/') {
-        // is a directory, use verbatim
-        $baseURL = $_SERVER['REQUEST_URI'];
-    } else {
-        // not a dir, use the dirname
-        $baseURL = dirname($_SERVER['REQUEST_URI']);
+    if (isset($project)) {
+        $baseURL[] = $project;
     }
 
-    // this very dirty fix makes /rfc and /dochowto work (@@@ re-work this)
-    $baseURL = str_replace('/rfc', '', $baseURL);
-    $baseURL = str_replace('/dochowto', '', $baseURL);
+    if (isset($language) && $language != 'all' && $language != 'en') {
+        $baseURL[] = $language;
+    }
 
-    // actually define the constant (trim off any trailing slashes):
-    define('BASE_URL', rtrim($baseURL, '/'));
+    $baseURL = isset($baseURL) ? implode('/', $baseURL) : '';
+
+    // actually define the constant
+    define('BASE_URL', '/' . $baseURL);
 
 }
 

@@ -21,11 +21,11 @@ $Id$
 require_once('../include/lib_proj_lang.inc.php');
 
 function part_is_project($part) {
-    return in_array($part, array_keys($GLOBALS['PROJECTS']));
+    return isset($GLOBALS['PROJECTS'][$part]);
 }
 
 function part_is_language($part) {
-    return in_array($part, array_keys($GLOBALS['LANGUAGES']));
+    return isset($GLOBALS['LANGUAGES'][$part]);
 }
 
 function part_get_filename($part) {
@@ -49,96 +49,23 @@ function part_is_valid_uri($part) {
 }
 
 $parts = explode('/', $_SERVER['REQUEST_URI'], 4);
+$uri = '';
 
-if (
-    // /proj/lang/URI
-    count($parts) == 4 &&
-    part_is_project($parts[1]) && 
-    part_is_language($parts[2]) &&
-    part_is_valid_uri($parts[3])
-) {
-    $project  = $parts[1];
-    $language = $parts[2];
-    $uri      = $parts[3];
-} elseif (
-    // /lang/proj/URI
-    count($parts) == 4 &&
-    part_is_language($parts[1]) &&
-    part_is_project($parts[2]) &&
-    part_is_valid_uri($parts[3])
-) {
-    $language = $parts[1];
-    $project  = $parts[2];
-    $uri      = $parts[3];
-} elseif (
-    // /lang (no trailing slash)
-    count($parts) == 2
-    &&
-    (part_is_language($parts[1]) || part_is_project($parts[1])) 
-) {
-    // redirect (add trailing slash)
-    // NOTE: we lose get/post data, here
-    header("Location: /{$parts[1]}/");
-    exit();
-} elseif (
-    count($parts) == 3
-    &&
-    (
-        (
-            // /lang/proj (no trailing slash)
-            part_is_language($parts[1]) &&
-            part_is_project($parts[2])
-        )
-        ||
-        (
-            // /proj/lang (no trailing slash)
-            part_is_project($parts[1]) &&
-            part_is_language($parts[2])
-        )
-    )
-) {
-    // redirect (add trailing slash)
-    // NOTE: we lose get/post data, here
-    header("Location: /{$parts[1]}/{$parts[2]}/");
-    exit();
-} elseif (
-    // /proj/URI
-    part_is_project($parts[1]) &&
-    part_is_valid_uri(implode('/', array_slice($parts, 2)))
-) {
-    $project = $parts[1];
-    $uri     = implode('/', array_slice($parts, 2));
-} elseif (
-    // /lang/URI
-    part_is_language($parts[1]) &&
-    part_is_valid_uri(implode('/', array_slice($parts, 2)))
-) {
-    $language = $parts[1];
-    $uri      = implode('/', array_slice($parts, 2));
-} elseif (
-   // /proj/lang/404
-   part_is_project($parts[1]) &&
-   part_is_language($parts[2])
-) {
-  $project  = $parts[1];
-  $language = $parts[2];
-} elseif (
-   // /lang/proj/404
-   part_is_language($parts[1]) &&
-   part_is_project($parts[2])
-) {
-  $language = $parts[1];
-  $project  = $parts[2];
-} elseif (
-   // /proj/404
-   part_is_project($parts[1])
-) {
-  $project  = $parts[1];
-} elseif (
-   // /lang/404
-   part_is_language($parts[1])
-) {
-  $language = $parts[1];
+foreach ($parts as $part) {
+
+    if (part_is_project($part)) {
+        $project = $part;
+
+    } elseif (part_is_language($part)) {
+        $language = $part;
+
+    } else {
+        $uri .= "/$part";
+    }
+}
+
+if (!$uri || !part_is_valid_uri($uri)) {
+    unset($uri);
 }
 
 
