@@ -97,7 +97,9 @@ for ($i = $first; $i < $last; $i++) {
 // using $i to allow a fetching resume
 $sql .= "UPDATE info SET last_article=$i, build_date=$last_update;";
 
+sqlite_query($sqlite, 'BEGIN TRANSACTION');
 sqlite_query($sqlite, $sql);
+sqlite_query($sqlite, 'COMMIT TRANSACTION');
 sqlite_close($sqlite);
 
 
@@ -157,7 +159,7 @@ CREATE TABLE info (
 );
 
 CREATE TABLE notes (
-  note INTEGER PRIMARY KEY,
+  note INTEGER,
   action TEXT,
   manpage TEXT,
   who TEXT,
@@ -175,7 +177,7 @@ SQL;
 /* makes a sql insert statment from an array */
 function make_sql($array) {
     array_shift($array);
-    return 'INSERT OR IGNORE INTO notes VALUES ("' . implode('", "', $array) . '");';
+    return 'INSERT INTO notes VALUES ("' . implode('", "', $array) . '");';
 }
 
 ?>
