@@ -1,2 +1,3 @@
 #!/bin/sh
 ../../scripts/populatedocs.sh
+../../scripts/generation.sh

@@ -15,17 +15,20 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.6 2004-11-20 16:47:14 sean Exp $
+# $Id: populatedocs.sh,v 1.7 2005-01-16 10:55:40 nlopess Exp $
 
 pushd .
-cd `dirname $0`/..
 
-if [ ! -d cvs ]
+cd `dirname $0`/..
+./build-ops
+
+if [ ! -d ${CVSDIR} ]
 then
-  /bin/mkdir cvs
+  /bin/mkdir ${CVSDIR}
 fi
 
-cd cvs
+cd ${CVSDIR}
+
 echo "Checking out PHP docs..."
 /usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co phpdoc-all
 echo "Checking out PHP GTK docs..."
