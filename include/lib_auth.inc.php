@@ -30,11 +30,11 @@ if (isset($_COOKIE['MAGIC_COOKIE'])) {
 	list($user, $pw) = explode(":", base64_decode($_COOKIE['MAGIC_COOKIE']));
 
 	if (!$user || !$pw || !verify_password($user,stripslashes($pw))) {
-		Header ("Location: http://master.php.net/manage/users.php");
+		Header ("Location: http://doc.php.net/login.php");
 		exit;
 	}
 } else {
-	Header ("Location: http://master.php.net/manage/users.php");
+	Header ("Location: http://doc.php.net/login.php");
 	exit;
 }
 
