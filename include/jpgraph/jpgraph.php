@@ -10,7 +10,7 @@
 // Copyright (C) 2001,2002,2003,2004 Johan Persson Aditus Consulting
 //========================================================================
 
-require_once('/home/user/doc/include/jpgraph/jpg-config.inc');
+require_once(dirname(__FILE__) . '/jpg-config.inc');
 
 // Version info
 DEFINE('JPG_VERSION','1.14.1');
@@ -219,7 +219,7 @@ DEFINE('SKEW3D_RIGHT',3);
 // Get hold of gradient class (In Version 2.x)
 // A client of the library has to manually include this
 //
-require_once '/home/user/doc/include/jpgraph/jpgraph_gradient.php';
+require_once dirname(__FILE__) .  '/jpgraph_gradient.php';
 
 
 //
@@ -1920,7 +1920,7 @@ class Graph {
             // Should we do any final image transformation
             if( $this->iImgTrans ) {
                 if( !class_exists('ImgTrans') ) {
-                    require_once('/home/user/doc/include/jpgraph/jpgraph_imgtrans.php');
+                    require_once(dirname(__FILE__) . '/jpgraph_imgtrans.php');
                     //JpGraphError::Raise('In order to use image transformation you must include the file jpgraph_imgtrans.php in your script.');
                 }
                
