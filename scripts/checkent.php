@@ -33,6 +33,10 @@ if (function_exists('ftp_connect')) {
     $schemes[] = 'ftp';
 }
 
+if (extension_loaded('openssl')) {
+    $schemes[] = 'https';
+}
+
 // constants for errors
 define('UNKNOWN_HOST', 0);
 define('FTP_CONNECT', 1);
@@ -79,9 +83,27 @@ foreach($entity_urls as $num => $entity_url) {
     switch($url['scheme']) {
 
         case 'http':
-        $url['path'] = isset($url['path']) ? $url['path'] : '/';
+        case 'https':
 
-        if (!$fp = @fsockopen($url['host'], 80, $errno, $errstr, 30)) {
+        if (isset($parsed_url['path'])) {
+            $url['path'] = $url['path'] . (isset($url['query']) ? '?' . $url['query'] : '');
+        } else {
+            $url['path'] = '/';
+        }
+
+        /* check if using secure http */
+        if ($url['scheme'] == 'https') {
+            $port   = 443;
+            $scheme = 'ssl://';
+        } else {
+            $port   = 80;
+            $scheme = '';
+        }
+
+        $port = isset($url['port']) ? $url['port'] : $port;
+
+
+        if (!$fp = @fsockopen($scheme . $url['host'], $port)) {
             $errors[HTTP_CONNECT][] = array($num);
 
         } else {
@@ -89,7 +111,7 @@ foreach($entity_urls as $num => $entity_url) {
 
             $str = '';
             while (!feof($fp)) {
-                $str .= fgets($fp, 2048);
+                $str .= @fgets($fp, 2048);
             }
             fclose ($fp);
 
@@ -151,7 +173,8 @@ foreach($entity_urls as $num => $entity_url) {
 // ouput the html
 echo "<?php include_once '../include/init.inc.php';
 echo site_header('docweb.common.header.checkent'); 
-?><p>Last check: " . date('r') . "</p>";
+?><p>Last check: " . date('r') . "<br/>
+Supported Protocols: " . implode(', ', $schemes) . '</p><p>&nbsp;</p>';
 
 if (isset($errors[UNKNOWN_HOST])) {
     echo '<h2>Unknown host (' . count($errors[UNKNOWN_HOST]) . ')</h2>' .
