@@ -759,7 +759,7 @@ return true; // !!!
          //   $karma =& new Damblan_Karma($dbh); // !!!
         }
 
-        $master_url = get_resource_url();
+        $master_url = 'http://doc.php.net/';
         require dirname(__FILE__) . '/rfc-emails.php';
         $email = $proposalEmailTexts[$event];
         if (empty($email)) {
@@ -874,7 +874,7 @@ return true; // !!!
         $email['to'] = array_shift($to);
         $headers = "CC: ". implode(", ", $to) . "\n";
         $headers .= "From: " . $from . "\n";
-        $headers .= "X-Mailer: " . "RFC, Docweb Proposal System <http://docs.php.net/>" . "\n"; // !!!
+        $headers .= "X-Mailer: " . "RFC, Docweb Proposal System <http://doc.php.net/>" . "\n";
         $headers .= "X-RFC-Category: " . $this->pkg_category . "\n";
         $headers .= "X-RFC-Name: " . $this->pkg_name . "\n";
         $headers .= "X-RFC-Status: " . $this->getStatus() . "\n";
