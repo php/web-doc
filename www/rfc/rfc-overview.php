@@ -41,7 +41,7 @@ if ($selectStatus != '') {
     $order = ' pkg_category ASC, pkg_name ASC';
 }
 
-$proposals =& proposal::getAll($dbh, @$selectStatus, null, @$order);
+@$proposals =& proposal::getAll($dbh, @$selectStatus, null, @$order);
 
 echo site_header('RFC :: Proposals');
 
