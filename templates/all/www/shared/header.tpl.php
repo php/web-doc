@@ -34,7 +34,7 @@
      <dd><?=$projdisplay?> | <?=$langdisplay?></dd>
      <dt>&docweb.common.header.insite-context-nav;</dt>
      <dd><?=$locallinks?></dd>
-     <dt>&docweb.common.header.insite-context-nav;</dt>
+     <dt>&docweb.common.header.offsite-context-nav;</dt>
      <dd><?=$extlinks?></dd>
     </dl>
    </div>
