@@ -84,6 +84,8 @@ for ($i = $first; $i < $last; $i++) {
 
 } // end for loop
 
+@fclose($s);
+
 $sql .= "UPDATE info SET last_article=$last, build_date=$last_update;";
 
 sqlite_query($sqlite, $sql);
@@ -141,7 +143,6 @@ CREATE TABLE notes (
   time INTEGER
 );
 
-CREATE INDEX time ON notes (time);
 INSERT INTO info VALUES(1, 0);
 SQL;
 
