@@ -24,7 +24,7 @@ $idx = sqlite_open("../sqlite/rfc.sqlite", 0666);
 if (!$idx) {
     die("could not open $tmp_name");
 }
-sqlite_query($idx, file_get_contents("../rfc.sql"));
+sqlite_query($idx, file_get_contents("../sql/rfc.sql"));
 sqlite_close($idx);
 
 /* vim: set noet ts=4 sw=4 ft=php: : */
