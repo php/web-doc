@@ -180,20 +180,22 @@ if ($proposal->status == 'finished') {
  <tr>
 
   <td class="ulcell" valign="top">
-   <ul>
 
 <?php
 
 $proposal->getLinks($dbh);
-foreach ($proposal->links as $link) {
-    echo '    <li>';
-    print_link(htmlspecialchars($link->url), $link->getType(true));
-    echo "</li>\n";
+if (!empty($proposal->links)) {
+    echo '   <ul>';
+    foreach ($proposal->links as $link) {
+        echo '    <li>';
+        print_link(htmlspecialchars($link->url), $link->getType(true));
+        echo "</li>\n";
+    }
+    echo '   </ul>';
 }
 
 ?>
 
-   </ul>
   </td>
   <td class="ulcell">
    <ul>

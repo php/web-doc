@@ -63,8 +63,7 @@ foreach ($proposals as $proposal) {
         if ($first_loop != true) {
             echo "</ul>\n";
         }
-        echo '<h2 name="' . $proposal->getStatus() . '" id="';
-        echo $proposal->getStatus() . '">';
+        echo '<h2 id="' . $proposal->getStatus() . '">';
         echo '&raquo; ' . htmlspecialchars($proposal->getStatus(true));
         echo "</h2>\n";
         echo "<ul>\n";
