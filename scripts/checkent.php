@@ -23,6 +23,7 @@ $Id$
 */
 
 set_time_limit(0);
+$scriptBegin = time();
 $inCli = true;
 require_once '../include/init.inc.php';
 
@@ -50,14 +51,15 @@ switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
 
 require_once '../include/lib_url_entities.inc.php';
 
+echo "DocWeb URL Entity Checker.\n";
+echo "Using forks? ". (NUM_ALLOWED_FORKS ? 'yes: '. NUM_ALLOWED_FORKS : 'no') ."\n\n";
+
 // create a new database (remove old first, if exists)
 if (is_file(URL_ENT_SQLITE_FILE) && !unlink(URL_ENT_SQLITE_FILE)) {
     echo "Error removing old database.\n";
     die();
 }
-if (!($sqlite = sqlite_open(URL_ENT_SQLITE_FILE, 0666))) {
-    echo "Error creating database.\n";
-}
+$sqlite = url_ent_sqlite_open();
 
 // Table creation
 $sqlCreateMeta = "
@@ -100,7 +102,7 @@ preg_match_all("@<!ENTITY\s+(\S+)\s+([\"'])({$schemes_preg}://[^\\2]+)\\2\s*>@U"
 $entity_names = $entities_found[1];
 $entity_urls  = $entities_found[3];
 
-echo "Found: ". count($entity_urls) ."URLs\n"; 
+echo "Found: ". count($entity_urls) ." URLs\n"; 
 
 // log start time && schemes in DB
 $sql = "
@@ -112,10 +114,49 @@ $sql = "
 ";
 sqlite_query($sqlite, $sql);
 
-// Walk through entities found
-foreach ($entity_urls as $num => $entity_url) {
-    echo "Checking: $entity_url\n";
-    url_store_result($sqlite, $num, $entity_names[$num], $entity_url, check_url($num, $entity_url));
+if (URL_ALLOW_FORK) {
+    // use the forking method ... MUCH faster
+    declare(ticks=1);
+    $children = 0;
+    for ($num=0; $num<count($entity_urls); $num++) {
+        $url  = $entity_urls[$num];
+        $name = $entity_names[$num];
+        if ($children < NUM_ALLOWED_FORKS) {
+            $pid = pcntl_fork();
+            if ($pid) {
+                // parent
+                //echo "Forked: $pid\n";
+                ++$children;
+            } else {
+                // child
+                echo "[$num] (". getmypid() .") Checking: $url\n";
+                url_store_result(FALSE, $num, $name, $url, check_url($num, $url));
+                exit();
+            }
+        } else {
+            // enough $children
+            $status = 0;
+            $child = pcntl_wait($status);
+            --$children;
+            echo "Child: $child exited with status $status ($children remain)\n";
+        }        
+    }
+
+    while ($children) {
+        $status = 0;
+        $child = pcntl_wait($status);
+        --$children;
+        echo "Child: $child exited with status $status ($children remain)\n";
+    }
+    
+} else {
+    // no forking
+    // walk through entities found
+    foreach ($entity_urls as $num => $entity_url) {
+        echo "[$num] Checking: $entity_url\n";
+        url_store_result($sqlite, $num, $entity_names[$num], $entity_url, check_url($num, $entity_url));
+    }
+    ++$num; // (for the count)
 }
 
 // log end time in DB
@@ -127,6 +168,10 @@ $sql = "
 ";
 sqlite_query($sqlite, $sql);
 
-echo "Done.\n";
+$elapsed = time() - $scriptBegin;
+
+echo "\n";
+echo "Checked $num URLs.\n";
+echo "Completed in $elapsed seconds.\n";
 
 ?>

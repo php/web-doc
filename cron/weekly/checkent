@@ -2,6 +2,8 @@
 
 . `dirname $0`/../../build-ops
 
+NUMFORKS=10
+
 cd ${SCRIPTSDIR}
 ${PHP} checkent.php phpdoc > /dev/null
 ${PHP} checkent.php peardoc > /dev/null

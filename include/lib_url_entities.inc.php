@@ -73,8 +73,28 @@ if (function_exists('ftp_connect')) {
     $schemes[] = 'ftp';
 }
 
+// timeout
+define('URL_CONNECT_TIMEOUT', 10);
+
+// allow forking?
+define('URL_ALLOW_FORK',    function_exists('pcntl_fork') && isset($_ENV['NUMFORKS']));
+define('NUM_ALLOWED_FORKS', URL_ALLOW_FORK ? $_ENV['NUMFORKS'] : 0);
+
 // SQLite DB file
 define('URL_ENT_SQLITE_FILE', SQLITE_DIR . "checkent_{$entType}.sqlite");
+
+/**
+ * Opens a new SQLite connection
+ *
+ * @return resource SQLite connection
+ */
+function url_ent_sqlite_open()
+{
+    if (!($sqlite = sqlite_open(URL_ENT_SQLITE_FILE, 0666))) {
+        echo "Error creating database.\n";
+    }
+    return $sqlite;
+}
 
 /**
  * Handles relative HTTP URLs
@@ -152,11 +172,17 @@ function check_url ($num, $entity_url)
             }
             $port = isset($url['port']) ? $url['port'] : $port;
 
-            if (!$fp = @fsockopen($scheme . $url['host'], $port)) {
+            $junk = '';
+            if (!$fp = @fsockopen($scheme . $url['host'], $port, $junk, $junk, URL_CONNECT_TIMEOUT)) {
                 return array(HTTP_CONNECT, array($num));
 
             } else {
-                fputs($fp, "HEAD {$url['path']} HTTP/1.0\r\nHost: {$url['host']}\r\nUser-agent: ". DOCWEB_CRAWLER_USER_AGENT ."\r\nConnection: close\r\n\r\n");
+                $query = "HEAD {$url['path']} HTTP/1.0\r\n"
+                        ."Host: {$url['host']}\r\n"
+                        ."User-agent: ". DOCWEB_CRAWLER_USER_AGENT ."\r\n"
+                        ."Connection: close\r\n"
+                        ."\r\n";
+                fputs($fp, $query);
 
                 $str = '';
                 while (!feof($fp)) {
@@ -226,8 +252,11 @@ function check_url ($num, $entity_url)
  * @param array    $result result of check_url()
  * @return void
  */
-function url_store_result(&$sqlite, $num, $name, $url, $result)
+function url_store_result($sqlite, $num, $name, $url, $result)
 {
+    if (!$sqlite) {
+       $sqlite = url_ent_sqlite_open();
+    }
     $return_val = isset($result[1][1]) ? $result[1][1] : '';
     $sql = "
         INSERT
