@@ -86,7 +86,12 @@ function fix_relative_url($url, $parsed) {
 }
 
 
-if (!$file = file_get_contents($filename)) {
+if (!$file = @file_get_contents($filename)) {
+    // ouput the html
+    echo "<?php include_once '../include/init.inc.php';
+           echo site_header('docweb.common.header.checkent'); 
+           echo '<h1>No entities found</h1>';
+           echo site_footer(); ?>";
     exit;
 }
 
