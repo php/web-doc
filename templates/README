@@ -46,6 +46,3 @@ following rules should be observed.
     template object), or $GLOBALS. Avoid this, and pass all required values
     as parameters.
   - As a convenience, templates may/should omit the PHP License header.
-  - As an additional convenience, short open tags are permitted in templates,
-    but only in "echo-shortcut" form (<?=$outputThis?>). This applies to
-    templates only.

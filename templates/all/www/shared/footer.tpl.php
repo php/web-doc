@@ -1,12 +1,12 @@
  </div>
  <div id="footer">
   <p>
-   <a href="<?=$master?>copyright.php">&docweb.common.footer.copyright;</a> 2004 &docweb.common.footer.copyright-text;.
+   <a href="<?php echo $master; ?>copyright.php">&docweb.common.footer.copyright;</a> 2004 &docweb.common.footer.copyright-text;.
   </p>
   <p>
-   <a href="<?=$master?>credits.php">&docweb.common.footer.credits;</a>
+   <a href="<?php echo $master; ?>credits.php">&docweb.common.footer.credits;</a>
    |
-   <a href="<?=$master?>contact.php">&docweb.common.footer.contact;</a>
+   <a href="<?php echo $master; ?>contact.php">&docweb.common.footer.contact;</a>
   </p>
  </div>
 </body>
