@@ -298,19 +298,11 @@ function url_store_result($sqlite, $num, $name, $url, $result)
 
 function url_callback($m)
 {
-  $maxLen = 57; $threshold = 3;
+
   $url = $m[1] .'://'. $m[3];
+  $link = str_chop($url, 60, true);
 
-  if (strlen($url) > ($maxLen + $threshold))
-  {
-    $link = substr($url, 0, $maxLen) .'...';
-  }
-  else
-  {
-    $link = $url;
-  }
-
-  $html = '<a href="'. $url .'" title="'. $url .'">'. $link .'</a>';
+  $html = "<a href='$url' title='$url'>$link</a>";
   return $html;
 }
 
