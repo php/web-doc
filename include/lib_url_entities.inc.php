@@ -145,8 +145,7 @@ function check_url ($num, $entity_url)
     }
 
     // Try to find host
-    $url['ip'] = gethostbyname($url['host']);
-    if ($url['ip'] == $url['host']) {
+    if (gethostbyname($url['host']) == $url['host']) {
         return array(UNKNOWN_HOST, array($num));
     }
 
@@ -221,7 +220,7 @@ function check_url ($num, $entity_url)
             break;
 
         case 'ftp':
-            if ($ftp = ftp_connect($url['ip'])) {
+            if ($ftp = @ftp_connect($url['host'])) {
 
                 if (@ftp_login($ftp, 'anonymous', 'IEUser@')) {
                     $flist = ftp_nlist($ftp, $url['path']);
