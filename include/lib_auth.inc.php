@@ -33,6 +33,19 @@ if (isset($_COOKIE['MAGIC_COOKIE'])) {
 		Header ("Location: http://doc.php.net/login.php");
 		exit;
 	}
+} elseif (isset($_POST['username']) && isset($_POST['passwd'])) {
+	if (!$_POST['username'] || !$_POST['passwd'] || !verify_password($_POST['username'], stripslashes($_POST['passwd']))) {
+		Header ("Location: http://doc.php.net/login.php");
+		exit;
+	}
+
+	setcookie(
+		"MAGIC_COOKIE",
+		base64_encode("{$_POST['username']}:{$_POST['passwd']}"),
+		time()+3600*24*12,
+		'/',
+		'.php.net'
+	);
 } else {
 	Header ("Location: http://doc.php.net/login.php");
 	exit;
