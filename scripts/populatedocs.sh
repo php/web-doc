@@ -15,16 +15,16 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.2 2004-08-05 23:23:27 jacques Exp $
+# $Id: populatedocs.sh,v 1.3 2004-08-06 07:57:40 vincent Exp $
 
 cd /home/pure-ftpd-users/php001/docs.php.mirrors.powertrip.co.za
 /bin/mkdir cvs
 cd cvs
 echo "Checking out PHP docs..."
-/usr/bin/cvs -d :pserver:jacques@cvs.php.net:/repository co phpdoc-all
+/usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co phpdoc-all
 echo "Checking out PHP GTK docs..."
-/usr/bin/cvs -d :pserver:jacques@cvs.php.net:/repository co php-gtk-doc
+/usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co php-gtk-doc
 echo "Checking out Smarty docs..."
-/usr/bin/cvs -d :pserver:jacques@cvs.php.net:/repository co smarty/docs
+/usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co smarty/docs
 echo "Checking out PEAR docs..."
-/usr/bin/cvs -d :pserver:jacques@cvs.php.net:/repository co peardoc
+/usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co peardoc
