@@ -57,7 +57,8 @@ switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
 require_once '../include/lib_url_entities.inc.php';
 
 echo "DocWeb URL Entity Checker.\n";
-echo "Using forks? ". (NUM_ALLOWED_FORKS ? 'yes: '. NUM_ALLOWED_FORKS : 'no') ."\n\n";
+echo "Using forks? ". (NUM_ALLOWED_FORKS ? 'yes: '. NUM_ALLOWED_FORKS : 'no') . "\n";
+echo "Checking " . $entType . "\n\n";
 
 // create a new database (remove old first, if exists)
 if (is_file(URL_ENT_SQLITE_FILE) && !unlink(URL_ENT_SQLITE_FILE)) {
