@@ -121,6 +121,7 @@ class DocWeb_Language
     */
     function get($ent, $params=FALSE)
     {
+
         $params = (array) $params;
         
         static $paramEntMatchRegex = FALSE;
@@ -129,7 +130,7 @@ class DocWeb_Language
         }
         
         if ($this->entities) {
-            $text = isset($this->entities[$ent]) ? stripslashes($this->entities[$ent]) : FALSE;
+            $text = isset($this->entities[$ent]) ? stripslashes($this->entities[$ent]) : $ent;
             preg_match_all($paramEntMatchRegex, $text, $matches);
             for ($i=0; $i<count($matches[0]); $i++) {
                 $rep = substr($matches[1][$i], strlen(DOCWEB_PARAM_ENTITIY_PREFIX) + 1);
@@ -139,7 +140,7 @@ class DocWeb_Language
             }
             return $text;
         } else {
-            return FALSE;
+            return $ent;
         }
     }
 }
