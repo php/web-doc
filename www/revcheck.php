@@ -413,7 +413,7 @@ END_OF_MULTILINE;
                     "phpdoc/en". $r["name"] .'/' . $r['file'] .
                     "?r1=1." . $r["trans_rev"] .
                     "&amp;r2=1." . $r["en_rev"] .
-                    "&amp;f=h&amp;num=10\">" . $r["file"] . "</a>";
+                    "&amp;ty=u\">" . $r["file"] . "</a>";
 
                     // Write out the line for the current file (get file name shorter)
                     echo "<tr class=\"{$CSS[$status_mark]}\">".
