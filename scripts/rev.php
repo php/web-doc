@@ -84,6 +84,11 @@ if (count($LANGS) == 0) {
 // Test the languages :
 $langc = count($LANGS);
 for ($i = 0; $i < $langc; $i++) {
+    // make sure we don't parse the en tree
+    if ($LANGS[$i] == 'en') {
+        unset($LANGS[$i]);
+    }
+    
     if (!is_dir($DOCS . $LANGS[$i])) {
         echo "Error: the \"{$LANGS[$i]}\" lang doesn't exist for $TYPE, skipping..\n";
         unset($LANGS[$i]);

@@ -384,7 +384,7 @@ END_OF_MULTILINE;
     <th>$LANG</th>
     <th>diff</th>
   </tr>
-  <tr class="blue"><th colspan="12">{$_GET['dir']}</th></tr>
+  <tr class="blue"><th colspan="12">{$outdated[0]['name']}</th></tr>
 
 END_OF_MULTILINE;
                 $last_dir = false;
