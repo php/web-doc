@@ -137,7 +137,8 @@ CREATE TABLE files (
     size TEXT,
     mdate TEXT,
     maintainer TEXT,
-    status TEXT
+    status TEXT,
+    UNIQUE(lang, dir, name)
 );
 
 SQL;
