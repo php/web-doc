@@ -115,7 +115,32 @@ if (
 ) {
     $language = $parts[1];
     $uri      = implode('/', array_slice($parts, 2));
+} elseif (
+   // /proj/lang/404
+   part_is_project($parts[1]) &&
+   part_is_language($parts[2])
+) {
+  $project  = $parts[1];
+  $language = $parts[2];
+} elseif (
+   // /lang/proj/404
+   part_is_language($parts[1]) &&
+   part_is_project($parts[2])
+) {
+  $language = $parts[1];
+  $project  = $parts[2];
+} elseif (
+   // /proj/404
+   part_is_project($parts[1])
+) {
+  $project  = $parts[1];
+} elseif (
+   // /lang/404
+   part_is_language($parts[1])
+) {
+  $language = $parts[1];
 }
+
 
 // we have a valid URI, answer the request
 if (isset($uri)) {
@@ -125,6 +150,7 @@ if (isset($uri)) {
   // no resource found:
   header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
   $_SERVER["REDIRECT_STATUS"] = '404';
+  $uri = '/';
   require('error.php');
 }
 
