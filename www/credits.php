@@ -4,7 +4,7 @@ echo site_header('Website credits');
 ?>
 <p>
  The following people helped to make this site a possibility.
- We are very much thankfull for their work.
+ We are very thankful for their work.
 </p>
 
 <dl>
