@@ -25,7 +25,9 @@ set_time_limit(0);
 $inCli = true;
 include '../include/init.inc.php';
 
-switch($_SERVER['argv'][1]) {
+define('DOCWEB_CRAWLER_USER_AGENT', 'DocWeb Link Crawler (http://doc.php.net)');
+
+switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
     case 'phpdoc':
         $filename = CVS_DIR . '/phpdoc-all/entities/global.ent';
         break;
@@ -37,6 +39,10 @@ switch($_SERVER['argv'][1]) {
     case 'smarty':
         $filename = CVS_DIR . '/smarty/docs/entities/global.ent';
         break;
+    
+    default:
+        echo "Usage: {$_SERVER['argv'][0]} phpdoc|peardoc|smarty\n";
+        die();
 }
 
 
@@ -51,25 +57,31 @@ if (extension_loaded('openssl')) {
 }
 
 // constants for errors
-define('UNKNOWN_HOST', 0);
-define('FTP_CONNECT', 1);
-define('FTP_LOGIN', 2);
-define('FTP_NO_FILE', 3);
-define('HTTP_CONNECT', 4);
-define('HTTP_MOVED', 5);
-define('HTTP_WRONG_HEADER', 6);
-define('HTTP_INTERNAL_ERROR', 7);
-define('HTTP_NOT_FOUND', 8);
+define('UNKNOWN_HOST',        1);
+define('FTP_CONNECT',         2;
+define('FTP_LOGIN',           3);
+define('FTP_NO_FILE',         4);
+define('HTTP_CONNECT',        5);
+define('HTTP_MOVED',          6);
+define('HTTP_WRONG_HEADER',   7);
+define('HTTP_INTERNAL_ERROR', 8);
+define('HTTP_NOT_FOUND',      9);
 
 
-// function to handle relative HTTP paths
-function fix_relative_url($url, $parsed) {
-
-    if($url{0} == '/') {
-        return $parsed['scheme'] . '://' . $parsed['host'] . $url;
+/**
+ * Handles relative HTTP URLs
+ *
+ * @param string  $url    URL to handle
+ * @param array   $parsed result of parse_url()
+ * @return string fixed URL
+ */
+function fix_relative_url ($url, $parsed)
+{
+    if ($url{0} == '/') {
+        return "{$parsed['scheme']}://{$parsed['host']}{$url}";
     }
 
-    if(preg_match('@(?:f|ht)tps?://@S', $url)) {
+    if (preg_match('@(?:f|ht)tps?://@S', $url)) {
         return $url;
     }
 
@@ -80,9 +92,119 @@ function fix_relative_url($url, $parsed) {
     do {
         $old  = $path;
         $path = preg_replace('@[^/:?]+/\.\./|\./@S', '', $path);
-    } while($old != $path);
+    } while ($old != $path);
 
-    return $parsed['scheme'] . '://' . $parsed['host'] . $path;
+    return "{$parsed['scheme']}://{$parsed['host']}{$path}";
+}
+
+/**
+ * Checks a URL (actually fetches the URL and returns the status)
+ * 
+ * @param int    $num        sequence number of URL
+ * @param string $entity_url URL to check
+ * @return array
+ */
+function check_url ($num, $entity_url)
+{
+    static $old_host = '';
+    
+    // Get the parts of the URL
+    $url    = parse_url($entity_url);
+    $entity = $GLOBALS['entity_names'][$num];
+  
+    // sleep if accessing the same host more that once in a row
+    if ($url['host'] == $old_host) {
+        sleep(5);
+    } else {
+        $old_host = $url['host'];
+    }
+  
+    // Try to find host
+    if (gethostbyname($url['host']) == $url['host']) {
+        return array(UNKNOWN_HOST, array($num));
+    }
+  
+    switch($url['scheme']) {
+  
+        case 'http':
+        case 'https':
+            if (isset($url['path'])) {
+                $url['path'] = $url['path'] . (isset($url['query']) ? '?' . $url['query'] : '');
+            } else {
+                $url['path'] = '/';
+            }
+      
+            /* check if using secure http */
+            if ($url['scheme'] == 'https') {
+                $port   = 443;
+                $scheme = 'ssl://';
+            } else {
+                $port   = 80;
+                $scheme = '';
+            }
+            $port = isset($url['port']) ? $url['port'] : $port;
+      
+            if (!$fp = @fsockopen($scheme . $url['host'], $port)) {
+                return array(HTTP_CONNECT, array($num));
+      
+            } else {
+                fputs($fp, "HEAD {$url['path']} HTTP/1.0\r\nHost: {$url['host']}\r\nUser-agent: ". DOCWEB_CRAWLER_USER_AGENT ."\r\nConnection: close\r\n\r\n");
+      
+                $str = '';
+                while (!feof($fp)) {
+                    $str .= @fgets($fp, 2048);
+                }
+                fclose ($fp);
+      
+                if (preg_match('@HTTP/1.\d (\d+)(?: .+)?@S', $str, $match)) {
+                    if ($match[1] != '200') {
+                        switch ($match[1])
+                        {
+                            case '500' :
+                            case '501' :
+                                return array(HTTP_INTERNAL_ERROR, array($num));
+                            break;
+      
+                            case '404' :
+                                return array(HTTP_NOT_FOUND, array($num));
+                            break;
+      
+                            case '301' :
+                            case '302' :
+                                if (preg_match('/Location: (.+)/', $str, $redir)) {
+                                    return array(HTTP_MOVED, array($num, fix_relative_url($redir[1], $url)));
+                                } else {
+                                    return array(HTTP_WRONG_HEADER, array($num, $str));
+                                }
+                            break;
+      
+                            default :
+                                return array(HTTP_WRONG_HEADER, array($num, $str));
+                        }
+                    } // error != 200
+                } else {
+                    return array(HTTP_WRONG_HEADER, array($num, $str));
+                }
+            }
+            break;
+  
+        case 'ftp':
+            if ($ftp = @ftp_connect($url['host'])) {
+      
+                if (@ftp_login($ftp, 'anonymous', 'IEUser@')) {
+                    $flist = ftp_nlist($ftp, $url['path']);
+                    if (!count($flist)) {
+                        return array(FTP_NO_FILE, array($num));
+                    }
+                } else {
+                    return array(FTP_LOGIN, array($num));
+                }
+                @ftp_quit($ftp);
+            } else {
+                return array(FTP_CONNECT, array($num));
+            }
+            break;
+    }
 }
 
 
@@ -97,7 +219,6 @@ if (!$file = @file_get_contents($filename)) {
 
 $array = explode('<!-- Obsoletes -->', $file);
 
-
 // Find entity names and URLs
 $schemes_preg = '(?:' . join('|', $schemes) . ')';
 preg_match_all("@<!ENTITY\s+(\S+)\s+([\"'])({$schemes_preg}://[^\\2]+)\\2\s*>@U", $array[0], $entities_found);
@@ -107,120 +228,16 @@ $entity_names = $entities_found[1];
 $entity_urls  = $entities_found[3];
 
 $errors = array();
-
 $numb = 0;
-$old_host = '';
+$entity_urls = array_slice($entity_urls, 0, 5);
 
 // Walk through entities found
-foreach($entity_urls as $num => $entity_url) {
+foreach ($entity_urls as $num => $entity_url) {
 
     ++$numb;
-    
-    // Get the parts of the URL
-    $url = parse_url($entity_url);
-    $entity = $entity_names[$num];
+    $err = check_url($num, $entity_url);
+    $errors[$err[0]][] = $err[1];
 
-    // sleep if accessing the same host more that once
-    if($url['host'] == $old_host) {
-        sleep(5);
-    } else {
-        $old_host = $url['host'];
-    }
-
-    // Try to find host
-    if (gethostbyname($url['host']) == $url['host']) {
-        $errors[UNKNOWN_HOST][] = array($num);
-        continue;
-    }
-
-    switch($url['scheme']) {
-
-        case 'http':
-        case 'https':
-
-        if (isset($url['path'])) {
-            $url['path'] = $url['path'] . (isset($url['query']) ? '?' . $url['query'] : '');
-        } else {
-            $url['path'] = '/';
-        }
-
-        /* check if using secure http */
-        if ($url['scheme'] == 'https') {
-            $port   = 443;
-            $scheme = 'ssl://';
-        } else {
-            $port   = 80;
-            $scheme = '';
-        }
-
-        $port = isset($url['port']) ? $url['port'] : $port;
-
-
-        if (!$fp = @fsockopen($scheme . $url['host'], $port)) {
-            $errors[HTTP_CONNECT][] = array($num);
-
-        } else {
-            fputs($fp, "HEAD {$url['path']} HTTP/1.0\r\nHost: {$url['host']}\r\nUser-agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\nConnection: close\r\n\r\n");
-
-            $str = '';
-            while (!feof($fp)) {
-                $str .= @fgets($fp, 2048);
-            }
-            fclose ($fp);
-
-            if (preg_match('@HTTP/1.\d (\d+)(?: .+)?@S', $str, $match)) {
-
-                if ($match[1] != '200') {
-
-                    switch ($match[1])
-                    {
-                        case '500' :
-                        case '501' :
-                        $errors[HTTP_INTERNAL_ERROR][] = array($num);
-                        break;
-
-                        case '404' :
-                        $errors[HTTP_NOT_FOUND][] = array($num);
-                        break;
-
-                        case '301' :
-                        case '302' :
-                        if (preg_match('/Location: (.+)/', $str, $redir)) {
-                            $errors[HTTP_MOVED][] = array($num, fix_relative_url($redir[1], $url));
-                        } else {
-                            $errors[HTTP_WRONG_HEADER][] = array($num, $str);
-                        }
-                        break;
-
-                        default :
-                        $errors[HTTP_WRONG_HEADER][] = array($num, $str);
-                    }
-                } // error != 200
-            } else {
-                $errors[HTTP_WRONG_HEADER][] = array($num, $str);
-            }
-        }
-        break;
-
-
-        case 'ftp':
-        if ($ftp = @ftp_connect($url['host'])) {
-
-            if (@ftp_login($ftp, 'anonymous', 'IEUser@')) {
-                $flist = ftp_nlist($ftp, $url['path']);
-                if (!count($flist)) {
-                    $errors[FTP_NO_FILE][] = array($num);
-                }
-            } else {
-                $errors[FTP_LOGIN][] = array($num);
-            }
-            @ftp_quit($ftp);
-        } else {
-            $errors[FTP_CONNECT][] =  array($num);
-        }
-        break;
-
-    }
 }
 
 // ouput the html
@@ -395,7 +412,7 @@ if (isset($errors[HTTP_WRONG_HEADER])) {
     echo '</table>';
 }
 
-if(!count($errors)) {
+if (!count($errors)) {
     echo '<p><b>No problems found!</b></p>';
 }
 
