@@ -22,6 +22,11 @@ $Id$
 
 require_once '../build-ops.php';
 
+// Define some globally used vars
+
+// This setting is used in the output script
+$minact = 100;
+
 $DBFile = SQLITE_DIR . 'notes_stats.sqlite';
 
 
@@ -48,7 +53,6 @@ $res = nntp_cmd($s, "XOVER $first-$last", 224) or die("failed to XOVER the new i
 $sql = '';
 $last_update = time();
 
-
 for ($i = $first; $i < $last; $i++) {
     $line = fgets($s, 4096);
     list($n, $subj, $author, $odate) = explode("\t", $line, 5);
@@ -68,13 +72,17 @@ for ($i = $first; $i < $last; $i++) {
      * note ID modified in SECTION by EDITOR
      */
 
-    if (preg_match('/note (\d+) (.+) (?:from|in) (\S+) by (\w*)/S', $subj, $d)) {
+    if (preg_match('/^note (\d+) (.+) (?:from|in) (.+) by (.+)/S', $subj, $d)) {
         if ($d[2] == 'approved') {
             continue;
         }
 
         if ($d[2] == 'rejected and deleted') {
             $d[2] = 'rejected';
+        }
+
+        if (substr($d[3], 0, -4)) {
+            $d[3] = str_replace('.php', '', $d[3]);
         }
 
         $d[] = strtotime($odate);
@@ -86,7 +94,8 @@ for ($i = $first; $i < $last; $i++) {
 
 @fclose($s);
 
-$sql .= "UPDATE info SET last_article=$last, build_date=$last_update;";
+// using $i to allow a fetching resume
+$sql .= "UPDATE info SET last_article=$i, build_date=$last_update;";
 
 sqlite_query($sqlite, $sql);
 sqlite_close($sqlite);
@@ -148,7 +157,7 @@ CREATE TABLE info (
 );
 
 CREATE TABLE notes (
-  note INTEGER PRIMARY KEY,
+  note INTEGER,
   action TEXT,
   manpage TEXT,
   who TEXT,

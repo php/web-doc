@@ -18,17 +18,15 @@
 $Id$
 */
 
-echo "<?php require_once '../include/init.inc.php';";
+echo "<?php require_once '../include/init.inc.php';\n";
 
-$minact = 100;
-
-$DBFile = SQLITE_DIR.'notes_stats.sqlite';
+// Settings for this script can be found in ./notes_stats.php
 
 if (@filesize($DBFile) < 10) {
-    echo site_header('Statistics not available');
-    echo '<h2>Statistics not available</h2>';
-    echo site_footer();
-    exit;
+    echo "echo site_header('Statistics not available');\n";
+    echo "echo '<h2>Statistics not available</h2>';\n";
+    echo "echo site_footer();";
+    return;
 }
 
 $sqlite = sqlite_open($DBFile);
@@ -36,13 +34,13 @@ $sqlite = sqlite_open($DBFile);
 $info = sqlite_fetch_array(sqlite_query($sqlite, 'SELECT * FROM info'), SQLITE_ASSOC);
 
 if ($info['last_article'] < 50000) {
-    echo site_header('Statistics not available yet');
-    echo '<h2>Statistics not available yet</h2>';
-    echo site_footer();
-    exit;
+    echo "echo site_header('Statistics not available yet');\n";
+    echo "echo '<h2>Statistics not available yet</h2>';\n";
+    echo "echo site_footer();";
+    return;
 }
 
-echo "echo site_header('Note Statistics for " . date('j F Y', $info['build_date']) . "'); ?>";
+echo "echo site_header('Note Statistics for " . date('j F Y', $info['build_date']) . "'); ?>\n";
 
 ?>
 <h3><strong><?php echo $info['last_article']; ?></strong> subjects parsed</h3>
@@ -212,5 +210,3 @@ echo 'Last updated ' . date('r', $info['build_date']) . "\n";
 
 sqlite_close($sqlite);
 echo '<?php echo site_footer(); ?>';
-
-?>
