@@ -111,6 +111,7 @@ function output_html() {
 
     if(count($array) == 0) {
         echo '<p>Currently, there are no orphan notes!</p>';
+        echo '<p>Last Check: ' . date('r') . '</p>';
         echo '<?php echo site_footer(); ?>';
         return;
     }
@@ -128,7 +129,7 @@ function output_html() {
     }
 
     echo "</table><p>&nbsp;</p><p><b>Total Notes</b>: $n_notes<br/><b>Total files</b>: $n_files</p>".
-         '<?php echo site_footer(); ?>';
+         '<p>Last Check: ' . date('r') . '</p><?php echo site_footer(); ?>';
 }
 
 
