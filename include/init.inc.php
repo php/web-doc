@@ -24,7 +24,7 @@ $Id$
 error_reporting(E_ALL);
 
 // get paths
-require_once('../build-ops.php');
+require_once(dirname(realpath(__FILE__)) . '/../build-ops.php');
 
 // project & language config
 require_once('lib_proj_lang.inc.php');
