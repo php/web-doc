@@ -70,6 +70,7 @@ require_once('lib_general.inc.php');
 if ($inCli != true) {
     // language & template constants
     define('DOCWEB_ENTITIY_PREFIX', 'docweb');
+    define('DOCWEB_PARAM_ENTITIY_PREFIX', 'param');
 
     // language engine
     require_once('docweb_language.class.php');

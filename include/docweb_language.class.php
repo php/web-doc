@@ -115,13 +115,29 @@ class DocWeb_Language
     /**
     * Gives a single entity's text
     *
-    * @param  string $ent Entity to get
+    * @param string $ent    Entity to get
+    * @param array  $params Optional array of dynamic parameters
     * @return mixed text associated with $ent, or FALSE on failure (not present)
     */
-    function get($ent)
+    function get($ent, $params=FALSE)
     {
+        $params = (array) $params;
+        
+        static $paramEntMatchRegex = FALSE;
+        if (!$paramEntMatchRegex) {
+            $paramEntMatchRegex = '/&('. preg_quote(DOCWEB_PARAM_ENTITIY_PREFIX) .'\..*?);/';
+        }
+        
         if ($this->entities) {
-            return isset($this->entities[$ent]) ? stripslashes($this->entities[$ent]) : FALSE;
+            $text = isset($this->entities[$ent]) ? stripslashes($this->entities[$ent]) : FALSE;
+            preg_match_all($paramEntMatchRegex, $text, $matches);
+            for ($i=0; $i<count($matches[0]); $i++) {
+                $rep = substr($matches[1][$i], strlen(DOCWEB_PARAM_ENTITIY_PREFIX) + 1);
+                if (isset($params[$rep])) {
+                    $text = str_replace($matches[0][$i], $params[$rep], $text);
+                }
+            }
+            return $text;
         } else {
             return FALSE;
         }

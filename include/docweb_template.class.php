@@ -57,6 +57,8 @@ class DocWeb_Template
     function __construct($filename)
     {
         $this->filename = $filename;
+        // always pass $Language
+        $this->params['Language'] =& $GLOBALS['Language'];
         return TRUE;
     }
 
