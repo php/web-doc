@@ -67,6 +67,7 @@ echo DocWeb_Template::get(
             'entData'    => $entData,
             'resultLkp'  => $urlResultLookup,
             'extraCol'   => $urlResultExtraCol,
+            'wideMode'   => isset($_REQUEST['wideMode']) && $_REQUEST['wideMode'],
         )
     );
 echo site_footer();
