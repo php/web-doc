@@ -37,39 +37,44 @@ list($defaultLanguage)   = array_keys($LANGUAGES);
 $defaultFallbackProject  = 'www';
 $defaultFallbackLanguage = 'en';
 
-// set up constants (use defaults if necessary)
-define('SITE',  isset($project)  ? $project  : $defaultProject);
-define('LANGC', isset($language) ? $language : $defaultLanguage);
-define('URI',   isset($uri)      ? $uri      : $_SERVER['REQUEST_URI']);
-define('LANGD', $LANGUAGES[LANGC]);
+// Only allow $_SERVER under apache to make cli scripts work
+if (!isset($inCli) OR $inCli != true) {
+    $inCli = false;
 
-// set up BASE_URL
-if (substr($_SERVER['REQUEST_URI'], -1, 1) == '/') {
-    // is a directory, use verbatim
-    $baseURL = $_SERVER['REQUEST_URI'];
-} else {
-    // not a dir, use the dirname
-    $baseURL = dirname($_SERVER['REQUEST_URI']);
+    // set up constants (use defaults if necessary)
+    define('SITE',  isset($project)  ? $project  : $defaultProject);
+    define('LANGC', isset($language) ? $language : $defaultLanguage);
+    define('URI',   isset($uri)      ? $uri      : $_SERVER['REQUEST_URI']);
+    define('LANGD', $LANGUAGES[LANGC]);
+
+    // set up BASE_URL
+    if (substr($_SERVER['REQUEST_URI'], -1, 1) == '/') {
+        // is a directory, use verbatim
+        $baseURL = $_SERVER['REQUEST_URI'];
+    } else {
+        // not a dir, use the dirname
+        $baseURL = dirname($_SERVER['REQUEST_URI']);
+    }
+
+    // this very dirty fix makes /rfc work
+    $baseURL = str_replace('/rfc', '', $baseURL);
+
+    // actually define the constant (trim off any trailing slashes):
+    define('BASE_URL', rtrim($baseURL, '/'));
+
 }
-
-// this very dirty fix makes /rfc work
-$baseURL = str_replace('/rfc', '', $baseURL);
-
-// actually define the constant (trim off any trailing slashes):
-define('BASE_URL', rtrim($baseURL, '/'));
 
 // general support library
 require_once('lib_general.inc.php');
 
+if ($inCli != true) {
+    // language & template constants
+    define('DOCWEB_ENTITIY_PREFIX', 'docweb');
 
-// language & template constants
-define('DOCWEB_ENTITIY_PREFIX', 'docweb');
+    // language engine
+    require_once('docweb_language.class.php');
+    $Language =& new DocWeb_Language(LANGC);
 
-// language engine
-require_once('docweb_language.class.php');
-$Language =& new DocWeb_Language(LANGC);
-
-// template engine
-require_once('docweb_template.class.php');
-
-?>
+    // template engine
+    require_once('docweb_template.class.php');
+}

@@ -2,6 +2,7 @@
 include '../include/jpgraph/jpgraph.php';
 include '../include/jpgraph/jpgraph_bar.php';
 
+$inCli = true;
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 
@@ -48,12 +49,11 @@ foreach($type_col_bar as $type => $pos) {
    $datay = array_values($datay_tmp);
    $legendy = array_values($legendy_tmp);
    
-   echo "Generate $type graphik for all language...\n";
+   echo "Generating $type graphic for all languages...";
    
    generation_image($type);
    
-   
-   echo "... finish.\n";
+   echo " Done.\n";
    
   } // end if
 

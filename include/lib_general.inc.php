@@ -34,7 +34,7 @@ function is_project($project)
 function get_cvs_dir($project)
 {
     // @@@ make this return something until the function is found
-    return $GLOBALS['PROJECTS'][$project][1];
+    return $GLOBALS['PROJECTS'][$project][1] . '/';
 }
 
 function site_header($title = '', $style = array())

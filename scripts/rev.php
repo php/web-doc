@@ -65,6 +65,7 @@ exit(0);
   **/
 
 // define some common variables
+$inCli = true;
 include '../include/init.inc.php';
 
 // grab the documentation type

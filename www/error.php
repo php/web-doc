@@ -10,12 +10,16 @@ echo site_header($title);
 <h2><?php echo $title; ?></h2>
 <p>
 <?php 
-if( isset($_SERVER['REDIRECT_ERROR_NOTES']) ) {
-  echo $_SERVER['REDIRECT_ERROR_NOTES']; 
-} elseif( isset($_SERVER['REDIRECT_REDIRECT_ERROR_NOTES']) ) {
-  echo $_SERVER['REDIRECT_REDIRECT_ERROR_NOTES'];
+if (isset($_SERVER['REDIRECT_ERROR_NOTES'])) {
+    echo $_SERVER['REDIRECT_ERROR_NOTES'];
+} elseif (isset($_SERVER['REDIRECT_REDIRECT_ERROR_NOTES'])) {
+    echo $_SERVER['REDIRECT_REDIRECT_ERROR_NOTES'];
 } else {
-  echo 'No message available.';
+    if ($red_status == 404) {
+        echo 'File Not Found: ' . htmlspecialchars($_SERVER['REQUEST_URI']);
+    } else {
+        echo 'No message available.';
+    }
 }
 
 

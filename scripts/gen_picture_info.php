@@ -1,8 +1,11 @@
 <?php
+/* $Id$ */
+
 include '../include/jpgraph/jpgraph.php';
 include '../include/jpgraph/jpgraph_pie.php';
 include '../include/jpgraph/jpgraph_pie3d.php';
 
+$inCli = true;
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 
@@ -30,7 +33,7 @@ foreach( $argv as $lang ) {
   
   } else {
   
-    echo " Generate images/revcheck/info_revcheck_" . $TYPE . "_" . $lang . ".png\n";
+    echo " Generated images/revcheck/info_revcheck_" . $TYPE . "_" . $lang . ".png\n";
   
   }
 }
