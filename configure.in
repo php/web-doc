@@ -84,6 +84,18 @@ AC_ARG_WITH(www-group,[  --with-www-group[=GROUP]   Web Server group  [default=`
 
 DOCWEB=`pwd`
 
+if test `uname|grep CYGWIN` ; then
+  PHP=`cygpath -w $PHP`
+  CRONDIR=`cygpath -m $CRONDIR`
+  CVSDIR=`cygpath -m $CVSDIR`
+  DOCWEB=`cygpath -m $DOCWEB`
+  SCRIPTSDIR=`cygpath -m $SCRIPTSDIR`
+  SQLDIR=`cygpath -m $SQLDIR`
+  SQLITEDIR=`cygpath -m $SQLITEDIR`
+  FILESDIR=`cygpath -m $FILESDIR`
+fi
+
+
 AC_SUBST(PHP)
 AC_SUBST(CRONDIR)
 AC_SUBST(CVSDIR)
