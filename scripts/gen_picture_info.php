@@ -86,7 +86,7 @@ function generation_image($TYPE, $lang) {
     $graph->subtitle->Align('left');
     $graph->subtitle->SetColor('darkred');
 
-    $t1 = new Text(date('dmyGi')); 
+    $t1 = new Text(date('m/d/Y')); 
     $t1->Pos(522,294);
     $t1->SetFont(FF_FONT1,FS_NORMAL);
     $t1->Align("right", 'bottom'); 
