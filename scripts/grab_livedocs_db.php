@@ -38,6 +38,5 @@ $scriptTime = time() - $scriptBegin;
 $bytesSec = number_format(round($bytesRead / $scriptTime));
 $bytesRead = number_format($bytesRead);
 echo "Completed in $scriptTime seconds\n";
-echo "$bytesRead bytes read (~$bytesSec bytes/sec)\n";
 
 ?>
