@@ -136,13 +136,21 @@ if ($proposal->status == 'vote') {
 
     if ($form) {
         echo '  <td class="textcell" valign="top">' . "\n";
+        
+        // Cron job runs at 4 am
+        $pepr_end = mktime(4, 0, 0, date('m', $proposal->vote_date),
+                            date('d', $proposal->vote_date),
+                            date('Y', $proposal->vote_date));
 
+        if (date('H', $proposal->vote_date) > '03') {
+        // add a day
+            $pepr_end += 86400;
+        }
+        
         if ($proposal->longened_date) {
-            $pepr_end = $proposal->vote_date +
-                        (PROPOSAL_STATUS_VOTE_TIMELINE * 2);
+            $pepr_end += PROPOSAL_STATUS_VOTE_TIMELINE * 2;
         } else {
-            $pepr_end = $proposal->vote_date +
-                        PROPOSAL_STATUS_VOTE_TIMELINE;
+            $pepr_end += PROPOSAL_STATUS_VOTE_TIMELINE;
         }
         echo '    <p>Voting Will End approximately ';
         echo make_utc_date($pepr_end);

@@ -27,6 +27,7 @@
 
 /*
  * This file needs to run every day
+ * the system expects it to run at 4 am
  */
  
 require_once './../lib_general.inc.php';
