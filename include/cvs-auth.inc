@@ -21,6 +21,8 @@
  * $Id$
  */
 
+require_once(dirname(__FILE__) . '/../build-ops.php');
+
 function auth_vs_cvs($name, $pass)
 {
 	$cvs_encode = array(
@@ -54,7 +56,7 @@ function auth_vs_cvs($name, $pass)
 
 	$cvs = fsockopen($cvsinfo['host'], $cvsinfo['port'], $errno, $errstr);
 	if (!$cvs)
-		return $errstr;
+		return false;
 	
 	$pkt = "BEGIN AUTH REQUEST\n$cvsinfo[repos]\n$name\n$encpwd\nEND AUTH REQUEST\n";
 	
@@ -62,29 +64,26 @@ function auth_vs_cvs($name, $pass)
 	$response = fgets($cvs);
 	fclose($cvs);
 
-	return 0 == strncmp($response, 'I LOVE YOU', 10) ? true : false;
+	return (0 == strncmp($response, 'I LOVE YOU', 10));
 }
 
 /**
  * Check local credential cache before sending extra queries
  * to cvs.php.net
  */
-function auth_vs_local ($user, $pass) {
-	$res = mysql_query ("SELECT username, password, ctime FROM users WHERE username='" . addslashes($user) . "'") or die ("db query failed");
-	if (!mysql_num_rows($res)) {
+function auth_vs_local ($idx, $user, $pass) {
+
+	$res = sqlite_query ($idx, "SELECT * FROM auth WHERE username='" . sqlite_escape_string($user) . "'");
+
+	if (!$data = sqlite_fetch_array($res, SQLITE_ASSOC)) {
 		return false;
 	}
 
-	$row = mysql_fetch_assoc($res);
-	if (!is_array($row)) {
+	if ($data['time'] + 60*60*24 < time()) {
 		return false;
 	}
 
-	if (strtotime($row['ctime']) + 60*60*24 < time()) {
-		return 'cache_expire';
-	}
-
-	if (crypt($pass, $row['password']) == $row['password']) {
+	if (sha1($pass) == $data['password']) {
 		return true;
 	}
 
@@ -92,37 +91,31 @@ function auth_vs_local ($user, $pass) {
 }
 
 function verify_password($user, $pass) {
-	$db = mysql_connect (ini_get('mysql.default_host'), ini_get('mysql.default_user'), ini_get('mysql.default_password')) or die ("cannot connect to db server");
-	mysql_select_db ("doc_php_net", $db) or die ("select db failed.");
 
 	/**
 	 * You cannot auth as our cvsread@php.net pseudo user
 	 */
-	if ($user == "cvsread") {
+	if (!$user || !$pass || $user == 'cvsread') {
 		return false;
 	}
 
-	if (empty($pass)) {
-		return false;
+	if (!$idx = sqlite_open(SQLITE_DIR . 'users.sqlite')) {
+		die ('DB not available');
 	}
 
-	$_ret = auth_vs_local($user, $pass);
-	if ($_ret === true) {
-		return true;
+	if (auth_vs_local($idx, $user, $pass)) {
+		return $user;
 	}
 
-	$_ret = auth_vs_cvs($user, $pass);
+	if (auth_vs_cvs($user, $pass)) {
 
-	if ($_ret === true) {
-		$res = mysql_query ("SELECT username FROM users WHERE username='" . addslashes($user) . "'");
-		if (mysql_num_rows($res)) {
-			mysql_query ("UPDATE users SET password='" . crypt($pass) . "', ctime=NOW() WHERE username='" . addslashes($user) . "'") or die ("db query failed.");
-		} else {
-			mysql_query ("INSERT INTO users (username, password, date_added, ctime) VALUES ('" . addslashes($user) . "', '" . crypt($pass) . "', NOW(), NOW())") or die ("db query failed.");
-		}
+		sqlite_exec($idx, "REPLACE INTO auth VALUES ('" . sqlite_escape_string($user) . "', '" . sha1($pass) . "', '" . time() . "')");
+		sqlite_close($idx);
+
+		return $user;
 	}
 
-	return ($_ret);
+	return false;
 }
 
 /* vim: set noet ts=4 sw=4 ft=php: : */
