@@ -35,8 +35,6 @@ echo "Grabbing livedocs DB...\n";
 copy(REMOTE_ENTITY_SQLITE_FILE, ENTITY_SQLITE_FILE); 
 
 $scriptTime = time() - $scriptBegin;
-$bytesSec = number_format(round($bytesRead / $scriptTime));
-$bytesRead = number_format($bytesRead);
 echo "Completed in $scriptTime seconds\n";
 
 ?>
