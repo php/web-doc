@@ -26,6 +26,7 @@ foreach($type_col_bar as $type => $pos) {
         $idx = sqlite_open(SQLITE_DIR . 'rev.' . $type . '.sqlite');
 
         $language = revcheck_available_languages($idx, $type);
+        sort($language);
         $files_EN = get_nb_EN_files($idx);
 
 
