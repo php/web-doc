@@ -46,7 +46,12 @@ if (!isset($inCli) OR $inCli != true) {
     define('LANGD', $LANGUAGES[LANGC]);
 
     // set up BASE_URL
-    if (substr($_SERVER['REQUEST_URI'], -1, 1) == '/') {
+    if (isset($_SERVER['REDIRECT_STATUS']) &&
+        $_SERVER['REDIRECT_STATUS'] == '404') {
+        // 404 error, revert to /project/language
+        $baseURL = '/' . SITE . '/' . LANGC . '/';
+        
+    } elseif (substr($_SERVER['REQUEST_URI'], -1, 1) == '/') {
         // is a directory, use verbatim
         $baseURL = $_SERVER['REQUEST_URI'];
     } else {
