@@ -3,4 +3,6 @@
 . `dirname $0`/../../build-ops
 
 cd ${SCRIPTSDIR}
-${PHP} checkent.php > ${DOCWEB}/www/checkent.php
+${PHP} checkent.php phpdoc > ${DOCWEB}/www/checkent_php.php
+${PHP} checkent.php peardoc > ${DOCWEB}/www/checkent_pear.php
+${PHP} checkent.php smarty > ${DOCWEB}/www/checkent_smarty.php

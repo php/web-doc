@@ -25,7 +25,20 @@ set_time_limit(0);
 $inCli = true;
 include '../include/init.inc.php';
 
-$filename = CVS_DIR . '/phpdoc-all/entities/global.ent';
+switch($_SERVER['argv'][1]) {
+    case 'phpdoc':
+        $filename = CVS_DIR . '/phpdoc-all/entities/global.ent';
+        break;
+
+    case 'peardoc':
+        $filename = CVS_DIR . '/peardoc/global.ent';
+        break;
+
+    case 'smarty':
+        $filename = CVS_DIR . '/smarty/docs/entities/global.ent';
+        break;
+}
+
 
 // Schemes currently supported
 $schemes = array('http');
@@ -120,7 +133,7 @@ foreach($entity_urls as $num => $entity_url) {
         case 'http':
         case 'https':
 
-        if (isset($parsed_url['path'])) {
+        if (isset($url['path'])) {
             $url['path'] = $url['path'] . (isset($url['query']) ? '?' . $url['query'] : '');
         } else {
             $url['path'] = '/';
@@ -142,7 +155,7 @@ foreach($entity_urls as $num => $entity_url) {
             $errors[HTTP_CONNECT][] = array($num);
 
         } else {
-            fputs($fp, "HEAD {$url['path']} HTTP/1.0\r\nHost: {$url['host']}\r\nConnection: close\r\nUser-agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n\r\n");
+            fputs($fp, "HEAD {$url['path']} HTTP/1.0\r\nHost: {$url['host']}\r\nUser-agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\nConnection: close\r\n\r\n");
 
             $str = '';
             while (!feof($fp)) {
@@ -375,6 +388,10 @@ if (isset($errors[HTTP_WRONG_HEADER])) {
        </tr>';
     }
     echo '</table>';
+}
+
+if(!count($errors)) {
+    echo '<p><b>No problems found!</b></p>';
 }
 
 echo '<p>Checked ' . $numb . ' urls</p>';

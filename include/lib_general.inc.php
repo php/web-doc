@@ -200,9 +200,22 @@ function site_nav_provider()
     }
     if (SITE == 'php') {
         $links['doc-howto']    = BASE_URL . '/dochowto/index.php';
-        $links['checkent']     = BASE_URL . '/checkent.php';
-        $links['orphan-notes'] = BASE_URL . '/orphan_notes.php';
     }
+
+    // English only
+    if (LANGC == 'all' || LANGC == 'en') {
+
+        switch(SITE) {
+            case 'php':
+                $links['orphan-notes'] = BASE_URL . '/orphan_notes.php';
+
+            case 'pear':
+            case 'smarty':
+                $links['checkent']     = BASE_URL . '/checkent.php';
+                break;
+        }
+    }
+
     return DocWeb_Template::get(
         'shared/nav_links.tpl.php',
         array('links' => $links, 'Language' => &$GLOBALS['Language'])
