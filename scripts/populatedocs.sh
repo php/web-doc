@@ -15,12 +15,11 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.1 2004-08-05 23:00:02 jacques Exp $
+# $Id: populatedocs.sh,v 1.2 2004-08-05 23:23:27 jacques Exp $
 
 cd /home/pure-ftpd-users/php001/docs.php.mirrors.powertrip.co.za
 /bin/mkdir cvs
 cd cvs
-/usr/bin/cvs
 echo "Checking out PHP docs..."
 /usr/bin/cvs -d :pserver:jacques@cvs.php.net:/repository co phpdoc-all
 echo "Checking out PHP GTK docs..."
