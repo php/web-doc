@@ -22,6 +22,10 @@
 
 function verify_password($user, $pass) {
 
+    if($user == 'cvsread') {
+        return false;
+    }
+
     if(!$fp = @fsockopen('cvs.php.net', 2401)) {
          return false;
     }
