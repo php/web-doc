@@ -64,6 +64,18 @@ $urlResultExtraCol = array(
     HTTP_NOT_FOUND      => FALSE,
 );
 
+// Schemes currently supported
+$schemes = array('http');
+if (extension_loaded('openssl')) {
+    $schemes[] = 'https';
+}
+if (function_exists('ftp_connect')) {
+    $schemes[] = 'ftp';
+}
+
+// SQLite DB file
+define('URL_ENT_SQLITE_FILE', SQLITE_DIR . "checkent_{$entType}.sqlite");
+
 /**
  * Handles relative HTTP URLs
  *
@@ -202,5 +214,34 @@ function check_url ($num, $entity_url)
             break;
     }
     return array(SUCCESS, array($num));
+}
+
+/**
+ * Stores the result of the check_url function
+ *
+ * @param resource $sqlite sqlite connection resource
+ * @param int      $num    entity url number (sequence)
+ * @param string   $name   entity name
+ * @param string   $url    entity url
+ * @param array    $result result of check_url()
+ * @return void
+ */
+function url_store_result(&$sqlite, $num, $name, $url, $result)
+{
+    $return_val = isset($result[1][1]) ? $result[1][1] : '';
+    $sql = "
+        INSERT
+        INTO
+            checked_urls (url_num, entity, url, check_result, return_val)
+        VALUES
+            (
+                $num,
+                '". sqlite_escape_string($name) ."',
+                '". sqlite_escape_string($url) ."',
+                {$result[0]},
+                '". sqlite_escape_string($return_val) ."'
+            )
+    ";
+    sqlite_query($sqlite, $sql);
 }
 ?>

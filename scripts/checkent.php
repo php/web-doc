@@ -25,8 +25,8 @@ $Id$
 set_time_limit(0);
 $inCli = true;
 require_once '../include/init.inc.php';
-require_once '../include/lib_url_entities.inc.php';
 
+// determine type (and display usage on fail)
 switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
     case 'phpdoc':
         $filename = CVS_DIR . '/phpdoc-all/entities/global.ent';
@@ -48,25 +48,18 @@ switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
         die();
 }
 
+require_once '../include/lib_url_entities.inc.php';
 
-// Schemes currently supported
-$schemes = array('http');
-if (function_exists('ftp_connect')) {
-    $schemes[] = 'ftp';
-}
-
-if (extension_loaded('openssl')) {
-    $schemes[] = 'https';
-}
-
-$dbFile = SQLITE_DIR . "checkent_{$entType}.sqlite";
-if (is_file($dbFile) && !unlink($dbFile)) {
+// create a new database (remove old first, if exists)
+if (is_file(URL_ENT_SQLITE_FILE) && !unlink(URL_ENT_SQLITE_FILE)) {
     echo "Error removing old database.\n";
     die();
 }
-if (!($sqlite = sqlite_open($dbFile, 0666))) {
+if (!($sqlite = sqlite_open(URL_ENT_SQLITE_FILE, 0666))) {
     echo "Error creating database.\n";
 }
+
+// Table creation
 $sqlCreateMeta = "
     CREATE
     TABLE
@@ -77,6 +70,7 @@ $sqlCreateMeta = "
             schemes VARCHAR(100)
         );
 ";
+sqlite_query($sqlite, $sqlCreateMeta);
 $sqlCreateChecked = "
     CREATE
     TABLE
@@ -89,18 +83,13 @@ $sqlCreateChecked = "
             return_val VARCHAR(255)
         );
 ";
-sqlite_query($sqlite, $sqlCreateMeta);
 sqlite_query($sqlite, $sqlCreateChecked);
 
+// read entities
 if (!$file = @file_get_contents($filename)) {
-    // ouput the html
-    echo "<?php include_once '../include/init.inc.php';
-           echo site_header('docweb.common.header.checkent'); 
-           echo '<h1>No entities found</h1>';
-           echo site_footer(); ?>";
-    exit;
+    echo "No entities found.\n";
+    die();
 }
-
 $array = explode('<!-- Obsoletes -->', $file);
 
 // Find entity names and URLs
@@ -111,9 +100,9 @@ preg_match_all("@<!ENTITY\s+(\S+)\s+([\"'])({$schemes_preg}://[^\\2]+)\\2\s*>@U"
 $entity_names = $entities_found[1];
 $entity_urls  = $entities_found[3];
 
-$errors = array();
-$numb = 0;
+echo "Found: ". count($entity_urls) ."URLs\n"; 
 
+// log start time && schemes in DB
 $sql = "
     INSERT
     INTO
@@ -123,32 +112,13 @@ $sql = "
 ";
 sqlite_query($sqlite, $sql);
 
-echo "Found: ". count($entity_urls) ."URLs\n"; 
-
 // Walk through entities found
 foreach ($entity_urls as $num => $entity_url) {
-
-    ++$numb;
     echo "Checking: $entity_url\n";
-    $err = check_url($num, $entity_url);
-    $errors[$err[0]][] = $err[1];
-
-    $return_val = isset($err[1][1]) ? $err[1][1] : '';
-    $sql = "
-        INSERT
-        INTO
-            checked_urls (url_num, entity, url, check_result, return_val)
-        VALUES
-            (
-                $num,
-                '". sqlite_escape_string($entity_names[$num]) ."',
-                '". sqlite_escape_string($entity_url) ."',
-                {$err[0]},
-                '". sqlite_escape_string($return_val) ."'
-            )
-    ";
-    sqlite_query($sqlite, $sql);
+    url_store_result($sqlite, $num, $entity_names[$num], $entity_url, check_url($num, $entity_url));
 }
+
+// log end time in DB
 $sql = "
     UPDATE
         meta_info
@@ -156,5 +126,7 @@ $sql = "
         end_time = ". time() ."
 ";
 sqlite_query($sqlite, $sql);
+
+echo "Done.\n";
 
 ?>
