@@ -131,13 +131,15 @@ foreach ($proposals as $proposal) {
             echo "</small>)\n";
     }
     echo "</li>\n";
+    
+
 }
 
-echo "</ul>\n";
-
-if ($selectStatus == '') {
+if ($selectStatus == '' && isset($proposal) && $proposal->getStatus() == 'finished') {
     print_link('rfc-overview.php?filter=finished', 'All finished proposals');
 }
+    
+echo "</ul>\n";
 
 echo site_footer();
 

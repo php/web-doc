@@ -294,7 +294,7 @@ if (isset($_POST['submit'])) {
                 $filehash = md5($_FILES['thefile']['name'] . time());
                 move_uploaded_file($_FILES['thefile']['tmp_name'],
                                    './../../files/' . $filehash);                                  
-                $proposal->pkg_filehash = $proposal->pkg_filehash . '|' . $_FILES['thefile']['name'] . $filehash;
+                $proposal->pkg_filehash = $proposal->pkg_filehash . '|' . basename($_FILES['thefile']['name']) . $filehash;
  
             }
         } else {
