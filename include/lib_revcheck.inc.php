@@ -218,7 +218,7 @@ function get_missfiles($idx, $lang)
 
 function get_description($idx, $lang)
 {
-    $sql = 'SELECT * FROM description WHERE lang = "' . $lang . '";';
+    $sql = 'SELECT intro FROM description WHERE lang = "' . $lang . '";';
     $result = sqlite_query($idx, $sql);
     $row = sqlite_fetch_array($result, SQLITE_ASSOC);
     return $row['intro'];

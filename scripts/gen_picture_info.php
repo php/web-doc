@@ -40,7 +40,7 @@ foreach( $argv as $lang ) {
 
 
 function generation_image($TYPE, $lang) {
-  global $DOC_LANG;
+  global $LANGUAGES;
   
   
 $idx = sqlite_open(SQLITE_DIR . 'rev.' . $TYPE . '.sqlite');
@@ -84,7 +84,7 @@ $pourcent[] = round($valeur * 100 / $total);
 }
 
 $legend = array($pourcent[0] . '%% up to date ('.$up_to_date.')', $pourcent[1] . '%% critical ('.$critical.')', $pourcent[2] . '%% old ('.$old.')', $pourcent[3] . '%% missing ('.$missing.')', $pourcent[4] . '%% without revtag ('.$no_tag.')');
-$title = ucfirst($TYPE). ' : Details for '.$DOC_LANG[$lang].' Doc';
+$title = ucfirst($TYPE). ' : Details for '.$LANGUAGES[$lang].' Doc';
 
 $graph = new PieGraph(530,300);
 $graph->SetShadow();

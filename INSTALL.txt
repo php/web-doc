@@ -9,7 +9,9 @@ Initial Installation
    user who apache runs under.  
 4. The PEAR packages for the RFC System can be found at include/rfc/PACKAGES
 5. A cronjob should be setup to run include/rfc/rfc-cron.php at 4am
-6. Configure the virtual host under apache.  Current 'suggested settings' are:
+6. You may want to create a www/robots.txt to allow or disallow bots crawling
+   your local docweb development site.
+7. Configure the virtual host under apache.  Current 'suggested settings' are:
 <VirtualHost 127.0.0.1:80>
 
  ServerName doc.php.net

@@ -176,6 +176,7 @@ TRANSLATORS_HEAD;
                     $cvsu = '&nbsp;';
                     $col = 'wip';
                 }
+                echo '<a name="maint-'.$nick."\">\n";
                 echo '<tr class="', $col, '">' . "\n";
                 echo '<td>', $data['name'], '</td>', "\n";
                 echo '<td>', $data['mail'], '</td>', "\n";
@@ -212,13 +213,22 @@ TRANSLATORS_HEAD;
 MISSTAGS_HEAD;
 
             $last_dir = false;
+            $total_size = 0;
             foreach ($missfiles as $miss) {
                 if (!$last_dir || $last_dir != $miss['dir']) {
                     echo '<tr class="blue"><th colspan="2">' . $miss['dir'] . '</th></tr>';
                     $last_dir = $miss['dir'];
                 }
                 echo '<tr class="wip"><td>', $miss['file'], '</td><td class="r">', $miss['size'], '</td></tr>';
+                $total_size += $miss['size'];
+                // flush every 200 kbytes
+                if (($total_size % 200) == 0) {
+                    flush();
+                }
             }
+            echo '<tr class="blue">
+                      <th colspan="2">Total Size ('.$num.' files): '.$total_size.' kB</th>
+                  </tr>';
             echo '</table></div>';
         }
         break;
@@ -394,7 +404,7 @@ END_OF_MULTILINE;
                     }
                     // Make the maintainer a link, if we have that maintainer in the list
                     if ($r['maintainer'] && $r["maintainer"] != 'nobody') {
-                        $r["maintainer"] = '<a href="#maint">' . $r["maintainer"] . '</a>';
+                        $r["maintainer"] = '<a href="?p=translators#maint-' . $r['maintainer'] . '">' . $r["maintainer"] . '</a>';
                     }
 
                     // If we have a 'numeric' revision diff and it is not zero,
@@ -406,8 +416,8 @@ END_OF_MULTILINE;
                     "&amp;f=h&amp;num=10\">" . $r["file"] . "</a>";
 
                     // Write out the line for the current file (get file name shorter)
-                    echo "<tr class=\"{$CSS[$status_mark]}\">
-                            <td>{$r['short_name']}</td>".
+                    echo "<tr class=\"{$CSS[$status_mark]}\">".
+                         "<td>{$r['short_name']}</td>".
                     "<td>1.{$r['en_rev']}</td>" .
                     "<td>1.{$r['trans_rev']}</td>" .
                     "<td align=\"right\"><strong>" . $rev_diff . "</strong></td>" .
@@ -418,7 +428,7 @@ END_OF_MULTILINE;
                     "<td> {$r['trans_date']}</td>" .
                     "<td align=\"right\"><strong>" . $date_diff . "</strong></td>" .
                     "<td> {$r['maintainer']}</td>" .
-                    "<td> {$r['status']}</td></tr>";
+                    "<td> {$r['status']}</td></tr>\n";
 
                 }
                 echo '</table></div>';
@@ -427,9 +437,13 @@ END_OF_MULTILINE;
         break;
 
         case "graph" :
-        echo "<p class=\"c\">
-            <img src=\"/images/revcheck/info_revcheck_" . SITE . "_" . LANGC . ".png\" alt=\"Info\" />
-            </p>";
+        if (is_readable("images/revcheck/info_revcheck_" . SITE . "_" . LANGC . ".png")) {
+            echo "<p class=\"c\">
+                <img src=\"/images/revcheck/info_revcheck_" . SITE . "_" . LANGC . ".png\" alt=\"Info\" />
+                </p>";
+        } else {
+            echo 'Can\'t find graph';
+        }              
         break;
 
         default :
