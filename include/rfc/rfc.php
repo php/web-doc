@@ -183,7 +183,11 @@ function report_error($in, $class = 'errors', $head = 'ERROR:')
         }
         echo '<li>' . htmlspecialchars($msg) . "</li>\n";
     }
-    var_dump($in);
+    
+    if (DEVBOX == true) {
+        var_dump($in);
+    }
+    
     echo "</ul></div>\n";
     return true;
 }
