@@ -41,7 +41,7 @@ function site_header($title = '', $style = array())
 {
     define('IN_HEAD', true);
     $lang       = 'en'; //LANGC;
-    $encoding   = "iso-8859-1"; // for now
+    $encoding   = 'UTF-8';
     $page_title = ($title ? $GLOBALS['Language']->get($title) . ' - ' : '') . $GLOBALS['Language']->get('docweb.common.title.default');
     $page_h1    = ($title ? $GLOBALS['Language']->get($title) : $GLOBALS['Language']->get('docweb.common.title.default'));
 

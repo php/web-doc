@@ -1,0 +1,10 @@
+#!/bin/sh
+
+. `dirname $0`/../../build-ops
+
+cd ${CVSDIR}/phpdoc-all
+autoconf
+./configure
+make howtophp
+
+cp howto/php/* ${DOCWEB}/www/dochowto
