@@ -115,6 +115,7 @@ function get_cvs_dir($project)
 
 function site_header($title = '', $style = array())
 {
+    define('IN_HEAD', true);
     $lang       = 'en'; //LANGC;
     $master_url = get_resource_url();
     $encoding   = "iso-8859-1"; // for now

@@ -213,7 +213,9 @@ function report_warning($in)
  */
 function error_handler($errobj, $title = 'Error')
 {
-   // echo site_header($title);
+    if(!defined('IN_HEAD')) {
+        echo site_header($title);
+    }
     report_error($errobj);
     echo site_footer();
     exit;
