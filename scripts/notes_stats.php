@@ -157,7 +157,7 @@ CREATE TABLE info (
 );
 
 CREATE TABLE notes (
-  note INTEGER,
+  note INTEGER PRIMARY KEY,
   action TEXT,
   manpage TEXT,
   who TEXT,
