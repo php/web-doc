@@ -22,7 +22,8 @@ $Id$
 
 error_reporting(E_ALL);
 
-include_once 'lib_site_conf.inc.php';
+// Copy lib_site_conf.inc.php and add proper settings!
+include_once 'lib_site_conf_local.inc.php';
 
 define('SQLITE_DIR', PATH_ROOT . '/sqlite/');
 define('CVS_DIR',    PATH_ROOT . '/cvs/');
