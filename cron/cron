@@ -1,6 +1,7 @@
 #!/usr/local/bin/bash
 
 CRONSETPATH=`dirname $0`/$1
+OUTPUT=/dev/null
 
 if [ -d $CRONSETPATH ]
 then
@@ -11,7 +12,7 @@ then
   do
     if [ -f ./$job ] && [ -x ./$job ]
     then
-      ./$job
+      ./$job > $OUTPUT
     fi
   done
  

@@ -5,6 +5,6 @@
 export NUMFORKS=10
 
 cd ${SCRIPTSDIR}
-${PHP} checkent.php phpdoc > /dev/null
-${PHP} checkent.php peardoc > /dev/null
-${PHP} checkent.php smarty > /dev/null
+${PHP} checkent.php phpdoc
+${PHP} checkent.php peardoc
+${PHP} checkent.php smarty
