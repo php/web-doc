@@ -32,10 +32,10 @@ error_reporting(E_ALL);
 // keep this call, we need it
 $self = array_shift($argv);
 
-if ($argc < 3) {
+if ($argc < 2) {
 ?>
   Usage:
-    <?php echo $self;?> type lang1 [lang2 [lang3 [..]]]
+    <?php echo $self;?> type [lang1 [lang2 [lang3 [..]]]]
 
   Checks the revision of translated files against the actual english
   xml files, and create an sqlite database to generate statisctics
@@ -74,6 +74,12 @@ $DOCS = CVS_DIR . get_cvs_dir($TYPE);
 
 // $argv was shifted before
 $LANGS = $argv;
+
+// generate all languages
+if (count($LANGS) == 0) {
+    include "../include/lib_proj_lang.inc.php";
+    $LANGS = array_keys($LANGUAGES);
+}
 
 // Test the languages :
 $langc = count($LANGS);

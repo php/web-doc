@@ -12,8 +12,16 @@ include '../include/lib_revcheck.inc.php';
 $self = array_shift($argv);
 
 $TYPE = array_shift($argv); // Type of documentation
+$LANGS = $argv;
 
-foreach( $argv as $lang ) {
+// generate all languages
+if (count($LANGS) == 0) {
+    include "../include/lib_proj_lang.inc.php";
+    $LANGS = array_keys($LANGUAGES);
+}
+
+
+foreach ($LANGS as $lang) {
     if (!generation_image($TYPE, $lang) ) {
         echo "The $TYPE documentation for $lang language don't exist.\n";
     } else {
