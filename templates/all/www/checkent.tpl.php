@@ -2,7 +2,6 @@
 /*
   TODO:
     - language-entity  this
-    - Shrink long URLs: http://example.org/this/is/a...long/url
 */
 
 if ($isComplete) { ?>
@@ -38,13 +37,26 @@ Viewing in wide mode. <a href="checkent.php?wideMode=0">Switch to normal mode?</
 		    <?php if ($wideMode) { ?>
                         <td><?php echo $r['entity']; ?></td>
                         <td><a href="<?php echo $r['url']; ?>" rel="nofollow"><?php echo $r['url']; ?></a></td>
+                        <td><a href="<?php echo $r['return_val']; ?>" rel="nofollow"><?php echo $r['return_val']; ?></a></td>
 		    <?php } else { ?>
                         <td><a href="<?php echo $r['url']; ?>"><?php echo $r['entity']; ?></a></td>
+                        <td>
+			    <a href="<?php echo $r['return_val']; ?>" rel="nofollow" title="<?php echo $r['return_val']; ?>">
+			        <?php echo str_chop($r['return_val'], 60, TRUE); ?>
+		            </a>
+			</td>
 		    <?php } ?>
-                    <td><a href="<?php echo $r['return_val']; ?>" rel="nofollow"><?php echo $r['return_val']; ?></a></td>
                 <?php } else { ?>
                     <td><?php echo $r['entity']; ?></td>
-                    <td><a href="<?php echo $r['url']; ?>" rel="nofollow"><?php echo $r['url']; ?></a></td>
+		    <?php if ($wideMode) { ?>
+                        <td><a href="<?php echo $r['url']; ?>" rel="nofollow"><?php echo $r['url']; ?></a></td>
+		    <?php } else { ?>
+		        <td>
+			    <a href="<?php echo $r['url']; ?>" rel="nofollow" title="<?php echo $r['url']; ?>">
+			        <?php echo str_chop($r['url'], 60, TRUE); ?>
+			    </a>
+			</td>
+		    <?php } ?>
                 <?php } ?>
             </tr>
         <?php } ?>
