@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ../build-ops
+. `dirname $0`/../build-ops
 
 echo "Generating revcheck databases"
 
