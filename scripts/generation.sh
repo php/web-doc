@@ -16,10 +16,10 @@ echo "... done"
 
 # PEAR
 echo "Generating PEAR database"
-php -q ./rev.php peardoc
+php -q ./rev.php pear
 echo "... done."
 echo "Generating PEAR pictures"
-php -q ./gen_picture_info.php peardoc
+php -q ./gen_picture_info.php pear
 echo "... done"
 
 

@@ -65,7 +65,7 @@ include '../include/init.inc.php';
 // grab the documentation type
 $TYPE = array_shift($argv);
 
-if (!in_array($TYPE, array('php', 'smarty', 'peardoc'))) {
+if (!in_array($TYPE, array('php', 'smarty', 'pear'))) {
     echo "Error: The revcheck script is not available yet for $TYPE\n";
     exit(0);
 }
@@ -137,8 +137,7 @@ CREATE TABLE files (
     size TEXT,
     mdate TEXT,
     maintainer TEXT,
-    status TEXT,
-    UNIQUE(lang, dir, name)
+    status TEXT
 );
 
 SQL;
@@ -199,7 +198,7 @@ function parse_translation($lang)
         if (preg_match_all("!<file(.+)/\\s?>!U", $txml, $matches)) {
             $files = parse_attr_string($matches[1]);
             foreach ($files as $file) {
-                $SQL_BUFF .= "INSERT INTO wip VALUES ('$lang', '" . sqlite_escape_string($file['name']) . "', '" . sqlite_escape_string($file['person']) . "', '" . sqlite_escape_string($file['type']) . "');\n";
+                $SQL_BUFF .= "INSERT INTO wip VALUES ('$lang', '" . sqlite_escape_string($file['name']) . "', '" . sqlite_escape_string($file['person']) . "', '" . sqlite_escape_string(isset($file['type']) ? $file['type'] : 'translation') . "');\n";
             }
         }
     }
