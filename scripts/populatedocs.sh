@@ -15,7 +15,7 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.7 2005-01-16 10:55:40 nlopess Exp $
+# $Id: populatedocs.sh,v 1.8 2005-02-07 00:38:20 sean Exp $
 
 pushd .
 
@@ -37,6 +37,8 @@ echo "Checking out Smarty docs..."
 /usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co smarty/docs
 echo "Checking out PEAR docs..."
 /usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co peardoc
+echo "Checking out php-src..."
+/usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co php-src
 
 popd
 
