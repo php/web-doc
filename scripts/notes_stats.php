@@ -92,6 +92,18 @@ sqlite_query($sqlite, $sql);
 sqlite_close($sqlite);
 
 
+/* write the output to the /www folder */
+ob_start();
+include './notes_stats_output.php';
+$output = ob_get_clean();
+
+$fp = fopen(PATH_ROOT . '/www/notes_stats.php', 'w');
+fputs($fp, $output);
+fclose($fp);
+
+/* end of the script */
+
+
 
 /* Open a connection to a NTTP server */
 function nntp_connect($server, $port = 119) {

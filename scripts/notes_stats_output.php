@@ -18,7 +18,7 @@
 $Id$
 */
 
-require_once '../include/init.inc.php';
+echo "<?php require_once '../include/init.inc.php';";
 
 $minact = 100;
 
@@ -42,7 +42,7 @@ if ($info['last_article'] < 50000) {
     exit;
 }
 
-echo site_header("Note Statistics for ".date('j F Y', $info['build_date']));
+echo "echo site_header('Note Statistics for " . date('j F Y', $info['build_date']) . "'); ?>";
 
 ?>
 <h3><strong><?php echo $info['last_article']; ?></strong> subjects parsed</h1>
@@ -211,4 +211,6 @@ foreach($manual as $id => $c) {
 echo 'Last updated ' . date('r', $info['build_date']) . "\n";
 
 sqlite_close($sqlite);
-echo site_footer();
+echo '<?php echo site_footer(); ?>';
+
+?>
