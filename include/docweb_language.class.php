@@ -121,7 +121,7 @@ class DocWeb_Language
     function get($ent)
     {
         if ($this->entities) {
-            return isset($this->entities[$ent]) ? $this->entities[$ent] : FALSE;
+            return isset($this->entities[$ent]) ? stripslashes($this->entities[$ent]) : FALSE;
         } else {
             return FALSE;
         }

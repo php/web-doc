@@ -102,7 +102,7 @@ $bplot->SetWidth(0.6);
 $graph->Add($bplot);
 
 // Setup the titles
-$graph->title->Set(ucfirst($TYPE)." documentation");
+$graph->title->Set(strtoupper($TYPE)." documentation");
 $graph->xaxis->title->Set("Language");
 $graph->yaxis->title->Set("Files up to date (%)");
 

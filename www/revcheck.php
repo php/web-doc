@@ -7,7 +7,7 @@ include '../include/lib_revcheck.inc.php';
 $LANG = LANGC;
 
 if (SITE == 'www') {
-    echo site_header('Revcheck');
+    echo site_header('docweb.common.header.revcheck');
     echo revcheck_available_types();
     echo site_footer();
     die;
@@ -18,7 +18,7 @@ if (SITE == 'www') {
             $type = SITE;
             $langs = revcheck_available_languages($dbhandle);
             if(!$langs) {
-                echo site_header('Revcheck');
+                echo site_header('docweb.common.header.revcheck');
               ?>
                 <div class="ColoredDiv">
                 <h2 class="c">Status of the translated <?php echo strtoupper(SITE); ?> Manual</h2>
@@ -32,7 +32,7 @@ if (SITE == 'www') {
               echo site_footer();
               die();
             } else {
-                echo site_header('Revcheck');
+                echo site_header('docweb.common.header.revcheck');
                 echo "
                 <p class=\"c\">
                 <img src=\"/images/revcheck/info_revcheck_" . SITE . "_all_lang.png\" alt=\"Info\" />
@@ -41,7 +41,7 @@ if (SITE == 'www') {
                 die();
             }
         } else {
-            echo site_header('Revcheck');
+            echo site_header('docweb.common.header.revcheck');
             echo "Couldn't connect";
             echo site_footer();
             die();
@@ -54,7 +54,7 @@ $res = @sqlite_query($dbhandle, $sql);
 
 // if table description don't exist, we exits because the documentation don't exist
 if( !$res ) {
-    echo site_header('Revcheck');
+    echo site_header('docweb.common.header.revcheck');
 ?>
   <div class="ColoredDiv">
   <h2 class="c">Status of the translated <?php echo strtoupper(SITE); ?> Manual</h2>
@@ -73,7 +73,7 @@ die;
 $charset = sqlite_fetch_single($res);
 define('ENCODING', $charset);
 sqlite_close($dbhandle);
-echo site_header('Revcheck');
+echo site_header('docweb.common.header.revcheck');
 if (isset($_GET['p'])) {
     $PART = $_GET['p'];
 } else {
