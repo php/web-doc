@@ -107,7 +107,7 @@ function make_mailto_link($email, $linktext = '', $extras = '')
 /**
  * Prints a tabbed navigation bar based on the parameter $items
  */
-function print_tabbed_navigation($items)
+function print_tabbed_navigation($items, $no_active = false)
 {
    $page = basename($_SERVER['PHP_SELF']);
    $master_url = get_resource_url();
@@ -116,7 +116,7 @@ function print_tabbed_navigation($items)
     foreach ($items as $title => $item) {
         echo '<a href="' . $master_url . 'rfc/' . $item['url'] // !!!
              . '" title="' . $item['title'] . '"';
-        if (strpos($item['url'], $page) !== false) {
+        if (strpos($item['url'], $page) !== false && $no_active == false) {
             echo ' class="active"';
         }
         echo ' >' . $title . "</a>\n";
@@ -287,6 +287,22 @@ function display_pepr_nav(&$proposal)
     print_tabbed_navigation($items);
 }
 
+function display_overview_nav () 
+{
+    global $proposalStatiMap;
+    $items = array(
+        'All'       => array('url'   => 'rfc-overview.php',
+                             'title' => 'All'
+                       )
+    );
+    foreach ($proposalStatiMap as $status => $name) {
+        $items[$name] = array('url'   => 'rfc-overview.php?filter='.$status,
+                              'title' => $name
+        );
+    }
+    
+    print_tabbed_navigation($items, true);
+}
 
 function shorten_string($string)
 {
@@ -387,13 +403,17 @@ class proposal {
         return new proposal($res);
     }
 
-    function &getAll(&$dbh, $status = null, $limit = null)
+    function &getAll(&$dbh, $status = null, $limit = null, $order= null)
     {
         $sql = "SELECT * FROM package_proposals";
         if (!empty($status)) {
             $sql .= " WHERE status = '".$status."'";
         }
-        $sql .= " ORDER BY status ASC, draft_date DESC";
+        if (!isset($order)) {
+            $sql .= " ORDER BY status ASC, draft_date DESC";
+        } else {
+            $sql .= " ORDER BY ".$order;
+        }
         if (!empty($limit)) {
             $sql .= " LIMIT $limit";
         }
@@ -457,6 +477,11 @@ class proposal {
                 }
             }
         } else {
+        
+            if (empty($this->pkg_filehash)) {
+               $this->pkg_filehash = '';
+            }
+            
             $sql = "INSERT INTO package_proposals ( pkg_category, pkg_name, pkg_describtion,
                          pkg_filehash, draft_date, status, user_handle, markup) VALUES (
                         ".$dbh->quoteSmart($this->pkg_category).",

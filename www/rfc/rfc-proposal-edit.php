@@ -288,7 +288,7 @@ if (isset($_POST['submit'])) {
         if (!empty($_FILES['thefile']['name'])) {
             // this will need some more security checks
             if ($_FILES['thefile']['size'] >= round((1024 * 1024)/10)) {
-                report_error('The files should NOT be bigger then 100kb, please upload
+                report_error('The file should NOT be bigger then 100kb, please upload
                               it somewhere and link to it');
             } else {
                 $filehash = md5($_FILES['thefile']['name'] . time());
@@ -297,7 +297,12 @@ if (isset($_POST['submit'])) {
                 $proposal->pkg_filehash = $proposal->pkg_filehash . '|' . $_FILES['thefile']['name'] . $filehash;
  
             }
+        } else {
+            if (isset($proposal) && empty($proposal->pkg_filehash)) {
+               $proposal->pkg_filehash = '';
+            }
         }
+        
         if (isset($values['pkg_category_new']['pkg_category_new_do'])) {
             $values['pkg_category'] = $values['pkg_category_new']['pkg_category_new_text'];
         }

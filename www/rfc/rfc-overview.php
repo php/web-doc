@@ -31,33 +31,28 @@
 require_once '../../include/lib_general.inc.php';
 require_once '../../include/rfc/rfc.php';
 
-$form =& new HTML_QuickForm('filter_proposals', 'get');
-
-$values[''] = 'All';
-$values = array_merge($values, $proposalStatiMap);
-
-
-$filter = $form->addElement('select', 'filter', 'Filter', $values);
-$form->addElement('submit', 'submit', 'Filter');
-
-$filter_value = $filter->getValue();
-
-if ($form->validate()) {
-    if (trim($filter_value[0]) != "") {
-        $selectStatus = $filter_value[0];
-    }
+if (isset($_GET['filter']) && isset($proposalStatiMap[$_GET['filter']])) {
+    $selectStatus = $_GET['filter'];
+} else {
+    $selectStatus = '';
 }
 
-$proposals =& proposal::getAll($dbh, @$selectStatus);
+if ($selectStatus != '') {
+    $order = ' pkg_category ASC, pkg_name ASC';
+}
+
+$proposals =& proposal::getAll($dbh, @$selectStatus, null, @$order);
 
 echo site_header('RFC :: Proposals');
 
 echo '<h1>Proposals</h1>' . "\n";
 
-$form->display();
+display_overview_nav();
 
 $last_status = false;
 $first_loop =  true;
+
+$finishedCounter = 0;
 
 foreach ($proposals as $proposal) {
     if ($proposal->getStatus() != $last_status) {
@@ -71,6 +66,18 @@ foreach ($proposals as $proposal) {
         echo "<ul>\n";
         $last_status = $proposal->getStatus();
         $first_loop = false;
+    }
+    $prpCat = $proposal->pkg_category;
+    if ($selectStatus != '' && (!isset($lastChar) || $lastChar != $prpCat{0})) {
+        $lastChar = $prpCat{0};
+        echo '</ul>';
+        echo "<h3>$lastChar</h3>";
+        echo '<ul>';
+    }
+    if ($proposal->getStatus() == 'finished' && $selectStatus != 'finished') {
+        if (++$finishedCounter == 10) {
+            break;
+        }
     }
     if (!isset($users[$proposal->user_handle])) {
         $users[$proposal->user_handle] = array('Test','name'=>'TestUser');// user::info($proposal->user_handle); // !!!
@@ -123,6 +130,10 @@ foreach ($proposals as $proposal) {
 }
 
 echo "</ul>\n";
+
+if ($selectStatus == '') {
+    print_link('rfc-overview.php?filter=finished', 'All finished proposals');
+}
 
 echo site_footer();
 
