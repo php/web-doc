@@ -70,7 +70,7 @@ if (!in_array($TYPE, array('php', 'smarty', 'pear'))) {
     exit(0);
 }
 
-$DOCS = CVS_DIR . get_cvs_dir($TYPE);
+$DOCS = CVS_DIR . '/' . get_cvs_dir($TYPE);
 
 // $argv was shifted before
 $LANGS = $argv;
@@ -171,11 +171,6 @@ function parse_translation($lang)
         $txml = join("", file($translation_xml));
         $txml = preg_replace("/\\s+/", " ", $txml);
 
-        // Get intro text
-        if (preg_match("!<intro>(.+)</intro>!s", $txml, $match)) {
-            $intro = trim($match[1]);
-        }
-
         // Get encoding for the output, from the translation.xml
         // file encoding (should be the same as the used encoding
         // in HTML)
@@ -184,6 +179,11 @@ function parse_translation($lang)
             if (isset($xmlinfo[1]["encoding"])) {
                 $charset = $xmlinfo[1]["encoding"];
             }
+        }
+
+        // Get intro text
+        if (preg_match("!<intro>(.+)</intro>!s", $txml, $match)) {
+            $intro = @iconv($charset, 'UTF-8//IGNORE', trim($match[1]));
         }
     }
 
@@ -197,7 +197,7 @@ function parse_translation($lang)
 
             foreach ($persons as $person) {
                 $person = array_merge($default, $person);
-                $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '" . sqlite_escape_string($person['nick']) . "', '" . sqlite_escape_string($person['name']) . "', '" . sqlite_escape_string($person['email']) . "', '" . sqlite_escape_string($person['cvs']) . "', '" . sqlite_escape_string($person['editor']) . "');\n";
+                $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '" . sqlite_escape_string($person['nick']) . "', '" . sqlite_escape_string(@iconv($charset, 'UTF-8//IGNORE', $person['name'])) . "', '" . sqlite_escape_string($person['email']) . "', '" . sqlite_escape_string($person['cvs']) . "', '" . sqlite_escape_string($person['editor']) . "');\n";
             }
         }
 
