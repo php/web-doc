@@ -80,17 +80,31 @@ define('URL_CONNECT_TIMEOUT', 10);
 define('URL_ALLOW_FORK',    function_exists('pcntl_fork') && isset($_ENV['NUMFORKS']));
 define('NUM_ALLOWED_FORKS', URL_ALLOW_FORK ? $_ENV['NUMFORKS'] : 0);
 
-// SQLite DB file
-define('URL_ENT_SQLITE_FILE', SQLITE_DIR . "checkent_{$entType}.sqlite");
+// SQLite DB files
+if (isset($entType)) { // don't bother defining if $entType isn't set
+  define('URL_ENT_SQLITE_FILE',     SQLITE_DIR . "checkent_{$entType}.sqlite");
+}
+define('ENTITY_SQLITE_FILE',        SQLITE_DIR . 'livedoc-idx.en.sqlite');
+define('REMOTE_ENTITY_SQLITE_FILE', LIVEDOCS   . 'livedoc-idx.en.sqlite');
 
 /**
- * Opens a new SQLite connection
+ * Opens a new SQLite connection for URLs
  *
  * @return resource SQLite connection
  */
 function url_ent_sqlite_open()
 {
     return @sqlite_open(URL_ENT_SQLITE_FILE, 0666);
+}
+
+/**
+ * Opens a new SQLite connection for Entities
+ *
+ * @return resource SQLite connection
+ */
+function ent_sqlite_open()
+{
+    return @sqlite_open(ENTITY_SQLITE_FILE, 0666);
 }
 
 /**
@@ -273,4 +287,33 @@ function url_store_result($sqlite, $num, $name, $url, $result)
     ";
     sqlite_query($sqlite, $sql);
 }
+
+function url_callback($m)
+{
+  $maxLen = 57; $threshold = 3;
+  $url = $m[1] .'://'. $m[2];
+
+  if (strlen($url) > ($maxLen + $threshold))
+  {
+    $link = substr($url, 0, $maxLen) .'...';
+  }
+  else
+  {
+    $link = $url;
+  }
+
+  $html = '<a href="'. $url .'" title="'. $url .'">'. $link .'</a>';
+  return $html;
+}
+
+function ent_value($eVal)
+{
+  return preg_replace_callback('#(http|ftp)://([^\s]+)#', 'url_callback', $eVal);
+}
+
+function ent_link($eVal)
+{
+  return preg_replace('/&([^;]+);/', '<a href="entities.php#ent-\1">&amp;\1;</a>', $eVal);
+}
+
 ?>
