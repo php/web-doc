@@ -229,7 +229,6 @@ $entity_urls  = $entities_found[3];
 
 $errors = array();
 $numb = 0;
-$entity_urls = array_slice($entity_urls, 0, 5);
 
 // Walk through entities found
 foreach ($entity_urls as $num => $entity_url) {
