@@ -1,5 +1,5 @@
 <?php
-/*
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
 +----------------------------------------------------------------------+
 | PHP Documentation Tools Site Source Code                             |
 +----------------------------------------------------------------------+
@@ -25,3 +25,5 @@ function is_cached($file)
 {
     return file_exists(CACHE_DIR . $file . CACHE_EXT);
 }
+
+?>

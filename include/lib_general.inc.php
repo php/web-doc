@@ -1,5 +1,5 @@
 <?php
-/*
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
 +----------------------------------------------------------------------+
 | PHP Documentation Tools Site Source Code                             |
 +----------------------------------------------------------------------+
@@ -23,7 +23,7 @@ $Id$
 
 error_reporting(E_ALL);
 
-define('PATH_ROOT', realpath(dirname(__FILE__) . '/../'));
+define('PATH_ROOT',  realpath(dirname(__FILE__) . '/../'));
 define('SQLITE_DIR', PATH_ROOT . '/sqlite/');
 define('CVS_DIR',    PATH_ROOT . '/cvs/');
 
@@ -41,8 +41,7 @@ define('URI',   isset($uri)      ? $uri      : $_SERVER['REQUEST_URI']);
 define('LANGD', $LANGUAGES[LANGC]);
 
 // set up BASE_URL
-if (substr($_SERVER['REQUEST_URI'], -1, 1) == '/')
-{
+if (substr($_SERVER['REQUEST_URI'], -1, 1) == '/') {
     // is a directory, use verbatim
     $baseURL = $_SERVER['REQUEST_URI'];
 } else {
@@ -64,9 +63,8 @@ function is_project($project)
 
 function get_cvs_dir($project)
 {
-/** make this return something until the function is found **/
-//    return documentation_exists($project) ? $GLOBALS['PROJECTS'][$project] . '/' : FALSE;
-      return $GLOBALS['PROJECTS'][$project][1];
+    // @@@ make this return something until the function is found
+    return $GLOBALS['PROJECTS'][$project][1];
 }
 
 function site_header($title = '', $style = array())
@@ -232,14 +230,14 @@ function get_comment($idx, $section, $doc, $file)
 function extract_links($text)
 {
     $text = eregi_replace(
-    "([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=])",
-    "<a href=\"\\1://\\2\\3\">\\1://\\2\\3</A>",
-    $text
+        "([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=])",
+        "<a href=\"\\1://\\2\\3\">\\1://\\2\\3</A>",
+        $text
     );
     $text = eregi_replace(
-    "([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+)",
-    "<a href=\"mailto:\\1\">\\1</a>",
-    $text
+        "([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)+)",
+        "<a href=\"mailto:\\1\">\\1</a>",
+        $text
     );
     return $text;
 }
@@ -254,10 +252,10 @@ function get_insite_address($project = NULL, $lang = NULL, $path = NULL)
     
     $ret = '/';
     if ($project != $GLOBALS['defaultProject']) {
-      $ret .= "$project/";
+        $ret .= "$project/";
     }
     if ($lang != $GLOBALS['defaultLanguage']) {
-      $ret .= "$lang/";
+        $ret .= "$lang/";
     }
     return $ret . ltrim($path, '/');
 }
@@ -285,7 +283,7 @@ function site_nav_provider()
     if (count($links) == 0) {
         $links[] = 'N/A';
     }
-    return join("<br />", $links);
+    return implode("<br />", $links);
 }
 
 // This function provides the relevant offsite navigation options for the
@@ -294,12 +292,12 @@ function ext_nav_provider()
 {
     $links = array();
     switch (SITE) {
-        case 'php':
+    case 'php':
         switch (LANGC) {
-            case 'hu':
+        case 'hu':
             $links[] = '<a href="http://wfsz.njszt.hu/projektek_phpdoc.php">Translation information</a>';
             break;
-            case 'it':
+        case 'it':
             $links[] = '<a href="http://cortesi.com/php/">Translation information</a>';
             break;
         }
@@ -309,5 +307,6 @@ function ext_nav_provider()
     if (count($links) == 0) {
         $links[] = 'N/A';
     }
-    return join("<br />", $links);
+    return implode("<br />", $links);
 }
+?>

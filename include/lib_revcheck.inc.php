@@ -1,5 +1,5 @@
 <?php
-/*
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
 +----------------------------------------------------------------------+
 | PHP Documentation Tools Site Source Code                             |
 +----------------------------------------------------------------------+
@@ -148,19 +148,19 @@ function revcheck_available_languages($idx)
 {
     $tmp = array();
 
-    if( !$idx ) {
+    if (!$idx) {
         return FALSE;
     }
 
     $sql = 'SELECT distinct lang FROM description';
     $result = @sqlite_query($sql, $idx);
 
-    if( !$result ) {
+    if (!$result) {
         return FALSE;
     }
 
     if ($result) {
-        while($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+        while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
             $tmp[] = $r['lang'];
         }
     }
@@ -169,14 +169,14 @@ function revcheck_available_languages($idx)
 
 
 // Return en integer
-function get_nb_EN_files($idx) {
+function get_nb_EN_files($idx)
+{
     $sql = "select COUNT(*) as total FROM files WHERE lang = 'en'";
     $res = sqlite_query($idx, $sql);
     $row = sqlite_fetch_array($res, SQLITE_ASSOC);
     $files_EN = $row['total'];
-    return   $files_EN;
+    return $files_EN;
 }
-
 
 function get_missfiles($idx, $lang)
 {
@@ -225,8 +225,8 @@ function get_description($idx, $lang)
 }
 
 // Return an integer
-function get_nb_LANG_files($idx) {
-
+function get_nb_LANG_files($idx)
+{
     $sql = '
     SELECT
         lang,
@@ -245,12 +245,12 @@ function get_nb_LANG_files($idx) {
     while ($row = sqlite_fetch_array($res, SQLITE_ASSOC)) {
         $files[$row['lang']] = $row['total'];
     }
-    return   $files;
-} // fin de la fonction
-
+    return $files;
+}
 
 // Return a string
-function translator_get_wip($idx, $lang){
+function translator_get_wip($idx, $lang)
+{
     $sql = 'SELECT
         COUNT(name) AS total,
         person as nick
@@ -264,14 +264,14 @@ function translator_get_wip($idx, $lang){
         nick';
     $result = sqlite_query($idx, $sql);
     $tmp = array();
-    while($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
-        $tmp[$r['nick']] = $r['total'];//array('partial' => $r['total'], 'ready' => 0, 'wip' => 0);
+    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+        $tmp[$r['nick']] = $r['total'];
     }
     return $tmp;
 }
 
-
-function translator_get_old($idx, $lang){
+function translator_get_old($idx, $lang)
+{
     $sql = 'SELECT
         COUNT(a.name) AS total,
         a.maintainer as maintainer
@@ -299,17 +299,18 @@ function translator_get_old($idx, $lang){
         a.size is not NULL
     GROUP BY
         a.maintainer';
-    // echo $sql;
+
     $result = sqlite_query($idx, $sql);
     $tmp = array();
-    while($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
         $tmp[$r['maintainer']] = $r['total'];
     }
     return $tmp;
 }
 
 
-function translator_get_critical($idx, $lang){
+function translator_get_critical($idx, $lang)
+{
     $sql = 'SELECT
         COUNT(a.name) AS total,
         a.maintainer as maintainer
@@ -328,7 +329,6 @@ function translator_get_critical($idx, $lang){
     AND
         (
             b.revision - a.revision >= ' . ALERT_REV . '
-	
   	OR
 	    (
    	         b.revision != a.revision
@@ -348,14 +348,14 @@ function translator_get_critical($idx, $lang){
         a.maintainer';
     $result = sqlite_query($idx, $sql);
     $tmp = array();
-    while($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
         $tmp[$r['maintainer']] = $r['total'];
     }
     return $tmp;
 }
 
-
-function translator_get_uptodate($idx, $lang){
+function translator_get_uptodate($idx, $lang)
+{
     $sql = 'SELECT
         COUNT(a.name) AS total,
         a.maintainer as maintainer
@@ -379,7 +379,7 @@ function translator_get_uptodate($idx, $lang){
         a.maintainer';
     $result = sqlite_query($idx, $sql);
     $tmp = array();
-    while($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
         $tmp[$r['maintainer']] = $r['total'];
     }
     return $tmp;
@@ -404,7 +404,8 @@ function get_translators($idx, $lang)
     return $persons;
 }
 
-function get_nb_LANG_files_Translated($idx, $lang) {
+function get_nb_LANG_files_Translated($idx, $lang)
+{
     $sql = '
     SELECT
         b.lang as language,
@@ -430,14 +431,12 @@ function get_nb_LANG_files_Translated($idx, $lang) {
     $res = sqlite_query($idx, $sql);
     $result = sqlite_fetch_array($res, SQLITE_ASSOC);
 
-    return   $result;
+    return $result;
 }
-
 
 // Return an array
 function get_stats_uptodate($idx, $lang)
 {
-
     $sql = 'SELECT
         COUNT(a.name) as total, 
         SUM(c.size) as size 
@@ -463,13 +462,13 @@ function get_stats_uptodate($idx, $lang)
 }
 
 // Return an array
-function mtime($dir, $file, $lang) {
+function mtime($dir, $file, $lang)
+{
     return intval((time() - @filemtime(ROOT_PATH . "/cvs/phpdoc-all/$lang$dir/$file")) / 86400);
 }
 
 function get_stats_critical($idx, $lang)
 {
-
     $sql = 'SELECT
         COUNT(a.name) as total,
         sum(b.size) as size
@@ -489,7 +488,6 @@ function get_stats_critical($idx, $lang)
     AND
         (
             b.revision - a.revision >= ' . ALERT_REV . '
-
         OR
             (
                  b.revision != a.revision
@@ -517,7 +515,6 @@ function get_stats_critical($idx, $lang)
 // Return an array
 function get_stats_old($idx, $lang)
 {
-
     $sql = 'SELECT
         COUNT(a.name) as total,
         sum(b.size) as size
@@ -554,7 +551,7 @@ function get_stats_old($idx, $lang)
     $r = sqlite_fetch_array($result, SQLITE_ASSOC);
     $result = array($r['total'], $r['size']);
     return $result;
-} // fin de la fonction
+}
 
 
 function get_stats_notrans($idx, $lang)
@@ -601,14 +598,6 @@ function get_stats_wip($idx, $lang)
     WHERE
         lang = "' . $lang . '"';
 
-    /*  $sql = 'SELECT
-    COUNT(*) as total,
-    SUM(en_size(name, 0)) as size
-    FROM
-    wip
-    WHERE
-    lang = "' . $lang . '"';
-    sqlite_create_function($idx, 'en_size', 'en_filesize', 2); */
     $result = sqlite_query($idx, $sql);
     $r = sqlite_fetch_array($result, SQLITE_ASSOC);
     return array($r['total'], $r['size']);
@@ -647,6 +636,5 @@ function get_stats_notag($idx, $lang)
     $result = array($r['total'], $r['size']);
     return $result;
 }
-
 
 ?>
