@@ -107,7 +107,7 @@ function get_cvs_dir($project)
 {
 /** make this return something until the function is found **/
 //    return documentation_exists($project) ? $GLOBALS['PROJECTS'][$project] . '/' : FALSE;
-      return $GLOBALS['PROJECTS'][$project];
+      return $GLOBALS['PROJECTS'][$project][1];
 }
 
 function site_header($title = '')
