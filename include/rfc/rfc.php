@@ -35,7 +35,12 @@ require_once $path . '/rfc-config.php';
 require_once $path . '/../../include/lib_general.inc.php';
 
 define('PEAR_DATABASE_DSN', 'sqlite:///'.$path.'/../../sqlite/rfc.sqlite');
-define('DEVBOX', false);
+
+if (isset($_SERVER['DEVBOX']) && $_SERVER['DEVBOX'] == true) {
+    define('DEVBOX', true);
+} else {
+    define('DEVBOX', false);
+}
 
 if (empty($dbh)) {
     $options = array(
@@ -178,6 +183,7 @@ function report_error($in, $class = 'errors', $head = 'ERROR:')
         }
         echo '<li>' . htmlspecialchars($msg) . "</li>\n";
     }
+    var_dump($in);
     echo "</ul></div>\n";
     return true;
 }

@@ -173,11 +173,11 @@ $form->addElement('static', '', '', 'Upload a file or link to your files');
         } else {
             $filecount = (count($filecount) -1);
         }
+
+        if (isset($_POST['submit']) AND !empty($_FILES['thefile']['name'])) 
+            $filecount++;
     }
-
-    if (isset($_POST['submit']) AND !empty($_FILES['thefile']['name'])) 
-        $filecount++;
-
+    
 $form->addElement('static', '', '', 'You have uploaded '.$filecount.' file(s). To delete, click on the file');
 
 if (!empty($proposal->pkg_filehash)) {
