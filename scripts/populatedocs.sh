@@ -15,10 +15,16 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.5 2004-09-05 06:36:08 sean Exp $
+# $Id: populatedocs.sh,v 1.6 2004-11-20 16:47:14 sean Exp $
 
-cd /home/pure-ftpd-users/php001/docs.php.mirrors.powertrip.co.za
-/bin/mkdir cvs
+pushd .
+cd `dirname $0`/..
+
+if [ ! -d cvs ]
+then
+  /bin/mkdir cvs
+fi
+
 cd cvs
 echo "Checking out PHP docs..."
 /usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co phpdoc-all
@@ -28,3 +34,6 @@ echo "Checking out Smarty docs..."
 /usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co smarty/docs
 echo "Checking out PEAR docs..."
 /usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co peardoc
+
+popd
+
