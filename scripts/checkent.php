@@ -13,7 +13,10 @@
  * | obtain it through the world-wide-web, please send a note to          |
  * | license@php.net so we can mail you a copy immediately.               |
  * +----------------------------------------------------------------------+
- * | Authors: Nuno Lopes <nlopess@php.net>                                |
+ * | Authors: Georg Richter <georg@php.net>                               |
+ * |          Gabor Hojsty <goba@php.net>                                 |
+ * | Docweb port: Nuno Lopes <nlopess@php.net>                            |
+ * |              Mehdi Achour <didou@php.net>                            |
  * +----------------------------------------------------------------------+
  *
  * $Id$
@@ -26,7 +29,8 @@
  * Based on phpdoc/scripts/checkent.php by Georg Richter and Gabor Hojtsy.
  */
 
-
+error_reporting(E_ALL);
+ 
 set_time_limit(0);
 $inCli = true;
 include '../include/init.inc.php';
@@ -34,7 +38,10 @@ include '../include/init.inc.php';
 $filename = CVS_DIR . '/phpdoc-all/entities/global.ent';
 
 // Schemes currently supported
-$schemes = array('http', 'ftp');
+$schemes = array('http');
+if (function_exists('ftp_connect')) {
+    $schemes[] = 'ftp';
+}
 
 // constants for errors
 define('UNKNOWN_HOST', 0);
@@ -44,7 +51,8 @@ define('FTP_NO_FILE', 3);
 define('HTTP_CONNECT', 4);
 define('HTTP_MOVED', 5);
 define('HTTP_WRONG_HEADER', 6);
-define('HTTP_BOGUS_HEADER', 7);
+define('HTTP_INTERNAL_ERROR', 7);
+define('HTTP_NOT_FOUND', 8);
 
 
 if (!$file = file_get_contents($filename)) {
@@ -62,52 +70,72 @@ preg_match_all("@<!ENTITY\s+(\S+)\s+([\"'])({$schemes_preg}://[^\\2]+)\\2\s*>@U"
 $entity_names = $entities_found[1];
 $entity_urls  = $entities_found[3];
 
+$errors = array();
 
 // Walk through entities found
 foreach($entity_urls as $num => $entity_url) {
 
+    
     // Get the parts of the URL
     $url = parse_url($entity_url);
     $entity = $entity_names[$num];
-
+  
     // Try to find host
     if (gethostbyname($url['host']) == $url['host']) {
-        $errors[$num] = array(UNKNOWN_HOST);
+        $errors[UNKNOWN_HOST][] = array($num);
         continue;
     }
+    
 
 
     switch($url['scheme']) {
     
         case 'http':
-
             $url['path'] = isset($url['path']) ? $url['path'] : '/';
 
             if (!$fp = @fsockopen($url['host'], 80, $errno, $errstr, 30)) {
-                $errors[$num] = array(HTTP_CONNECT);
+                $errors[HTTP_CONNECT][] = array($num);
 
             } else {
                 fputs($fp, "HEAD {$url['path']} HTTP/1.0\r\nHost: {$url['host']}\r\nConnection: close\r\n\r\n");
 
-                $str='';
+                $str = '';
                 while (!feof($fp)) {
-                    $str .= fgets ($fp);
+                    $str .= fgets($fp, 2048);
                 }
                 fclose ($fp);
 
-                if(preg_match('@HTTP/1.\d (\d+)(?: .+)?@S', $str, $match)) {
+                if (preg_match('@HTTP/1.\d (\d+)(?: .+)?@S', $str, $match)) {
 
-                    if($match[1] != '200') {
+                    if ($match[1] != '200') {
 
-                        if(preg_match('/Location: (.+)/', $str, $redir)) {
-                            $errors[$num] = array(HTTP_MOVED, $redir[1], $match[0]);
-                        } else {
-                            $errors[$num] = array(HTTP_WRONG_HEADER, $match[1], $match[0]);
+                        switch ($match[1])
+                        {
+                            case '500' :
+                            case '501' :
+                            $errors[HTTP_INTERNAL_ERROR][] = array($num);
+                            fputs($o, $str);
+                            break;
+                            
+                            case '404' :
+                            $errors[HTTP_NOT_FOUND][] = array($num);
+                            break;
+
+                            case '301' :
+                            case '302' :
+                            if (preg_match('/Location: (.+)/', $str, $redir)) {
+                                $errors[HTTP_MOVED][] = array($num, $redir[1]);
+                            } else {
+                                $errors[HTTP_WRONG_HEADER][] = array($num, $str);
+                            }
+                            break;
+                        
+                            default :
+                            $errors[HTTP_WRONG_HEADER][] = array($num, $str);
                         }
                     } // error != 200
-
                 } else {
-                    $errors[$num] = array(HTTP_BOGUS_HEADER, $str);
+                    $errors[HTTP_WRONG_HEADER][] = array($num, $str);
                 }
             }
         break;
@@ -115,83 +143,194 @@ foreach($entity_urls as $num => $entity_url) {
 
         case 'ftp':
             if ($ftp = @ftp_connect($url['host'])) {
+                
                 if (@ftp_login($ftp, 'anonymous', 'IEUser@')) {
                     $flist = ftp_nlist($ftp, $url['path']);
-
                     if (!count($flist)) {
-                        $errors[$num] = array(FTP_NO_FILE);
+                        $errors[FTP_NO_FILE][] = array($num);
                     }
                 } else {
-                    $errors[$num] = array(FTP_LOGIN);
-                    ftp_quit($ftp);
+                    $errors[FTP_LOGIN][] = array($num);
                 }
+                @ftp_quit($ftp);
             } else {
-                $errors[$num] = array(FTP_CONNECT);
+                $errors[FTP_CONNECT][] =  array($num);
             }
         break;
 
     }
 }
 
-
 // ouput the html
-echo "<?php include_once '../include/init.inc.php'; echo site_header('docweb.common.header.checkent'); ?><p>&nbsp;</p>".
-     '<table class="Tc"><tr class="blue"><th>Entity Name</th><th>Current URL</th><th>Error</th><th>Notes</th></tr>';
+echo "<?php include_once '../include/init.inc.php'; 
+echo site_header('docweb.common.header.checkent'); 
+?><p>Last check: " . date('r') . "</p>";
 
+if (isset($errors[UNKNOWN_HOST])) {
+    echo '<h2>Unknown host (' . count($errors[UNKNOWN_HOST]) . ')</h2>' .
+'<table >
+  <tr class="blue">
+    <th>Entity Name</th>
+    <th>URL</th>
+  </tr>';
 
-foreach($errors as $num => $error) {
-
-    // choose color for row background
-    switch($error[0]) {
-        case UNKNOWN_HOST:
-        case HTTP_BOGUS_HEADER:
-        case HTTP_WRONG_HEADER:
-        case FTP_NO_FILE:
-            $css = 'crit'; break;
-
-        case HTTP_MOVED:
-            $css = 'wip'; break;
-
-        default:
-            $css = 'old';
+    foreach ($errors[UNKNOWN_HOST] as $infos) {
+        echo '<tr>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_names[$infos[0]] . '</a></td>
+        '//<td>' . $entity_names[$infos] . '</td>
+        .'<td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_urls[$infos[0]] . '</a></td>
+       </tr>';
     }
-
-    echo "<tr class=\"$css\"><td>".$entity_names[$num].'</td><td>'.$entity_urls[$num].'</td><td>';
-
-    switch($error[0]) {
-        case UNKNOWN_HOST:
-            echo 'Unknown host</td><td>&nbsp;';
-            break;
-
-        case FTP_CONNECT:
-        case HTTP_CONNECT:
-            echo "Couldn't connect to remote host</td><td>&nbsp;";
-            break;
-
-        case FTP_LOGIN:
-            echo "Couldn't login. 'anonymous' was rejected</td><td>&nbsp;";
-            break;
-
-        case FTP_NO_FILE:
-            echo "The file doesn't exist on the server</td><td>&nbsp;";
-            break;
-
-        case HTTP_MOVED:
-            echo 'Moved to ' . $error[1] . '</td><td>HTTP response: ' . $error[2];
-            break;
-
-        case HTTP_WRONG_HEADER:
-            echo 'HTTP error ' . $error[1] . '</td><td>HTTP response: ' . $error[2];
-            break;
-
-        case HTTP_BOGUS_HEADER:
-            echo 'Unknown HTTP error </td><td>HTTP headers: ' . $error[1];
-            break;
-    }
-
-    echo '</td></tr>';
+    
+    echo '</table>';
 }
 
-echo '</table><p>&nbsp;</p><p><b>Total</b>: '.count($errors).'</p><?php echo site_footer(); ?>';
+if (isset($errors[HTTP_CONNECT])) {
+    echo '<h2>HTTP Failed to connect (' . count($errors[HTTP_CONNECT]) . ')</h2>' .
+'<table>
+  <tr class="blue">
+    <th>Entity Name</th>
+    <th>URL</th>
+  </tr>';
+
+    foreach ($errors[HTTP_CONNECT] as $infos) {
+        echo '<tr>
+        <td>' . $entity_names[$infos[0]] . '</td>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_urls[$infos[0]] . '</a></td>
+       </tr>';
+    }
+    
+    echo '</table>';
+}
+
+if (isset($errors[FTP_CONNECT])) {
+    echo '<h2>FTP Failed to connect (' . count($errors[FTP_CONNECT]) . ')</h2>' .
+'<table>
+  <tr class="blue">
+    <th>Entity Name</th>
+    <th>URL</th>
+  </tr>';
+
+    foreach ($errors[FTP_CONNECT] as $infos) {
+        echo '<tr>
+        <td>' . $entity_names[$infos[0]] . '</td>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_urls[$infos[0]] . '</a></td>
+       </tr>';
+    }
+    
+    echo '</table>';
+}
+
+if (isset($errors[FTP_LOGIN])) {
+    echo '<h2>FTP Cannot login (' . count($errors[FTP_LOGIN]) . ')</h2>' .
+'<table>
+  <tr class="blue">
+    <th>Entity Name</th>
+    <th>URL</th>
+  </tr>';
+
+
+    foreach ($errors[FTP_LOGIN] as $infos) {
+        echo '<tr>
+        <td>' . $entity_names[$infos[0]] . '</td>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_urls[$infos[0]] . '</a></td>
+       </tr>';
+    }
+    
+    echo '</table>';
+}
+
+if (isset($errors[FTP_NO_FILE])) {
+    echo '<h2>FTP File not found (' . count($errors[FTP_NO_FILE]) . ')</h2>' .
+'<table>
+  <tr class="blue">
+    <th>Entity Name</th>
+    <th>URL</th>
+  </tr>';
+
+
+    foreach ($errors[FTP_NO_FILE] as $infos) {
+        echo '<tr>
+        <td>' . $entity_names[$infos[0]] . '</td>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_urls[$infos[0]] . '</a></td>
+       </tr>';
+    }
+    
+    echo '</table>';
+}
+
+
+if (isset($errors[HTTP_INTERNAL_ERROR])) {
+    echo '<h2>HTTP Internal error (' . count($errors[HTTP_INTERNAL_ERROR]) . ')</h2>' .
+'<table>
+  <tr class="blue">
+    <th>Entity Name</th>
+    <th>URL</th>
+  </tr>';
+
+    foreach ($errors[HTTP_INTERNAL_ERROR] as $infos) {
+        echo '<tr>
+        <td>' . $entity_names[$infos[0]] . '</td>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_urls[$infos[0]] . '</a></td>
+       </tr>';
+    }
+    
+    echo '</table>';
+}
+
+if (isset($errors[HTTP_NOT_FOUND])) {
+    echo '<h2>HTTP 404 Not Found (' . count($errors[HTTP_NOT_FOUND]) . ')</h2>' .
+'<table>
+  <tr class="blue">
+    <th>Entity Name</th>
+    <th>URL</th>
+  </tr>';
+
+    foreach ($errors[HTTP_NOT_FOUND] as $infos) {
+        echo '<tr>
+        <td>' . $entity_names[$infos[0]] . '</td>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_urls[$infos[0]] . '</a></td>
+       </tr>';
+    }
+    
+    echo '</table>';
+}
+
+if (isset($errors[HTTP_MOVED])) {
+    echo '<h2>HTTP Moved files (' . count($errors[HTTP_MOVED]) . ')</h2>' .
+'<table>
+  <tr class="blue">
+    <th>Entity Name</th>
+    <th>Redirected to</th>
+  </tr>';
+
+    foreach ($errors[HTTP_MOVED] as $infos) {
+        echo '<tr>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_names[$infos[0]] . '</a></td>
+        <td><a href="' . $infos[1] . '">' . $infos[1] . '</a></td>
+       </tr>';
+    }
+    
+    echo '</table>';
+}
+
+if (isset($errors[HTTP_WRONG_HEADER])) {
+    echo '<h2>HTTP Error (' . count($errors[HTTP_WRONG_HEADER]) . ')</h2>' .
+'<table>
+  <tr class="blue">
+    <th>Entity Name</th>
+    <th>Unreconized header</th>
+  </tr>';
+
+    foreach ($errors[HTTP_WRONG_HEADER] as $infos) {
+        echo '<tr>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_names[$infos[0]] . '</a></td>
+        <td><a href="' . $infos[1] . '">' . $infos[1] . '</a></td>
+       </tr>';
+    }
+    echo '</table>';
+}
+
+echo '<?php echo site_footer(); ?>';
 
 ?>
