@@ -3,7 +3,8 @@
 
 include '../include/lib_general.inc.php';
 
-$title = 'Apache :: Error ' . $_SERVER["REDIRECT_STATUS"];
+$red_status = isset($_SERVER["REDIRECT_STATUS"]) ? $_SERVER["REDIRECT_STATUS"] : '';
+$title = 'Apache :: Error ' . $red_status;
 echo site_header($title);
 ?>
 <h2><?php echo $title; ?></h2>

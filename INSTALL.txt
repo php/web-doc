@@ -1,4 +1,4 @@
-Initial Instatllation
+Initial Installation
 ---------------------
 
 1. You need to run the scripts/populatedocs.sh to fetch all the required
@@ -13,7 +13,7 @@ Initial Instatllation
 <VirtualHost 127.0.0.1:80>
 
  ServerName doc.php.net
- ServerAdmin docweb@lists.php.net
+ ServerAdmin doc-web@lists.php.net
 
  DocumentRoot /path/to/docweb/www
 
@@ -22,9 +22,9 @@ Initial Instatllation
  php_flag magic_quotes_gpc Off
  php_flag magic_quotes_runtime Off
 
- RewriteEngine on
- RewriteCond %{REQUEST_FILENAME} !-f
- RewriteCond %{REQUEST_FILENAME} !-d
- RewriteRule ^(.*)$ redirect.php
+ <Directory /path/to/docweb/www>
+  Allowoverride FileInfo Options Limit
+  Options -Indexes
+ </Directory>
 
 </VirtualHost>

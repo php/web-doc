@@ -1,11 +1,6 @@
-ErrorDocument 404 /error.php
-
-php_flag register_globals Off
-php_flag magic_quotes_gpc Off
-php_flag magic_quotes_runtime Off
+# $Id$
 
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ redirect.php
-
+RewriteRule ^(.*)$ /redirect.php
