@@ -75,6 +75,10 @@ function auth_vs_local ($idx, $user, $pass) {
 
 	$res = sqlite_query ($idx, "SELECT * FROM auth WHERE username='" . sqlite_escape_string($user) . "'");
 
+	if (!$res) {
+		return false;
+	}
+
 	if (!$data = sqlite_fetch_array($res, SQLITE_ASSOC)) {
 		return false;
 	}
@@ -109,7 +113,7 @@ function verify_password($user, $pass) {
 
 	if (auth_vs_cvs($user, $pass)) {
 
-		sqlite_exec($idx, "REPLACE INTO auth VALUES ('" . sqlite_escape_string($user) . "', '" . sha1($pass) . "', '" . time() . "')");
+		sqlite_query($idx, "REPLACE INTO auth VALUES ('" . sqlite_escape_string($user) . "', '" . sha1($pass) . "', '" . time() . "')");
 		sqlite_close($idx);
 
 		return $user;
