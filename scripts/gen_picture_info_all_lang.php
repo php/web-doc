@@ -66,7 +66,7 @@ function generation_image($TYPE) {
     global $type_col_bar;
 
     // Create the graph. These two calls are always required
-    $graph = new Graph(550,250,"auto");
+    $graph = new Graph(550,250);
     $graph->SetScale("textlin");
     $graph->yaxis->scale->SetGrace(20);
 
