@@ -45,7 +45,7 @@ if ($info['last_article'] < 50000) {
 echo "echo site_header('Note Statistics for " . date('j F Y', $info['build_date']) . "'); ?>";
 
 ?>
-<h3><strong><?php echo $info['last_article']; ?></strong> subjects parsed</h1>
+<h3><strong><?php echo $info['last_article']; ?></strong> subjects parsed</h3>
 
 <table border='0' cellspacing="10"><tr valign="top"><td valign="top">
 <table border='0'>
@@ -140,7 +140,7 @@ unset($data_new);
 
 ?>
 </table>
-</td><td valign="top">
+<br/>
 <table border='0'>
     <tr>
         <th colspan="3" align="center">Editors top 15</th>

@@ -278,9 +278,9 @@ function get_bugs_rss($project=SITE)
                       .'&status=Open&bug_type%5B%5D=Documentation+problem'
                       .'&bug_age=0';
             $link    = 'http://bugs.php.net/search.php?boolean=0'
-                      .'&limit=All&order_by=status&direction=ASC&cmd=display'
-                      .'&status=Open&bug_type%5B%5D=Documentation+problem'
-                      .'&bug_age=0';
+                      .'&amp;limit=All&amp;order_by=status&amp;direction=ASC&amp;cmd=display'
+                      .'&amp;status=Open&amp;bug_type%5B%5D=Documentation+problem'
+                      .'&amp;bug_age=0';
             break;
         
         case 'livedocs':
@@ -289,9 +289,9 @@ function get_bugs_rss($project=SITE)
                       .'&status=Open&bug_type%5B%5D=Livedocs+problem'
                       .'&bug_age=0';
             $link    = 'http://bugs.php.net/search.php?boolean=0'
-                      .'&limit=All&order_by=status&direction=ASC&cmd=display'
-                      .'&status=Open&bug_type%5B%5D=Livedocs+problem'
-                      .'&bug_age=0';
+                      .'&amp;limit=All&amp;order_by=status&amp;direction=ASC&amp;cmd=display'
+                      .'&amp;status=Open&amp;bug_type%5B%5D=Livedocs+problem'
+                      .'&amp;bug_age=0';
             break;
             
         default:
