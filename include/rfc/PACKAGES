@@ -1,6 +1,7 @@
 === PEAR packages needed for the RFC system to work ===
 
 DB
+HTML_Common
 HTML_QuickForm
 Mail
 HTML_BBCodeParser
@@ -10,13 +11,14 @@ Text_Wiki
 
 pear install DB
 pear install Mail
+pear install HTML_Common
 pear install HTML_QuickForm
 pear install HTML_BBCodeParser
 pear install -f Text_Wiki
 
 or all at ones (latest releases)
 
-pear install -f DB Mail HTML_QuickForm HTML_BBCodeParser Text_Wiki
+pear install -f DB Mail HTML_Common HTML_QuickForm HTML_BBCodeParser Text_Wiki
 
 
 
