@@ -211,7 +211,7 @@ function site_nav_provider()
 
             case 'pear':
             case 'smarty':
-                $links['checkent']     = BASE_URL . '/checkent.php';
+                $links['checkent']     = BASE_URL . '/checkent_' . SITE . '.php';
                 break;
         }
     }
