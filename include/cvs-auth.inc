@@ -13,68 +13,116 @@
  * | obtain it through the world-wide-web, please send a note to          |
  * | license@php.net so we can mail you a copy immediately.               |
  * +----------------------------------------------------------------------+
- * | Authors: Nuno Lopes <nlopess@php.net>                                |
+ * | Authors: Sara Golemon <pollita@php.net>                              |
+ * |          Wez Furlong <wez@php.net>                                   |
+ * |          Jacques Marneweck <jacques@php.net>                         |
  * +----------------------------------------------------------------------+
  *
  * $Id$
  */
 
+function auth_vs_cvs($name, $pass)
+{
+	$cvs_encode = array(
+		32, 120,  53,  35,  36, 109,  72, 108,
+		70,  64,  76,  67, 116,  74,  68,  87,
+		111,  52,  75, 119,  49,  34,  82,  81,
+		95,  65, 112,  86, 118, 110, 122, 105,
+		64,  57,  83,  43,  46, 102,  40,  89,
+		38, 103,  45,  50,  42, 123,  91,  35,
+		125,  55,  54,  66, 124, 126,  59,  47,
+		92,  71, 115,  91,  92,  93,  94,  56,
+		96, 121, 117, 104, 101, 100,  69,  73,
+		99,  63,  94,  93,  39,  37,  61,  48,
+		58, 113,  32,  90,  44,  98,  60,  51,
+		33,  97,  62, 123, 124, 125, 126, 127 
+	);
+
+	$cvsinfo = array('host'=>'cvs.php.net', 'port'=>2401, 'repos'=>'/repository');
+
+	/* encode the password for cvs */
+	$encpwd = 'A';
+	$l = strlen($pass);
+	for ($i = 0; $i < $l; $i++) {
+		$o = ord($pass{$i});
+		if ($o >= 32 && $o <= 127) {
+			$encpwd .= chr($cvs_encode[$o - 32]);
+		} else {
+			$encpwd .= $pass{$i};
+		}
+	}
+
+	$cvs = fsockopen($cvsinfo['host'], $cvsinfo['port'], $errno, $errstr);
+	if (!$cvs)
+		return $errstr;
+	
+	$pkt = "BEGIN AUTH REQUEST\n$cvsinfo[repos]\n$name\n$encpwd\nEND AUTH REQUEST\n";
+	
+	fwrite($cvs, $pkt);
+	$response = fgets($cvs);
+	fclose($cvs);
+
+	return 0 == strncmp($response, 'I LOVE YOU', 10) ? true : false;
+}
+
+/**
+ * Check local credential cache before sending extra queries
+ * to cvs.php.net
+ */
+function auth_vs_local ($user, $pass) {
+	$res = mysql_query ("SELECT username, password, ctime FROM users WHERE username='" . addslashes($user) . "'") or die ("db query failed");
+	if (!mysql_num_rows($res)) {
+		return false;
+	}
+
+	$row = mysql_fetch_assoc($res);
+	if (!is_array($row)) {
+		return false;
+	}
+
+	if (strtotime($row['ctime']) + 60*60*24 < time()) {
+		return 'cache_expire';
+	}
+
+	if (crypt($pass, $row['password']) == $row['password']) {
+		return true;
+	}
+
+	return false;
+}
 
 function verify_password($user, $pass) {
+	$db = mysql_connect (ini_get('mysql.default_host'), ini_get('mysql.default_user'), ini_get('mysql.default_password')) or die ("cannot connect to db server");
+	mysql_select_db ("doc_php_net", $db) or die ("select db failed.");
 
-    if($user == 'cvsread') {
-        return false;
-    }
+	/**
+	 * You cannot auth as our cvsread@php.net pseudo user
+	 */
+	if ($user == "cvsread") {
+		return false;
+	}
 
-    if(!$fp = @fsockopen('cvs.php.net', 2401)) {
-         return false;
-    }
+	if (empty($pass)) {
+		return false;
+	}
 
-    $crypt = cvs_encrypt_pass($pass);
+	$_ret = auth_vs_local($user, $pass);
+	if ($_ret === true) {
+		return true;
+	}
 
-    fputs ($fp, "BEGIN AUTH REQUEST\n/repository\n".
-                "$user\n$crypt\nEND AUTH REQUEST\n");
+	$_ret = auth_vs_cvs($user, $pass);
 
-    fflush($fp);
+	if ($_ret === true) {
+		$res = mysql_query ("SELECT username FROM users WHERE username='" . addslashes($user) . "'");
+		if (mysql_num_rows($res)) {
+			mysql_query ("UPDATE users SET password='" . crypt($pass) . "', ctime=NOW() WHERE username='" . addslashes($user) . "'") or die ("db query failed.");
+		} else {
+			mysql_query ("INSERT INTO users (username, password, date_added, ctime) VALUES ('" . addslashes($user) . "', '" . crypt($pass) . "', NOW(), NOW())") or die ("db query failed.");
+		}
+	}
 
-    if (fgets($fp) == "I LOVE YOU\n") {
-        fclose($fp);
-        return true;
-    }
-
-    fclose($fp);
-    return false;
-
+	return ($_ret);
 }
 
-
-function cvs_encrypt_pass($pass) {
-    $chars = array('!' => 120, '"' => 53, '%' => 109, '&' => 72, "'" => 108,
-                   '(' => 70, ')' => 64, '*' => 76, '+' => 67, ',' => 116,
-                   '-' => 74, '.' => 68, '/' => 87, '0' => 111, '1' => 52,
-                   '2' => 75, '3' => 119, '4' => 49, '5' => 34, '6' => 82,
-                   '7' => 81, '8' => 95, '9' => 65, ':' => 112, ';' => 86,
-                   '<' => 118, '=' => 110, '>' => 122, '?' => 105, 'A' => 57,
-                   'B' => 83, 'C' => 43, 'D' => 46, 'E' => 102, 'F' => 40,
-                   'G' => 89, 'H' => 38, 'I' => 103, 'J' => 45, 'K' => 50, 
-                   'L' => 42, 'M' => 123, 'N' => 91, 'O' => 35, 'P' => 125,
-                   'Q' => 55, 'R' => 54, 'S' => 66, 'T' => 124, 'U' => 126,
-                   'V' => 59, 'W' => 47, 'X' => 92, 'Y' => 71, 'Z' => 115,
-                   'a' => 121, 'b' => 117, 'c' => 104, 'd' => 101, 'e' => 100,
-                   'f' => 69, 'g' => 73, 'h' => 99, 'i' => 63, 'j' => 94,
-                   'k' => 93, 'l' => 39, 'm' => 37, 'n' => 61, 'o' => 48,
-                   'p' => 58, 'q' => 113, 'r' => 32, 's' => 90, 't' => 44,
-                   'u' => 98, 'v' => 60, 'w' => 51, 'x' => 33, 'y' => 97,
-                   'z' => 62, '_' => 56);
-	
-    $crypt = 'A';
-    $strlen = strlen($pass);
-
-    for ($i=0; $i < $strlen; $i++) {
-        $ch = substr($pass, $i, 1);
-        $crypt .= chr($chars[$ch]);
-    }
-
-    return $crypt;
-}
-?>
+/* vim: set noet ts=4 sw=4 ft=php: : */
