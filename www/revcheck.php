@@ -177,9 +177,8 @@ TRANSLATORS_HEAD;
                     $cvsu = '&nbsp;';
                     $col = 'wip';
                 }
-                echo '<a name="maint-'.$nick."\">\n";
                 echo '<tr class="', $col, '">' . "\n";
-                echo '<td>', $data['name'], '</td>', "\n";
+                echo '<td><a name="maint-'.$nick.'">'. $data['name'] . '</a></td>', "\n";
                 echo '<td>', $data['mail'], '</td>', "\n";
                 echo '<td>', $nick, '</td>', "\n";
                 echo '<td class="c">', $cvsu, '</td>', "\n";
