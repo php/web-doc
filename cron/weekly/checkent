@@ -2,7 +2,7 @@
 
 . `dirname $0`/../../build-ops
 
-NUMFORKS=10
+export NUMFORKS=10
 
 cd ${SCRIPTSDIR}
 ${PHP} checkent.php phpdoc > /dev/null
