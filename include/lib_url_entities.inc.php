@@ -39,16 +39,16 @@ define('HTTP_NOT_FOUND',      9);
 
 // lookup
 $urlResultLookup = array( // @@@ language-entity these
-    SUCCESS             => 'SUCCESS',
-    UNKNOWN_HOST        => 'Unknown Host',
-    FTP_CONNECT         => 'Connection failure (FTP)',
-    FTP_LOGIN           => 'Login failure (FTP)',
-    FTP_NO_FILE         => 'File not found (FTP)',
-    HTTP_CONNECT        => 'Connection failure (HTTP)',
-    HTTP_MOVED          => 'Moved file (HTTP)',
-    HTTP_WRONG_HEADER   => 'Incorrect header (HTTP)',
-    HTTP_INTERNAL_ERROR => 'Internal server error (HTTP)',
-    HTTP_NOT_FOUND      => 'File not found (HTTP)',
+    SUCCESS             => '&docweb.checkent.result.success;',
+    UNKNOWN_HOST        => '&docweb.checkent.result.unknown-host;',
+    FTP_CONNECT         => '&docweb.checkent.result.ftp-connect;',
+    FTP_LOGIN           => '&docweb.checkent.result.ftp-login;',
+    FTP_NO_FILE         => '&docweb.checkent.result.ftp-no-file;',
+    HTTP_CONNECT        => '&docweb.checkent.result.http-connect;',
+    HTTP_MOVED          => '&docweb.checkent.result.http-moved;',
+    HTTP_WRONG_HEADER   => '&docweb.checkent.result.http-wrong-header;',
+    HTTP_INTERNAL_ERROR => '&docweb.checkent.result.http-internal-error;',
+    HTTP_NOT_FOUND      => '&docweb.checkent.result.http-not-found;',
 );
 // display extra column (return value)
 $urlResultExtraCol = array(
