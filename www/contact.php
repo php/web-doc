@@ -2,7 +2,7 @@
 /* $Id$ */
 
 // TODO: list of all project mailing lists somewhere (not here!)
-include_once '../include/lib_general.inc.php';
+include_once '../include/init.inc.php';
 echo site_header('Contact');
 ?>
 <p>

@@ -1,7 +1,7 @@
 <?php
 /* $Id$ */
 
-include_once '../include/lib_general.inc.php';
+include_once '../include/init.inc.php';
 echo site_header('Copyright');
 ?>
 <h2>Source Code Copyright</h2>

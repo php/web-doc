@@ -65,7 +65,7 @@ exit(0);
   **/
 
 // define some common variables
-include '../include/lib_general.inc.php';
+include '../include/init.inc.php';
 
 // grab the documentation type
 $TYPE = array_shift($argv);

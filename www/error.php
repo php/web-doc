@@ -1,7 +1,7 @@
 <?php
 /* $Id$ */
 
-include '../include/lib_general.inc.php';
+include '../include/init.inc.php';
 
 $red_status = isset($_SERVER["REDIRECT_STATUS"]) ? $_SERVER["REDIRECT_STATUS"] : '';
 $title = 'Apache :: Error ' . $red_status;

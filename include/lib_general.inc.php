@@ -21,40 +21,6 @@
 $Id$
 */
 
-error_reporting(E_ALL);
-
-define('PATH_ROOT',  realpath(dirname(__FILE__) . '/../'));
-define('SQLITE_DIR', PATH_ROOT . '/sqlite/');
-define('CVS_DIR',    PATH_ROOT . '/cvs/');
-
-// project & language config
-require_once('lib_proj_lang.inc.php');
-
-// get defaults
-list($defaultProject)  = array_keys($PROJECTS);
-list($defaultLanguage) = array_keys($LANGUAGES);
-
-// set up constants (use defaults if necessary)
-define('SITE',  isset($project)  ? $project  : $defaultProject);
-define('LANGC', isset($language) ? $language : $defaultLanguage);
-define('URI',   isset($uri)      ? $uri      : $_SERVER['REQUEST_URI']);
-define('LANGD', $LANGUAGES[LANGC]);
-
-// set up BASE_URL
-if (substr($_SERVER['REQUEST_URI'], -1, 1) == '/') {
-    // is a directory, use verbatim
-    $baseURL = $_SERVER['REQUEST_URI'];
-} else {
-    // not a dir, use the dirname
-    $baseURL = dirname($_SERVER['REQUEST_URI']);
-}
-
-// this very dirty fix makes /rfc work
-$baseURL = str_replace('/rfc', '', $baseURL);
-
-// actually define the constant (trim off any trailing slashes):
-define('BASE_URL', rtrim($baseURL, '/'));
-
 function is_translation($project, $language)
 {
     return is_dir(CVS_DIR . $GLOBALS['PROJECTS'][$project] . '/' . $language);
@@ -88,7 +54,7 @@ function site_header($title = '', $style = array())
     $project     = (in_array(SITE, array('www', 'livedocs')) ? 'php' : SITE);
     $locallinks  = site_nav_provider();
     $extlinks    = ext_nav_provider();
-    
+
     $extra_style = '';
     // prevent errors
     $guess_style = (in_array(SITE, array('www', 'livedocs', 'pecl')) ? '' : SITE . '.css');
@@ -96,7 +62,7 @@ function site_header($title = '', $style = array())
     foreach ($styles as $style_file) {
         if (!empty($style_file)) {
             $extra_style .= '@import url(/style/'. $style_file .");\n";
-        }    
+        }
     }
 
     // Set proper encoding with HTTP header first
@@ -114,7 +80,7 @@ function site_header($title = '', $style = array())
  <link rel="shortcut icon" href="/images/favicon/{$project}/favicon.ico" />
  <style type="text/css">@import url(/style/site.css);
  $extra_style</style>
- 
+
 </head>
 <body>
  <div id="header">
@@ -208,8 +174,8 @@ function get_comment($idx, $section, $doc, $file)
              section=\'' . $section . '\' AND
              file=\'' . $file . '\' AND
              doc=\'' . $doc . '\'
-      
-             ORDER BY 
+
+             ORDER BY
              date DESC';
     $result = @sqlite_query($idx, $sql);
 
@@ -252,7 +218,7 @@ function get_insite_address($project = NULL, $lang = NULL, $path = NULL)
     if (!isset($project)) { $project = SITE;  }
     if (!isset($lang))    { $lang    = LANGC; }
     if (!isset($path))    { $path    = URI;   }
-    
+
     $ret = '/';
     if ($project != $GLOBALS['defaultProject']) {
         $ret .= "$project/";

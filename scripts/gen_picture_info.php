@@ -3,7 +3,7 @@ include '../include/jpgraph/jpgraph.php';
 include '../include/jpgraph/jpgraph_pie.php';
 include '../include/jpgraph/jpgraph_pie3d.php';
 
-include '../include/lib_general.inc.php';
+include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 
 $plop = array_shift($argv);

@@ -1,7 +1,7 @@
 <?php
 /* $Id$ */
 
-include '../include/lib_general.inc.php';
+include '../include/init.inc.php';
 echo site_header('Website credits');
 ?>
 <p>

@@ -2,7 +2,7 @@
 include '../include/jpgraph/jpgraph.php';
 include '../include/jpgraph/jpgraph_bar.php';
 
-include '../include/lib_general.inc.php';
+include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 
 

@@ -32,7 +32,7 @@ $path = realpath(dirname(__FILE__));
 require_once 'DB.php';
 require_once 'DB/storage.php'; 
 require_once $path . '/rfc-config.php';
-require_once $path . '/../../include/lib_general.inc.php';
+require_once $path . '/../../include/init.inc.php';
 
 define('PEAR_DATABASE_DSN', 'sqlite:///'.$path.'/../../sqlite/rfc.sqlite');
 
