@@ -22,8 +22,8 @@ $Id$
 
 error_reporting(E_ALL);
 
-define('PATH_ROOT',  '/home/user/doc');
-define('WEB_ROOT',   'doc.keliglia.com');
+include_once 'lib_site_conf.inc.php';
+
 define('SQLITE_DIR', PATH_ROOT . '/sqlite/');
 define('CVS_DIR',    PATH_ROOT . '/cvs/');
 
@@ -197,7 +197,7 @@ function site_footer()
  </div>
  <div id="footer">
   <p>
-   <a href="{$master}copyright">Copyright</a> 2004 The PHP Documentation Teams - All rights reserved.
+   <a href="{$master}copyright.php">Copyright</a> 2004 The PHP Documentation Teams - All rights reserved.
   <p>
   <p>
    <a href="{$master}credits.php">Credits</a> | <a href="{$master}contact.php">Contact</a>
