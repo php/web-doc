@@ -33,10 +33,9 @@ if (@filesize($DBFile) < 10) {
 
 $sqlite = sqlite_open($DBFile);
 
-$sql = "SELECT * FROM notes_info";
-$info = sqlite_fetch_array(sqlite_query($sqlite, $sql), SQLITE_ASSOC);
+$info = sqlite_fetch_array(sqlite_query($sqlite, 'SELECT * FROM info'), SQLITE_ASSOC);
 
-if ($info['subjects'] == 0) {
+if ($info['last_article'] < 50000) {
     echo site_header('Statistics not available yet');
     echo '<h2>Statistics not available yet</h2>';
     echo site_footer();
@@ -46,12 +45,12 @@ if ($info['subjects'] == 0) {
 echo site_header("Note Statistics for ".date('j F Y', $info['build_date']));
 
 ?>
-<h3><strong><?php echo $info['subjects']; ?></strong> subjects parsed</h1>
+<h3><strong><?php echo $info['last_article']; ?></strong> subjects parsed</h1>
 
 <table border='0' cellspacing="10"><tr valign="top"><td valign="top">
 <table border='0'>
     <tr>
-        <th colspan="5" align="center">Editors Stats with more than 100 actions</th>
+        <th colspan="5" align="center">Total Editors Stats</th>
     </tr>
     <tr>
         <th>user</th>
@@ -60,34 +59,44 @@ echo site_header("Note Statistics for ".date('j F Y', $info['build_date']));
         <th>modified</th>
         <th>total</th>
     </tr>
-
 <?php
 
-$sql = "SELECT * FROM notes_stats ORDER BY total DESC LIMIT 0,$minact";
-$tmp = array();
-$res = sqlite_query($sqlite, $sql);
-while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
-// nothing here
+$array = sqlite_fetch_all(sqlite_query($sqlite, 'SELECT * FROM notes'), SQLITE_ASSOC);
+$time  = time() - 60*60*24*180;
+
+foreach($array as $row) {
+    @++$data[$row['who']][$row['action']];
+    @++$total[$row['who']];
+    @++$manual[$row['manpage']];
+
+    if ($row['time'] >= $time) {
+        @++$data_new[$row['who']][$row['action']];
+        @++$data_new[$row['who']]['total'];
+    }
+
 }
+
+unset($data['']);
+ksort($data);
+ksort($data_new);
 
 $bg = '#EBEBEB';
-foreach ($tmp as $id => $c) {
+foreach ($data as $id => $c) {
 
-    if($c['total'] >= $minact) { 
-        echo "<tr bgcolor=\"";
-        $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB';
-        echo "$bg\">\n\t<td>".$c['username']."</td>\n\t<td>";
-        echo isset($c['deleted']) ? $c['deleted'] : '0';
-        echo "</td>\n\t<td>";
-        echo isset($c['rejected']) ? $c['rejected'] : '0';
-        echo "</td>\n\t<td>";
-        echo isset($c['modified']) ? $c['modified'] : '0';
-        echo "</td>\n\t<td>";
-        echo $c['total'];
-        echo "</td>\n</tr>\n";
-    }
-    
+    echo "<tr bgcolor=\"";
+    $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB';
+    echo "$bg\">\n\t<td>".$id."</td>\n\t<td>";
+    echo isset($c['deleted']) ? $c['deleted'] : '0';
+    echo "</td>\n\t<td>";
+    echo isset($c['rejected']) ? $c['rejected'] : '0';
+    echo "</td>\n\t<td>";
+    echo isset($c['modified']) ? $c['modified'] : '0';
+    echo "</td>\n\t<td>";
+    echo $total[$id];
+    echo "</td>\n</tr>\n";
 }
+
+unset($data);
 
 ?>
 </table>
@@ -108,70 +117,18 @@ Last half year (with more than <?php echo $minact; ?> actions counted)
 
 <?php
 
-$sql = "SELECT * FROM notes_stats_new ORDER BY total DESC LIMIT 0,$minact";
-$tmp = array();
-$res = sqlite_query($sqlite, $sql);
-while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
-// nothing here
-}
-
 $bg = '#EBEBEB';
-foreach ($tmp as $id => $c) {
+foreach ($data_new as $id => $c) {
 
     if($c['total'] >= $minact) {    
         echo "<tr bgcolor=\"";
         $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB';
-        echo "$bg\">\n\t<td>".$c['username']."</td>\n\t<td>";
-        echo $c['deleted'];
+        echo "$bg\">\n\t<td>".$id."</td>\n\t<td>";
+        echo isset($c['deleted']) ? $c['deleted'] : '0';
         echo "</td>\n\t<td>";
-        echo $c['rejected'];
+        echo isset($c['rejected']) ? $c['rejected'] : '0';
         echo "</td>\n\t<td>";
-        echo $c['modified'];
-        echo "</td>\n\t<td>";
-        echo $c['total'];
-        echo "</td>\n</tr>\n";
-    }
-
-}
-
-?>
-</table>
-
-<br />
-Before the last half year (with more than <?php echo $minact; ?> actions counted)
-<table border='0'>
-    <tr>
-        <th colspan="5" align="center">Older Editors Stats</th>
-    </tr>
-    <tr>
-        <th>user</th>
-        <th>deleted</th>
-        <th>rejected</th>
-        <th>modified</th>
-        <th>total</th>
-    </tr>
-
-<?php
-
-$sql = "SELECT * FROM notes_stats_old ORDER BY total DESC LIMIT 0,$minact";
-$tmp = array();
-$res = sqlite_query($sqlite, $sql);
-while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
-// nothing here
-}
-
-$bg = '#EBEBEB';
-foreach ($tmp as $id => $c) {
-
-    if($c['total'] >= $minact) {
-        echo "<tr bgcolor=\"";
-        $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB';
-        echo "$bg\">\n\t<td>".$c['username']."</td>\n\t<td>";
-        echo $c['deleted'];
-        echo "</td>\n\t<td>";
-        echo $c['rejected'];
-        echo "</td>\n\t<td>";
-        echo $c['modified'];
+        echo isset($c['modified']) ? $c['modified'] : '0';
         echo "</td>\n\t<td>";
         echo $c['total'];
         echo "</td>\n</tr>\n";
@@ -179,60 +136,10 @@ foreach ($tmp as $id => $c) {
 
 }
 
+unset($data_new);
 
 ?>
 </table>
-</td></tr></table>
-
-
-<br />
-
-<table border="0" cellspacing="10"><tr valign="top"><td valign="top">
-<table border='0'>
-    <tr>
-        <th colspan="5" align="center">Total Editors Stats</th>
-    </tr>
-    <tr>
-        <th>user</th>
-        <th>deleted</th>
-        <th>rejected</th>
-        <th>modified</th>
-        <th>total</th>
-    </tr>
-
-<?php
-
-$sql = "SELECT * FROM notes_stats ORDER BY username ASC";
-$tmp = array();
-$res = sqlite_query($sqlite, $sql);
-while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
-// nothing here
-}
-
-$bg = '#EBEBEB';
-
-foreach ($tmp as $id => $c) {
-    if ($c['username'] == '')
-        continue;
- 
-    echo "<tr bgcolor=\"";
-    $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB';
-    echo "$bg\">\n\t<td>".$c['username']."</td>\n\t<td>";
-    echo $c['deleted'];
-    echo "</td>\n\t<td>";
-    echo $c['rejected'];
-    echo "</td>\n\t<td>";
-    echo $c['modified'];
-    echo "</td>\n\t<td>";
-    echo $c['total'];
-    echo "</td>\n</tr>\n";
-
-}
-
-
-?>
-</table>
-
 </td><td valign="top">
 <table border='0'>
     <tr>
@@ -244,30 +151,25 @@ foreach ($tmp as $id => $c) {
         <th>total</th>
     </tr>
 <?php
-
-$sql = "SELECT username, total FROM notes_stats ORDER BY total DESC LIMIT 0,15";
-$tmp = array();
-$res = sqlite_query($sqlite, $sql);
-while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
-// nothing here
-}
+arsort($total);
 
 $i = 0;
-foreach($tmp as $id => $c) {
+foreach($total as $id => $val) {
        
-    $i++;
+    ++$i;
     echo "<tr bgcolor=\"";
     $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB'; 
     echo "$bg\">\n\t".
     "<td>".$i."</td>\n\t".
-    "<td>".$c['username']."</td>\n\t".
-    "<td>".$c['total']."</td>\n".
+    "<td>".$id."</td>\n\t".
+    "<td>".$val."</td>\n".
     "</tr>\n";
     
     if ($i == 15)
         break;
 }       
 
+unset($total);
 ?>
 </table>
 
@@ -282,24 +184,18 @@ foreach($tmp as $id => $c) {
         <th>total</th>
     </tr>
 <?php
-
-$sql = "SELECT * FROM notes_files ORDER BY total DESC LIMIT 0,20";
-$tmp = array();
-$res = sqlite_query($sqlite, $sql);
-while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
-// nothing here
-}
+arsort($manual);
 
 $i = 0;
-foreach($tmp as $id => $c) {
+foreach($manual as $id => $c) {
        
-    $i++;
+    ++$i;
     echo "<tr bgcolor=\"";
     $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB'; 
     echo "$bg\">\n\t".
     "<td>".$i."</td>\n\t".
-    "<td>".$c['page']."</td>\n\t".
-    "<td>".$c['total']."</td>\n".
+    "<td>".$id."</td>\n\t".
+    "<td>".$c."</td>\n".
     "</tr>\n";
     
     if ($i == 20)
