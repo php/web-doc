@@ -26,12 +26,15 @@
  * @license   http://www.php.net/license/3_0.txt  PHP License
  * @version   $Id$
  */
- 
+
+$path = realpath(dirname(__FILE__));
+
 require_once 'DB.php';
 require_once 'DB/storage.php'; 
-require_once dirname(__FILE__) . '/rfc-config.php';
+require_once $path . '/rfc-config.php';
+require_once $path . '/../../include/lib_general.inc.php';
 
-define('PEAR_DATABASE_DSN', 'sqlite://./../../sqlite/rfc.sqlite');
+define('PEAR_DATABASE_DSN', 'sqlite:///'.$path.'/../../sqlite/rfc.sqlite');
 define('DEVBOX', false);
 
 if (empty($dbh)) {
@@ -110,11 +113,10 @@ function make_mailto_link($email, $linktext = '', $extras = '')
 function print_tabbed_navigation($items, $no_active = false)
 {
    $page = basename($_SERVER['PHP_SELF']);
-   $master_url = get_resource_url();
 
     echo '<div id="nav">' . "\n";
     foreach ($items as $title => $item) {
-        echo '<a href="' . $master_url . 'rfc/' . $item['url'] // !!!
+        echo '<a href="' . $item['url']
              . '" title="' . $item['title'] . '"';
         if (strpos($item['url'], $page) !== false && $no_active == false) {
             echo ' class="active"';

@@ -28,8 +28,8 @@
 /**
  * Obtain the common functions and classes.
  */
-require_once '../../include/lib_general.inc.php';
-require_once '../../include/rfc/rfc.php';
+$path = realpath(dirname(__FILE__));
+require_once $path . '/../../include/rfc/rfc.php';
 
 if (isset($_GET['filter']) && isset($proposalStatiMap[$_GET['filter']])) {
     $selectStatus = $_GET['filter'];

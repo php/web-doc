@@ -25,13 +25,13 @@
 /**
  * Obtain the common functions and classes.
  */
-require_once '../../include/rfc/rfc.php';
-require_once '../../include/lib_general.inc.php';
+$path = realpath(dirname(__FILE__));
+require_once $path . '/../../include/rfc/rfc.php';
 
 if (isset($_GET['get']) AND !empty($_GET['get'])) {
     $get = basename($_GET['get']);
     
-    if (file_exists('./../../files/' . $get) && strlen($get) == 32 &&
+    if (file_exists($path . '/../../files/' . $get) && strlen($get) == 32 &&
         strpos($get, "..") === FALSE) {
         
         $hash = sqlite_escape_string($get);
@@ -52,9 +52,9 @@ if (isset($_GET['get']) AND !empty($_GET['get'])) {
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
         header("Cache-Control: no-cache, must-revalidate");
         header("Content-Type: octet-stream");
-        header("Content-Length: " . filesize('./../../files/' . $get));
+        header("Content-Length: " . filesize($path . '/../../files/' . $get));
         header("Content-Disposition: attachment; filename=".stripslashes($file));
-        echo file_get_contents('./../../files/' . $get);
+        echo file_get_contents($path . '/../../files/' . $get);
         exit;
     }
     exit;

@@ -30,8 +30,8 @@
  * the system expects it to run at 4 am
  */
  
-require_once './../lib_general.inc.php';
-require_once './rfc.php';
+$path = realpath(dirname(__FILE__));
+require_once $path . '/../../include/rfc/rfc.php';
 
 $proposals =& proposal::getAll($dbh, 'vote');
 

@@ -28,8 +28,8 @@
 /**
  * Obtain the common functions and classes.
  */
-require_once '../../include/lib_general.inc.php';
-require_once '../../include/rfc/rfc.php';
+$path = realpath(dirname(__FILE__));
+require_once $path . '/../../include/rfc/rfc.php';
 /**
  * Obtain code for Bulletin Board markup.
  */
@@ -63,7 +63,7 @@ if (strlen($_GET['delete']) >= 32 &&
         
         $hash = substr($_GET['delete'], -32);
         $file = substr($_GET['delete'], 0, -32);
-        if (!file_exists('./../../files/' . $hash)) {
+        if (!file_exists($path . '/../../files/' . $hash)) {
             report_error('File ' . htmlspecialchars(stripslashes($file)) . ' does not exists');
         } else {
         $proposal->pkg_filehash = str_replace('|' . $_GET['delete'], '', $proposal->pkg_filehash);
@@ -74,7 +74,7 @@ if (strlen($_GET['delete']) >= 32 &&
         $res = $dbh->query($sql);
         
         // this might need some more security
-        unlink('./../../files/' . $hash);
+        unlink($path . '/../../files/' . $hash);
         
         report_success('File ' . htmlspecialchars(stripslashes($file)) . ' deleted!');
         }
@@ -293,7 +293,7 @@ if (isset($_POST['submit'])) {
             } else {
                 $filehash = md5($_FILES['thefile']['name'] . time());
                 move_uploaded_file($_FILES['thefile']['tmp_name'],
-                                   './../../files/' . $filehash);                                  
+                                   $path . '/../../files/' . $filehash);                                  
                 $proposal->pkg_filehash = $proposal->pkg_filehash . '|' . basename($_FILES['thefile']['name']) . $filehash;
  
             }

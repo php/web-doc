@@ -77,7 +77,7 @@ $proposalEmailTexts = array(
             'user'    => '{email_pear_dev}, {owner_name} {owner_email}'
         ),
         'subject'   => 'Proposal finished {pkg_category}::{pkg_name}',
-        'text'      => "PEPr has automatically finished the proposal on {pkg_category}::{pkg_name}.\n\n{vote_result}\n\nFurther details on the status of the proposal and the votes can be found here:\n{proposal_url}\n\nIf you are the person who initiated the proposal,\nplease read the 'Proposal Finished' instructions at\nhttp://pear.php.net/manual/en/newmaint.proposal.step3.php#newmaint.proposal.step3.stage4"
+        'text'      => "RFC has automatically finished the proposal on {pkg_category}::{pkg_name}.\n\n{vote_result}\n\nFurther details on the status of the proposal and the votes can be found here:\n{proposal_url}"
     ),
 
     // $proposal->sendActionEmail("edit_proposal", $_COOKIE["PEAR_USER"], $proposal);
