@@ -259,7 +259,7 @@ function get_insite_address($project = NULL, $lang = NULL, $path = NULL)
     if ($lang != $GLOBALS['defaultLanguage']) {
       $ret .= "$lang/";
     }
-    return $ret . ($path == '/' ? '' : ltrim($path, '/'));
+    return $ret . ltrim($path, '/');
 }
 
 function get_resource_url($url = '')
