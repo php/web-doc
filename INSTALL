@@ -1,0 +1,28 @@
+Initial Instatllation
+---------------------
+
+1. You need to run the scripts/populatedocs.sh to fetch all the required
+   documentation for the site.
+2. Create the sqlite directory and 'chown www:www sqlite' or the equivalent
+   user who apache runs under.
+3. Configure the virtual host under apache.  Current 'suggested settings' are:
+
+<VirtualHost 65.75.184.99:80>
+ServerName docweb.php.mirrors.powertrip.co.za
+ServerAlias *.docs.php.mirrors.powertrip.co.za docs.php.mirrors.powertrip.co.za
+ServerAdmin systems-team@yourwebhost.co.za
+DocumentRoot /home/pure-ftpd-users/php001/docs.php.mirrors.powertrip.co.za/www
+
+...
+
+ErrorDocument 404 /error.php
+
+...
+
+<IfModule mod_php4.c>
+php_flag register_globals Off
+php_flag magic_quotes_gpc Off
+php_flag magic_quotes_runtime Off
+php_value include_path "/home/pure-ftpd-users/php001/docs.php.mirrors.powertrip.co.za/include:/usr/local/share/pear"
+</IfModule>
+</VirtualHost>
