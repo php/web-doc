@@ -47,7 +47,7 @@ return true;
 
 ob_start();
 
-if (proposal =& proposal::get($dbh, @$_GET['id'])) {
+if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
 
 
     echo site_header('RFC :: Editor :: '
