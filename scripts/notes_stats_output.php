@@ -22,7 +22,7 @@ echo "<?php require_once '../include/init.inc.php';\n";
 
 // Settings for this script can be found in ./notes_stats.php
 
-if (@filesize($DBFile) < 10) {
+if (@filesize($DBFile) < 3000000) { // require at least 3 MBs
     echo "echo site_header('Statistics not available');\n";
     echo "echo '<h2>Statistics not available</h2>';\n";
     echo "echo site_footer();";
