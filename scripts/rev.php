@@ -26,20 +26,20 @@
 error_reporting(E_ALL);
 
 /**
-  *	Usage
-  **/
+*	Usage
+**/
 
 // keep this call, we need it
 $self = array_shift($argv);
 
 if ($argc < 3) {
 ?>
-Check the revision of translated files against the actual english
-xml files, and create an sqlite database to generate statisctics
-
   Usage:
-  <?php echo $self;?> type lang1 [lang2 [lang3 [..]]]
+    <?php echo $self;?> type lang1 [lang2 [lang3 [..]]]
 
+  Checks the revision of translated files against the actual english
+  xml files, and create an sqlite database to generate statisctics
+  
   type should be a registered documentation type in 
   <?php echo dirname($self);?>/common.php
 
@@ -50,19 +50,13 @@ xml files, and create an sqlite database to generate statisctics
   the PHP Documentation Howto :
     http://php.net/manual/howto/translation-revtrack.html (9.4.2)
 
-  Original Authors: Thomas Schöfbeck <tom at php dot net>
-                    Gabor Hojtsy    <goba at php dot net>
-                    Mark Kronsbein    <mk at php dot net>
-                    Jan Fabry     <cheezy at php dot net>
-  SQLite version Authors:
-                    Mehdi Achour   <didou at php dot net>
 <?php
 exit(0);
 }
 
 /**
-  *	Configuration
-  **/
+*	Configuration
+**/
 
 // define some common variables
 $inCli = true;
@@ -76,7 +70,7 @@ $TYPE = array_shift($argv);
 //if (!documentation_exists($TYPE)) {
 //	die("$TYPE is not a valid documentation type\n");
 //} else {
-	$DOCS = CVS_DIR . get_cvs_dir($TYPE);
+$DOCS = CVS_DIR . get_cvs_dir($TYPE);
 //}
 
 // $argv was shifted before
@@ -131,212 +125,212 @@ CREATE TABLE files (
 SQL;
 
 /**
-  *	Functions
-  **/
+*	Functions
+**/
 
 function parse_translation($lang)
 {
-	global $SQL_BUFF, $DOCS;
-	echo "Parsing intro..\n";
-	
-	// Path to find translation.xml file, set default values,
-	// in case we can't find the translation file
-	$translation_xml = $DOCS . $lang . "/translation.xml";
-	
-	$intro = "No intro available for the $lang translation of the manual";
-	$charset  = 'iso-8859-1';
-	
-	if (file_exists($translation_xml)) {
-		// Else go on, and load in the file, replacing all
-		// space type chars with one space
-		$txml = join("", file($translation_xml));
-		$txml = preg_replace("/\\s+/", " ", $txml);
-	
-		// Get intro text
-		if (preg_match("!<intro>(.+)</intro>!s", $txml, $match)) {
-			$intro = trim($match[1]);
-		}
-	
-		// Get encoding for the output, from the translation.xml
-		// file encoding (should be the same as the used encoding
-		// in HTML)
-		if (preg_match("!<\?xml(.+)\?>!U", $txml, $match)) {
-			$xmlinfo = parse_attr_string($match);
-			if (isset($xmlinfo[1]["encoding"])) {
-				$charset = $xmlinfo[1]["encoding"];
-			}
-		}
-	}
-	
-	$SQL_BUFF .= "INSERT INTO description VALUES ('$lang', '" . sqlite_escape_string($intro) . "', DATE(), '$charset');\n";
-	
-	if (isset($txml)) {
-		// Find all persons matching the pattern
-		if (preg_match_all("!<person (.+)/\\s?>!U", $txml, $matches)) {
-			$default = array('cvs' => 'n/a', 'nick' => 'n/a', 'editor' => 'n/a', 'email' => 'n/a', 'name' => 'n/a');
-			$persons = parse_attr_string($matches[1]);
+    global $SQL_BUFF, $DOCS;
+    echo "Parsing intro..\n";
 
-			foreach ($persons as $person) {
-				$person = array_merge($default, $person);
-				$SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '" . sqlite_escape_string($person['nick']) . "', '" . sqlite_escape_string($person['name']) . "', '" . sqlite_escape_string($person['email']) . "', '" . sqlite_escape_string($person['cvs']) . "', '" . sqlite_escape_string($person['editor']) . "');\n";
-			}
-		}
-	
-		// Get list of work in progress files
-		if (preg_match_all("!<file(.+)/\\s?>!U", $txml, $matches)) {
-			$files = parse_attr_string($matches[1]);
-			foreach ($files as $file) {
-				$SQL_BUFF .= "INSERT INTO wip VALUES ('$lang', '" . sqlite_escape_string($file['name']) . "', '" . sqlite_escape_string($file['person']) . "', '" . sqlite_escape_string($file['type']) . "');\n";
-			}
-		}
-	}
+    // Path to find translation.xml file, set default values,
+    // in case we can't find the translation file
+    $translation_xml = $DOCS . $lang . "/translation.xml";
+
+    $intro = "No intro available for the $lang translation of the manual";
+    $charset  = 'iso-8859-1';
+
+    if (file_exists($translation_xml)) {
+        // Else go on, and load in the file, replacing all
+        // space type chars with one space
+        $txml = join("", file($translation_xml));
+        $txml = preg_replace("/\\s+/", " ", $txml);
+
+        // Get intro text
+        if (preg_match("!<intro>(.+)</intro>!s", $txml, $match)) {
+            $intro = trim($match[1]);
+        }
+
+        // Get encoding for the output, from the translation.xml
+        // file encoding (should be the same as the used encoding
+        // in HTML)
+        if (preg_match("!<\?xml(.+)\?>!U", $txml, $match)) {
+            $xmlinfo = parse_attr_string($match);
+            if (isset($xmlinfo[1]["encoding"])) {
+                $charset = $xmlinfo[1]["encoding"];
+            }
+        }
+    }
+
+    $SQL_BUFF .= "INSERT INTO description VALUES ('$lang', '" . sqlite_escape_string($intro) . "', DATE(), '$charset');\n";
+
+    if (isset($txml)) {
+        // Find all persons matching the pattern
+        if (preg_match_all("!<person (.+)/\\s?>!U", $txml, $matches)) {
+            $default = array('cvs' => 'n/a', 'nick' => 'n/a', 'editor' => 'n/a', 'email' => 'n/a', 'name' => 'n/a');
+            $persons = parse_attr_string($matches[1]);
+
+            foreach ($persons as $person) {
+                $person = array_merge($default, $person);
+                $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '" . sqlite_escape_string($person['nick']) . "', '" . sqlite_escape_string($person['name']) . "', '" . sqlite_escape_string($person['email']) . "', '" . sqlite_escape_string($person['cvs']) . "', '" . sqlite_escape_string($person['editor']) . "');\n";
+            }
+        }
+
+        // Get list of work in progress files
+        if (preg_match_all("!<file(.+)/\\s?>!U", $txml, $matches)) {
+            $files = parse_attr_string($matches[1]);
+            foreach ($files as $file) {
+                $SQL_BUFF .= "INSERT INTO wip VALUES ('$lang', '" . sqlite_escape_string($file['name']) . "', '" . sqlite_escape_string($file['person']) . "', '" . sqlite_escape_string($file['type']) . "');\n";
+            }
+        }
+    }
 } // parse_translation() function end()
 
 
 // Get a multidimensional array with tag attributes
 function parse_attr_string($tags_attrs)
 {
-	$tag_attrs_processed = array();
-	
-	// Go through the tag attributes
-	foreach($tags_attrs as $attrib_list) {
-		
-		// Get attr name and values
-		preg_match_all("!(.+)=\\s*([\"'])\\s*(.+)\\2!U", $attrib_list, $attribs);
-		
-		// Assign all attributes to one associative array
-		$attrib_array = array();
-		foreach ($attribs[1] as $num => $attrname) {
-			$attrib_array[trim($attrname)] = trim($attribs[3][$num]);
-		}
-		// Collect in order of tags received
-		$tag_attrs_processed[] = $attrib_array;
-	}
-	// Retrun with collected attributes
-	return $tag_attrs_processed;
+    $tag_attrs_processed = array();
+
+    // Go through the tag attributes
+    foreach($tags_attrs as $attrib_list) {
+
+        // Get attr name and values
+        preg_match_all("!(.+)=\\s*([\"'])\\s*(.+)\\2!U", $attrib_list, $attribs);
+
+        // Assign all attributes to one associative array
+        $attrib_array = array();
+        foreach ($attribs[1] as $num => $attrname) {
+            $attrib_array[trim($attrname)] = trim($attribs[3][$num]);
+        }
+        // Collect in order of tags received
+        $tag_attrs_processed[] = $attrib_array;
+    }
+    // Retrun with collected attributes
+    return $tag_attrs_processed;
 }
 
 function dir_sort($a, $b) {
-  global $DOCS, $dir;
-  $a = $DOCS . 'en' . $dir . '/' . $a;
-  $b = $DOCS . 'en' . $dir . '/' . $b;
-//  echo "$a\n$b\n\n";
-  if (is_dir($a) && is_dir($b)) 
+    global $DOCS, $dir;
+    $a = $DOCS . 'en' . $dir . '/' . $a;
+    $b = $DOCS . 'en' . $dir . '/' . $b;
+    //  echo "$a\n$b\n\n";
+    if (is_dir($a) && is_dir($b))
     return 0;
-  if (is_file($a) && is_file($b))
+    if (is_file($a) && is_file($b))
     return 0;
-  if (is_file($a) && is_dir($b))
+    if (is_file($a) && is_dir($b))
     return -1;
-  if (is_dir($a) && is_file($b))
+    if (is_dir($a) && is_file($b))
     return 1;
 }
 
 function do_revcheck($dir = '') {
-	global $LANGS, $DOCS, $SQL_BUFF;
-	static $id = 1;
-	global $idx;
+    global $LANGS, $DOCS, $SQL_BUFF;
+    static $id = 1;
+    global $idx;
 
-	if ($dh = opendir($DOCS . 'en/' . $dir)) {
-   
-	        $entriesDir = array();
-                $entriesFiles = array();
-                
-		while (($file = readdir($dh)) !== false) {
-			if (
-			   (!is_dir($DOCS . 'en' . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
-			   || ($file == "functions.xml" && strpos($dir, '/reference') !== false)
-			   || $dir == '/chmonly') {
-			        continue;
-				}
+    if ($dh = opendir($DOCS . 'en/' . $dir)) {
 
-			if($file != '.' && $file != '..' && $file != 'CVS' && $dir != '/functions') {
-				
-                                if( is_dir($DOCS . 'en' . $dir.'/' .$file)) $entriesDir[] = $file;
-                                elseif (  is_file($DOCS . 'en' . $dir.'/' .$file) )$entriesFiles[] = $file;
-			}
-		}
-  
-                // Les fichiers d'abord
-                if( sizeof($entriesFiles) > 0 ) {
-                 
-                  foreach($entriesFiles as $file) {
-                    
-                    $path = $DOCS . 'en/' . $dir . '/' . $file;
-                    
-                    $size = intval(filesize($path) / 1024);
-                    $date = filemtime($path);
-                    $revision = get_original_rev($path);
-                    $revision = ($revision == 0) ? 'NULL' : "'$revision'";
-      
-                    $SQL_BUFF .= "INSERT INTO files VALUES ('en', '$id', '$file', $revision, '$size','$date', NULL, NULL);\n";
-                    
-                      foreach ($LANGS as $lang) {
-                        
-                        $path = $DOCS . $lang . '/' . $dir . '/' . $file;
-                        if (is_file($path)) {
-                          
-                          $size = intval(filesize($path) / 1024);
-                          $date = filemtime($path);
-                          list($revision, $maintainer, $status) = get_tags($path);
-                          $SQL_BUFF .= "INSERT INTO files VALUES ('$lang', '$id', '$file', $revision, '$size', $date, $maintainer, $status);\n";
-                        } else {
-                          $SQL_BUFF .= "INSERT INTO files VALUES ('$lang', '$id', '$file', NULL, NULL, NULL, NULL, NULL);\n";
-                        }
-                      }
-                  }
+        $entriesDir = array();
+        $entriesFiles = array();
+
+        while (($file = readdir($dh)) !== false) {
+            if (
+            (!is_dir($DOCS . 'en' . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
+            || ($file == "functions.xml" && strpos($dir, '/reference') !== false)
+            || $dir == '/chmonly') {
+                continue;
+            }
+
+            if($file != '.' && $file != '..' && $file != 'CVS' && $dir != '/functions') {
+
+                if( is_dir($DOCS . 'en' . $dir.'/' .$file)) $entriesDir[] = $file;
+                elseif (  is_file($DOCS . 'en' . $dir.'/' .$file) )$entriesFiles[] = $file;
+            }
+        }
+
+        // Les fichiers d'abord
+        if( sizeof($entriesFiles) > 0 ) {
+
+            foreach($entriesFiles as $file) {
+
+                $path = $DOCS . 'en/' . $dir . '/' . $file;
+
+                $size = intval(filesize($path) / 1024);
+                $date = filemtime($path);
+                $revision = get_original_rev($path);
+                $revision = ($revision == 0) ? 'NULL' : "'$revision'";
+
+                $SQL_BUFF .= "INSERT INTO files VALUES ('en', '$id', '$file', $revision, '$size','$date', NULL, NULL);\n";
+
+                foreach ($LANGS as $lang) {
+
+                    $path = $DOCS . $lang . '/' . $dir . '/' . $file;
+                    if (is_file($path)) {
+
+                        $size = intval(filesize($path) / 1024);
+                        $date = filemtime($path);
+                        list($revision, $maintainer, $status) = get_tags($path);
+                        $SQL_BUFF .= "INSERT INTO files VALUES ('$lang', '$id', '$file', $revision, '$size', $date, $maintainer, $status);\n";
+                    } else {
+                        $SQL_BUFF .= "INSERT INTO files VALUES ('$lang', '$id', '$file', NULL, NULL, NULL, NULL, NULL);\n";
+                    }
                 }
-                
-                // Puis les répertoires.
-                if( sizeof($entriesDir) > 0 ) {
-                  
-                  usort($entriesDir, 'dir_sort');
-                  reset($entriesDir);
-                  
-                  foreach($entriesDir as $Edir) {
-                  
-                    $path = $DOCS . 'en/' . $dir . '/' . $Edir;
-                    $id++;
-                    echo "D: $dir/$Edir $id\n";
-                    $SQL_BUFF .= "INSERT INTO dirs VALUES (" . $id . ", '$dir/$Edir');\n";
-                    do_revcheck($dir . '/' . $Edir);
-                    
-                  }
-                }
-	}
-	closedir($dh);
+            }
+        }
+
+        // Puis les r?pertoires.
+        if( sizeof($entriesDir) > 0 ) {
+
+            usort($entriesDir, 'dir_sort');
+            reset($entriesDir);
+
+            foreach($entriesDir as $Edir) {
+
+                $path = $DOCS . 'en/' . $dir . '/' . $Edir;
+                $id++;
+                echo "D: $dir/$Edir $id\n";
+                $SQL_BUFF .= "INSERT INTO dirs VALUES (" . $id . ", '$dir/$Edir');\n";
+                do_revcheck($dir . '/' . $Edir);
+
+            }
+        }
+    }
+    closedir($dh);
 }
 
 
 function get_tags($file)
 {
-	// Read the first 500 chars. The comment should be at
-	// the begining of the file
-	$fp = @fopen($file, "r") or die ("Unable to read $file.");
-	$line = fread($fp, 500);
-	fclose($fp);
-	
-	// No match before the preg
-	$match = array ();
-	
-	
-	
-	// Check for the translations "revision tag"
-	if (preg_match("/<!--\s*EN-Revision:\s*\d+\.(\d+)\s*Maintainer:\s*(\\S*)\s*Status:\s*(.+)\s*-->/U",
-	$line, $match)) {
-		// note the simple quotes
-		return array("'" . trim($match[1]) . "'", "'" . trim($match[2]) . "'", "'" . trim($match[3]) . "'");
-	}
+    // Read the first 500 chars. The comment should be at
+    // the begining of the file
+    $fp = @fopen($file, "r") or die ("Unable to read $file.");
+    $line = fread($fp, 500);
+    fclose($fp);
 
-	// The tag with revision number is not found so search
-	// for n/a revision comment (comment where revision is not known)
-	if (preg_match("'<!--\s*EN-Revision:\s*(n/a)\s*Maintainer:\s*(\\S*)\s*Status:\s*(.+)\s*-->'U",
-                 $line, $match)) {
-		// note the simple quotes
-		return array("'" . trim($match[1]) . "'", "'" . trim($match[2]) . "'", "'" . trim($match[3]) . "'");
-	}
+    // No match before the preg
+    $match = array ();
 
-	// Nothing, return with NULL values 
-	return array ("NULL", "NULL", "NULL");
+
+
+    // Check for the translations "revision tag"
+    if (preg_match("/<!--\s*EN-Revision:\s*\d+\.(\d+)\s*Maintainer:\s*(\\S*)\s*Status:\s*(.+)\s*-->/U",
+    $line, $match)) {
+        // note the simple quotes
+        return array("'" . trim($match[1]) . "'", "'" . trim($match[2]) . "'", "'" . trim($match[3]) . "'");
+    }
+
+    // The tag with revision number is not found so search
+    // for n/a revision comment (comment where revision is not known)
+    if (preg_match("'<!--\s*EN-Revision:\s*(n/a)\s*Maintainer:\s*(\\S*)\s*Status:\s*(.+)\s*-->'U",
+    $line, $match)) {
+        // note the simple quotes
+        return array("'" . trim($match[1]) . "'", "'" . trim($match[2]) . "'", "'" . trim($match[3]) . "'");
+    }
+
+    // Nothing, return with NULL values
+    return array ("NULL", "NULL", "NULL");
 
 } // get_tags() function end
 
@@ -352,16 +346,16 @@ function get_original_rev($file)
     // . is for $ in the preg!
     preg_match("/<!-- .Revision: \d+\.(\d+) . -->/", $line, $match);
     if (!empty($match)) {
-    	return $match[1];
+        return $match[1];
     } else {
-    	return 0;
+        return 0;
     }
 }
 
 
 function getmicrotime()
 {
-    list($usec, $sec) = explode(" ",microtime());
+    list($usec, $sec) = explode(" ", microtime());
     return ((float)$usec + (float)$sec);
 }
 
@@ -370,22 +364,21 @@ function getmicrotime()
 
 $time_start = getmicrotime();
 /**
-  *	Script execution
-  **/
+*	Script execution
+**/
 
 $db_name = SQLITE_DIR . 'rev.' . $TYPE . '.sqlite';
 $tmp_db = SQLITE_DIR . 'rev.' . $TYPE . '.tmp.sqlite';
 
 // 1 - Drop the old database and create the new one
-if( is_file($tmp_db)) { 
-  
-  echo "Temporary database found : remove.\n";
-  
-  if( !@unlink($tmp_db) ) {
-    echo "Error : Can't remove temporary database\n";
-    
-    exit(0);
-  }
+if (is_file($tmp_db)) {
+
+    echo "Temporary database found : remove.\n";
+
+    if (!@unlink($tmp_db)) {
+        echo "Error : Can't remove temporary database\n";
+        exit(0);
+    }
 }
 
 
@@ -397,11 +390,11 @@ if (!$idx) {
 }
 sqlite_query($idx, $CREATE);
 
-// 3 - Fill in the description table while cleaning the langs 
+// 3 - Fill in the description table while cleaning the langs
 // without revision.xml file
-foreach($LANGS as $id => $lang) {
-	echo "Fetching the $lang description\n";
-	parse_translation($lang);
+foreach ($LANGS as $id => $lang) {
+    echo "Fetching the $lang description\n";
+    parse_translation($lang);
 }
 
 // 4 - Recurse in the manual seeking for files and fill $SQL_BUFF
@@ -415,21 +408,19 @@ sqlite_query($idx, 'COMMIT');
 sqlite_close($idx);
 
 echo "Copy temporary database to final database\n";
-    
+
 copy($tmp_db, $db_name);
-if( !@unlink($tmp_db) ) {
-    echo "Error : Can't drop temporary database. Check permissions\n";    
+if (!@unlink($tmp_db)) {
+    echo "Error : Can't drop temporary database. Check permissions\n";
 }
 
 $time_end = getmicrotime();
 $time = $time_end - $time_start;
 
-  if( $time > 60 ) { 
+if ($time > 60) {
     $time = ($time / 60) . ' minuts';
-  } else {
+} else {
     $time = $time . ' seconds';
-  }
+}
 
 echo "/---- Time of generation : " .$time . "\n";
-
-?>
