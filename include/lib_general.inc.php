@@ -42,7 +42,7 @@ $PROJECTS = array(
 // Supported languages
 $LANGUAGES = array(
     'all' => 'All',
-    'jo' => 'Arabic',
+    'ar' => 'Arabic',
     'pt_BR' => 'Brazilian Portuguese',
     'zh' => 'Chinese (Simplified)',
     'hk' => 'Chinese (Hong Kong Cantonese)',
