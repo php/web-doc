@@ -1005,6 +1005,11 @@ class ppVote {
         if (empty($this->user_handle)) {
             return PEAR::raiseError("Not initialized");
         }
+        
+        if (empty($this->comment)) {
+            $this->comment = '-';
+        }
+        // !!!    
         // $this->user_handle.time() is a hack, remove '.time()' after karma system works
         $sql = "INSERT INTO package_proposal_votes (pkg_prop_id, user_handle, value, is_conditional, comment, reviews, timestamp)
                     VALUES (".$proposalId.",

@@ -104,7 +104,7 @@ if (!$vote) {
     <?php
 
     $vote->comment = trim($vote->comment);
-    if ($vote->comment) {
+    if ($vote->comment != '-') {
         echo nl2br(htmlentities($vote->comment));
     } else {
         echo '&nbsp;';
