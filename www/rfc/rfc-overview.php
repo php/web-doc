@@ -54,7 +54,11 @@ $first_loop =  true;
 
 $finishedCounter = 0;
 
+if (empty($proposals)) {
+    report_warning('Sorry, there are no proposals in this category');
+}
 foreach ($proposals as $proposal) {
+
     if ($proposal->getStatus() != $last_status) {
         if ($first_loop != true) {
             echo "</ul>\n";
