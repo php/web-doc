@@ -44,16 +44,16 @@ $res = nntp_cmd($s, 'GROUP php.notes', 211) or die("failed to get infos on news 
 $first = sqlite_single_query($sqlite, 'SELECT last_article FROM info');
 list($last) = explode(' ', $res);
 
-if ($first >= $last)
+if ($first > $last)
     die("Nothing I can do, no new notes available\n");
 
 echo "Fetching items: $first-$last\n";
-$res = nntp_cmd($s, "XOVER $first-$last", 224) or die("failed to XOVER the new items\n");
+nntp_cmd($s, "XOVER $first-$last", 224) or die("failed to XOVER the new items\n");
 
 $sql = '';
 $last_update = time();
 
-for ($i = $first; $i < $last; $i++) {
+for ($i = $first; $i <= $last; ++$i) {
     $line = fgets($s, 4096);
     list($n, $subj, $author, $odate) = explode("\t", $line, 5);
 
