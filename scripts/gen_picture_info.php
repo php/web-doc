@@ -67,13 +67,15 @@ function generation_image($TYPE, $lang) {
         $pourcent[] = round($valeur * 100 / $total);
 
     }
+    
+    $noExplode = ($Total_files_lang == $up_to_date) ? 1 : 0;
 
     $legend = array($pourcent[0] . '%% up to date ('.$up_to_date.')', $pourcent[1] . '%% critical ('.$critical.')', $pourcent[2] . '%% old ('.$old.')', $pourcent[3] . '%% missing ('.$missing.')', $pourcent[4] . '%% without revtag ('.$no_tag.')');
     $title = ucfirst($TYPE). ' : Details for '.$LANGUAGES[$lang].' Doc';
 
     $graph = new PieGraph(530,300);
     $graph->SetShadow();
-
+    
     $graph->title->Set($title);
     $graph->title->Align('left');
     $graph->title->SetFont(FF_FONT1,FS_BOLD);
@@ -86,7 +88,9 @@ function generation_image($TYPE, $lang) {
 
     $p1 = new PiePlot3D($data);
     $p1->SetSliceColors(array("#68d888", "#ff6347", "#eee8aa", "#dcdcdc", "#f4a460"));
-    $p1->ExplodeAll();
+    if ($noExplode != 1) {
+       $p1->ExplodeAll();
+    }
     $p1->SetCenter(0.35,0.55);
     $p1->value->Show(false);
 

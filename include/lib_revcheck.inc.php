@@ -206,7 +206,8 @@ function get_missfiles($idx, $lang)
     $result = sqlite_query($idx, $sql);
     $num = sqlite_num_rows($result);
     if ($num == 0) {
-        return false;
+        // only 'null' will produce a 0 with sizeof()
+        return null;
     } else {
         $tmp = array();
         while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
