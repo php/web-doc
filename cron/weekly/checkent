@@ -1,0 +1,6 @@
+#!/bin/sh
+
+. `dirname $0`/../../build-ops
+
+cd ${SCRIPTSDIR}
+${PHP} checkent.php > ${DOCWEB}/www/checkent.php
