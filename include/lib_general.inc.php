@@ -119,8 +119,8 @@ function site_header($title = '', $style = array())
     $lang       = 'en'; //LANGC;
     $master_url = get_resource_url();
     $encoding   = "iso-8859-1"; // for now
-    $page_title = ($title ? $title . ' - PHP Documentation' : 'PHP Documentation');
-    $page_h1    = ($title ? $title : 'PHP Documentation');
+    $page_title = ($title ? $title . ' - PHP Documentation Tools' : 'PHP Documentation Tools');
+    $page_h1    = ($title ? $title : 'PHP Documentation Tools');
 
     $languages = site_nav_langs();
     $projects  = site_nav_projects();
