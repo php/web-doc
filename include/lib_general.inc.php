@@ -48,6 +48,10 @@ if (substr($_SERVER['REQUEST_URI'], -1, 1) == '/') {
     // not a dir, use the dirname
     $baseURL = dirname($_SERVER['REQUEST_URI']);
 }
+
+// this very dirty fix makes /rfc work
+$baseURL = str_replace('/rfc', '', $baseURL);
+
 // actually define the constant (trim off any trailing slashes):
 define('BASE_URL', rtrim($baseURL, '/'));
 
@@ -271,14 +275,14 @@ function site_nav_provider()
 {
     $links = array('<a href="'. BASE_URL .'/">Subsite homepage</a>');
     $links[] = '<a href="'. BASE_URL .'/rfc/rfc-overview.php">Request For Comments</a>';
+    if (strpos($_SERVER['REQUEST_URI'], 'rfc') !== false) {
+        $links[] = '<a href="'. BASE_URL .'/rfc/rfc-proposal-edit.php">Submit RFC</a>';
+    }
     if (in_array(SITE, array('gtk', 'pear', 'php', 'smarty'))) {
         $links[] = '<a href="'. BASE_URL .'/revcheck.php">Revision check</a>';
     }
     if (SITE == 'php') {
         $links[] = '<a href="'. BASE_URL .'/dochowto/index.php">Documentation Howto</a>';
-    }
-    if (strpos($_SERVER['PHP_SELF'], 'rfc') !== false) {
-        $links[] = '<a href="'. BASE_URL .'/rfc/rfc-proposal-edit.php">Submit RFC</a>';
     }
     if (count($links) == 0) {
         $links[] = 'N/A';
