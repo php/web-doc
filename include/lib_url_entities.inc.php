@@ -299,7 +299,7 @@ function url_store_result($sqlite, $num, $name, $url, $result)
 function url_callback($m)
 {
   $maxLen = 57; $threshold = 3;
-  $url = $m[1] .'://'. $m[2];
+  $url = $m[1] .'://'. $m[3];
 
   if (strlen($url) > ($maxLen + $threshold))
   {
@@ -316,7 +316,7 @@ function url_callback($m)
 
 function ent_value($eVal)
 {
-  return preg_replace_callback('#(?:f|ht)tps?://([^\s]+)#S', 'url_callback', $eVal);
+  return preg_replace_callback('#((f|ht)tps?)://([^\s]+)#S', 'url_callback', $eVal);
 }
 
 function ent_link($eVal)
