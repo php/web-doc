@@ -226,3 +226,6 @@ margin: auto;
   border-left: 1px solid #000;  
     
 }
+
+/* howto's nav footer */
+div.NAVFOOTER { clear: both; }
