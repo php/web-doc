@@ -15,20 +15,21 @@
 +----------------------------------------------------------------------+
 | Authors: Mehdi Achour <didou@php.net> (Original Author)              |
 |          Vincent Gevers <vincent@php.net>                            |
-| Credits: Sean Coates <sean@php.net>
+| Credits: Sean Coates <sean@php.net>                                  |
 +----------------------------------------------------------------------+
 $Id$
 */
 
 /*
- * Warning: This script uses a lot of memory 
+ * Warning: This script can use a lot of memory 
  *
  * Usage:
- * $ php notes_stats.php [mbox-file] > notes.php
+ * $ php notes_stats.php
  */
  
 /*
  * TODO:
+ * - Use a library
  * - Database improvements
  * - Speed improvements
  * - Nicer layout
@@ -39,11 +40,8 @@ $minact = 100;
 // after how many secs should the list be chopped
 $after = 182.5*24*60*60; // half year
 
-$inputs = array(); // pair subjects w/ dates from multiple sources
+$startTime = getmicrotime();
 
-$time_start = getmicrotime();
-
-//$inCli = true;
 require_once '../build-ops.php';
 
 $DBFile = SQLITE_DIR . 'notes_stats.sqlite';
@@ -67,7 +65,7 @@ $sqlCreateInfo = "
         );
 ";
 sqlite_query($sqlite, $sqlCreateInfo);
-// total user stats (als required for proper working)
+// total user stats
 $sqlCreateStats = "
     CREATE
     TABLE
@@ -95,7 +93,7 @@ $sqlCreateStatsOld = "
         );
 ";
 sqlite_query($sqlite, $sqlCreateStatsOld);
-// not more than $after
+// newer than $after
 $sqlCreateStatsNew = "
     CREATE
     TABLE
@@ -109,6 +107,7 @@ $sqlCreateStatsNew = "
         );
 ";
 sqlite_query($sqlite, $sqlCreateStatsNew);
+// most active pages
 $sqlCreateFiles = "
     CREATE
     TABLE
@@ -148,8 +147,8 @@ $sqlite = sqlite_open($DBFile, 0666);
 
 $bytesRead = 0;
 
-$s = nntp_connect("news.php.net") or die("failed to connect to news server");
-$res = nntp_cmd($s,"GROUP php.notes",211) or die("failed to get infos on news group");
+$s = nntp_connect("news.php.net") or die("failed to connect to news server\n");
+$res = nntp_cmd($s,"GROUP php.notes",211) or die("failed to get infos on news group\n");
 
 $sql = "SELECT
             last_article
@@ -165,25 +164,26 @@ $last =  $new[0];
 //$last =  84164;
 
 if ($first == $last)
-    die("Nothing I can do...\n");
+    die("Nothing I can do, no new notes available\n");
 
 echo "Fetching items: $first-$last\n";
-$res = nntp_cmd($s,"XOVER $first-$last", 224) or die("failed to XOVER the new items");
+$res = nntp_cmd($s,"XOVER $first-$last", 224) or die("failed to XOVER the new items\n");
 
 $files = $team = $tmp = array();
-
-$in_old = false;
 $tmp['o'] = array();
 $tmp['n'] = array();
+
+$in_old = false;
+$dlStart = getmicrotime();
 for ($i = $first; $i < $last; $i++) {
     $line = fgets($s, 4096);
-    $GLOBALS['bytesRead'] += strlen($line);
+    $bytesRead += strlen($line);
     list($n,$subj,$author,$odate) = explode("\t", $line, 5);
 
     if (feof($s)) {
-        die("EOF\n");
+        die("EOF, Please re-run this script\n");
     }
-echo "$i: $subj @ $odate\n";   
+    echo "$i: $subj @ $odate\n"; // for debugging
 
 /*
  * What should be matched:
@@ -245,8 +245,8 @@ $sql = "SELECT
 $result = sqlite_query($sqlite, $sql);
 
 $users = array();
-while ($row = sqlite_fetch_array($result, SQLITE_ASSOC)) {
-    $users[] = $row['username'];
+while ($users[] = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+// nothing here
 }     
 
 
@@ -375,8 +375,8 @@ $sql = "SELECT
 $result = sqlite_query($sqlite, $sql);
 
 $pages = array();
-while ($row = sqlite_fetch_array($result, SQLITE_ASSOC)) {
-    $pages[] = $row['page'];
+while ($pages[] = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+// nothing here
 }
 
 // Manual pages most active top 20
@@ -421,9 +421,9 @@ $sql = "
 ";
 sqlite_query($sqlite, $sql);
 
-$scriptTime = number_format(getmicrotime() - $time_start, 4);
-$bytesSec = number_format(round($GLOBALS['bytesRead'] / ($dlDone - $time_start)));
-$bytesRead = number_format($bytesRead);
+$scriptTime = number_format(getmicrotime() - $startTime, 3);
+$bytesSec = number_format(round($bytesRead / ($dlDone - $dlStart)));
+$bytesRead = number_format($bytesRead, 1, ',', '');
 echo "Completed in $scriptTime seconds\n";
 echo "$bytesRead bytes read (~$bytesSec bytes/sec)\n";
 
@@ -439,15 +439,15 @@ function nntp_connect($server,$port=119) {
   $s = fsockopen($server,$port,$errno,$errstr,30);
 
   if (!$s) {
-    echo "<!-- error connecting to nntp server: $errstr -->\n";
+    echo "error connecting to nntp server: $errstr\n";
     return false;
   }
   $hello = fgets($s, 1024);
   if (substr($hello,0,4) != "200 ") {
-    echo "<!-- unexpected greeting: $hello -->\n";
+    echo "unexpected greeting: $hello\n";
     return false;
   }
-  #echo "<!-- $hello -->\n";
+  //echo "$hello\n";
   return $s;
 }
 
@@ -455,7 +455,6 @@ function nntp_cmd($conn,$command,$expected) {
   if (strlen($command) > 510) die("command too long: $command");
   fputs($conn, "$command\r\n");
   $res = fgets($conn, 1024);
-  $GLOBALS['bytesRead'] += strlen($res);
   list($code,$extra) = explode(" ", $res, 2);
   return $code == $expected ? $extra : false;
 }

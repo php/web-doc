@@ -22,13 +22,29 @@ require_once '../include/init.inc.php';
 
 $minact = 100;
 
-$sqlite = sqlite_open(SQLITE_DIR.'notes_stats.sqlite');
+$DBFile = SQLITE_DIR.'notes_stats.sqlite';
+
+if (@filesize($DBFile) < 10) {
+    echo site_header('Statistics not available');
+    echo '<h2>Statistics not available</h2>';
+    echo site_footer();
+    exit;
+}
+
+$sqlite = sqlite_open($DBFile);
 
 $sql = "SELECT * FROM notes_info";
 $info = sqlite_fetch_array(sqlite_query($sqlite, $sql), SQLITE_ASSOC);
 
+if ($info['subjects'] == 0) {
+    echo site_header('Statistics not available yet');
+    echo '<h2>Statistics not available yet</h2>';
+    echo site_footer();
+    exit;
+}
+
 echo site_header("Note Statistics for ".date('j F Y', $info['build_date']));
-$start = microtime(true);
+
 ?>
 <h3><strong><?php echo $info['subjects']; ?></strong> subjects parsed</h1>
 
@@ -47,7 +63,7 @@ $start = microtime(true);
 
 <?php
 
-$sql = "SELECT * FROM notes_stats";
+$sql = "SELECT * FROM notes_stats ORDER BY total DESC LIMIT 0,$minact";
 $tmp = array();
 $res = sqlite_query($sqlite, $sql);
 while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
@@ -92,7 +108,7 @@ Last half year (with more than <?php echo $minact; ?> actions counted)
 
 <?php
 
-$sql = "SELECT * FROM notes_stats_new";
+$sql = "SELECT * FROM notes_stats_new ORDER BY total DESC LIMIT 0,$minact";
 $tmp = array();
 $res = sqlite_query($sqlite, $sql);
 while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
@@ -106,11 +122,11 @@ foreach ($tmp as $id => $c) {
         echo "<tr bgcolor=\"";
         $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB';
         echo "$bg\">\n\t<td>".$c['username']."</td>\n\t<td>";
-        echo isset($c['deleted']) ? $c['deleted'] : '0';
+        echo $c['deleted'];
         echo "</td>\n\t<td>";
-        echo isset($c['rejected']) ? $c['rejected'] : '0';
+        echo $c['rejected'];
         echo "</td>\n\t<td>";
-        echo isset($c['modified']) ? $c['modified'] : '0';
+        echo $c['modified'];
         echo "</td>\n\t<td>";
         echo $c['total'];
         echo "</td>\n</tr>\n";
@@ -137,7 +153,7 @@ Before the last half year (with more than <?php echo $minact; ?> actions counted
 
 <?php
 
-$sql = "SELECT * FROM notes_stats_old";
+$sql = "SELECT * FROM notes_stats_old ORDER BY total DESC LIMIT 0,$minact";
 $tmp = array();
 $res = sqlite_query($sqlite, $sql);
 while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
@@ -151,11 +167,11 @@ foreach ($tmp as $id => $c) {
         echo "<tr bgcolor=\"";
         $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB';
         echo "$bg\">\n\t<td>".$c['username']."</td>\n\t<td>";
-        echo isset($c['deleted']) ? $c['deleted'] : '0';
+        echo $c['deleted'];
         echo "</td>\n\t<td>";
-        echo isset($c['rejected']) ? $c['rejected'] : '0';
+        echo $c['rejected'];
         echo "</td>\n\t<td>";
-        echo isset($c['modified']) ? $c['modified'] : '0';
+        echo $c['modified'];
         echo "</td>\n\t<td>";
         echo $c['total'];
         echo "</td>\n</tr>\n";
@@ -229,7 +245,7 @@ foreach ($tmp as $id => $c) {
     </tr>
 <?php
 
-$sql = "SELECT username, total FROM notes_stats ORDER BY total DESC";
+$sql = "SELECT username, total FROM notes_stats ORDER BY total DESC LIMIT 0,15";
 $tmp = array();
 $res = sqlite_query($sqlite, $sql);
 while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
@@ -237,16 +253,16 @@ while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
 }
 
 $i = 0;
-    foreach($tmp as $id => $c) {
+foreach($tmp as $id => $c) {
        
-        $i++;
-        echo "<tr bgcolor=\"";
-        $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB'; 
-        echo "$bg\">\n\t".
-        "<td>".$i."</td>\n\t".
-        "<td>".$c['username']."</td>\n\t".
-        "<td>".$c['total']."</td>\n".
-        "</tr>\n";
+    $i++;
+    echo "<tr bgcolor=\"";
+    $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB'; 
+    echo "$bg\">\n\t".
+    "<td>".$i."</td>\n\t".
+    "<td>".$c['username']."</td>\n\t".
+    "<td>".$c['total']."</td>\n".
+    "</tr>\n";
     
     if ($i == 15)
         break;
@@ -267,7 +283,7 @@ $i = 0;
     </tr>
 <?php
 
-$sql = "SELECT * FROM notes_files ORDER BY total DESC";
+$sql = "SELECT * FROM notes_files ORDER BY total DESC LIMIT 0,20";
 $tmp = array();
 $res = sqlite_query($sqlite, $sql);
 while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
@@ -275,16 +291,16 @@ while($tmp[] = sqlite_fetch_array($res, SQLITE_ASSOC)) {
 }
 
 $i = 0;
-    foreach($tmp as $id => $c) {
+foreach($tmp as $id => $c) {
        
-        $i++;
-        echo "<tr bgcolor=\"";
-        $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB'; 
-        echo "$bg\">\n\t".
-        "<td>$i</td>\n\t".
-        "<td>".$c['page']."</td>\n\t".
-        "<td>".$c['total']."</td>\n".
-        "</tr>\n";
+    $i++;
+    echo "<tr bgcolor=\"";
+    $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB'; 
+    echo "$bg\">\n\t".
+    "<td>".$i."</td>\n\t".
+    "<td>".$c['page']."</td>\n\t".
+    "<td>".$c['total']."</td>\n".
+    "</tr>\n";
     
     if ($i == 20)
         break;
@@ -295,9 +311,8 @@ $i = 0;
 
 </td></tr></table>
 <?php
-sqlite_close($sqlite);
-$total = microtime(true) - $start;
-echo 'Took me ' . number_format($total, 4) . " seconds<br />\n";
+
 echo 'Last updated ' . date('r', $info['build_date']) . "\n";
 
+sqlite_close($sqlite);
 echo site_footer();

@@ -231,6 +231,7 @@ function site_nav_provider()
         switch(SITE) {
             case 'php':
                 $links['orphan-notes'] = BASE_URL . '/orphan_notes.php';
+                $links['notes-stats'] = BASE_URL . '/notes_stats.php';
 
             case 'pear':
             case 'smarty':
