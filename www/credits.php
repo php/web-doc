@@ -11,7 +11,7 @@ echo site_header('Website credits');
 
 <dl>
  <dt>Server administration</dt>
- <dd>Guillaume Plessis</dd>
+ <dd>Jacques Marneweck</dd>
  <dt>PHP.net services (CVS, mailing list, etc)</dt>
  <dd>PHP.net system administration team</dd>
  <dt>Website development</dt>
