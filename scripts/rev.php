@@ -65,7 +65,7 @@ include '../include/init.inc.php';
 // grab the documentation type
 $TYPE = array_shift($argv);
 
-if (!in_array($TYPE, array('php'))) {
+if (!in_array($TYPE, array('php', 'smarty', 'peardoc'))) {
     echo "Error: The revcheck script is not available yet for $TYPE\n";
     exit(0);
 }
