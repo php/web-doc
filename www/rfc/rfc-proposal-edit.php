@@ -258,15 +258,17 @@ if ($proposal != null) {
     }
 
     $timeline = $proposal->checkTimeLine();
-    if (
-    ($timeline === true) /*|| ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') && 
-    ($proposal->user_handle != $_COOKIE['PEAR_USER'])))*/) { // !!!
-        $form->addElement('checkbox', 'next_stage', $next_stage_text);
-    } else {
-        $form->addElement('static', 'next_stage', '',
-                          'You can set &quot;' . @$next_stage_text
-                          . '&quot; after '
-                          . make_utc_date($timeline) . '.');
+    
+    if (!empty($next_stage_text)) {
+        if (($timeline === true) /*|| ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') && 
+            ($proposal->user_handle != $_COOKIE['PEAR_USER'])))*/) { // !!!
+            $form->addElement('checkbox', 'next_stage', $next_stage_text);
+        } else {
+            $form->addElement('static', 'next_stage', '',
+                              'You can set &quot;' . @$next_stage_text
+                              . '&quot; after '
+                              . make_utc_date($timeline) . '.');
+        }
     }
 }
 
