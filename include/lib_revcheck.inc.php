@@ -135,6 +135,8 @@ function revcheck_available_types()
     foreach($a as $b) {
         $b = str_replace(SQLITE_DIR . 'rev.', '', $b);
         $b = str_replace('.sqlite', '', $b);
+        if (!file_exists('./images/icons/' . $b . '.png'))
+            continue;
         $buff .= "<li><a href=\"http://$b." . WEB_ROOT . "/revcheck.php\"><img src=\"images/icons/$b.png\" alt=\"$b\" /></a></li>";
     }
     $buff .= "</ul>";

@@ -32,7 +32,26 @@ if (isset($_GET['get']) AND !empty($_GET['get'])) {
     if (file_exists('./../../files/' . $_GET['get']) && strlen($_GET['get']) == 32 &&
         strpos($_GET['get'], "..") === FALSE) {
         
-        header('Content-Type: text/plain'); // fix this part if needed
+        $hash = sqlite_escape_string($_GET['get']);
+        $sql = 'SELECT pkg_filehash FROM package_proposals WHERE pkg_filehash LIKE "%'.$hash.'%"';
+        $res  = sqlite_query($dbh->connection, $sql);
+        $files = sqlite_fetch_single($res);
+
+        $file_tmp = explode('|', $files);
+        foreach ($file_tmp as $file) {
+            if (strpos($file, $hash)) {
+                $file = substr($file, 0, -32);
+                break;
+            }
+        }
+        // Output the file for download
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Content-Type: octet-stream");
+        header("Content-Length: " . filesize('./../../files/' . $_GET['get']));
+        header("Content-Disposition: attachment; filename=".stripslashes($file));
         echo file_get_contents('./../../files/' . $_GET['get']);
         exit;
     }
