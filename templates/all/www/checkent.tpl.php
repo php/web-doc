@@ -2,16 +2,15 @@
 /*
   TODO:
     - template this
-    - Hyperlink <a ... /> the URLs
     - Shrink long URLs: http://example.org/this/is/a...long/url
 */
-?>
 
+if ($isComplete) { ?>
 <h2>Entities last checked: <?php echo date('Y-m-d H:i:s', $startTime); ?></h2>
-<?php if (!$isComplete) { ?>
+<h2>Protocols: <?php echo $schemes; ?></h2>
+<?php } else { ?>
     <h3>Check not complete.</h3>
 <?php } ?>
-<h2>Protocols: <?php echo $schemes; ?></h2>
 <br />
 
 <?php foreach ($entData as $resultType => $results) { ?>
@@ -23,17 +22,18 @@
                 <th>Redirect URL</th>
             <?php } else { ?>
                 <th>URL</th>
-	    <?php } ?>
+        <?php } ?>
         </tr>
         <?php foreach ($results AS $r) { ?>
-	    <tr>
-                <td><?php echo $r['entity']; ?></td>
+        <tr>
                 <?php if ($extraCol[$resultType]) { ?>
-                    <td><?php echo $r['return_val']; ?></td>
+                <td><a href="<?php echo $r['url']; ?>" rel="nofollow"><?php echo $r['entity']; ?></a></td>
+                    <td><a href ="<?php echo $r['return_val']; ?>" rel="nofollow"><?php echo $r['return_val']; ?></a></td>
                 <?php } else { ?>
-                    <td><?php echo $r['url']; ?></td>
+                <td><?php echo $r['entity']; ?></td>
+                    <td><a href="<?php echo $r['url']; ?>" rel="nofollow"><?php echo $r['url']; ?></a></td>
                 <?php } ?>
-	    </tr>
+        </tr>
         <?php } ?>
     </table>
     <br />
