@@ -90,10 +90,7 @@ define('URL_ENT_SQLITE_FILE', SQLITE_DIR . "checkent_{$entType}.sqlite");
  */
 function url_ent_sqlite_open()
 {
-    if (!($sqlite = sqlite_open(URL_ENT_SQLITE_FILE, 0666))) {
-        echo "Error creating database.\n";
-    }
-    return $sqlite;
+    return @sqlite_open(URL_ENT_SQLITE_FILE, 0666);
 }
 
 /**
@@ -255,7 +252,10 @@ function check_url ($num, $entity_url)
 function url_store_result($sqlite, $num, $name, $url, $result)
 {
     if (!$sqlite) {
-       $sqlite = url_ent_sqlite_open();
+        if (!$sqlite = url_ent_sqlite_open()) {
+            echo "Error opening database.\n";
+            exit(1);
+        }
     }
     $return_val = isset($result[1][1]) ? $result[1][1] : '';
     $sql = "

@@ -59,7 +59,12 @@ if (is_file(URL_ENT_SQLITE_FILE) && !unlink(URL_ENT_SQLITE_FILE)) {
     echo "Error removing old database.\n";
     die();
 }
-$sqlite = url_ent_sqlite_open();
+
+if (!$sqlite = url_ent_sqlite_open())
+{
+    echo "Error opening database.\n";
+    die();
+}
 
 // Table creation
 $sqlCreateMeta = "

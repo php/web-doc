@@ -21,10 +21,11 @@ $Id$
 */
 
 require_once '../include/init.inc.php';
+
+$entType = SITE;
 require_once '../include/lib_url_entities.inc.php';
 
-$dbFile = SQLITE_DIR . "checkent_" . SITE . ".sqlite";
-if (!($sqlite = @sqlite_open($dbFile))) {
+if (!$sqlite = url_ent_sqlite_open()) {
     echo site_header('docweb.common.header.checkent'); 
     echo '<p>checkent not found!</p>'; // @@@ template this
     echo site_footer();
