@@ -11,7 +11,7 @@ then
   do
     if [ -f ./$job ] && [ -x ./$job ]
     then
-      exec ./$job
+      ./$job
     fi
   done
  
