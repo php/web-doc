@@ -23,6 +23,7 @@ $Id$
 
 error_reporting(E_ALL);
 
+// paths
 define('PATH_ROOT',  realpath(dirname(__FILE__) . '/../'));
 define('SQLITE_DIR', PATH_ROOT . '/sqlite/');
 define('CVS_DIR',    PATH_ROOT . '/cvs/');
@@ -31,8 +32,10 @@ define('CVS_DIR',    PATH_ROOT . '/cvs/');
 require_once('lib_proj_lang.inc.php');
 
 // get defaults
-list($defaultProject)  = array_keys($PROJECTS);
-list($defaultLanguage) = array_keys($LANGUAGES);
+list($defaultProject)    = array_keys($PROJECTS);
+list($defaultLanguage)   = array_keys($LANGUAGES);
+$defaultFallbackProject  = 'www';
+$defaultFallbackLanguage = 'en';
 
 // set up constants (use defaults if necessary)
 define('SITE',  isset($project)  ? $project  : $defaultProject);
@@ -55,6 +58,18 @@ $baseURL = str_replace('/rfc', '', $baseURL);
 // actually define the constant (trim off any trailing slashes):
 define('BASE_URL', rtrim($baseURL, '/'));
 
+// general support library
 require_once('lib_general.inc.php');
+
+
+// language & template constants
+define('DOCWEB_ENTITIY_PREFIX', 'docweb');
+
+// language engine
+require_once('docweb_language.class.php');
+$Language =& new DocWeb_Language(LANGC);
+
+// template engine
+require_once('docweb_template.class.php');
 
 ?>

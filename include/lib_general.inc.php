@@ -42,8 +42,8 @@ function site_header($title = '', $style = array())
     define('IN_HEAD', true);
     $lang       = 'en'; //LANGC;
     $encoding   = "iso-8859-1"; // for now
-    $page_title = ($title ? $title . ' - PHP Documentation Tools' : 'PHP Documentation Tools');
-    $page_h1    = ($title ? $title : 'PHP Documentation Tools');
+    $page_title = ($title ? $GLOBALS['Language']->get($title) . ' - ' : '') . $GLOBALS['Language']->get('docweb.common.title.default');
+    $page_h1    = ($title ? $GLOBALS['Language']->get($title) : $GLOBALS['Language']->get('docweb.common.title.default'));
 
     $languages = site_nav_langs();
     $projects  = site_nav_projects();
@@ -58,100 +58,50 @@ function site_header($title = '', $style = array())
     $extra_style = '';
     // prevent errors
     $guess_style = (in_array(SITE, array('www', 'livedocs', 'pecl')) ? '' : SITE . '.css');
-    $styles = ($style ? array($style) : array($guess_style));
-    foreach ($styles as $style_file) {
-        if (!empty($style_file)) {
-            $extra_style .= '@import url(/style/'. $style_file .");\n";
-        }
-    }
+    $styles = array_filter(($style ? array($style) : array($guess_style)));
 
     // Set proper encoding with HTTP header first
     header("Content-type: text/html; charset=$encoding");
 
-    $buff = <<<END_OF_BUFFER
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$lang" lang="$lang">
-<head>
- <title>$page_title</title>
- <meta http-equiv="Content-Type" content="text/html; charset=$encoding" />
- <meta http-equiv="Content-Script-Type" content="text/javascript" />
- <meta http-equiv="Content-Style-Type" content="text/css" />
- <meta http-equiv="Content-Language" content="$lang" />
- <link rel="shortcut icon" href="/images/favicon/{$project}/favicon.ico" />
- <style type="text/css">@import url(/style/site.css);
- $extra_style</style>
-
-</head>
-<body>
- <div id="header">
-  <h1>$page_h1</h1>
-  <div id="logos">
-   {$projects}
-  </div>
- </div>
- <div id="langs">
-  {$languages}
- </div>
- <div id="page">
-  <div id="sidebar">
-   <div class="sidebox">
-    <dl>
-     <dt>Currently focused on</dt>
-     <dd>{$projdisplay} | {$langdisplay}</dd>
-     <dt>Insite contextual navigation</dt>
-     <dd>{$locallinks}</dd>
-     <dt>Offsite contextual navigation</dt>
-     <dd>{$extlinks}</dd>
-    </dl>
-   </div>
-  </div>
-END_OF_BUFFER;
-    return $buff;
+    return DocWeb_Template::get(
+        'shared/header.tpl.php',
+        array(
+            'encoding'    => $encoding,
+            'lang'        => $lang,
+            'project'     => $project,
+            'page_h1'     => $page_h1,
+            'styles'      => $styles,
+            'projects'    => $projects,
+            'languages'   => $languages,
+            'projdisplay' => $projdisplay,
+            'langdisplay' => $langdisplay,
+            'locallinks'  => $locallinks,
+            'extlinks'    => $extlinks,
+            'page_title'  => $page_title,
+        )
+    );
 }
 
 function site_nav_projects()
 {
-    return '
-   <a href="' . get_insite_address('www') . '" class="logo logo-all">All</a>
-   <a href="' . get_insite_address('php') . '" class="logo logo-php">PHP</a>
-   <a href="' . get_insite_address('pear') . '" class="logo logo-pear">PEAR</a>
-   <a href="' . get_insite_address('pecl') . '" class="logo logo-pecl">PECL</a>
-   <a href="' . get_insite_address('gtk') . '" class="logo logo-gtk">PHP-<span class="logo-g">G</span><span class="logo-t">T</span><span class="logo-k">K</span></a>
-   <a href="' . get_insite_address('smarty') . '" class="logo logo-smarty">Smarty</a>
-   <a href="' . get_insite_address('livedocs') . '" class="logo logo-livedocs">Livedocs</a>';
+    return DocWeb_Template::get('shared/nav_projects.tpl.php');
 }
 
 function site_nav_langs()
 {
-    $navlist = '';
-    foreach ($GLOBALS['LANGUAGES'] as $code => $name) {
-        if ($code == 'all') {
-            $navlist .= '<a href="' . get_insite_address(NULL, 'all') . '">All</a> '."\n";
-        }
-        else {
-            $navlist .= '<a href="' . get_insite_address(NULL, $code) . '" title="' . $name . '" ><img src="/images/flags/' . $code . '.png" alt="' . $name . '" /></a>'."\n";
-        }
-    }
-    return $navlist;
+    return DocWeb_Template::get(
+        'shared/nav_languages.tpl.php',
+        array('languages' => $GLOBALS['LANGUAGES'])
+    );
 }
 
 function site_footer()
 {
     $master = get_insite_address(NULL, NULL, '');
-    $buff = <<<END_OF_BUFFER
- </div>
- <div id="footer">
-  <p>
-   <a href="{$master}copyright.php">Copyright</a> 2004 The PHP Documentation Teams - All rights reserved.
-  </p>
-  <p>
-   <a href="{$master}credits.php">Credits</a> | <a href="{$master}contact.php">Contact</a>
-  </p>
- </div>
-</body>
-</html>
-END_OF_BUFFER;
-    return $buff;
+    return DocWeb_Template::get(
+        'shared/footer.tpl.php',
+        array('master' => $master)
+    );
 }
 
 // Format email address for spam protection
@@ -238,21 +188,23 @@ function get_resource_url($url = '')
 // particular page the user is viewing currently
 function site_nav_provider()
 {
-    $links = array('<a href="'. BASE_URL .'/">Subsite homepage</a>');
-    $links[] = '<a href="'. BASE_URL .'/rfc/rfc-overview.php">Request For Comments</a>';
+    $links = array(
+        'subsite-homepage'      => BASE_URL .'/',
+        'request-for-comments'  => BASE_URL .'/rfc/rfc-overview.php',
+    );
     if (strpos($_SERVER['REQUEST_URI'], 'rfc') !== false) {
-        $links[] = '<a href="'. BASE_URL .'/rfc/rfc-proposal-edit.php">Submit RFC</a>';
+        $links['submit-rfc'] = BASE_URL .'/rfc/rfc-proposal-edit.php';
     }
     if (in_array(SITE, array('gtk', 'pear', 'php', 'smarty'))) {
-        $links[] = '<a href="'. BASE_URL .'/revcheck.php">Revision check</a>';
+        $links['rev-check'] = BASE_URL .'/revcheck.php';
     }
     if (SITE == 'php') {
-        $links[] = '<a href="'. BASE_URL .'/dochowto/index.php">Documentation Howto</a>';
+        $links['doc-howto'] = BASE_URL .'/dochowto/index.php';
     }
-    if (count($links) == 0) {
-        $links[] = 'N/A';
-    }
-    return implode("<br />", $links);
+    return DocWeb_Template::get(
+        'shared/nav_links.tpl.php',
+        array('links' => $links, 'Language' => &$GLOBALS['Language'])
+    );
 }
 
 // This function provides the relevant offsite navigation options for the
@@ -264,18 +216,17 @@ function ext_nav_provider()
     case 'php':
         switch (LANGC) {
         case 'hu':
-            $links[] = '<a href="http://wfsz.njszt.hu/projektek_phpdoc.php">Translation information</a>';
+            $links['translation-info'] = 'http://wfsz.njszt.hu/projektek_phpdoc.php';
             break;
         case 'it':
-            $links[] = '<a href="http://cortesi.com/php/">Translation information</a>';
+            $links['translation-info'] = 'http://cortesi.com/php/';
             break;
         }
         break;
     }
-
-    if (count($links) == 0) {
-        $links[] = 'N/A';
-    }
-    return implode("<br />", $links);
+    return DocWeb_Template::get(
+        'shared/nav_links.tpl.php',
+        array('links' => $links, 'Language' => &$GLOBALS['Language'])
+    );
 }
 ?>
