@@ -75,7 +75,6 @@ function site_header($title = '', $style = array())
 {
     define('IN_HEAD', true);
     $lang       = 'en'; //LANGC;
-    $master_url = get_resource_url();
     $encoding   = "iso-8859-1"; // for now
     $page_title = ($title ? $title . ' - PHP Documentation Tools' : 'PHP Documentation Tools');
     $page_h1    = ($title ? $title : 'PHP Documentation Tools');
@@ -112,8 +111,8 @@ function site_header($title = '', $style = array())
  <meta http-equiv="Content-Script-Type" content="text/javascript" />
  <meta http-equiv="Content-Style-Type" content="text/css" />
  <meta http-equiv="Content-Language" content="$lang" />
- <link rel="shortcut icon" href="{$master_url}images/favicon/{$project}/favicon.ico" />
- <style type="text/css">@import url({$master_url}style/site.css);
+ <link rel="shortcut icon" href="/images/favicon/{$project}/favicon.ico" />
+ <style type="text/css">@import url(/style/site.css);
  $extra_style</style>
  
 </head>
@@ -164,7 +163,7 @@ function site_nav_langs()
             $navlist .= '<a href="' . get_insite_address(NULL, 'all') . '">All</a> '."\n";
         }
         else {
-            $navlist .= '<a href="' . get_insite_address(NULL, $code) . '" title="' . $name . '" ><img src="' . get_resource_url("images/flags/$code.png") . '" alt="' . $name . '" /></a>'."\n";
+            $navlist .= '<a href="' . get_insite_address(NULL, $code) . '" title="' . $name . '" ><img src="/images/flags/' . $code . '.png" alt="' . $name . '" /></a>'."\n";
         }
     }
     return $navlist;
