@@ -137,7 +137,7 @@ function revcheck_available_types()
         $b = str_replace('.sqlite', '', $b);
         if (!file_exists('./images/icons/' . $b . '.png'))
             continue;
-        $buff .= "<li><a href=\"/".$b."/revcheck.php\"><img src=\"images/icons/".$b.".png\" alt=\"".$b."\" /></a></li>";
+        $buff .= "<li><a href=\"/".$b."/revcheck.php\"><img src=\"/images/icons/".$b.".png\" alt=\"".$b."\" /></a></li>";
     }
     $buff .= "</ul>";
     return $buff;
