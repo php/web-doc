@@ -186,7 +186,7 @@ if ($hash == '')
     $file = substr($hash, 0, -32);
     $hash = substr($hash, -32);
     echo '    <li>';
-    print_link('?get=' . $hash, htmlspecialchars(stripslashes($file)));
+    print_link('rfc-proposal-show.php?get=' . $hash, htmlspecialchars(stripslashes($file)));
     echo "</li>\n";
 }
 }
@@ -201,6 +201,7 @@ if ($hash == '')
   <th class="headrow" style="width: 50%">&raquo; Timeline</th>
   <th class="headrow" style="width: 50%">&raquo; Changelog</th>
  </tr>
+ <tr>
   <td class="ulcell" valign="top">
    <ul>
     <li>

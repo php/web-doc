@@ -113,21 +113,33 @@ function get_cvs_dir($project)
       return $GLOBALS['PROJECTS'][$project][1];
 }
 
-function site_header($title = '')
+function site_header($title = '', $style = array())
 {
     $lang       = 'en'; //LANGC;
     $master_url = get_resource_url();
     $encoding   = "iso-8859-1"; // for now
     $page_title = ($title ? $title . ' - PHP Documentations' : 'PHP Documentations');
-    $page_h1    = ($title ? "<h1>$title</h1>" : '<h1>PHP Documentations</h1>');
+    $page_h1    = ($title ? $title : 'PHP Documentations');
 
     $languages = site_nav_langs();
     $projects  = site_nav_projects();
 
     $langdisplay = $GLOBALS['LANGUAGES'][LANGC];
     $projdisplay = $GLOBALS['PROJECTS'][SITE][0];
+    // this will prevent 404 errors
+    $project     = (in_array(SITE, array('www', 'pecl', 'livedocs')) ? 'php' : SITE);
     $locallinks  = site_nav_provider();
     $extlinks    = ext_nav_provider();
+    
+    $extra_style = '';
+    // prevent errors
+    $guess_style = (in_array(SITE, array('www', 'livedocs', 'pecl')) ? '' : SITE . '.css');
+    $styles = ($style ? array($style) : array($guess_style));
+    foreach ($styles as $style_file) {
+        if (!empty($style_file)) {
+            $extra_style .= '@import url(' . $master_url . 'style/'. $style_file .");\n";
+        }    
+    }
 
     // Set proper encoding with HTTP header first
     header("Content-type: text/html; charset=$encoding");
@@ -141,7 +153,10 @@ function site_header($title = '')
  <meta http-equiv="Content-Script-Type" content="text/javascript" />
  <meta http-equiv="Content-Style-Type" content="text/css" />
  <meta http-equiv="Content-Language" content="$lang" />
- <style type="text/css">@import url({$master_url}style/site.css);</style>
+ <link rel="shortcut icon" href="{$master_url}images/favicon/{$project}/favicon.ico" />
+ <style type="text/css">@import url({$master_url}style/site.css);
+ $extra_style</style>
+ 
 </head>
 <body>
  <div id="header">
@@ -187,10 +202,10 @@ function site_nav_langs()
     $navlist = '';
     foreach ($GLOBALS['LANGUAGES'] as $code => $name) {
         if ($code == 'all') {
-            $navlist .= '<a href="' . get_insite_address(NULL, 'all') . '">All</a> ';
+            $navlist .= '<a href="' . get_insite_address(NULL, 'all') . '">All</a> '."\n";
         }
         else {
-            $navlist .= '<a href="' . get_insite_address(NULL, $code) . '" title="' . $name . '"><img src="' . get_resource_url("images/flags/$code.png") . '"></a> ';
+            $navlist .= '<a href="' . get_insite_address(NULL, $code) . '" title="' . $name . '" ><img src="' . get_resource_url("images/flags/$code.png") . '" alt="' . $name . '" /></a>'."\n";
         }
     }
     return $navlist;
@@ -204,7 +219,7 @@ function site_footer()
  <div id="footer">
   <p>
    <a href="{$master}copyright.php">Copyright</a> 2004 The PHP Documentation Teams - All rights reserved.
-  <p>
+  </p>
   <p>
    <a href="{$master}credits.php">Credits</a> | <a href="{$master}contact.php">Contact</a>
   </p>

@@ -56,19 +56,21 @@ echo '<h1>Proposals</h1>' . "\n";
 
 $form->display();
 
-echo "<ul>";
-
 $last_status = false;
+$first_loop =  true;
 
 foreach ($proposals as $proposal) {
     if ($proposal->getStatus() != $last_status) {
-        echo "</ul>\n";
+        if ($first_loop != true) {
+            echo "</ul>\n";
+        }
         echo '<h2 name="' . $proposal->getStatus() . '" id="';
         echo $proposal->getStatus() . '">';
         echo '&raquo; ' . htmlspecialchars($proposal->getStatus(true));
         echo "</h2>\n";
         echo "<ul>\n";
         $last_status = $proposal->getStatus();
+        $first_loop = false;
     }
     if (!isset($users[$proposal->user_handle])) {
         $users[$proposal->user_handle] = array('Test','name'=>'TestUser');// user::info($proposal->user_handle); // !!!

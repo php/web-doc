@@ -187,9 +187,9 @@ if (!empty($proposal->pkg_filehash)) {
     
         $file = substr($hash, 0, -32);
 
-        $form->addElement('static', '', '', '<li><a href="?id='.$id.'&delete='.urlencode($hash).'">'.$file.'</a></li>');
+        $form->addElement('static', '', '', '<li><a href="rfc-proposal-edit.php?id='.$id.'&amp;delete='.urlencode($hash).'">'.$file.'</a></li>');
 
-    };
+    }
 }
 
 
