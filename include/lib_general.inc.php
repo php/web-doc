@@ -200,6 +200,7 @@ function site_nav_provider()
     }
     if (SITE == 'php') {
         $links['doc-howto'] = BASE_URL .'/dochowto/index.php';
+        $links['orphan-notes'] = BASE_URL .'/orphan_notes.php';
     }
     return DocWeb_Template::get(
         'shared/nav_links.tpl.php',

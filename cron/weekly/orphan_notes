@@ -1,0 +1,9 @@
+#!/bin/sh
+
+. `dirname $0`/../../build-ops
+
+cd ${CVSDIR}
+rsync -avzC --timeout=600 --delete --delete-after rsync.php.net::phpweb phpweb --include='manual/en/**' --include='manual/en/' --include='backend/notes/' --include='backend/notes/**' --exclude='distributions/**' --exclude='extra/**' --exclude='manual/**' --exclude='images/**' --exclude='backend/**' --exclude='bin/**' --exclude='error/**' --exclude='include/**' --exclude='styles/**' --exclude='stats/**' --exclude='pear/**' --exclude='license/**'
+
+cd ${SCRIPTSDIR}
+${PHP} orphan_notes.php > ${DOCWEB}/www/orphan_notes.php
