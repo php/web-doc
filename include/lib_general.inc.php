@@ -95,7 +95,7 @@ function site_header($title = '', $style = array())
     $styles = ($style ? array($style) : array($guess_style));
     foreach ($styles as $style_file) {
         if (!empty($style_file)) {
-            $extra_style .= '@import url(' . $master_url . 'style/'. $style_file .");\n";
+            $extra_style .= '@import url(/style/'. $style_file .");\n";
         }    
     }
 
