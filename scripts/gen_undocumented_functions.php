@@ -27,72 +27,87 @@ require_once '../include/init.inc.php';
 require_once '../include/lib_meta_info.inc.php';
 require_once '../include/docweb_dao_metainfo.class.php';
 
-echo "Generating Function Aliases data...\n";
+echo "Generating Missing Examples data...\n";
 
 $DAO = new DocWeb_DAO_MetaInfo(TRUE);
 
-$DAO->metaLogStartTime('aliases');
-$DAO->purgeAliases();
+$reference = CVS_DIR . "/phpdoc-all/en/reference";
 
-// Special places to look for aliases */
-$special = array(
-    'info'   => 'ZendEngine2/zend_builtin_functions.c',
-    'apache' => 'sapi/apache/php_apache.c',
-);
-
-$phpsrc = CVS_DIR . '/php-src/';
-
-// search the extensions
 $exts = array();
-$dir = opendir("$phpsrc/ext");
-while ($entry = readdir($dir)) {
-    if (in_array($entry, array('.','..'))) {
-        continue;
-    }
+$dir = opendir($reference);
 
-    if (is_dir("$phpsrc/ext/$entry")) {
+while ($entry = readdir($dir)) {
+    if ($entry == "." || $entry == "..")
+        continue;
+
+    // entry is a directory, and has a valid functions sub-directory
+    if (is_dir("$reference/$entry") && is_dir("$reference/$entry/functions")) {
         $exts[] = $entry;
     }
 }
+
 closedir($dir);
 
-$aliases = array();
-$total = 0;
+sort($exts, SORT_STRING);
+
+$extfuncs = array();
 
 foreach ($exts as $ext) {
-    $extdir = "$phpsrc/ext/$ext";
-    $dir = opendir($extdir);
-    while ($entry = readdir($dir)) {
-        if (in_array($entry, array('.','..'))) {
-            continue;
-        }
+    $extfuncs[$ext] = array();
 
-        if (is_file("$extdir/$entry") &&
-            substr("$extdir/$entry", -2) == ".c") {
-            
-            // file is a C file, check it for function aliases
-            find_alias_file("$extdir/$entry", $ext);
+    $funcdir = "$reference/$ext/functions";
+    $dir = opendir($funcdir);
+
+    while ($entry = readdir($dir)) {
+        // found a file in the functions directory, and it's an .xml file
+        if (
+            is_file("$funcdir/$entry") &&
+            substr($entry, -4) == ".xml" &&
+            strstr(substr($entry, 0, -4), ".") === false
+        ) {
+            $file = file_get_contents("$funcdir/$entry");
+
+            if (strstr($file, "&warn.undocumented.func;") !== false) {
+                // this function isn't documented
+                $function = str_replace('-', '_', substr($entry, 0, -4));
+
+                // check if this function is an alias
+                if (!$DAO->isAlias($function)) {
+                    $extfuncs[$ext][$function] = true;
+                }
+            }
         }
     }
+
+    asort($extfuncs[$ext], SORT_STRING);
     closedir($dir);
 }
 
-foreach ($special as $ext => $filename) {
-    if (is_file("$phpsrc/$filename")) {
-        find_alias_file("$phpsrc/$filename", $ext);
+$notmissing = array();
+$extcount = 0;
+$total = 0;
+
+foreach ($extfuncs as $name => $ext) {
+    $exttotal = count($ext);
+
+    if ($exttotal == 0) {
+        $notmissing[] = $name;
+    }
+    else {
+        $extcount++;
+        $total += $exttotal;
     }
 }
 
-ksort($aliases, SORT_STRING);
+$DAO->purgeUndocumented();
 
-foreach ($aliases AS $ext => $aliasData) {
-    foreach ($aliasData AS $alias => $func) {
-        echo "[$ext] $alias -> $func\n";
-        $DAO->storeFunctionAlias($ext, $alias, $func);
-    }
+foreach (array_diff($extfuncs, $notmissing) AS $ext => $extData) {
+    foreach ($extData AS $func => $junk) {
+        echo "[$ext] $func\n";
+        $DAO->storeUndocumentedFunction($ext, $func);
+    } 
 }
-
-$DAO->metaLogEndTime('aliases');
 
 echo "** Done.\n";
+
 ?>

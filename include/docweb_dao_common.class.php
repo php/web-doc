@@ -172,6 +172,40 @@ class DocWeb_DAO_Common
             }
         }
         
+        // missing_examples 
+        if (!$this->tableExists('missing_examples')) {
+            $sql = "
+                CREATE
+                TABLE
+                    missing_examples
+                    (
+                        extension VARCHAR(100),
+                        function  VARCHAR(100)
+                    )
+            ";
+            if (PEAR::isError($create = $this->DB->query($sql)))
+            {
+                die("Query Error: ". $create->getMessage() ."\n");
+            }
+        }
+
+        // undocumented_functions 
+        if (!$this->tableExists('undocumented_functions')) {
+            $sql = "
+                CREATE
+                TABLE
+                    undocumented_functions
+                    (
+                        extension VARCHAR(100),
+                        function  VARCHAR(100)
+                    )
+            ";
+            if (PEAR::isError($create = $this->DB->query($sql)))
+            {
+                die("Query Error: ". $create->getMessage() ."\n");
+            }
+        }
+
         // all complete
         return TRUE;
     }

@@ -66,6 +66,9 @@ class DocWeb_DAO_MetaInfo extends DocWeb_DAO_Common
         return TRUE;
     }
     
+    /**
+     * Purges function_aliases table
+     */
     function purgeAliases()
     {
         $sql = "
@@ -79,5 +82,123 @@ class DocWeb_DAO_MetaInfo extends DocWeb_DAO_Common
         }
         return TRUE;
     }
+    
+    /**
+     * Determines if the passed function name is an alias
+     * 
+     * @param	string $func
+     * @return bool
+     */
+    function isAlias($func)
+    {
+        $sql = "
+            SELECT
+                COUNT(function)
+            FROM
+                function_aliases
+            WHERE
+                alias = '". $this->DB->escapeSimple($func) ."'
+        ";
+        if (PEAR::isError($match = $this->DB->getOne($sql))) {
+            echo " ** Query failed.\n";
+            return FALSE;
+        }
+        return $match ? TRUE : FALSE;
+    }
+
+    /**
+     * Purges missing_examples table
+     */
+    function purgeExamples()
+    {
+        $sql = "
+            DELETE
+            FROM
+              missing_examples
+        ";
+        if (PEAR::isError($this->DB->query($sql))) {
+            echo " ** Purge Query failed.\n";
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    /**
+     * Store missing example data
+     * 
+     * @param string $ext   Extension to which this function belongs
+     * @param string $func  Function name
+     * @return bool
+     */
+    function storeMissingExample($ext, $func)
+    {
+        $sql = "
+            INSERT
+            INTO
+                missing_examples
+                (
+                    extension,
+                    function
+                )
+            VALUES
+                (
+                  '". $this->DB->escapeSimple($ext) ."',
+                  '". $this->DB->escapeSimple($func) ."'
+                )
+        ";
+        if (PEAR::isError($this->DB->query($sql))) {
+            echo " ** Query failed.\n";
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    /**
+     * Purges undocumented_functions table
+     */
+    function purgeUndocumented()
+    {
+        $sql = "
+            DELETE
+            FROM
+              undocumented_functions
+        ";
+        if (PEAR::isError($this->DB->query($sql))) {
+            echo " ** Purge Query failed.\n";
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    /**
+     * Store missing example data
+     * 
+     * @param string $ext   Extension to which this function belongs
+     * @param string $func  Function name
+     * @return bool
+     */
+    function storeUndocumentedFunction($ext, $func)
+    {
+        $sql = "
+            INSERT
+            INTO
+                undocumented_functions
+                (
+                    extension,
+                    function
+                )
+            VALUES
+                (
+                  '". $this->DB->escapeSimple($ext) ."',
+                  '". $this->DB->escapeSimple($func) ."'
+                )
+        ";
+        if (PEAR::isError($this->DB->query($sql))) {
+            echo " ** Query failed.\n";
+            return FALSE;
+        }
+        return TRUE;
+    }
+
 }    
 ?>
