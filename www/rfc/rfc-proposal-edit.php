@@ -1,0 +1,423 @@
+<?php
+
+/**
+ * Interface for inputing/editing a proposal.
+ *
+ * The <var>$proposalTypeMap</var> array is defined in
+ * docweb/include/rfc/rfc.php.
+ *
+ * This source file is subject to version 3.0 of the PHP license,
+ * that is bundled with this package in the file LICENSE, and is
+ * available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.
+ * If you did not receive a copy of the PHP license and are unable to
+ * obtain it through the world-wide-web, please send a note to
+ * license@php.net so we can mail you a copy immediately.
+ *
+ * @original  PEPr pearweb
+ * @category  docweb
+ * @package   RFC
+ * @author    Vincent Gevers <vincent@php.net>
+ * @author    Tobias Schlitt <toby@php.net>
+ * @author    Daniel Convissor <danielc@php.net>
+ * @copyright Copyright (c) 1997-2004 The PHP Group
+ * @license   http://www.php.net/license/3_0.txt  PHP License
+ * @version   $Id$
+ */
+
+/**
+ * Obtain the common functions and classes.
+ */
+require_once '../../include/lib_general.inc.php';
+require_once '../../include/rfc/rfc.php';
+/**
+ * Obtain code for Bulletin Board markup.
+ */
+require_once 'HTML/BBCodeParser.php';
+
+//auth_require('pear.pepr'); // !!!
+
+//$karma =& new Damblan_Karma($dbh);
+
+// !!! hack !!! karma system should replace this
+function is_admin ()
+{
+return true;
+}
+
+ob_start();
+
+if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
+
+
+    echo site_header('RFC :: Editor :: '
+                    . htmlspecialchars($proposal->pkg_name));
+    echo '<h1>Proposal Editor for ' . htmlspecialchars($proposal->pkg_name);
+    echo ' (' . $proposal->getStatus(true) . ")</h1>\n";
+
+
+if (isset($_GET['delete']) AND !empty($_GET['delete'])) {
+
+if (strlen($_GET['delete']) >= 32 &&
+        strpos($_GET['delete'], "..") === FALSE && (($_COOKIE['PEAR_USER'] == $proposal->user_handle) || is_admin())) {
+        
+        $hash = substr($_GET['delete'], -32);
+        if (!file_exists('./../../files/' . $hash)) {
+            report_error('File does not exists');
+        } else {
+        $proposal->pkg_filehash = str_replace('|' . $_GET['delete'], '', $proposal->pkg_filehash);
+        
+        $sql = "UPDATE package_proposals SET 
+        pkg_filehash = ".$dbh->quoteSmart($proposal->pkg_filehash)."
+         WHERE id = ".$proposal->id;
+        $res = $dbh->query($sql);
+        
+        // this might need some more security
+        unlink('./../../' . $hash);
+        
+        report_success('File deleted!');
+        }
+}  
+            
+
+}
+
+
+
+
+
+// !!!
+    if (!$proposal->mayEdit($_COOKIE['PEAR_USER']) && empty($_GET['next_stage'])) {
+        report_error('You are not allowed to edit this proposal,'
+                     . ' probably due to it having reached the "'
+                     . $proposal->getStatus(true) . '" phase.'
+                     . ' If this MUST be edited, contact someone ELSE'
+                     . ' who has pear.pepr.admin karma.');
+        site_footer();
+        exit;
+    }
+    
+
+    if ($proposal->compareStatus('>', 'proposal'))// &&
+       /* $karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin'))*/ // !!!
+    {
+        report_error('This proposal has reached the "'
+                     . $proposal->getStatus(true) . '" phase.'
+                     . ' Are you SURE you want to edit it?',
+                     'warnings', 'WARNING:');
+    }
+
+    $proposal->getLinks($dbh);
+    $id = $proposal->id;
+} else {
+    echo site_header('RFC :: Editor :: New Proposal');
+    echo '<h1>New Proposal</h1>' . "\n";
+    $id = 0;
+    $proposal = null;
+}
+
+
+$form =& new HTML_QuickForm('proposal_edit', 'post',
+                            'rfc-proposal-edit.php?id=' . $id);
+
+$renderer =& $form->defaultRenderer();
+$renderer->setElementTemplate('
+ <tr>
+  <th class="form-label_left">
+   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
+   {label}
+  </th>
+  <td class="form-input">
+   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
+   {element}
+  </td>
+ </tr>
+');
+
+//$categories = category::listAll(); // !!!
+$mapCategories['RFC'] = 'RFC';
+$mapCategories['Patches'] = 'Patches';
+//foreach ($categories as $categorie) {
+//    $mapCategories[$categorie['name']] = $categorie['name'];
+//}
+
+
+
+$form->addElement('select', 'pkg_category', '<label for="pkg_category" accesskey="o">Categ<span class="accesskey">o</span>ry:</label>', $mapCategories, 'id="pkg_category"');
+
+$categoryNewElements[] =& HTML_QuickForm::createElement('checkbox', 'pkg_category_new_do', '');
+$categoryNewElements[] =& HTML_QuickForm::createElement('text', 'pkg_category_new_text', '');
+$categoryNew = $form->addGroup($categoryNewElements, 'pkg_category_new', 'New category:', '(only use if really needed)<br />');
+
+$form->addElement('text', 'pkg_name', 'Name:');
+//$form->addElement('text', 'pkg_license', 'License:'); // not needed IMO
+
+$form->addElement('textarea', 'pkg_describtion', 'Description:', array('rows' => 20, 'cols' => '80'));
+$form->addElement('select', 'markup', 'Markup', array('bbcode' => 'BBCode', 'wiki' => 'Wiki'));
+
+$helpLinks[] =& HTML_QuickForm::createElement('link', 'help_bbcode', '_blank', 'rfc-bbcode-help.php', 'You can use BBCode inside your description', array('target' => '_blank'));
+$helpLinks[] =& HTML_QuickForm::createElement('link', 'help_wiki', '_blank', 'http://wiki.ciaweb.net/yawiki/index.php?area=Text_Wiki&page=WikiRules', 'or Wiki markup', array('target' => '_blank'));
+$form->addGroup($helpLinks, 'markup_help', '', ' ');
+
+// this seems not needed for an RFC system // !!!
+//$form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '80'));
+//$form->addElement('static', '', '', 'List seperated by linefeeds. Please use the word \'none\' if you are sure there are no dependencies');
+
+$form->addElement('file', 'thefile', '');
+$form->addElement('static', '', '', 'Upload a file or link to your files');
+
+    $filecount = 0;
+    $filecount = explode('|', $proposal->pkg_filehash);
+
+    if (@$filecount[1] == '') { // failed, no files
+        $filecount = 0;
+    } else {
+        $filecount = (count($filecount) -1);
+    }
+
+    if (isset($_POST['submit']) AND !empty($_FILES['thefile']['name'])) 
+        $filecount++;
+
+$form->addElement('static', '', '', 'You have uploaded '.$filecount.' file(s). To delete, click on the file');
+//$form->addElement('static', '', '', 'To delete, click on the file');
+
+
+if (!empty($proposal->pkg_filehash)) {
+    $list = explode("|", htmlspecialchars($proposal->pkg_filehash));
+foreach ($list as $hash) {
+if ($hash == '')
+    continue;
+    
+    $file = substr($hash, 0, -32);
+
+$form->addElement('static', '', '', '<a href="?id='.$id.'&delete='.$hash.'">'.$file.'</a>');
+
+}
+}
+
+
+
+$max = (isset($proposal->links) && (count($proposal->links) > 2)) ? (count($proposal->links) + 1) : 3;
+for ($i = 0; $i < $max; $i++) {
+    unset($link);
+    $link[0] = $form->createElement('select', 'type', '', $proposalTypeMap);
+    $link[1] = $form->createElement('text', 'url', '');
+    $label = ($i == 0) ? 'Links:': '';
+    $links[$i] =& $form->addGroup($link, "link[$i]", $label, ' ');
+}
+
+$form->addElement('static', '', '', '<small>To add more links, fill out all link forms and hit save. To delete a link leave the URL field blank.</small>');
+
+
+
+if ($proposal != null && ($proposal->getStatus() != 'draft')) {
+    $form->addElement('static', '', '', '<strong>If you add any text to the Changelog comment textarea,<br />then a mail will be sent to phpdoc about this update.</strong>');
+    $form->addElement('textarea', 'action_comment', 'Changelog comment:', array('cols' => 80, 'rows' => 10));
+}
+
+
+$form->addElement('submit', 'submit', 'Save');
+
+
+if ($proposal != null) {
+    $defaults = array('pkg_name'    => $proposal->pkg_name,
+                      'pkg_describtion' => $proposal->pkg_describtion,
+                      'markup'      => $proposal->markup);
+    if (isset($mapCategories[$proposal->pkg_category])) {
+        $defaults['pkg_category'] = $proposal->pkg_category;
+    } else {
+        $defaults['pkg_category_new']['pkg_category_new_text'] = $proposal->pkg_category;
+        $defaults['pkg_category_new']['pkg_category_new_do'] = true;
+    }
+    if ((count($proposal->links) > 0)) {
+        $i = 0;
+        foreach ($proposal->links as $proposalLink) {
+            $defaults['link'][$i]['type'] = $proposalLink->type;
+            $defaults['link'][$i]['url'] = $proposalLink->url;
+            $i++;
+        }
+    }
+
+    $form->setDefaults($defaults);
+
+    switch ($proposal->status) {
+        case 'draft':
+            $next_stage_text = "Change status to 'Proposal'";
+            break;
+
+        case 'proposal':
+            $next_stage_text = "Change status to 'Call for votes'";
+            break;
+
+        case 'vote':
+        default:
+            if (/*$karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') &&*/ // !!!
+	     ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
+                $next_stage_text = 'Extend vote time';
+            } else {
+                $next_stage_text = '';
+            }
+            break;
+    }
+
+    $timeline = $proposal->checkTimeLine();
+    if (
+    ($timeline === true) /*|| ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') && 
+    ($proposal->user_handle != $_COOKIE['PEAR_USER'])))*/) { // !!!
+        $form->addElement('checkbox', 'next_stage', $next_stage_text);
+    } else {
+        $form->addElement('static', 'next_stage', '',
+                          'You can set &quot;' . @$next_stage_text
+                          . '&quot; after '
+                          . make_utc_date($timeline) . '.');
+    }
+}
+
+
+$form->applyFilter('pkg_name', 'trim');
+$form->applyFilter('pkg_describtion', 'trim');
+//$form->applyFilter('pkg_deps', 'trim');
+
+$form->addRule('pkg_category', 'You have to select a category!', 'required', '', 'server');
+$form->addRule('pkg_name', 'You have to enter a name!', 'required', '', 'server');
+//$form->addRule('pkg_license', 'you have to specify the license of your package!', 'required', '', 'server'); // not needed IMO
+$form->addRule('pkg_describtion', 'You have to enter a description!', 'required', '', 'server');
+//$form->addRule('link[0]', '2 links are required as minimum!', 'required', '', 'server');
+//$form->addRule('link[1]', '2 links are required as minimum!', 'required', '', 'server');
+// links are not always needed
+
+if (isset($_POST['submit'])) {
+    if ($form->validate()) {
+        $values = $form->exportValues();
+
+        if (!empty($_FILES['thefile']['name'])) {
+            // this will need some more security checks
+            if ($_FILES['thefile']['size'] >= (1024 * 100)) {
+                report_error('The files should NOT be bigger then 100kb, please upload
+                              it somewhere and link to it');
+            } else {
+                $filehash = md5($_FILES['thefile']['name'] . time());
+                move_uploaded_file($_FILES['thefile']['tmp_name'],
+                                   './../../files/' . $filehash);                                  
+                $proposal->pkg_filehash = $proposal->pkg_filehash . '|' . $_FILES['thefile']['name'] . $filehash;
+ 
+            }
+        }
+        if (isset($values['pkg_category_new']['pkg_category_new_do'])) {
+            $values['pkg_category'] = $values['pkg_category_new']['pkg_category_new_text'];
+        }
+
+        if (isset($values['next_stage'])) {
+            switch ($proposal->status) {
+                case 'draft':
+                    if ($proposal->checkTimeLine()) {
+                       $values['proposal_date'] = time();
+                       $proposal->status = 'proposal';
+                       $proposal->sendActionEmail('change_status_proposal', 'mixed', $_COOKIE['PEAR_USER']);
+                    } else {
+                       PEAR::raiseError('You can not change the status now.');
+                    }
+                    break;
+
+                case 'proposal':
+                    if ($proposal->checkTimeLine()) {
+                       $values['vote_date'] = time();
+                       $proposal->status = 'vote';
+                       $proposal->sendActionEmail('change_status_vote', 'mixed', $_COOKIE['PEAR_USER']);
+                    } else {
+                       PEAR::raiseError('You can not change the status now.');
+                    }
+                    break;
+
+                default:
+                    if ($proposal->mayEdit($_COOKIE['PEAR_USER'])) {
+                       $values['longened_date'] = time();
+                       $proposal->status = 'vote';
+                       $proposal->sendActionEmail('longened_timeline_admin', 'mixed', $_COOKIE['PEAR_USER']);
+                    }
+            }
+        } else {
+            if (isset($proposal) && $proposal->status != 'draft') {
+                if (!empty($values['action_comment']) ) /*|| ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") &&
+		 ($proposal->user_handle != $_COOKIE['PEAR_USER'])))*/ { // !!!
+                    if (empty($values['action_comment'])) {
+                        PEAR::raiseError('A changelog comment is required.');
+                    }
+                    $proposal->addComment($values['action_comment']);
+                    $proposal->sendActionEmail('edit_proposal', 'mixed', $_COOKIE['PEAR_USER'], $values['action_comment']);
+                }
+            }
+        }
+
+        $linksData = $values['link'];
+
+        if (isset($proposal)) {
+            $proposal->fromArray($values);
+        } else {
+            $proposal = new proposal($values);
+            $proposal->user_handle = $_COOKIE['PEAR_USER'];
+        }
+
+        unset($proposal->links);
+        for ($i = 0; $i < count($linksData); $i++) {
+            $linkData['type'] = $linksData[$i]['type'];
+            $linkData['url']  = $linksData[$i]['url'];
+
+            if ($linksData[$i]['url']) {
+                $proposal->addLink($dbh, new ppLink($linkData));
+            }
+        }
+
+        $proposal->store($dbh);
+
+        if (isset($values['next_stage'])) {
+            $nextStage = 1;
+        }
+
+        ob_end_clean();
+        header('Location: rfc-proposal-edit.php?id='
+                      . $proposal->id . '&saved=1&next_stage=' . @$nextStage);
+    } else {
+        $pepr_form = $form->toArray();
+        report_error($pepr_form['errors']);
+    }
+}
+
+ob_end_flush();
+
+if (!empty($_GET['next_stage'])) {
+    $form =& new HTML_QuickForm('no-form');
+    $bbox = array();
+    switch ($proposal->status) {
+        case 'proposal':
+            $bbox[] = 'The RFC has been proposed on phpdoc.'
+                    . ' All further changes will produce an update email.';
+            break;
+
+        case 'vote':
+            $bbox[] = 'The RFC has been called for votes on phpdoc.'
+                    . ' No further changes are allowed.';
+            break;
+    }
+   // if ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin')) { // !!!
+        $bbox[] = 'Your changes were recorded and necesary emails'
+                . ' were sent.';
+   // } // !!!
+    if ($bbox) {
+        report_success(implode(' ', $bbox));
+    }
+} else {
+    if (!empty($_GET['saved'])) {
+         report_success('Changes saved successfully.');
+    }
+}
+
+if ($id != 0) {
+display_pepr_nav($proposal);
+}
+
+$form->display();
+
+echo site_footer();
+
+?>
