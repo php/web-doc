@@ -59,8 +59,9 @@ if (!isset($inCli) OR $inCli != true) {
         $baseURL = dirname($_SERVER['REQUEST_URI']);
     }
 
-    // this very dirty fix makes /rfc work
+    // this very dirty fix makes /rfc and /dochowto work (@@@ re-work this)
     $baseURL = str_replace('/rfc', '', $baseURL);
+    $baseURL = str_replace('/dochowto', '', $baseURL);
 
     // actually define the constant (trim off any trailing slashes):
     define('BASE_URL', rtrim($baseURL, '/'));
