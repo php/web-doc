@@ -49,6 +49,30 @@ define('HTTP_INTERNAL_ERROR', 7);
 define('HTTP_NOT_FOUND', 8);
 
 
+// function to handle relative HTTP paths
+function fix_relative_url($url, $parsed) {
+
+    if($url{0} == '/') {
+        return $parsed['scheme'] . '://' . $parsed['host'] . $url;
+    }
+
+    if(preg_match('@(?:f|ht)tps?://@S', $url)) {
+        return $url;
+    }
+
+    /* try to be RFC 1808 compliant */
+    $path = $parsed['path'] . $url;
+    $old  = '';
+
+    do {
+        $old  = $path;
+        $path = preg_replace('@[^/:?]+/\.\./|\./@S', '', $path);
+    } while($old != $path);
+
+    return $parsed['scheme'] . '://' . $parsed['host'] . $path;
+}
+
+
 if (!$file = file_get_contents($filename)) {
     exit;
 }
@@ -67,15 +91,23 @@ $entity_urls  = $entities_found[3];
 $errors = array();
 
 $numb = 0;
+$old_host = '';
+
 // Walk through entities found
 foreach($entity_urls as $num => $entity_url) {
 
-    $numb++;
-    sleep(7); // make some servers happy
+    ++$numb;
     
     // Get the parts of the URL
     $url = parse_url($entity_url);
     $entity = $entity_names[$num];
+
+    // sleep if accessing the same host more that once
+    if($url['host'] == $old_host) {
+        sleep(5);
+    } else {
+        $old_host = $url['host'];
+    }
 
     // Try to find host
     if (gethostbyname($url['host']) == $url['host']) {
@@ -110,7 +142,7 @@ foreach($entity_urls as $num => $entity_url) {
             $errors[HTTP_CONNECT][] = array($num);
 
         } else {
-            fputs($fp, "HEAD {$url['path']} HTTP/1.0\r\nHost: {$url['host']}\r\nConnection: close\r\nUser-agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041207 Firefox/1.0\r\n\r\n");
+            fputs($fp, "HEAD {$url['path']} HTTP/1.0\r\nHost: {$url['host']}\r\nConnection: close\r\nUser-agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)\r\n\r\n");
 
             $str = '';
             while (!feof($fp)) {
@@ -136,7 +168,7 @@ foreach($entity_urls as $num => $entity_url) {
                         case '301' :
                         case '302' :
                         if (preg_match('/Location: (.+)/', $str, $redir)) {
-                            $errors[HTTP_MOVED][] = array($num, $redir[1]);
+                            $errors[HTTP_MOVED][] = array($num, fix_relative_url($redir[1], $url));
                         } else {
                             $errors[HTTP_WRONG_HEADER][] = array($num, $str);
                         }
@@ -189,9 +221,8 @@ if (isset($errors[UNKNOWN_HOST])) {
 
     foreach ($errors[UNKNOWN_HOST] as $infos) {
         echo '<tr>
-        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_names[$infos[0]] . '</a></td>
-        '//<td>' . $entity_names[$infos] . '</td>
-        .'<td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_urls[$infos[0]] . '</a></td>
+        <td>' . $entity_names[$infos[0]] . '</td>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_urls[$infos[0]] . '</a></td>
        </tr>';
     }
 
@@ -314,12 +345,14 @@ if (isset($errors[HTTP_MOVED])) {
     '<table>
   <tr class="blue">
     <th>Entity Name</th>
+    <th>Entity URL</th>
     <th>Redirected to</th>
   </tr>';
 
     foreach ($errors[HTTP_MOVED] as $infos) {
         echo '<tr>
-        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_names[$infos[0]] . '</a></td>
+        <td>' . $entity_names[$infos[0]] . '</td>
+        <td><a href="' . $entity_urls[$infos[0]] . '">' . $entity_urls[$infos[0]] . '</a></td>
         <td><a href="' . $infos[1] . '">' . $infos[1] . '</a></td>
        </tr>';
     }
