@@ -9,8 +9,8 @@
 
  <?php foreach ($entData as $eID => $eVal) { ?>
   <tr>
-   <td><a name="ent-<?php echo $eID;?>"><?php echo $eID; ?></a></td>
-   <td><?php echo ent_value(ent_link(strip_tags($eVal))); ?></td>
+   <td valign="top"><a name="ent-<?php echo $eID;?>"><?php echo $eID; ?></a></td>
+   <td valign="top"><?php echo $eVal; ?></td>
   </tr>
  <?php } ?>
 </table>

@@ -296,24 +296,69 @@ function url_store_result($sqlite, $num, $name, $url, $result)
     sqlite_query($sqlite, $sql);
 }
 
-function url_callback($m)
-{
-
-  $url = $m[1] .'://'. $m[3];
-  $link = str_chop($url, 60, true);
-
-  $html = "<a href='$url' title='$url'>$link</a>";
-  return $html;
-}
-
-function ent_value($eVal)
-{
-  return preg_replace_callback('#((f|ht)tps?)://([^\s]+)#S', 'url_callback', $eVal);
-}
-
+/**
+ * Turns email addresses and URLs into links (for entities)
+ *
+ * @param string $eVal Text to (possibly) link
+ * @return string html-linked text
+ */
 function ent_link($eVal)
 {
-return preg_replace('/&([^;]+);/', '<a href="entities.php#ent-\1">&amp;\1;</a>', $eVal);
+    // generic mail match regex
+    $mailRegex = '!^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$!';
+    if (preg_match($mailRegex, $eVal)) {
+        $eVal = "<a href='mailto:$eVal'>$eVal</a>";
+    } else {
+        $urlRegex = '#(http|https|ftp|news)://([^\s]+)#S';
+        $eVal = preg_replace_callback($urlRegex, 'url_callback', $eVal);
+    }
+    return $eVal;
+}
+
+/**
+ * Turns embedded entities into anchor links
+ *
+ * @param string $eVal Text to (possibly) alter
+ * @return string html-linked text
+ */
+function ent_anchors($eVal)
+{
+    $entityRegex = '/&([^;]+);/';
+    $eVal = preg_replace_callback($entityRegex, 'anchor_callback', $eVal);
+    return $eVal;
+}
+
+/**
+ * preg_replace_callback callback for ent_link()
+ *
+ * @param array $m results of match
+ * @return string
+ */
+function url_callback($m)
+{
+    $url = $m[1] .'://'. $m[2];
+    $link = str_chop($url, 60, true);
+
+    $html = "<a href='$url' title='$url'>$link</a>";
+    return $html;
+}
+
+/**
+ * preg_replace_callback callback for ent_anchors()
+ *
+ * @param array $m results of match
+ * @return string
+ */
+function anchor_callback($m)
+{
+    $htmlEntities = get_html_translation_table(HTML_ENTITIES);
+    $htmlEntities["'"] = '&apos;'; // hack; this isn't in the src
+
+    if (in_array("&{$m[1]};", $htmlEntities)) {
+        return "&{$m[1]};";
+    } else {
+        return "<a href='entities.php#ent-{$m[1]}'>&amp;{$m[1]};</a>";
+    }
 }
 
 /**

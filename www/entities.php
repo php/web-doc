@@ -43,7 +43,12 @@ $sql = "
 ";
 $entsQ = sqlite_query($sqlite, $sql);
 while ($row = sqlite_fetch_array($entsQ)) {
-    $entData[$row['entid']] = $row['value'];
+    $entData[$row['entid']] = strip_tags($row['value']);
+    if (substr($row['entid'], 0, 4) == 'url.') {
+        $entData[$row['entid']] = ent_link($entData[$row['entid']]);
+    } else {
+        $entData[$row['entid']] = ent_anchors(ent_link($entData[$row['entid']]));
+    }
 }
 
 echo site_header('docweb.common.header.entities');
