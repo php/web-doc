@@ -56,6 +56,8 @@ if (isset($_GET['get']) AND !empty($_GET['get'])) {
         header("Content-Disposition: attachment; filename=".stripslashes($file));
         echo file_get_contents($path . '/../../files/' . $get);
         exit;
+    } else {
+        error_handler('File could not be found');
     }
     exit;
 }
