@@ -50,7 +50,7 @@ if (SITE == 'www') {
     }
 }
 $sql = "SELECT charset FROM description WHERE lang='" . LANGC . "';";
-if (!($dbhandle = @sqlite_open($DBLANG)) || !($res = sqlite_query($dbhandle, $sql)) || !sqlite_num_rows($res))
+if (!($dbhandle = @sqlite_open($DBLANG)) || !($res = @sqlite_query($dbhandle, $sql)) || !sqlite_num_rows($res))
 {
     // if there's no description, there's no documentation
     echo site_header('docweb.common.header.revcheck');
