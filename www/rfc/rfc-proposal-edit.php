@@ -120,7 +120,8 @@ if (strlen($_GET['delete']) >= 32 &&
 
 $form =& new HTML_QuickForm('proposal_edit', 'post',
                             'rfc-proposal-edit.php?id=' . $id);
-
+$form->setMaxFileSize(round((1024 * 1024)/10));
+                            
 $renderer =& $form->defaultRenderer();
 $renderer->setElementTemplate('
  <tr>
@@ -178,6 +179,7 @@ $form->addElement('static', '', '', 'You have uploaded '.$filecount.' file(s). T
 
 if (!empty($proposal->pkg_filehash)) {
     $list = explode("|", htmlspecialchars(stripslashes($proposal->pkg_filehash)));
+
     foreach ($list as $hash) {
         if ($hash == '')
             continue;
@@ -186,7 +188,7 @@ if (!empty($proposal->pkg_filehash)) {
 
         $form->addElement('static', '', '', '<li><a href="?id='.$id.'&delete='.urlencode($hash).'">'.$file.'</a></li>');
 
-}
+    };
 }
 
 
@@ -282,7 +284,7 @@ if (isset($_POST['submit'])) {
 
         if (!empty($_FILES['thefile']['name'])) {
             // this will need some more security checks
-            if ($_FILES['thefile']['size'] >= (1024 * 100)) {
+            if ($_FILES['thefile']['size'] >= round((1024 * 1024)/10)) {
                 report_error('The files should NOT be bigger then 100kb, please upload
                               it somewhere and link to it');
             } else {
