@@ -26,6 +26,9 @@ error_reporting(E_ALL);
 // get paths
 require_once(dirname(realpath(__FILE__)) . '/../build-ops.php');
 
+// RSS cache is considered stale after (seconds):
+define('RSS_STALE_CACHE_BUGS', 300); // 300 = 5mins
+
 // project & language config
 require_once('lib_proj_lang.inc.php');
 
@@ -83,3 +86,5 @@ if ($inCli != true) {
     // template engine
     require_once('docweb_template.class.php');
 }
+
+?>

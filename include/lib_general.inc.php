@@ -64,6 +64,15 @@ function site_header($title = '', $style = array())
     // Set proper encoding with HTTP header first
     header("Content-type: text/html; charset=$encoding");
 
+    // bugs for count
+    if ($bugs = get_bugs_rss()) {
+        $showBugs = true;
+        $bugCount = $bugs['count'];
+        $bugsLink = $bugs['link'];
+    } else {
+        $showBugs = $bugCount = $bugsLink = false;
+    }
+
     return DocWeb_Template::get(
         'shared/header.tpl.php',
         array(
@@ -79,6 +88,9 @@ function site_header($title = '', $style = array())
             'locallinks'  => $locallinks,
             'extlinks'    => $extlinks,
             'page_title'  => $page_title,
+            'showBugs'    => $showBugs,
+            'bugCount'    => $bugCount,
+            'bugsLink'    => $bugsLink,
         )
     );
 }
@@ -245,4 +257,57 @@ function ext_nav_provider()
         array('links' => $links, 'Language' => &$GLOBALS['Language'])
     );
 }
+
+function get_bugs_rss($project=SITE)
+{
+    // set up proper RSS URLs
+    switch ($project)
+    {
+        case 'php':
+            $RSS_URL = 'http://bugs.php.net/rss/search.php?boolean=0'
+                      .'&limit=All&order_by=status&direction=ASC&cmd=display'
+                      .'&status=Open&bug_type%5B%5D=Documentation+problem'
+                      .'&bug_age=0';
+            $link    = 'http://bugs.php.net/search.php?boolean=0'
+                      .'&limit=All&order_by=status&direction=ASC&cmd=display'
+                      .'&status=Open&bug_type%5B%5D=Documentation+problem'
+                      .'&bug_age=0';
+            break;
+        
+        case 'livedocs':
+            $RSS_URL = 'http://bugs.php.net/rss/search.php?boolean=0'
+                      .'&limit=All&order_by=status&direction=ASC&cmd=display'
+                      .'&status=Open&bug_type%5B%5D=Livedocs+problem'
+                      .'&bug_age=0';
+            $link    = 'http://bugs.php.net/search.php?boolean=0'
+                      .'&limit=All&order_by=status&direction=ASC&cmd=display'
+                      .'&status=Open&bug_type%5B%5D=Livedocs+problem'
+                      .'&bug_age=0';
+            break;
+            
+        default:
+            return false;
+    }
+
+    // local cache
+    $localFile = FILES_DIR . "bugs_{$project}.rss";
+
+    if (!(is_readable($localFile) &&
+        (filemtime($localFile) > time() - RSS_STALE_CACHE_BUGS))) {
+        // cache miss: download (& cache) rss
+        file_put_contents($localFile, file_get_contents($RSS_URL));
+    }
+
+    require_once "XML/RSS.php";
+
+    $RSS =& new XML_RSS($localFile);
+    $RSS->parse();
+    $items = $RSS->getItems();      
+    return array(
+        'count' => count($items),
+        'link'  => $link,
+        'items' => $items,
+    );
+}
+
 ?>
