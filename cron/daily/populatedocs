@@ -1,0 +1,2 @@
+#!/bin/sh
+../../scripts/populatedocs.sh

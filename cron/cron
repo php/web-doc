@@ -1,0 +1,23 @@
+#!/bin/bash
+
+CRONSETPATH=`dirname $0`/$1
+
+if [ -d $CRONSETPATH ]
+then
+  pushd . > /dev/null
+  cd $CRONSETPATH
+ 
+  for job in `ls -1`
+  do
+    if [ -f ./$job ] && [ -x ./$job ]
+    then
+      exec ./$job
+    fi
+  done
+ 
+  popd > /dev/null
+  
+else
+  echo "'$1' is not a valid cron set"
+
+fi
