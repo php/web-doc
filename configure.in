@@ -85,7 +85,7 @@ AC_ARG_WITH(www-group,[  --with-www-group[=GROUP]   Web Server group  [default=`
 DOCWEB=`pwd`
 
 if test `uname|grep CYGWIN` ; then
-  PHP=`cygpath -w $PHP`
+  PHP=`cygpath -m $PHP`
   CRONDIR=`cygpath -m $CRONDIR`
   CVSDIR=`cygpath -m $CVSDIR`
   DOCWEB=`cygpath -m $DOCWEB`
