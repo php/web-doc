@@ -104,7 +104,9 @@ function is_project($project)
 
 function get_cvs_dir($project)
 {
-    return documentation_exists($project) ? $GLOBALS['PROJECTS'][$project] . '/' : FALSE;
+/** make this return something until the function is found **/
+//    return documentation_exists($project) ? $GLOBALS['PROJECTS'][$project] . '/' : FALSE;
+      return $GLOBALS['PROJECTS'][$project];
 }
 
 function site_header($title = '')
