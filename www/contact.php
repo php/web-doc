@@ -1,4 +1,6 @@
 <?php
+/* $Id$ */
+
 // TODO: list of all project mailing lists somewhere (not here!)
 include_once '../include/lib_general.inc.php';
 echo site_header('Contact');

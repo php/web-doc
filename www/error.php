@@ -1,7 +1,7 @@
 <?php
+/* $Id$ */
 
 include '../include/lib_general.inc.php';
-
 
 if( !isset($_SERVER["REDIRECT_STATUS"]) || $_SERVER["REDIRECT_STATUS"] == 200  ) {
 

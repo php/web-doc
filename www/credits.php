@@ -1,4 +1,6 @@
 <?php
+/* $Id$ */
+
 include '../include/lib_general.inc.php';
 echo site_header('Website credits');
 ?>
