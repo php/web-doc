@@ -43,7 +43,8 @@ function site_header($title = '', $style = array())
     $lang       = 'en'; //LANGC;
     $encoding   = 'UTF-8';
     $page_title = ($title ? $GLOBALS['Language']->get($title) . ' - ' : '') . $GLOBALS['Language']->get('docweb.common.title.default');
-    $page_h1    = ($title ? $GLOBALS['Language']->get($title) : $GLOBALS['Language']->get('docweb.common.title.default'));
+    $h1         = ($title ? $GLOBALS['Language']->get($title) : $GLOBALS['Language']->get('docweb.common.title.default'));
+    list($page_h1) = explode("\n", wordwrap($h1, 50, "...\n"));
 
     $languages = site_nav_langs();
     $projects  = site_nav_projects();
