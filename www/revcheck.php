@@ -32,7 +32,7 @@ if (SITE == 'www') {
                 echo site_header('Revcheck');
                 echo "
                 <p class=\"c\">
-                <img src=\"/images/info_revcheck_" . SITE . "_all_lang.png\" alt=\"Info\" />
+                <img src=\"/images/revcheck/info_revcheck_" . SITE . "_all_lang.png\" alt=\"Info\" />
                 </p>";
                 echo site_footer();
                 die();
@@ -422,7 +422,7 @@ END_OF_MULTILINE;
 
         case "graph" :
         echo "<p class=\"c\">
-            <img src=\"/images/info_revcheck_" . SITE . "_" . LANGC . ".png\" alt=\"Info\" />
+            <img src=\"/images/revcheck/info_revcheck_" . SITE . "_" . LANGC . ".png\" alt=\"Info\" />
             </p>";
         break;
 

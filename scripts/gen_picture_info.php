@@ -30,7 +30,7 @@ foreach( $argv as $lang ) {
   
   } else {
   
-    echo " Generate images/info_revcheck_" . $TYPE . "_" . $lang . ".png\n";
+    echo " Generate images/revcheck/info_revcheck_" . $TYPE . "_" . $lang . ".png\n";
   
   }
 }
@@ -105,7 +105,7 @@ $p1->value->Show(false);
 $p1->SetLegends($legend);
 
 $graph->Add($p1);
-$graph->Stroke('../www/images/info_revcheck_' . $TYPE . '_' . $lang . '.png');
+$graph->Stroke('../www/images/revcheck/info_revcheck_' . $TYPE . '_' . $lang . '.png');
 
 
 return TRUE;

@@ -111,7 +111,7 @@ $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 
 // Display the graph
-$graph->Stroke('../www/images/info_revcheck_' . $TYPE . '_all_lang.png');
+$graph->Stroke('../www/images/revcheck/info_revcheck_' . $TYPE . '_all_lang.png');
 
 }
 
