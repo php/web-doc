@@ -1,0 +1,73 @@
+/* $Id$ */
+
+@import url(/style/common.css);
+
+/**
+  *	generic style
+  **/
+
+#HeaderWindows {
+   background-color: #cccccc;
+   background-image:url("/images/php.gif");
+   background-position:top left;
+   background-repeat:no-repeat;
+}
+
+#LeftData {
+   background-color: #eeeeee;
+}
+
+#LeftData h2, #CenterData h2 {
+   color: #185083;
+}
+
+#CenterData h3 {
+   color: #6666cc;
+   font-style: italic;
+}
+
+div .ColoredDiv {
+   background: #9999cc; 
+   padding: 5px; 
+   border: solid 1px #666699;
+}
+
+th {
+   background: #9999cc;
+}
+/* links */
+
+a {
+   font-weight: normal;
+   color: #000099;
+}
+
+a:hover {
+   border-bottom: 1px dotted #000099;
+}
+
+#Nav1 a {
+   color: #000099;
+}
+
+#Nav1 a:hover {
+   border-bottom: 1px dotted #000099;
+}
+
+#Nav2, #FooterData {
+   background-color: #666699;
+}
+
+#Nav2 a, #FooterData a {
+   color: #fff;
+}
+
+#Nav2 a:hover, #FooterData a:hover {
+   border-bottom: 1px dotted #fff;
+}
+
+/* footer */
+
+#FooterData2 {
+   background-color: #ccc;
+}

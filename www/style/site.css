@@ -1,0 +1,126 @@
+body, td {
+	margin: 0px;
+	font-size: 12px;
+	font-family: sans-serif;
+}
+#header {
+	position: relative;
+	background-color: #f5f5f5;
+	border-bottom: 1px solid #cdcdcd;
+	text-align: right;
+}
+#header h1 {
+	position: absolute;
+	bottom: 0px;
+	left: 15px;
+	margin: 0px;
+	padding: 0px;
+	font-size: 1.5em;
+}
+h2 {
+	font-size: 1.3em;
+}
+#logos {
+	padding: 1em 1.5em 0.2em 1.5em;
+}
+#page {
+	padding: 0px 15px;
+}
+
+#sidebar {
+	float: right;
+	width: 250px;
+}
+#sidebar h2 {
+	margin: 0px;
+}
+#sidebar .sidebox {
+	margin: 0.5em 0 0.5em 1em;
+	padding: 0.3em;
+	border: 1px solid black;
+}
+#sidebar .sidebox td {
+	vertical-align: top;
+	padding: 3px;
+}
+#sidebar .sidebox .project {
+	text-align: right;
+	border-right: 1px solid black;
+}
+tr.even td {
+	background-color: #f5f5f5;
+}
+.sidebox dd {
+	margin-left: 1em;
+}
+
+.logo {  
+	font-weight: bold;
+	padding: 0 2px;
+	border: 1px solid #cdcdcd;
+	text-decoration: none;
+}
+.logo-php {
+	background-color: #9999cc;
+	color: white;
+}
+.logo-pear {
+	background-color: #339900;
+	color: white;
+}
+.logo-pecl {
+	background-color: #330099;
+	color: white;
+}
+.logo-smarty {
+	background-color: #f0c040;
+	color: black;
+}
+.logo-gtk {
+	background-color: #cacaca;
+	color: white;
+}
+.logo-g { color: red; }
+.logo-t { color: green; }
+.logo-k { color: blue; }
+.logo-livedocs {
+	background-color: #cc3344;
+	color: white;
+}
+.logo-all {
+	background-color: #ffff99;
+	color: black;
+}
+
+dl dt {
+	margin-top: 0.5em;
+	font-weight: bold;
+}
+dl dd {
+	margin-top: 0.3em;
+}
+
+img {
+	border: 0;
+}
+
+#footer {
+	clear: both;
+	background-color: #f5f5f5;
+	border-top: 1px solid #cdcdcd;
+	text-align: center;
+	padding: 3px 0;
+}
+#footer p {
+	margin: 2px;
+}
+
+#langs {
+	background-color: #ffff99;
+	border-bottom: 1px solid #cdcdcd;
+	text-align: right;
+	padding: 0.2em 1.5em;
+}
+#langs img {
+	vertical-align: middle;
+}
