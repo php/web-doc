@@ -60,11 +60,14 @@ $LANGUAGES = array(
     'ja' => 'Japanese',
     'kr' => 'Korean',
     'pl' => 'Polish',
+    'pt' => 'Portuguese',
     'ro' => 'Romanian',
     'ru' => 'Russian',
     'sk' => 'Slovak',
+    'sl' => 'Slovenian',
     'es' => 'Spanish',
     'sv' => 'Swedish',
+    'tr' => 'Turkish',
     'en' => 'English'
 );
 
