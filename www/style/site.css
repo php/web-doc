@@ -124,3 +124,43 @@ img {
 #langs img {
 	vertical-align: middle;
 }
+
+th.headrow {
+    text-align: left;
+    border-bottom: 1px solid #000;
+    white-space: nowrap;
+}
+
+td.ulcell {
+    vertical-align: top;
+}
+
+/* Tabbed sub-navigation */
+
+#nav {
+    width: 100%;
+    /*border-top: 1px solid #000;*/
+    display: block;
+    margin-bottom: 35px;
+    clear: left;
+}
+
+#nav a {
+    /*float: left;*/
+    font-weight: bold;
+    font-size: 80%;
+    text-decoration: none;
+    background: #eee;
+    margin-right: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    /*border-right: 1px solid #ccc;*/
+}
+
+#nav a.active {
+    background: #ddf;
+}
+
+#nav a:hover {
+    background: #ddf;
+}

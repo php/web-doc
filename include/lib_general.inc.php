@@ -302,6 +302,10 @@ function site_nav_provider()
     if (SITE == 'php') {
         $links[] = '<a href="/dochowto/index.php">Documentation Howto</a>';
     }
+    if (strpos($_SERVER['PHP_SELF'], 'rfc') !== false) {
+        $links[] = '<a href="/rfc/rfc-overview.php">RFC overview</a>';
+        $links[] = '<a href="/rfc/rfc-proposal-edit.php">Submit Proposal</a>';
+    }
     if (count($links) == 0) {
         $links[] = 'N/A';
     }
