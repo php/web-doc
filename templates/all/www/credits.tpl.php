@@ -9,8 +9,8 @@
  <dd>&docweb.credits.php-systems;</dd>
  <dt>&docweb.credits.section.devs;</dt>
  <dd>
-   Mehdi Achour, Vincent Gevers, Gabor Hojtsy,
-   Yannick Torres &docweb.common.and; Sean Coates</dd>
+   Mehdi Achour, Sean Coates, Vincent Gevers, Gabor Hojtsy,
+   Nuno Lopes &docweb.common.and; Yannick Torres</dd>
 </dl>
 
 <p>

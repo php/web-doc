@@ -84,25 +84,29 @@ class DocWeb_Language
         if (!$lang) {
             $lang = $this->lang;
         }
-        
+
         // use this file:
         $entFile = CVS_DIR ."/phpdoc-all/$lang/docweb/main.ent";
-        
+
         if (is_readable($entFile)) {
             // file is good; get its contents
             $entData = file_get_contents($entFile);
-            
+
+            // try to find the encoding of the file
+            preg_match('/<?.*encoding\s*=\s*["\']([^"\']+)["\'].*?>/', $entData, $matches);
+            $charset = isset($matches[1]) ? $matches[1] : 'UTF-8';
+
             // find entities in the file
             $entMatchRegex = '/<!ENTITY ('. preg_quote(DOCWEB_ENTITIY_PREFIX)
-                            .'\..*?) ([\'"])(.*?)(\2)>/s';            
+                            .'\..*?) ([\'"])(.*?)\2>/s';            
             preg_match_all($entMatchRegex, $entData, $matches);
-            
+
             // init local entities variable
             $entities = array();
-            
+
             // loop through matches, creating entities dataset
             foreach ($matches[0] as $index => $val) {
-                $entities[$matches[1][$index]] = $matches[3][$index];
+                $entities[$matches[1][$index]] = @iconv($charset, 'UTF-8//IGNORE', $matches[3][$index]);
             }
             return $entities;
         } else {
@@ -111,7 +115,7 @@ class DocWeb_Language
             return array();
         }
     }
-    
+
     /**
     * Gives a single entity's text
     *
