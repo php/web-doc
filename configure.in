@@ -50,23 +50,23 @@ fi
 
 AC_ARG_WITH(cron-dir,[  --with-cron-dir[=DIR]      CRON scripts location  [default=`pwd`/cron]],
   [CRONDIR="$withval"],
-  [CRONDIR="`pwd`/cron"])
+  [CRONDIR="`pwd`/cron/"])
 
 AC_ARG_WITH(cvs-dir,[  --with-cvs-dir[=DIR]       CVS checkout location  [default=`pwd`/cvs]],
   [CVSDIR="$withval"],
-  [CVSDIR="`pwd`/cvs"])
+  [CVSDIR="`pwd`/cvs/"])
 
 AC_ARG_WITH(scripts-dir,[  --with-scripts-dir[=DIR]   Scripts location  [default=`pwd`/scripts]],
   [SCRIPTSDIR="$withval"],
-  [SCRIPTSDIR="`pwd`/scripts"])
+  [SCRIPTSDIR="`pwd`/scripts/"])
 
 AC_ARG_WITH(sql-dir,[  --with-sql-dir[=DIR]       SQL source location  [default=`pwd`/sql]],
   [SQLDIR="$withval"],
-  [SQLDIR="`pwd`/sql"])
+  [SQLDIR="`pwd`/sql/"])
 
 AC_ARG_WITH(sqlite-dir,[  --with-sqlite-dir[=DIR]    SQLite repository location  [default=`pwd`/sqlite]],
   [SQLITEDIR="$withval"],
-  [SQLITEDIR="`pwd`/sqlite"])
+  [SQLITEDIR="`pwd`/sqlite/"])
 
 DOCWEB=`pwd`
 
