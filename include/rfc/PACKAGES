@@ -1,0 +1,22 @@
+=== PEAR packages needed for the RFC system to work ===
+
+DB
+HTML_QuickForm
+Mail
+HTML_BBCodeParser
+Text_Wiki
+
+== Installation ===
+
+pear install DB
+pear install Mail
+pear install HTML_QuickForm
+pear install HTML_BBCodeParser
+pear -f install Text_Wiki
+
+or all at ones
+
+pear -f install DB Mail HTML_QuickForm HTML_BBCodeParser Text_Wiki
+
+
+
