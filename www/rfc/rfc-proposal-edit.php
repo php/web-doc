@@ -47,7 +47,7 @@ return true;
 
 ob_start();
 
-if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
+if (proposal =& proposal::get($dbh, @$_GET['id'])) {
 
 
     echo site_header('RFC :: Editor :: '
@@ -165,12 +165,14 @@ $form->addElement('file', 'thefile', '');
 $form->addElement('static', '', '', 'Upload a file or link to your files');
 
     $filecount = 0;
-    $filecount = explode('|', $proposal->pkg_filehash);
+    if ($proposal) {
+        $filecount = explode('|', $proposal->pkg_filehash);
 
-    if (@$filecount[1] == '') { // failed, no files
-        $filecount = 0;
-    } else {
-        $filecount = (count($filecount) -1);
+        if (@$filecount[1] == '') { // failed, no files
+            $filecount = 0;
+        } else {
+            $filecount = (count($filecount) -1);
+        }
     }
 
     if (isset($_POST['submit']) AND !empty($_FILES['thefile']['name'])) 
