@@ -252,13 +252,21 @@ function display_pepr_nav(&$proposal)
         'Main'       => array('url'   => 'rfc-proposal-show.php?id=' . $id,
                               'title' => 'View proposal details'
                         ),
-        'Comments'   => array('url'   => 'rfc-comments-show.php?id=' . $id,
-                              'title' => 'View and/or enter comments'
-                        ),
-        'Votes'      => array('url'   => 'rfc-votes-show.php?id=' . $id,
-                              'title' => 'View and/or enter votes'
-                        ),
     );
+
+    if ($proposal->status != 'draft') {
+        $items['Comments'] = array(
+            'url'   => 'rfc-comments-show.php?id=' . $id,
+            'title' => 'View and/or enter comments'
+        );
+
+        if ($proposal->status != 'proposal') {
+            $items['Votes'] = array(
+                'url'   => 'rfc-votes-show.php?id=' . $id,
+                'title' => 'View and/or enter votes'
+            );
+       }
+    }                        
 
     if ($proposal != null &&
         isset($_COOKIE['PEAR_USER']) &&
