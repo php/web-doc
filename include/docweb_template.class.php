@@ -148,13 +148,25 @@ class DocWeb_Template
     {
         $Language =& $GLOBALS['Language'];
         
-        $entMatchRegex = '/&('. preg_quote(DOCWEB_ENTITIY_PREFIX) .'\..*?);/';
+        static $entMatchRegex = FALSE;
+        if (!$entMatchRegex) {
+            $entMatchRegex = '/&('. preg_quote(DOCWEB_ENTITIY_PREFIX) .'\..*?);/';
+        }
+        
         preg_match_all($entMatchRegex, $text, $matches);
+        $replaceCounter = 0;
         for ($i=0; $i<count($matches[0]); $i++) {
             if ($rep = $Language->get($matches[1][$i])) {
-              $text = str_replace($matches[0][$i], $rep, $text);
+                $text = str_replace($matches[0][$i], $rep, $text);
+                $replaceCounter++;
             }
         }
+
+        // recurse, if there were replacements, and there are possibly more
+        if ($replaceCounter && preg_match($entMatchRegex, $text)) {
+            $text = $this->replace_entities($text);
+        }
+        
         return $text;
     }
 }
