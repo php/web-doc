@@ -6,5 +6,7 @@ cd ${CVSDIR}/phpdoc-all
 autoconf
 ./configure
 make howtophp
-
 cp howto/php/* ${DOCWEB}/www/dochowto
+
+make howtotgz
+cp howto/howto.html.tar.gz ${DOCWEB}/www/dochowto
