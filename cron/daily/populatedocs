@@ -1,3 +1,8 @@
 #!/bin/sh
-../../scripts/populatedocs.sh
-../../scripts/generation.sh
+
+. `dirname $0`/../../build-ops
+
+cd ${SCRIPTSDIR}
+
+./populatedocs.sh
+./generation.sh
