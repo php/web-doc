@@ -199,8 +199,8 @@ foreach ($proposal->links as $link) {
 if (!empty($proposal->pkg_filehash)) {
     $list = explode("|", htmlspecialchars($proposal->pkg_filehash));
 foreach ($list as $hash) {
-if ($hash == '')
-    continue;
+    if ($hash == '')
+        continue;
     
     $file = substr($hash, 0, -32);
     $hash = substr($hash, -32);
@@ -255,14 +255,12 @@ if ($proposal->longened_date) {
 
 <?php
 
-if ($changelog = @ppComment::getAll($proposal->id,
-                                    'package_proposal_changelog'))
-{
+if ($changelog = @ppComment::getAll($proposal->id, 'package_proposal_changelog')) {
     echo "<ul>\n";
     foreach ($changelog as $comment) {
         if (!isset($userinfos[$comment->user_handle])) {
           //  $userinfo[$comment->user_handle] = user::info($comment->user_handle); // !!!
-	  $userinfo[$comment->user_handle] = array('name'=>'TestUser');
+          $userinfo[$comment->user_handle] = array('name'=>'TestUser');
         }
         echo '<li><p style="margin: 0em 0em 0.3em 0em; font-size: 90%;">';
         echo htmlspecialchars($userinfo[$comment->user_handle]['name']);

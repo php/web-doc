@@ -311,6 +311,7 @@ function get_resource_url($url = '')
 function site_nav_provider()
 {
     $links = array('<a href="/">Subsite homepage</a>');
+    $links[] = '<a href="/rfc/rfc-overview.php">Request For Comments</a>';
     if (in_array(SITE, array('gtk', 'pear', 'php', 'smarty'))) {
         $links[] = '<a href="/revcheck.php">Revision check</a>';
     }
@@ -318,8 +319,7 @@ function site_nav_provider()
         $links[] = '<a href="/dochowto/index.php">Documentation Howto</a>';
     }
     if (strpos($_SERVER['PHP_SELF'], 'rfc') !== false) {
-        $links[] = '<a href="/rfc/rfc-overview.php">RFC overview</a>';
-        $links[] = '<a href="/rfc/rfc-proposal-edit.php">Submit Proposal</a>';
+        $links[] = '<a href="/rfc/rfc-proposal-edit.php">Submit RFC</a>';
     }
     if (count($links) == 0) {
         $links[] = 'N/A';
