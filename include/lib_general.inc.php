@@ -295,7 +295,9 @@ function get_bugs_rss($project=SITE)
     if (!(is_readable($localFile) &&
         (filemtime($localFile) > time() - RSS_STALE_CACHE_BUGS))) {
         // cache miss: download (& cache) rss
-        file_put_contents($localFile, file_get_contents($RSS_URL));
+        $fp = fopen($localFile, 'w');
+        fwrite($fp, file_get_contents($RSS_URL));
+        fclose($fp);
     }
 
     require_once "XML/RSS.php";
