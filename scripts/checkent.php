@@ -66,10 +66,13 @@ $entity_urls  = $entities_found[3];
 
 $errors = array();
 
+$numb = 0;
 // Walk through entities found
 foreach($entity_urls as $num => $entity_url) {
 
-
+    $numb++;
+    sleep(7); // make some servers happy
+    
     // Get the parts of the URL
     $url = parse_url($entity_url);
     $entity = $entity_names[$num];
@@ -107,7 +110,7 @@ foreach($entity_urls as $num => $entity_url) {
             $errors[HTTP_CONNECT][] = array($num);
 
         } else {
-            fputs($fp, "HEAD {$url['path']} HTTP/1.0\r\nHost: {$url['host']}\r\nConnection: close\r\n\r\n");
+            fputs($fp, "HEAD {$url['path']} HTTP/1.0\r\nHost: {$url['host']}\r\nConnection: close\r\nUser-agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.5) Gecko/20041207 Firefox/1.0\r\n\r\n");
 
             $str = '';
             while (!feof($fp)) {
@@ -341,6 +344,7 @@ if (isset($errors[HTTP_WRONG_HEADER])) {
     echo '</table>';
 }
 
+echo '<p>Checked ' . $numb . ' urls</p>';
 echo '<?php echo site_footer(); ?>';
 
 ?>
