@@ -102,7 +102,6 @@ foreach($entity_urls as $num => $entity_url) {
                         case '500' :
                         case '501' :
                         $errors[HTTP_INTERNAL_ERROR][] = array($num);
-                        fputs($o, $str);
                         break;
 
                         case '404' :
