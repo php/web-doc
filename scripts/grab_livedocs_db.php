@@ -32,25 +32,7 @@ require_once '../include/lib_url_entities.inc.php';
 
 echo "Grabbing livedocs DB...\n";
 
-// open local file
-if (!$fw = @fopen(ENTITY_SQLITE_FILE, 'w')) {
-    die("Error opening local file: " . ENTITY_SQLITE_FILE ."\n");
-}
-
-// open remote livedocs DB file
-if (!$fr = @fopen(REMOTE_ENTITY_SQLITE_FILE, 'r')) {
-    die("Error opening remote file: " . REMOTE_ENTITY_SQLITE_FILE ."\n");
-}
-
-$bytesRead = 0;
-$chunkSize = 32 * 1024; // read (up to) 32k chunks
-while ($d = fread($fr, $chunkSize)) {
-    $bytesRead += strlen($d);
-    fwrite($fw, $d);
-}
-
-fclose($fw);
-fclose($fr);
+copy(REMOTE_ENTITY_SQLITE_FILE, ENTITY_SQLITE_FILE); 
 
 $scriptTime = time() - $scriptBegin;
 $bytesSec = number_format(round($bytesRead / $scriptTime));
