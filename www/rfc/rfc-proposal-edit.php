@@ -62,8 +62,9 @@ if (strlen($_GET['delete']) >= 32 &&
         strpos($_GET['delete'], "..") === FALSE && (($_COOKIE['PEAR_USER'] == $proposal->user_handle) || is_admin())) {
         
         $hash = substr($_GET['delete'], -32);
+        $file = substr($_GET['delete'], 0, -32);
         if (!file_exists('./../../files/' . $hash)) {
-            report_error('File does not exists');
+            report_error('File ' . htmlspecialchars(stripslashes($file)) . ' does not exists');
         } else {
         $proposal->pkg_filehash = str_replace('|' . $_GET['delete'], '', $proposal->pkg_filehash);
         
@@ -75,7 +76,7 @@ if (strlen($_GET['delete']) >= 32 &&
         // this might need some more security
         unlink('./../../files/' . $hash);
         
-        report_success('File deleted!');
+        report_success('File ' . htmlspecialchars(stripslashes($file)) . ' deleted!');
         }
 }  
             
@@ -176,14 +177,14 @@ $form->addElement('static', '', '', 'Upload a file or link to your files');
 $form->addElement('static', '', '', 'You have uploaded '.$filecount.' file(s). To delete, click on the file');
 
 if (!empty($proposal->pkg_filehash)) {
-    $list = explode("|", htmlspecialchars($proposal->pkg_filehash));
+    $list = explode("|", htmlspecialchars(stripslashes($proposal->pkg_filehash)));
     foreach ($list as $hash) {
         if ($hash == '')
             continue;
     
         $file = substr($hash, 0, -32);
 
-        $form->addElement('static', '', '', '<li><a href="?id='.$id.'&delete='.$hash.'">'.$file.'</a></li>');
+        $form->addElement('static', '', '', '<li><a href="?id='.$id.'&delete='.urlencode($hash).'">'.$file.'</a></li>');
 
 }
 }

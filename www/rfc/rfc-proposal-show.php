@@ -176,7 +176,7 @@ if ($hash == '')
     $file = substr($hash, 0, -32);
     $hash = substr($hash, -32);
     echo '    <li>';
-    print_link('?get=' . $hash, htmlspecialchars($file));
+    print_link('?get=' . $hash, htmlspecialchars(stripslashes($file)));
     echo "</li>\n";
 }
 }
