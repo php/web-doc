@@ -127,7 +127,7 @@ function site_header($title = '', $style = array())
     $langdisplay = $GLOBALS['LANGUAGES'][LANGC];
     $projdisplay = $GLOBALS['PROJECTS'][SITE][0];
     // this will prevent 404 errors
-    $project     = (in_array(SITE, array('www', 'pecl', 'livedocs')) ? 'php' : SITE);
+    $project     = (in_array(SITE, array('www', 'livedocs')) ? 'php' : SITE);
     $locallinks  = site_nav_provider();
     $extlinks    = ext_nav_provider();
     
