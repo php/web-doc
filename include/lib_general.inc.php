@@ -212,7 +212,8 @@ function site_nav_provider()
         $links['rev-check'] = BASE_URL .'/revcheck.php';
     }
     if (SITE == 'php') {
-        $links['doc-howto']    = BASE_URL . '/dochowto/index.php';
+        $links['doc-howto'] = BASE_URL . '/dochowto/index.php';
+        $links['entities']  = BASE_URL . '/entities.php';
     }
 
     switch(SITE) {
