@@ -22,7 +22,10 @@ if (SITE == 'www') {
               ?>
                 <div class="ColoredDiv">
                 <h2 class="c">Status of the translated <?php echo strtoupper(SITE); ?> Manual</h2>
-                <p class="c" style="font-size:12px;"><span class="Flag"><img src="/images/flags/<?php echo LANGC; ?>.png" alt="<?php echo LANGD; ?>" title="<?php echo LANGD; ?>" /></span> Language: <?php echo LANGD; ?> : This documentation don't exist yet.<br />
+                <p class="c" style="font-size:12px;"><span class="Flag">
+                <?php if (LANGC != 'all') {
+                echo '<img src="/images/flags/' . LANGC .'.png" alt="'. LANGD . '" title="' . LANGD . '" />';
+                } ?></span> Language: <?php echo LANGD; ?> : This documentation don't exist yet.<br />
                 </p>
               </div>
               <?php
@@ -55,9 +58,12 @@ if( !$res ) {
 ?>
   <div class="ColoredDiv">
   <h2 class="c">Status of the translated <?php echo strtoupper(SITE); ?> Manual</h2>
-  <p class="c" style="font-size:12px;"><span class="Flag"><img src="/images/flags/<?php echo LANGC; ?>.png" alt="<?php echo LANGD; ?>" title="<?php echo LANGD; ?>" /></span> Language: <?php echo LANGD; ?> : This documentation don't exist yet.<br />
+  <p class="c" style="font-size:12px;"><span class="Flag">
+  <?php if (LANGC != 'all') {
+  echo '<img src="/images/flags/' . LANGC .'.png" alt="'. LANGD . '" title="' . LANGD . '" />';
+  } ?></span> Language: <?php echo LANGD; ?> : This documentation don't exist yet.<br />
   </p>
-</div>
+  </div>
 <?php
 echo site_footer();
 die;
@@ -107,13 +113,13 @@ $file_types = array(
   </p>
 </div>
  <ul>
-  <li<?php echo ($PART == 'intro' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo $_SERVER['PHP_SELF'] . '?p=intro">Introduction</a>'; ?></li>
-  <li<?php echo ($PART == 'translators' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo $_SERVER['PHP_SELF'] . '?p=translators">Translators</a>'; ?></li>
-  <li<?php echo ($PART == 'filesummary' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo $_SERVER['PHP_SELF'] . '?p=filesummary">File summary by type</a>'; ?></li>
-  <li<?php echo ($PART == 'files' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo $_SERVER['PHP_SELF'] . '?p=files">Files</a>'; ?></li>
-  <li<?php echo ($PART == 'misstags' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo $_SERVER['PHP_SELF'] . '?p=misstags">Missing revision numbers</a>'; ?></li>
-  <li<?php echo ($PART == 'missfiles' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo $_SERVER['PHP_SELF'] . '?p=missfiles">Untranslated files</a>'; ?></li>
-  <li<?php echo ($PART == 'graph' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo $_SERVER['PHP_SELF'] . '?p=graph">Graph</a>'; ?></li>
+  <li<?php echo ($PART == 'intro' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=intro">Introduction</a>'; ?></li>
+  <li<?php echo ($PART == 'translators' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=translators">Translators</a>'; ?></li>
+  <li<?php echo ($PART == 'filesummary' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=filesummary">File summary by type</a>'; ?></li>
+  <li<?php echo ($PART == 'files' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=files">Files</a>'; ?></li>
+  <li<?php echo ($PART == 'misstags' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=misstags">Missing revision numbers</a>'; ?></li>
+  <li<?php echo ($PART == 'missfiles' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=missfiles">Untranslated files</a>'; ?></li>
+  <li<?php echo ($PART == 'graph' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=graph">Graph</a>'; ?></li>
  </ul>
 <?php
 
@@ -328,7 +334,7 @@ END_OF_MULTILINE;
             echo 'no files';
         } else {
             echo '<p>Choose a directory :</p>';
-            echo '<form method="get" action="' . $_SERVER['PHP_SELF'] . '?p=files"><p><select name="dir">';
+            echo '<form method="get" action="' . BASE_URL . '?p=files"><p><select name="dir">';
             foreach ($dirs as $id => $name) {
                 if (isset($_GET['dir']) && $_GET['dir'] == $id) {
                     $selected = ' selected="selected"';

@@ -30,6 +30,7 @@ div .ColoredDiv {
    background: #9999cc; 
    padding: 5px; 
    border: solid 1px #666699;
+   width: 70%
 }
 
 th {
