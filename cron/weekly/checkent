@@ -8,3 +8,4 @@ cd ${SCRIPTSDIR}
 ${PHP} checkent.php phpdoc
 ${PHP} checkent.php peardoc
 ${PHP} checkent.php smarty
+${PHP} checkent.php gtk

@@ -43,9 +43,14 @@ switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
         $filename = CVS_DIR . '/smarty/docs/entities/global.ent';
         $entType = 'smarty';
         break;
-    
+
+    case 'gtk':
+        $filename = CVS_DIR . '/php-gtk-doc/global.ent';
+        $entType = 'gtk';
+        break;
+
     default:
-        echo "Usage: {$_SERVER['argv'][0]} phpdoc|peardoc|smarty\n";
+        echo "Usage: {$_SERVER['argv'][0]} phpdoc|peardoc|smarty|gtk\n";
         die();
 }
 
