@@ -108,7 +108,7 @@ function ent_sqlite_open()
 }
 
 /**
- * Handles relative HTTP URLs
+ * Handles relative HTTP URLs (almost RFC 1808 compliant)
  *
  * @param string  $url    URL to handle
  * @param array   $parsed result of parse_url()
@@ -124,14 +124,22 @@ function fix_relative_url ($url, $parsed)
         return $url;
     }
 
-    /* try to be RFC 1808 compliant */
-    $path = $parsed['path'] . $url;
+    /* handle ./ and . */
+    if (substr($url, 0, 2) == './') {
+        $url = substr($url, 2);
+    } elseif ($url == '.') {
+        $url = '';
+    }
+
+    $path = dirname($parsed['path']) . "/$url";
     $old  = '';
 
+    /* handle ../ */
     do {
         $old  = $path;
-        $path = preg_replace('@[^/:?]+/\.\./|\./@S', '', $path);
+        $path = preg_replace('@[^/:?]+/\.\./?@S', '', $path);
     } while ($old != $path);
+
 
     return "{$parsed['scheme']}://{$parsed['host']}{$path}";
 }
@@ -308,7 +316,7 @@ function url_callback($m)
 
 function ent_value($eVal)
 {
-  return preg_replace_callback('#(http|ftp)://([^\s]+)#', 'url_callback', $eVal);
+  return preg_replace_callback('#(?:f|ht)tps?://([^\s]+)#S', 'url_callback', $eVal);
 }
 
 function ent_link($eVal)
