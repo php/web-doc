@@ -1,12 +1,11 @@
 Initial Installation
 ---------------------
 
-1. You need to run the scripts/populatedocs.sh to fetch all the required
+1. Run ./configure [--help]
+2. You need to run the scripts/populatedocs.sh to fetch all the required
    documentation for the site.
-2. Create the sqlite directory and 'chown www:www sqlite' or the equivalent
-   user who apache runs under.
-3. Create the files directory and 'chown www:www files' or the equivalent
-   user who apache runs under.  
+3. Create the SQLite and files directories and chown them to the user and
+   group who apache runs under. (see scripts/set_ownership.sh)
 4. The PEAR packages for the RFC System can be found at include/rfc/PACKAGES
 5. A cronjob should be setup to run include/rfc/rfc-cron.php at 4am
 6. You may want to create a www/robots.txt to allow or disallow bots crawling
