@@ -334,7 +334,7 @@ END_OF_MULTILINE;
             echo 'no files';
         } else {
             echo '<p>Choose a directory :</p>';
-            echo '<form method="get" action="' . BASE_URL . '?p=files"><p><select name="dir">';
+            echo '<form method="get" action="' . BASE_URL . '/revcheck.php?p=files"><p><select name="dir">';
             foreach ($dirs as $id => $name) {
                 if (isset($_GET['dir']) && $_GET['dir'] == $id) {
                     $selected = ' selected="selected"';
