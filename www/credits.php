@@ -15,7 +15,9 @@ echo site_header('Website credits');
  <dt>PHP.net services (CVS, mailing list, etc)</dt>
  <dd>PHP.net system administration team</dd>
  <dt>Website development</dt>
- <dd>Mehdi Achour, Vincent Gevers, Gabor Hojtsy and Yannick Torres</dd>
+ <dd>
+   Mehdi Achour, Vincent Gevers, Gabor Hojtsy,
+   Yannick Torres and Sean Coates</dd>
 </dl>
 
 <p>

@@ -16,85 +16,41 @@
 | Authors:          Yannick Torres <yannick@php.net>                   |
 |                   Mehdi Achour <didou@php.net>                       |
 |                   Gabor Hojtsy <goba@php.net>                        |
+|                   Sean Coates <sean@php.net>                         |
 +----------------------------------------------------------------------+
 $Id$
 */
 
 error_reporting(E_ALL);
 
-// Copy lib_site_conf.inc.php and add proper settings!
-include_once 'lib_site_conf_local.inc.php';
-
+define('PATH_ROOT', realpath(dirname(__FILE__) . '/../'));
 define('SQLITE_DIR', PATH_ROOT . '/sqlite/');
 define('CVS_DIR',    PATH_ROOT . '/cvs/');
 
-// Map of supported documentation types to CVS module names
-$PROJECTS = array(
-    'php'      => array('PHP Documentation',     'phpdoc-all'),
-    'smarty'   => array('Smarty',                'smarty/docs'),
-    'pear'     => array('PEAR Documentation',    'peardoc'),
-    'gtk'      => array('PHP-GTK Documentation', 'php-gtk-docs'),
-    'livedocs' => array('Livedocs',              ''),
-    'pecl'     => array('PECL Documentation',    ''),
-    'www'      => array('Documentation',         ''),
-);
+// project & language config
+require_once('lib_proj_lang.inc.php');
 
-// Supported languages
-$LANGUAGES = array(
-    'all' => 'All',
-    'ar' => 'Arabic',
-    'pt_BR' => 'Brazilian Portuguese',
-    'zh' => 'Chinese (Simplified)',
-    'hk' => 'Chinese (Hong Kong Cantonese)',
-    'tw' => 'Chinese (Traditional)',
-    'cs' => 'Czech',
-    'da' => 'Danish',
-    'nl' => 'Dutch',
-    'fi' => 'Finnish',
-    'fr' => 'French',
-    'de' => 'German',
-    'el' => 'Greek',
-    'he' => 'Hebrew',
-    'hu' => 'Hungarian',
-    'it' => 'Italian',
-    'ja' => 'Japanese',
-    'kr' => 'Korean',
-    'pl' => 'Polish',
-    'pt' => 'Portuguese',
-    'ro' => 'Romanian',
-    'ru' => 'Russian',
-    'sk' => 'Slovak',
-    'sl' => 'Slovenian',
-    'es' => 'Spanish',
-    'sv' => 'Swedish',
-    'tr' => 'Turkish',
-    'en' => 'English'
-);
+// get defaults
+list($defaultProject)  = array_keys($PROJECTS);
+list($defaultLanguage) = array_keys($LANGUAGES);
 
-// If PHP is running as an Apache module, get
-if (substr(php_sapi_name(), 0, 6) == 'apache') {
+// set up constants (use defaults if necessary)
+define('SITE',  isset($project)  ? $project  : $defaultProject);
+define('LANGC', isset($language) ? $language : $defaultLanguage);
+define('URI',   isset($uri)      ? $uri      : $_SERVER['REQUEST_URI']);
+define('LANGD', $LANGUAGES[LANGC]);
 
-    // Grab subdomains if provided
-    $domains = explode(
-    ".",
-    preg_replace("!\\.?" . preg_quote(WEB_ROOT) . "$!", '', $_SERVER['HTTP_HOST'])
-    );
-
-    $project = 'www'; $language = 'all';
-    foreach($domains as $domain) {
-        $domain = ($domain == 'pt_br' ? 'pt_BR' : $domain);
-        if (in_array($domain, array_keys($PROJECTS))) {
-            $project = $domain;
-        }
-        elseif (in_array($domain, array_keys($LANGUAGES))) {
-            $language = $domain;
-        }
-    }
-
-    define('SITE',  $project);
-    define('LANGC', $language);
-    define('LANGD', $LANGUAGES[$language]);
+// set up BASE_URL
+if (substr($_SERVER['REQUEST_URI'], -1, 1) == '/')
+{
+    // is a directory, use verbatim
+    $baseURL = $_SERVER['REQUEST_URI'];
+} else {
+    // not a dir, use the dirname
+    $baseURL = dirname($_SERVER['REQUEST_URI']);
 }
+// actually define the constant (trim off any trailing slashes):
+define('BASE_URL', rtrim($baseURL, '/'));
 
 function is_translation($project, $language)
 {
@@ -214,7 +170,7 @@ function site_nav_langs()
 
 function site_footer()
 {
-    $master = get_resource_url();
+    $master = get_insite_address(NULL, NULL, '');
     $buff = <<<END_OF_BUFFER
  </div>
  <div id="footer">
@@ -292,35 +248,39 @@ function extract_links($text)
 // Returns an insite address for a specified project, language and path (with fallback)
 function get_insite_address($project = NULL, $lang = NULL, $path = NULL)
 {
-    if (!isset($project)) { $project = SITE; }
+    if (!isset($project)) { $project = SITE;  }
     if (!isset($lang))    { $lang    = LANGC; }
-    if (!isset($path))    { $path    = $_SERVER['PHP_SELF']; }
-
-    $project = ($project == 'www') ? '' : "$project.";
-    $lang    = ($lang == 'all')    ? '' : "$lang.";
+    if (!isset($path))    { $path    = URI;   }
     
-    return 'http://' . $project . $lang . WEB_ROOT . $path;
+    $ret = '/';
+    if ($project != $GLOBALS['defaultProject']) {
+      $ret .= "$project/";
+    }
+    if ($lang != $GLOBALS['defaultLanguage']) {
+      $ret .= "$lang/";
+    }
+    return $ret . ($path == '/' ? '' : $path);
 }
 
 function get_resource_url($url = '')
 {
-    return 'http://' . WEB_ROOT . '/' . $url;
+    return "/$url";
 }
 
 // This function provides the relevant insite navigation options for the
 // particular page the user is viewing currently
 function site_nav_provider()
 {
-    $links = array('<a href="/">Subsite homepage</a>');
-    $links[] = '<a href="/rfc/rfc-overview.php">Request For Comments</a>';
+    $links = array('<a href="'. BASE_URL .'/">Subsite homepage</a>');
+    $links[] = '<a href="'. BASE_URL .'/rfc/rfc-overview.php">Request For Comments</a>';
     if (in_array(SITE, array('gtk', 'pear', 'php', 'smarty'))) {
-        $links[] = '<a href="/revcheck.php">Revision check</a>';
+        $links[] = '<a href="'. BASE_URL .'/revcheck.php">Revision check</a>';
     }
     if (SITE == 'php') {
-        $links[] = '<a href="/dochowto/index.php">Documentation Howto</a>';
+        $links[] = '<a href="'. BASE_URL .'/dochowto/index.php">Documentation Howto</a>';
     }
     if (strpos($_SERVER['PHP_SELF'], 'rfc') !== false) {
-        $links[] = '<a href="/rfc/rfc-proposal-edit.php">Submit RFC</a>';
+        $links[] = '<a href="'. BASE_URL .'/rfc/rfc-proposal-edit.php">Submit RFC</a>';
     }
     if (count($links) == 0) {
         $links[] = 'N/A';

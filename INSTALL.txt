@@ -9,25 +9,21 @@ Initial Instatllation
    user who apache runs under.  
 4. The PEAR packages for the RFC System can be found at include/rfc/PACKAGES
 5. Configure the virtual host under apache.  Current 'suggested settings' are:
+<VirtualHost 127.0.0.1:80>
 
-<VirtualHost 65.75.184.99:80>
-ServerName docweb.php.mirrors.powertrip.co.za
-ServerAlias *.docs.php.mirrors.powertrip.co.za docs.php.mirrors.powertrip.co.za
-ServerAdmin systems-team@yourwebhost.co.za
-DocumentRoot /home/pure-ftpd-users/php001/docs.php.mirrors.powertrip.co.za/www
+ ServerName doc.php.net
+ ServerAdmin docweb@lists.php.net
 
-...
+ DocumentRoot /path/to/docweb/www
 
-ErrorDocument 404 /error.php
+ ErrorDocument 404 /error.php
+ php_flag register_globals Off
+ php_flag magic_quotes_gpc Off
+ php_flag magic_quotes_runtime Off
 
-...
+ RewriteEngine on
+ RewriteCond %{REQUEST_FILENAME} !-f
+ RewriteCond %{REQUEST_FILENAME} !-d
+ RewriteRule ^(.*)$ redirect.php
 
-<IfModule mod_php4.c>
-php_flag register_globals Off
-php_flag magic_quotes_gpc Off
-php_flag magic_quotes_runtime Off
-php_value include_path "/home/pure-ftpd-users/php001/docs.php.mirrors.powertrip.co.za/include:/usr/local/share/pear"
-</IfModule>
 </VirtualHost>
-6. Copy include/lib_site_conf.inc.php to include/lib_site_conf_local.inc.php and
-   edit it appropriately for your local configuration
