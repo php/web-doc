@@ -42,11 +42,13 @@ $PROJECTS = array(
 // Supported languages
 $LANGUAGES = array(
     'all' => 'All',
+    'ar' => 'Arabian',
     'pt_BR' => 'Brazilian Portuguese',
     'zh' => 'Chinese (Simplified)',
     'hk' => 'Chinese (Hong Kong Cantonese)',
     'tw' => 'Chinese (Traditional)',
     'cs' => 'Czech',
+    'da' => 'Danish',
     'nl' => 'Dutch',
     'fi' => 'Finnish',
     'fr' => 'French',
@@ -61,10 +63,8 @@ $LANGUAGES = array(
     'ro' => 'Romanian',
     'ru' => 'Russian',
     'sk' => 'Slovak',
-    'sl' => 'Slovenian',
     'es' => 'Spanish',
     'sv' => 'Swedish',
-    'tr' => 'Turkish',
     'en' => 'English'
 );
 
