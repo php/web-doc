@@ -41,6 +41,10 @@ function part_get_filename($part) {
     }
 
     $filename = "./$filename";
+
+    if (is_dir($filename))
+        return "$filename/index.php";
+
     return $filename;
 }
 
