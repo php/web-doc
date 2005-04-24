@@ -45,7 +45,7 @@ switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
         break;
 
     case 'gtk':
-        $filename = CVS_DIR . '/php-gtk-doc/global.ent';
+        $filename = CVS_DIR . '/php-gtk-doc/manual/global.ent';
         $entType = 'gtk';
         break;
 
