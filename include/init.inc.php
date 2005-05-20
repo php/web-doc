@@ -56,10 +56,10 @@ if (!isset($inCli) OR $inCli != true) {
         $baseURL[] = $language;
     }
 
-    $baseURL = isset($baseURL) ? implode('/', $baseURL) : '';
+    $baseURL = isset($baseURL) ? '/' . implode('/', $baseURL) : '';
 
     // actually define the constant
-    define('BASE_URL', '/' . $baseURL);
+    define('BASE_URL', $baseURL);
 
 }
 
