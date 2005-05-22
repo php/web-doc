@@ -415,6 +415,14 @@ END_OF_MULTILINE;
                     "&amp;r2=1." . $r["en_rev"] .
                     "&amp;ty=u\">" . $r["file"] . "</a>";
 
+                    // Add a [NoWS] link
+                    $r['short_name'] .= ' <a href="http://cvs.php.net/diff.php/' .
+                    $PROJECTS[$project][2] . $r['name'] .'/' . $r['file'] .
+                    '?r1=1.' . $r['trans_rev'] .
+                    '&amp;r2=1.' . $r['en_rev'] .
+                    '&amp;ty=u&amp;ws=0">[NoWS]</a>';
+
+
                     // Write out the line for the current file (get file name shorter)
                     echo "<tr class=\"{$CSS[$status_mark]}\">".
                     "<td>{$r['short_name']}</td>".
