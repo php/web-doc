@@ -90,7 +90,7 @@ if (isset($uri)) {
 
     // If it's a PHP file include it, otherwise pass it through
     if (substr($uri, -4) == '.php') {
-        require(part_get_filename($uri));
+        require($uri);
     } else {
         // get the file mime type
         foreach ($mime_types as $ext => $type) {
