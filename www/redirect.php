@@ -20,6 +20,15 @@ $Id$
 
 require_once('../include/lib_proj_lang.inc.php');
 
+/* mime types for downloading files */
+$mime_types = array(
+    'gz'     => 'application/x-gunzip',
+    'tgz'    => 'application/x-tar-gz',
+    'tar.gz' => 'application/x-tar-gz',
+    'zip'    => 'application/x-zip-compressed'
+);
+
+
 function part_is_project($part) {
     return isset($GLOBALS['PROJECTS'][$part]);
 }
@@ -49,7 +58,9 @@ function part_get_filename($part) {
 }
 
 function part_is_valid_uri($part) {
-    return file_exists(part_get_filename($part));
+    if (file_exists($uri = part_get_filename($part)))
+        return $uri;
+    return false;
 }
 
 $parts = explode('/', $_SERVER['REQUEST_URI'], 4);
@@ -63,20 +74,35 @@ foreach ($parts as $part) {
     } elseif (part_is_language($part)) {
         $language = $part;
 
-    } else {
+    } elseif ($part) {
         $uri .= "/$part";
     }
 }
 
-if (!$uri || !part_is_valid_uri($uri)) {
+if (!$uri || !($uri = part_is_valid_uri($uri))) {
     unset($uri);
 }
 
 
 // we have a valid URI, answer the request
 if (isset($uri)) {
-  header($_SERVER['SERVER_PROTOCOL']." 200 Found (magic redirect)");
-  require(part_get_filename($uri));
+    header($_SERVER['SERVER_PROTOCOL']." 200 Found (magic redirect)");
+
+    // If it's a PHP file include it, otherwise pass it through
+    if (substr($uri, -4) == '.php') {
+        require(part_get_filename($uri));
+    } else {
+        // get the file mime type
+        foreach ($mime_types as $ext => $type) {
+            if (substr($uri, -strlen(ext)) == $ext) {
+                $mime = $type;
+                break;
+            }
+        }
+
+        header("Content-Type: $mime");
+        readfile($uri);
+    }
 } else {
   // no resource found:
   header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
