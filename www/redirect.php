@@ -79,7 +79,7 @@ foreach ($parts as $part) {
     }
 }
 
-if (!$uri || !($uri = part_is_valid_uri($uri))) {
+if (!($uri = part_is_valid_uri($uri))) {
     unset($uri);
 }
 
