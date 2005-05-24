@@ -4,7 +4,7 @@
 
 cd ${CVSDIR}/phpdoc-all
 autoconf
-./configure
+./configure --with-jade=/usr/local/bin/jade --with-nsgmls=/usr/local/bin/nsgmls
 make howtophp
 cp howto/php/* ${DOCWEB}/www/dochowto
 
