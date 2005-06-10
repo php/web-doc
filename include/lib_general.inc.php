@@ -202,6 +202,8 @@ function site_nav_provider()
             case 'php':
                 $links['orphan-notes'] = BASE_URL . '/orphan_notes.php';
                 $links['notes-stats'] = BASE_URL . '/notes_stats.php';
+                $links['undoc-functions'] = BASE_URL . '/undoc_functions.php';
+                $links['missing-examples'] = BASE_URL . '/missing_examples.php';
 
             case 'pear':
             case 'smarty':
