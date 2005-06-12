@@ -31,7 +31,12 @@
    <div class="sidebox">
     <dl>
      <dt>&docweb.common.header.currently-focused;</dt>
-     <dd><?php echo $projdisplay; ?> | <?php echo $langdisplay; ?></dd>
+     <dd><?php echo $projdisplay; ?> | <?php echo $langdisplay; 
+     if (LANGC != 'all') {
+      echo '&nbsp;<span class="Flag"><img src="/images/flags/' . 
+      LANGC .'.png" alt="'. LANGD . '" title="' . LANGD . '" /></span>';
+     }
+  ?></dd>
      <dt>&docweb.common.header.insite-context-nav;</dt>
      <dd><?php echo $locallinks; ?></dd>
      <dt>&docweb.common.header.offsite-context-nav;</dt>
