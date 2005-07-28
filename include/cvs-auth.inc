@@ -64,7 +64,7 @@ function auth_vs_cvs($name, $pass)
 	$response = fgets($cvs);
 	fclose($cvs);
 
-	return (0 == strncmp($response, 'I LOVE YOU', 10));
+	return !strncmp($response, 'I LOVE YOU', 10);
 }
 
 /**
@@ -108,7 +108,7 @@ function verify_password($user, $pass) {
 	}
 
 	if (auth_vs_local($idx, $user, $pass)) {
-		return $user;
+		return true;
 	}
 
 	if (auth_vs_cvs($user, $pass)) {
@@ -116,7 +116,7 @@ function verify_password($user, $pass) {
 		sqlite_query($idx, "REPLACE INTO auth VALUES ('" . sqlite_escape_string($user) . "', '" . sha1($pass) . "', '" . time() . "')");
 		sqlite_close($idx);
 
-		return $user;
+		return true;
 	}
 
 	return false;

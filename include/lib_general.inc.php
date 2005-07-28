@@ -21,6 +21,8 @@
 $Id$
 */
 
+require_once dirname(__FILE__) . '/lib_auth.inc.php';
+
 function is_translation($project, $language)
 {
     return is_dir(CVS_DIR . $GLOBALS['PROJECTS'][$project] . '/' . $language);
@@ -209,6 +211,9 @@ function site_nav_provider()
             case 'smarty':
         }
     }
+
+    if (is_admin())
+        $links['admin'] = BASE_URL . '/admin.php';
 
     return DocWeb_Template::get(
         'shared/nav_links.tpl.php',

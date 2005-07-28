@@ -21,34 +21,71 @@
 
 require_once 'cvs-auth.inc';
 
+//list of docweb admins that have 'special' rights
+$admins = array(
+	'didou',
+	'goba',
+	'jacques',
+	'nlopess',
+	'philip',
+	'sean',
+);
+
 $user = $pw = false;
+
+
+/**
+ * read the magic cookie and return array(user, pass)
+ */
+function read_magic_cookie()
+{
+	return explode(':', base64_decode($_COOKIE['MAGIC_COOKIE']));
+}
+
 
 /**
  * Credential checking of the $_COOKIE['MAGIC_COOKIE']
  */
-if (isset($_COOKIE['MAGIC_COOKIE'])) {
-	list($user, $pw) = explode(":", base64_decode($_COOKIE['MAGIC_COOKIE']));
+function auth()
+{
+	if (isset($_COOKIE['MAGIC_COOKIE'])) {
+		list($user, $pw) = read_magic_cookie();
 
-	if (!$user || !$pw || !verify_password($user,stripslashes($pw))) {
-		Header ("Location: http://doc.php.net/login.php");
+		if (!verify_password($user, $pw)) {
+			header ('Location: http://doc.php.net/login.php');
+			exit;
+		}
+	} elseif (isset($_POST['username']) && isset($_POST['passwd'])) {
+		if (!verify_password($_POST['username'], $_POST['passwd'])) {
+			header ('Location: http://doc.php.net/login.php');
+			exit;
+		}
+
+		setcookie(
+			'MAGIC_COOKIE',
+			base64_encode("{$_POST['username']}:{$_POST['passwd']}"),
+			time()+3600*24*12,
+			'/',
+			'.php.net'
+		);
+	} else {
+		header ('Location: http://doc.php.net/login.php');
 		exit;
 	}
-} elseif (isset($_POST['username']) && isset($_POST['passwd'])) {
-	if (!$_POST['username'] || !$_POST['passwd'] || !verify_password($_POST['username'], stripslashes($_POST['passwd']))) {
-		Header ("Location: http://doc.php.net/login.php");
-		exit;
-	}
+}
 
-	setcookie(
-		"MAGIC_COOKIE",
-		base64_encode("{$_POST['username']}:{$_POST['passwd']}"),
-		time()+3600*24*12,
-		'/',
-		'.php.net'
-	);
-} else {
-	Header ("Location: http://doc.php.net/login.php");
-	exit;
+
+/**
+ * Checks if a user has admin rights
+ */
+function is_admin()
+{
+	if (!isset($_COOKIE['MAGIC_COOKIE']))
+		return false;
+
+	list($user) = read_magic_cookie();
+
+	return in_array($user, $GLOBALS['admins']);
 }
 
 /* vim: set noet ts=4 sw=4 ft=php: : */
