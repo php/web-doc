@@ -217,6 +217,32 @@ function get_missfiles($idx, $lang)
     }
 }
 
+function get_oldfiles($idx, $lang)
+{
+    $sql = 'SELECT
+     dir, file, size
+
+     FROM
+     old_files
+
+     WHERE
+     lang="' . $lang . '"
+     ';
+
+    $result = sqlite_query($idx, $sql);
+    $num = sqlite_num_rows($result);
+    if ($num == 0) {
+        // only 'null' will produce a 0 with sizeof()
+        return null;
+    } else {
+        $tmp = array();
+        while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+            $tmp[] = array('dir' => $r['dir'], 'size' => $r['size'], 'file' => $r['file']);
+        }
+        return $tmp;
+    }
+}
+
 function get_description($idx, $lang)
 {
     $sql = 'SELECT intro FROM description WHERE lang = "' . $lang . '";';

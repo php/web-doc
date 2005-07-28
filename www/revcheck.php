@@ -120,6 +120,7 @@ array (REV_NOTRANS,  "Files available for translation")
   <li<?php echo ($PART == 'files' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=files">Files</a>'; ?></li>
   <li<?php echo ($PART == 'misstags' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=misstags">Missing revision numbers</a>'; ?></li>
   <li<?php echo ($PART == 'missfiles' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=missfiles">Untranslated files</a>'; ?></li>
+  <li<?php echo ($PART == 'oldfiles' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=oldfiles">Not in EN tree</a>'; ?></li>
   <li<?php echo ($PART == 'graph' ) ? ' class="liSelected"' : ''; ?>><a href="<?php echo BASE_URL . '/revcheck.php?p=graph">Graph</a>'; ?></li>
  </ul>
 <?php
@@ -233,6 +234,43 @@ MISSTAGS_HEAD;
         }
         break;
 
+        case 'oldfiles' :
+        $oldfiles = get_oldfiles($dbhandle, $LANG);
+        if (!$oldfiles) {
+            echo 'No old file info';
+        } else {
+            $num = count($oldfiles);
+            echo <<<OLDTAGS_HEAD
+<p>&nbsp;</p>
+<div style="text-align:center"> <!-- Compatibility with old IE -->
+<table width="400" border="0" cellpadding="3" cellspacing="1" class="Tc">
+        <tr class="blue">
+                <th rowspan="1">Not in EN tree ($num files):</th>
+                <th colspan="1">kB</th>
+        </tr>
+
+OLDTAGS_HEAD;
+
+            $last_dir = false;
+            $total_size = 0;
+            foreach ($oldfiles as $old) {
+                if (!$last_dir || $last_dir != $old['dir']) {
+                    echo '<tr class="blue"><th colspan="2">' . $old['dir'] . '</th></tr>';
+                    $last_dir = $old['dir'];
+                }
+                echo '<tr class="wip"><td>', $old['file'], '</td><td class="r">', $old['size'], '</td></tr>';
+                $total_size += $old['size'];
+                // flush every 200 kbytes
+                if (($total_size % 200) == 0) {
+                    flush();
+                }
+            }
+            echo '<tr class="blue">
+                      <th colspan="2">Total Size ('.$num.' files): '.$total_size.' kB</th>
+                  </tr>';
+            echo '</table></div>';
+        }
+        break;
 
         case 'misstags' :
         $sql = 'select

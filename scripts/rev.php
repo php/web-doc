@@ -147,6 +147,13 @@ CREATE TABLE files (
     UNIQUE(lang, dir, name)
 );
 
+CREATE TABLE old_files (
+    lang TEXT,
+    dir TEXT,
+    file TEXT,
+    size INT
+);
+
 SQL;
 
 /**
@@ -252,6 +259,23 @@ function dir_sort($a, $b) {
     }
 }
 
+function dir_sort_old($a, $b) {
+    global $DOCS, $dir, $lang;
+    $a = $DOCS . $lang . $dir . '/' . $a;
+    $b = $DOCS . $lang . $dir . '/' . $b;
+    if (is_dir($a) && is_dir($b)) {
+        return 0;
+    } elseif (is_file($a) && is_file($b)) {
+        return 0;
+    } elseif (is_file($a) && is_dir($b)) {
+        return -1;
+    } elseif (is_dir($a) && is_file($b)) {
+        return 1;
+    } else {
+        return -1;
+    }
+}
+
 function do_revcheck($dir = '') {
     global $LANGS, $DOCS, $SQL_BUFF;
     static $id = 1;
@@ -334,6 +358,65 @@ function do_revcheck($dir = '') {
     closedir($dh);
 }
 
+function check_old_files($dir = '', $lang) {
+    global $DOCS, $SQL_BUFF;
+    static $id = 1;
+
+    if ($dh = opendir($DOCS . $lang . $dir)) {
+
+        $entriesDir = array();
+        $entriesFiles = array();
+
+        while (($file = readdir($dh)) !== false) {
+            if (
+            (!is_dir($DOCS . $lang . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
+            || ($file == "functions.xml" && strpos($dir, '/reference') !== false)
+            || $dir == '/chmonly'
+            || $file == 'contributors.ent' || $file == 'contributors.xml'
+            || ($dir == '/appendices' && $file == 'reserved.constants.xml')) {
+                continue;
+            }
+
+            if ($file != '.' && $file != '..' && $file != 'CVS' && $dir != '/functions') {
+
+                if (is_dir($DOCS . $lang . $dir.'/' .$file)) {
+                    $entriesDir[] = $file;
+                } elseif (is_file($DOCS . $lang . $dir.'/' .$file)) {
+                    $entriesFiles[] = $file;
+                }
+            }
+        }
+
+        // Files first
+        if (sizeof($entriesFiles) > 0 ) {
+
+            foreach($entriesFiles as $file) {
+
+                $path_en = $DOCS . 'en/' . $dir . '/' . $file;
+                $path = $DOCS . $lang . $dir . '/' . $file;
+
+                if( !@is_file($path_en) ) {
+
+                   $size = intval(filesize($path) / 1024);
+                   $SQL_BUFF .= "INSERT INTO old_files VALUES ('$lang', '$dir', '$file', '$size');\n";
+
+                }
+            }
+        }
+
+        // Directories..
+        if (sizeof($entriesDir) > 0) {
+
+            usort($entriesDir, 'dir_sort_old');
+            reset($entriesDir);
+
+            foreach ($entriesDir as $Edir) {
+                check_old_files($dir . '/' . $Edir, $lang);
+            }
+        }
+    }
+    closedir($dh);
+}
 
 function get_tags($file)
 {
@@ -430,6 +513,12 @@ foreach ($LANGS as $id => $lang) {
 
 // 4 - Recurse in the manual seeking for files and fill $SQL_BUFF
 do_revcheck();
+
+// 4:1 - Recurse in the manuel seeking for old files for each language and fill $SQL_BUFF
+
+foreach ($LANGS as $lang) {
+ check_old_files('', $lang);
+}
 
 // 5 - Query $SQL_BUFF and exit
 
