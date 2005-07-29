@@ -22,6 +22,27 @@ function info() {
 }
 
 
+function print_file_list($base)
+{
+	if (!empty($_GET['file']) && !is_dir(dirname(__FILE__) . "/../$_GET[file]"))
+		return;
+
+	$files = glob(dirname(__FILE__) . '/../' .  @$_GET['file'] . $base);
+	$uri   = preg_replace('/&file=[^&]*/', '', $_SERVER['REQUEST_URI']);
+	if ($files) {
+		echo '<p>Available files:</p><ul>';
+		foreach ($files as $file) {
+			$file = basename($file);
+			if ($file == 'CVS') continue;
+			echo "<li><a href='$uri&file=". urlencode(@$_GET['file'] . "/$file")  . "'>$file</a></li>";
+		}
+		echo '</ul>';
+	} else {
+		echo '<p>There are no files currently available</p>';
+	}
+
+}
+
 function sql()
 {
 	if (empty($_POST['command'])) {
@@ -52,17 +73,7 @@ function sql()
 
 function sql_print_textarea($txt, $file)
 {
-	$dbs = glob(dirname(__FILE__) . '/../sqlite/*.sqlite');
-	if ($dbs) {
-		echo '<p>Available DBs:</p><ul>';
-		foreach ($dbs as $db) {
-			$db = basename($db);
-			echo "<li><a href='$_SERVER[REQUEST_URI]&file=$db'>$db</a></li>";
-		}
-		echo '</ul>';
-	} else {
-		echo '<p>There are no DBs currently available</p>';
-	}
+	print_file_list('sqlite/*.sqlite');
 
 	echo <<< HTML
 <p>&nbsp;</p>
@@ -75,6 +86,74 @@ HTML;
 
 }
 
+
+function chmodf()
+{
+	if (empty($_POST['mod']) || empty($_REQUEST['file'])) {
+		rmch_print_html(@$_REQUEST['file'], @$_POST['mod'], true);
+
+	// change the permissions
+	} else {
+		$path = realpath(dirname(__FILE__) . "/../$_POST[file]");
+		$allowed = dirname(dirname(__FILE__));
+
+		if (strncmp($path, $allowed, strlen($allowed))) {
+			echo "<p>The file isn't within an allowed directory!</p>";
+			return;
+		}
+
+		if (chmod($path, octdec($_POST['mod'])))
+			echo '<p>chmod() ok!</p>';
+		else
+			echo '<p>chmod() failed!</p>';
+	}
+}
+
+
+function rm()
+{
+	if (empty($_REQUEST['file'])) {
+		rmch_print_html(@$_REQUEST['file'], '', false);
+
+	// change the permissions
+	} else {
+		$path = realpath(dirname(__FILE__) . "/../$_REQUEST[file]");
+		$allowed = dirname(dirname(__FILE__));
+
+		if (strncmp($path, $allowed, strlen($allowed))) {
+			echo "<p>The file isn't within an allowed directory!</p>";
+			return;
+		}
+
+		if (unlink($path))
+			echo '<p>unlink() ok!</p>';
+		else
+			echo '<p>unlink() failed!</p>';
+	}
+}
+
+
+function rmch_print_html($file, $val, $mod)
+{
+	print_file_list('/*');
+
+	echo <<< HTML
+<p>&nbsp;</p>
+<form method="POST" action="$_SERVER[REQUEST_URI]">
+ <p>File: <input type="text" name="file" value="$file" /></p>
+HTML;
+
+	if ($mod)
+ 		echo '<p>Permissions: <input type="text" name="mod" value="' . $val . '" /></p>';
+
+	echo <<< HTML
+ <p><input type="submit" value="Execute" /></p>
+</form>
+HTML;
+
+}
+
+
 // control flow
 if (empty($_GET['z'])) {
 
@@ -82,6 +161,8 @@ if (empty($_GET['z'])) {
 <p>Menu:</p>
 <ul>
  <li><a href="?z=sql">SQL Injector</a></li>
+ <li><a href="?z=chmodf">chmod</a></li>
+ <li><a href="?z=rm">remove files</a></li>
  <li><a href="?z=info">PHP info</a></li>
 </ul>
 HTML;
@@ -89,6 +170,8 @@ HTML;
 } else {
 	switch ($_GET['z']) {
 		case 'sql':
+		case 'chmodf':
+		case 'rm':
 		case 'info':
 			$_GET['z']();
 			break;
