@@ -40,7 +40,7 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
 echo site_header('RFC :: Votes :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Proposal Votes for ' . htmlspecialchars($proposal->pkg_name) . "</h1>\n";
 
-if ($proposal->mayVote($dbh, @$_COOKIE['PEAR_USER'])) { // !!!
+if ($proposal->mayVote($dbh, @$docwebUser)) {
     $form =& new HTML_QuickForm('vote', 'post',
                                 'rfc-votes-show.php?id=' . $proposal->id);
 
@@ -58,7 +58,7 @@ if ($proposal->mayVote($dbh, @$_COOKIE['PEAR_USER'])) { // !!!
                       array('size' => count($proposalReviewsMap),
                             'multiple' => 'multiple'));
     $form->addElement('static', '', '',
-                      '<small>Note that you can only vote once!(Modified for testing!)<br />'
+                      '<small>Note that you can only vote once!(Modified for testing!)<br />' // !!!
                       . 'For conditional votes, please leave a comment and'
                       . ' vote +1 (<i>e.g.</i>, &quot;I\'m +1 if you'
                       . ' change...&quot;).</small>');
@@ -83,7 +83,7 @@ if ($proposal->mayVote($dbh, @$_COOKIE['PEAR_USER'])) { // !!!
             $voteData['comment'] = $comment->getValue();
             $reviews = $form->getElement('reviews');
             $voteData['reviews'] = $reviews->getSelected();
-            $voteData['user_handle'] = $_COOKIE['PEAR_USER'];
+            $voteData['user_handle'] = $docwebUser;
 
             $errors = array();
 
@@ -106,8 +106,7 @@ if ($proposal->mayVote($dbh, @$_COOKIE['PEAR_USER'])) { // !!!
                 report_error($errors);
             } else {
                 $proposal->addVote($dbh, new ppVote($voteData));
-                $proposal->sendActionEmail('proposal_vote', 'user',
-                                            $_COOKIE['PEAR_USER']);
+                $proposal->sendActionEmail('proposal_vote', 'user', $docwebUser);
                 report_success('Your vote has been registered successfully');
                 $form->freeze();
             }
@@ -252,7 +251,7 @@ switch ($proposal->status) {
             foreach ($proposal->votes as $vote) {
                 if (!isset($users[$vote->user_handle])) {
                    // $users[$vote->user_handle] =& user::info($vote->user_handle); // !!!
-		   $users[$vote->user_handle] = array('name'=>'TestUser');
+		   $users[$vote->user_handle] = array('name'=>$vote->user_handle);
                 }
                 if ($vote->value > 0) {
                     $vote->value = '+' . $vote->value;

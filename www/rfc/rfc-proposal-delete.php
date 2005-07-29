@@ -29,8 +29,6 @@ $path = realpath(dirname(__FILE__));
 require_once $path . '/../../include/rfc/rfc.php';
 
 
-//auth_require('pear.pepr'); // deleting is something for admins
-
 if (!empty($_GET['isDeleted'])) {
     echo site_header('RFC :: Delete');
     echo "<h1>Delete Proposal</h1>\n";
@@ -55,24 +53,23 @@ ob_start();
 echo site_header('RFC :: Delete :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Delete Proposal ' . htmlspecialchars($proposal->pkg_name) . "</h1>\n";
 
-if (!$proposal->mayEdit($_COOKIE['PEAR_USER'])) {
+if (!$proposal->mayEdit($docwebUser)) {
     report_error('You are not allowed to delete this proposal,'
                  . ' probably due to it having reached the "'
                  . $proposal->getStatus(true) . '" phase.'
                  . ' If this MUST be deleted, contact someone ELSE'
-                 . ' who has pear.pepr.admin karma.');
+                 . ' who has admin karma.');
     echo site_footer();
     exit;
 }
 
 if ($proposal->compareStatus('>', 'proposal')) {
-//    $karma =& new Damblan_Karma($dbh);
-//    if ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin')) {
+    if (is_admin()) {
         report_error('This proposal has reached the "'
                      . $proposal->getStatus(true) . '" phase.'
                      . ' Are you SURE you want to delete it?',
                      'warnings', 'WARNING:');
-//    }
+    }
 }
 
 $form =& new HTML_QuickForm('delete-proposal', 'post',
@@ -89,8 +86,7 @@ $form->addRule('delete', 'You have to check the box to delete!!', 'required',
 if (isset($_POST['submit'])) {
     if ($form->validate()) {
         $proposal->delete($dbh);
-        $proposal->sendActionEmail('proposal_delete', 'mixed',
-                                   $_COOKIE['PEAR_USER']);
+        $proposal->sendActionEmail('proposal_delete', 'mixed', $docwebUser);
         ob_end_clean();
         header('Location: rfc-proposal-delete.php?id=' . $proposal->id . '&isDeleted=1');
     } else {

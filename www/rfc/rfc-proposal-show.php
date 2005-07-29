@@ -265,8 +265,8 @@ if ($changelog = @ppComment::getAll($proposal->id, 'package_proposal_changelog')
     echo "<ul>\n";
     foreach ($changelog as $comment) {
         if (!isset($userinfos[$comment->user_handle])) {
-          //  $userinfo[$comment->user_handle] = user::info($comment->user_handle); // !!!
-          $userinfo[$comment->user_handle] = array('name'=>'TestUser');
+          //$userinfo[$comment->user_handle] = user::info($comment->user_handle); // !!!
+          $userinfo[$comment->user_handle] = array('name'=> $comment->user_handle);
         }
         echo '<li><p style="margin: 0em 0em 0.3em 0em; font-size: 90%;">';
         echo htmlspecialchars($userinfo[$comment->user_handle]['name']);

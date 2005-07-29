@@ -87,10 +87,10 @@ foreach ($proposals as $proposal) {
     }
     
     $already_voted = false;
-    if (isset($_COOKIE['PEAR_USER']) && $proposal->getStatus(true) == "Called for Votes") {
+    if (isset($docwebUser) && $proposal->getStatus(true) == "Called for Votes") {
         $proposal->getVotes($dbh);
 
-        if (in_array($_COOKIE['PEAR_USER'], array_keys($proposal->votes))) {
+        if (in_array($docwebUser, array_keys($proposal->votes))) {
             $already_voted = true;
         }
     }

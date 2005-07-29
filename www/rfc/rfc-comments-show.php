@@ -39,7 +39,7 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
 echo site_header('RFC :: Comments :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Comments for ' . htmlspecialchars($proposal->pkg_name) . "</h1>\n";
 
-if (isset($_COOKIE['PEAR_USER']) &&
+if (isset($docwebUser) &&
     $proposal->getStatus() == 'proposal')
 {
     $form =& new HTML_QuickForm('comment', 'post',
@@ -68,8 +68,7 @@ if (isset($_COOKIE['PEAR_USER']) &&
         if ($form->validate()) {
             $values = $form->exportValues();
             $proposal->sendActionEmail('proposal_comment', 'user',
-                                       $_COOKIE['PEAR_USER'],
-                                       $values['comment']);
+                                       $docwebUser, $values['comment']);
             $proposal->addComment($values['comment'],
                                   'package_proposal_comments');
             report_success('Your comment was successfully processed');
@@ -94,7 +93,7 @@ display_pepr_nav($proposal);
 <?php
 
 if ($proposal->getStatus() == 'proposal') {
-    if (isset($_COOKIE['PEAR_USER'])) {
+    if (isset($docwebUser)) {
         $formArray = $form->toArray();
 
         echo $form->getValidationScript();

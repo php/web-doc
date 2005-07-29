@@ -29,6 +29,7 @@ $admins = array(
 	'nlopess',
 	'philip',
 	'sean',
+	'vincent',
 );
 
 $user = $pw = false;
@@ -39,7 +40,7 @@ $user = $pw = false;
  */
 function read_magic_cookie()
 {
-	return explode(':', base64_decode($_COOKIE['MAGIC_COOKIE']));
+	return explode(':', base64_decode(@$_COOKIE['MAGIC_COOKIE']));
 }
 
 

@@ -32,7 +32,14 @@ $path = realpath(dirname(__FILE__));
 require_once 'DB.php';
 require_once 'DB/storage.php'; 
 require_once $path . '/rfc-config.php';
-require_once $path . '/../../include/init.inc.php';
+require_once $path . '/../init.inc.php';
+require_once $path . '/../lib_auth.inc.php';
+
+
+list($docwebUser) = read_magic_cookie();
+if ($docwebUser === '') {
+    unset($docwebUser);
+}    
 
 define('PEAR_DATABASE_DSN', 'sqlite:///'.$path.'/../../sqlite/rfc.sqlite');
 
@@ -243,10 +250,6 @@ function error_handler($errobj, $title = 'Error')
 require_once 'HTML/QuickForm.php';
 require_once 'Mail.php';
 
-// HACK // !!!
-$_COOKIE['PEAR_USER'] = 'TestUser';
-
-
 /**
  * Prints the navigation tabs
  *
@@ -256,6 +259,7 @@ $_COOKIE['PEAR_USER'] = 'TestUser';
  */
 function display_pepr_nav(&$proposal)
 {
+    global  $docwebUser;
     if ($proposal == null) {
         $id = 0;
     } else {
@@ -283,8 +287,8 @@ function display_pepr_nav(&$proposal)
     }                        
 
     if ($proposal != null &&
-        isset($_COOKIE['PEAR_USER']) &&
-        $proposal->mayEdit($_COOKIE['PEAR_USER'])) // !!!
+        isset($docwebUser) &&
+        $proposal->mayEdit($docwebUser))
     {
         $items['Edit'] = array(
             'url'   => 'rfc-proposal-edit.php?id=' . $id,
@@ -552,8 +556,9 @@ class proposal {
 
     function addComment($comment, $table = 'package_proposal_changelog')
     {
+        global $docwebUser;
         $commentData = array("pkg_prop_id" => $this->id,
-                             "user_handle" => $_COOKIE['PEAR_USER'],
+                             "user_handle" => $docwebUser,
                              "comment"     => $comment);
         $comment = new ppComment( $commentData, $table );
         $comment->store($this->id);
@@ -576,23 +581,17 @@ class proposal {
     }
 
     function mayEdit($handle = '')
-    { // !!!
-        global $dbh, $karma;
-
-return true; // !!!
-        if (empty($karma)) {
-            $karma =& new Damblan_Karma($dbh); // !!!
-        }
+    {
 
         switch ($this->status) {
             case 'draft':
             case 'proposal':
-                if ($this->isOwner($handle) || $karma->has($handle, 'pear.pepr.admin')) { // !!!
+                if ($this->isOwner($handle) || is_admin()) {
                     return true;
                 }
               break;
             default:
-                if (!$this->isOwner($handle) && $karma->has($handle, 'pear.pepr.admin')) { // !!!
+                if (!$this->isOwner($handle) && is_admin()) {
                     return true;
                 }
                 break;
@@ -618,15 +617,9 @@ return true; // !!!
      * @access public
      */
     function mayVote(&$dbh, $userHandle)
-    {  // !!! needs karma fixing
-        global $karma;
-return true; // !!!
-        if (empty($karma)) {
-            $karma =& new Damblan_Karma($dbh);
-        }
+    {
 
         if ($this->getStatus() == 'vote' &&
-            $karma->has($userHandle, 'pear.dev') &&
             !ppVote::hasVoted($dbh, $userHandle, $this->id) &&
             (!$this->isOwner($userHandle) ||
              ($this->isOwner($userHandle) &&
@@ -757,11 +750,7 @@ return true; // !!!
 
     function sendActionEmail($event, $userType, $user_handle = null, $comment = '')
     { // !!!
-        global $dbh, $karma, $auth;
-
-        if (empty($karma)) {
-         //   $karma =& new Damblan_Karma($dbh); // !!!
-        }
+        global $dbh;
 
         $master_url = 'http://doc.php.net/';
         require dirname(__FILE__) . '/rfc-emails.php';
@@ -774,7 +763,7 @@ return true; // !!!
             $prefix = "[ADMIN]";
             break;
         case 'mixed':
-            if (/*$karma->has($user_handle, "pear.pepr.admin") && */($this->user_handle != $user_handle)) { // !!!
+            if (is_admin() && ($this->user_handle != $user_handle)) {
                 $prefix = "[ADMIN]";
             } else {
                 $prefix = "";
@@ -784,8 +773,8 @@ return true; // !!!
             $prefix = "";
         }
         $prefix = PROPOSAL_EMAIL_PREFIX . $prefix . " ";
-        $actorinfo = 'TestUser';//user::info($user_handle); // !!!
-        $ownerinfo = 'TestOwner';//user::info($this->user_handle); // !!!
+        $actorinfo = $user_handle; // !!!
+        $ownerinfo = $this->user_handle; // !!!
         $this->getVotes($dbh);
         $vote = @$this->votes[$user_handle];
 
@@ -819,8 +808,8 @@ return true; // !!!
 
         if (!isset($user_handle)) {
             $email['to'] = $email['to']['pearweb'];
-      //  } else if ($karma->has($user_handle, "pear.pepr.admin")) { // !!!
-      //      $email['to'] = $email['to']['admin'];
+        } else if (is_admin()) {
+            $email['to'] = $email['to']['admin'];
         } else {
             $email['to'] = $email['to']['user'];
         }
@@ -868,11 +857,11 @@ return true; // !!!
         $email = preg_replace($replace, $replacements, $email);
         $email['text'] .= PROPOSAL_EMAIL_POSTFIX;
 
-        if (is_object($auth)) {
-            $from = '"' . $auth->name . '" <' . $auth->email . '>';
-        } else {
-            $from = PROPOSAL_MAIL_FROM ;
-        }
+        //if (is_object($auth)) {
+        //    $from = '"' . $auth->name . '" <' . $auth->email . '>';
+       // } else {
+            $from = PROPOSAL_MAIL_FROM ; // !!!
+       // }
         
         $to = explode(", ", $email['to']);
         $email['to'] = array_shift($to);
