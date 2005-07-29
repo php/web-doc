@@ -14,12 +14,17 @@
  * | license@php.net so we can mail you a copy immediately.               |
  * +----------------------------------------------------------------------+
  * | Authors: Jacques Marneweck <jacques@php.net>                         |
+ * |          Nuno Lopes <nlopess@php.net>                                |
  * +----------------------------------------------------------------------+
  *
  * $Id$
  */
 
 require_once 'cvs-auth.inc';
+
+if (!$idx = sqlite_open(SQLITE_DIR . 'users.sqlite')) {
+ 	die ('auth DB not available');
+}
 
 //list of docweb admins that have 'special' rights
 $admins = array(
@@ -31,8 +36,6 @@ $admins = array(
 	'sean',
 	'vincent',
 );
-
-$user = $pw = false;
 
 
 /**
@@ -89,4 +92,20 @@ function is_admin()
 	return in_array($user, $GLOBALS['admins']);
 }
 
-/* vim: set noet ts=4 sw=4 ft=php: : */
+
+/**
+ * read user info from the DB
+ */
+function user_info()
+{
+	global $idx;
+
+	list($user) = read_magic_cookie();
+
+	$result = @sqlite_unbuffered_query($idx, "SELECT * FROM users WHERE username='" . sqlite_escape_string($user) . "'");
+	if (!$result) {
+		return false;
+	}
+
+	return sqlite_fetch_array($result, SQLITE_ASSOC);
+}

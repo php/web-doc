@@ -95,16 +95,13 @@ function auth_vs_local ($idx, $user, $pass) {
 }
 
 function verify_password($user, $pass) {
+	global $idx;
 
 	/**
 	 * You cannot auth as our cvsread@php.net pseudo user
 	 */
 	if (!$user || !$pass || $user == 'cvsread') {
 		return false;
-	}
-
-	if (!$idx = sqlite_open(SQLITE_DIR . 'users.sqlite')) {
-		die ('DB not available');
 	}
 
 	if (auth_vs_local($idx, $user, $pass)) {
@@ -114,8 +111,6 @@ function verify_password($user, $pass) {
 	if (auth_vs_cvs($user, $pass)) {
 
 		sqlite_query($idx, "REPLACE INTO auth VALUES ('" . sqlite_escape_string($user) . "', '" . sha1($pass) . "', '" . time() . "')");
-		sqlite_close($idx);
-
 		return true;
 	}
 
