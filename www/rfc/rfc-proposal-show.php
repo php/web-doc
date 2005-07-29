@@ -107,7 +107,7 @@ switch ($proposal->markup) {
      Category: <?php echo htmlspecialchars($proposal->pkg_category) ?>
     </li>
     <li>
-     Proposer: <?php echo $proposal->user_handle; ?>
+     Proposer: <?php echo user_name($proposal->user_handle); ?>
     </li>
    </ul>
   </td>
