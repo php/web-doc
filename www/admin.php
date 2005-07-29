@@ -1,5 +1,22 @@
 <?php
-/* $Id$ */
+/*
++----------------------------------------------------------------------+
+| PHP Documentation Site Source Code                                   |
++----------------------------------------------------------------------+
+| Copyright (c) 2005 The PHP Group                                     |
++----------------------------------------------------------------------+
+| This source file is subject to version 3.0 of the PHP license,       |
+| that is bundled with this package in the file LICENSE, and is        |
+| available at through the world-wide-web at                           |
+| http://www.php.net/license/3_0.txt.                                  |
+| If you did not receive a copy of the PHP license and are unable to   |
+| obtain it through the world-wide-web, please send a note to          |
+| license@php.net so we can mail you a copy immediately.               |
++----------------------------------------------------------------------+
+| Authors: Nuno Lopes <nlopess@php.net>                                |
++----------------------------------------------------------------------+
+$Id$
+*/
 
 include '../include/init.inc.php';
 require_once '../include/lib_auth.inc.php';
@@ -59,7 +76,7 @@ function sql()
 		}
 
 		$result = sqlite_query($idx, $_POST['command']);
-echo sqlite_last_error($idx);
+
 		if (!$result) {
 			echo '<p><strong>There was an error in the query:</strong> ' . sqlite_error_string(sqlite_last_error($idx)) . '</p><p>&nbsp;</p>';
 			sql_print_textarea($_POST['command'], $_POST['file']);
