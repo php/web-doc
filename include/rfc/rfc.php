@@ -715,11 +715,11 @@ class proposal {
     }
 
     function delete(&$dbh) 
-    { // !!!
+    {
         if (empty($this->id)) {
             return PEAR::raiseError("Proposal does not exist!");
         } 
-      return true; // !!! for testing
+
         $sql = "DELETE FROM package_proposals WHERE id = ".$this->id;
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
@@ -773,8 +773,8 @@ class proposal {
             $prefix = "";
         }
         $prefix = PROPOSAL_EMAIL_PREFIX . $prefix . " ";
-        $actorinfo = $user_handle; // !!!
-        $ownerinfo = $this->user_handle; // !!!
+        $actorinfo = array('name' => $user_handle, 'email' => 'doc-web@lists.php.net', 'handle' => $user_handle); // !!!
+        $ownerinfo = array('name' => $this->user_handle, 'email' => 'doc-web@lists.php.net', 'handle' => $this->user_handle); // !!!
         $this->getVotes($dbh);
         $vote = @$this->votes[$user_handle];
 
@@ -1037,11 +1037,10 @@ class ppVote {
         if (empty($this->comment)) {
             $this->comment = '-';
         }
-        // !!!    
-        // $this->user_handle.time() is a hack, remove '.time()' after karma system works
+
         $sql = "INSERT INTO package_proposal_votes (pkg_prop_id, user_handle, value, is_conditional, comment, reviews, timestamp)
                     VALUES (".$proposalId.",
-		     ".$dbh->quoteSmart($this->user_handle.time()).",
+		     ".$dbh->quoteSmart($this->user_handle).",
 		     ".$this->value.", ".(int)$this->is_conditional.",
 		     ".$dbh->quoteSmart($this->comment).",
 		     ".$dbh->quoteSmart(serialize($this->reviews)).",

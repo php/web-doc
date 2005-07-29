@@ -58,7 +58,7 @@ if ($proposal->mayVote($dbh, @$docwebUser)) {
                       array('size' => count($proposalReviewsMap),
                             'multiple' => 'multiple'));
     $form->addElement('static', '', '',
-                      '<small>Note that you can only vote once!(Modified for testing!)<br />' // !!!
+                      '<small>Note that you can only vote once!<br />'
                       . 'For conditional votes, please leave a comment and'
                       . ' vote +1 (<i>e.g.</i>, &quot;I\'m +1 if you'
                       . ' change...&quot;).</small>');

@@ -48,7 +48,7 @@ if (isset($_SERVER['PROPOSAL_MAIL_DOC_DEV'])) {
      * To override default, set the value in $_SERVER['PROPOSAL_MAIL_PEAR_DEV']
      * before this file is included.
      */
-    define('PROPOSAL_MAIL_DOC_DEV', 'PHP Documentation <vincent@php.net>');
+    define('PROPOSAL_MAIL_DOC_DEV', 'PHP Documentation <doc-web@lists.php.net>');
 }
 
 if (isset($_SERVER['PROPOSAL_MAIL_DOC_GROUP'])) {
@@ -65,7 +65,7 @@ if (isset($_SERVER['PROPOSAL_MAIL_DOC_GROUP'])) {
      * To override default, set the value in $_SERVER['PROPOSAL_MAIL_PEAR_GROUP']
      * before this file is included.
      */
-    define('PROPOSAL_MAIL_DOC_GROUP', 'Documentation Group <vincent@php.net>');
+    define('PROPOSAL_MAIL_DOC_GROUP', 'Documentation Group <doc-web@lists.php.net>');
 }
 
 if (isset($_SERVER['PROPOSAL_MAIL_FROM'])) {
@@ -80,7 +80,7 @@ if (isset($_SERVER['PROPOSAL_MAIL_FROM'])) {
      * To override default, set the value in $_SERVER['PROPOSAL_MAIL_FROM']
      * before this file is included.
      */
-    define('PROPOSAL_MAIL_FROM', 'RFC System <vincent@php.net>');
+    define('PROPOSAL_MAIL_FROM', 'RFC System <doc-web@lists.php.net>');
 }
 
 /**

@@ -32,7 +32,7 @@ require_once $path . '/../../include/rfc/rfc.php';
 if (!empty($_GET['isDeleted'])) {
     echo site_header('RFC :: Delete');
     echo "<h1>Delete Proposal</h1>\n";
-    report_success('Proposal deleted successfully. (Disabled in testing mode)'); // !!!
+    report_success('Proposal deleted successfully.');
     echo '<p>';
     print_link('rfc-overview.php', 'Back to RFC Home Page');
     echo "</p>\n";
