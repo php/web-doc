@@ -40,8 +40,9 @@ $admins = array(
 $user = $password = false;
 
 // make the username & password global
-list($user, $password) = explode(':', base64_decode(@$_COOKIE['MAGIC_COOKIE']));
-
+if (isset($_COOKIE['MAGIC_COOKIE'])) {
+	list($user, $password) = explode(':', base64_decode(@$_COOKIE['MAGIC_COOKIE']), 2);
+}
 
 /**
  * Credential checking of the $_COOKIE['MAGIC_COOKIE']
