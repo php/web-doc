@@ -37,14 +37,10 @@ $admins = array(
 	'vincent',
 );
 
+$user = $password = false;
 
-/**
- * read the magic cookie and return array(user, pass)
- */
-function read_magic_cookie()
-{
-	return explode(':', base64_decode(@$_COOKIE['MAGIC_COOKIE']));
-}
+// make the username & password global
+list($user, $password) = explode(':', base64_decode(@$_COOKIE['MAGIC_COOKIE']));
 
 
 /**
@@ -52,10 +48,11 @@ function read_magic_cookie()
  */
 function auth()
 {
-	if (isset($_COOKIE['MAGIC_COOKIE'])) {
-		list($user, $pw) = read_magic_cookie();
+	global $user, $password;
 
-		if (!verify_password($user, $pw)) {
+	if (isset($_COOKIE['MAGIC_COOKIE'])) {
+
+		if (!verify_password($user, $password)) {
 			header ('Location: http://doc.php.net/login.php');
 			exit;
 		}
@@ -84,28 +81,34 @@ function auth()
  */
 function is_admin()
 {
-	if (!isset($_COOKIE['MAGIC_COOKIE']))
-		return false;
-
-	list($user) = read_magic_cookie();
-
-	return in_array($user, $GLOBALS['admins']);
+	return in_array($GLOBALS['user'], $GLOBALS['admins']);
 }
 
 
 /**
  * read user info from the DB
  */
-function user_info()
+function user_info($u = false)
 {
-	global $idx;
+	global $idx, $user;
 
-	list($user) = read_magic_cookie();
-
-	$result = @sqlite_unbuffered_query($idx, "SELECT * FROM users WHERE username='" . sqlite_escape_string($user) . "'");
+	$u = $u ? $u : $user;
+	$result = @sqlite_unbuffered_query($idx, "SELECT * FROM users WHERE username='" . sqlite_escape_string($u) . "'");
 	if (!$result) {
 		return false;
 	}
 
 	return sqlite_fetch_array($result, SQLITE_ASSOC);
+}
+
+
+/**
+ * returns the user's real name
+ */
+function user_name($user = false)
+{
+	if ($info = user_info($user))
+		return $info['name'];
+
+	return $GLOBALS['user'];;
 }

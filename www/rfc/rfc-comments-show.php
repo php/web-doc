@@ -158,8 +158,7 @@ if (is_array($comments) && (count($comments) > 0)) {
     echo '   <ul class="spaced">' . "\n";
     foreach ($comments as $comment) {
         if (empty($userInfos[$comment->user_handle])) {  // not used?
-           // $userInfos[$comment->user_handle] = user::info($comment->user_handle); // !!!
-	  // $userinfos[$comment->user_handle] = 'TestUser';
+           //$userInfos[$comment->user_handle] = user_name();
         }
         echo '<li><p style="margin: 0em 0em 0.3em 0em;">';
         echo make_link('/user/'.$comment->user_handle, $comment->user_handle);

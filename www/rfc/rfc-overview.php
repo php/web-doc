@@ -83,7 +83,7 @@ foreach ($proposals as $proposal) {
         }
     }
     if (!isset($users[$proposal->user_handle])) {
-        $users[$proposal->user_handle] = array($proposal->user_handle,'name'=>$proposal->user_handle);// user::info($proposal->user_handle); // !!!
+        $users[$proposal->user_handle] = array($proposal->user_handle,'name'=>user_name($proposal->user_handle));
     }
     
     $already_voted = false;

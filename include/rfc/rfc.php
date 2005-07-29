@@ -36,8 +36,8 @@ require_once $path . '/../init.inc.php';
 require_once $path . '/../lib_auth.inc.php';
 
 
-list($docwebUser) = read_magic_cookie();
-if ($docwebUser === '') {
+$docwebUser = $user;
+if (!$docwebUser) {
     unset($docwebUser);
 }    
 
