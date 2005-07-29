@@ -50,23 +50,27 @@ function sql()
 
 	// execute the sql
 	} else {
-		$idx = sqlite_open(dirname(__FILE__) . '/../sqlite/' . $_POST['file'], 0666, $error);
+		$file = dirname(__FILE__) . '/../sqlite/' . $_POST['file'];
+		$idx = sqlite_open($file, 0666, $error);
 		if (!$idx) {
 			echo "<p>$error</p>";
 			sql_print_textarea($_POST['command'], $_POST['file']);
 			return;
 		}
 
-		$result = @sqlite_query($idx, $_POST['command']);
+		$result = sqlite_query($idx, $_POST['command']);
+echo sqlite_last_error($idx);
 		if (!$result) {
 			echo '<p><strong>There was an error in the query:</strong> ' . sqlite_error_string(sqlite_last_error($idx)) . '</p><p>&nbsp;</p>';
 			sql_print_textarea($_POST['command'], $_POST['file']);
 			return;
 		}
 
+		echo '<p>File size: ' . filesize($file) / 1024 . ' KB</p>';
 		echo '<p>Affected rows: ' . sqlite_changes($idx) , '</p>';
 		echo '<pre>' . htmlspecialchars(print_r(sqlite_fetch_all($result), true)) . '</pre>';
 		sqlite_close($idx);
+		sql_print_textarea($_POST['command'], $_POST['file']);
 	}
 }
 
