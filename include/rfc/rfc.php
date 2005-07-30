@@ -621,9 +621,7 @@ class proposal {
 
         if ($this->getStatus() == 'vote' &&
             !ppVote::hasVoted($dbh, $userHandle, $this->id) &&
-            (!$this->isOwner($userHandle) ||
-             ($this->isOwner($userHandle) &&
-              $this->pkg_category == 'RFC')))
+            !$this->isOwner($userHandle))
         {
             return true;
         } else {

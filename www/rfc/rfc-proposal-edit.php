@@ -82,7 +82,7 @@ if (strlen($_GET['delete']) >= 32 &&
                      . ' probably due to it having reached the "'
                      . $proposal->getStatus(true) . '" phase.'
                      . ' If this MUST be edited, contact someone ELSE'
-                     . ' who has pear.pepr.admin karma.');
+                     . ' who has admin karma.');
         site_footer();
         exit;
     }
@@ -280,6 +280,7 @@ if (isset($_POST['submit'])) {
             if ($_FILES['thefile']['size'] >= round((1024 * 1024)/10)) {
                 report_error('The file should NOT be bigger then 100kb, please upload
                               it somewhere and link to it');
+                unlink($_FILES['thefile']['tmp_name']);
             } else {
                 $filehash = md5($_FILES['thefile']['name'] . time());
                 move_uploaded_file($_FILES['thefile']['tmp_name'],
