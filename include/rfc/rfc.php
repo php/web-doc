@@ -773,8 +773,10 @@ class proposal {
             $prefix = "";
         }
         $prefix = PROPOSAL_EMAIL_PREFIX . $prefix . " ";
-        $actorinfo = array('name' => user_name($user_handle), 'email' =>                                         $this->user_handle.'@php.net', 'handle' => $user_handle); // !!!
-        $ownerinfo = array('name' => user_name($this->user_handle), 'email' =>                                   $this->user_handle.'@php.net', 'handle' => $this->user_handle); // !!!
+        $actorinfo = array('name' => user_name($user_handle),
+                    'email' => $user_handle.'@php.net', 'handle' => $user_handle); // !!!
+        $ownerinfo = array('name' => user_name($this->user_handle),
+                    'email' => $this->user_handle.'@php.net', 'handle' => $this->user_handle); // !!!
         $this->getVotes($dbh);
         $vote = @$this->votes[$user_handle];
 
