@@ -9,5 +9,5 @@ CREATE TABLE users (
   name TEXT,
   country TEXT,
   site TEXT,
-  whishlist TEXT
+  wishlist TEXT
 );
