@@ -136,8 +136,8 @@ if ($proposal->status == 'vote') {
     if ($form) {
         echo '  <td class="textcell" valign="top">' . "\n";
         
-        // Cron job runs at 4 am
-        $pepr_end = mktime(4, 0, 0, date('m', $proposal->vote_date),
+        // Cron job runs at 0 am
+        $pepr_end = mktime(0, 0, 0, date('m', $proposal->vote_date),
                             date('d', $proposal->vote_date),
                             date('Y', $proposal->vote_date));
 
