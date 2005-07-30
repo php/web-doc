@@ -20,12 +20,12 @@ $Id$
 
 include '../include/init.inc.php';
 require_once '../include/lib_auth.inc.php';
-/*
+
 auth();
 if (!is_admin()) {
 	die('you are not an admin!');
 }
-*/
+
 ob_start(); // hack for phpinfo()
 echo site_header('Admin Zone');
 
