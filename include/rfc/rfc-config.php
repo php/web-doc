@@ -27,12 +27,12 @@ $Id$
  * RFC: how long a proposal must be in the "proposal" phase before
  * a "Call for Votes" can be called
  */
-define('PROPOSAL_STATUS_PROPOSAL_TIMELINE', (60 * 60 * 24 * 7)); // 1 week
+define('PROPOSAL_STATUS_PROPOSAL_TIMELINE', (60 * 60 * 24 * 2)); // 1 week
 
 /**
  * RFC: how long the "Call for Votes" lasts
  */
-define('PROPOSAL_STATUS_VOTE_TIMELINE', (60 * 60 * 24 * 7)); // 1 week
+define('PROPOSAL_STATUS_VOTE_TIMELINE', (60 * 60 * 24 * 2)); // 1 week
 
 if (isset($_SERVER['PROPOSAL_MAIL_DOC_DEV'])) {
     /**
