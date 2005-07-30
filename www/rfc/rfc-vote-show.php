@@ -68,8 +68,8 @@ if (!$vote) {
     echo "<ul>\n";
 
     echo ' <li>Voter: ';
-  //  echo user_link($handle); // !!! user_link() will return the full name 
-  echo $handle;
+    print_link('/user/' . htmlspecialchars($handle),
+               htmlspecialchars(user_name($handle)));
     echo "</li>\n";
 
     echo ' <li>Vote: ';

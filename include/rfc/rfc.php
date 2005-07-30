@@ -880,9 +880,15 @@ class proposal {
             $headers .= "In-Reply-To: <proposal-" . $this->id . "@doc.php.net>\n";
         }
 
-        $res = mail($email['to'], $email['subject'], $email['text'],
+        if (DEVBOX == false) {
+            $res = mail($email['to'], $email['subject'], $email['text'],
                     $headers, '-f doc-web@lists.php.net'); // !!!
-
+        } else {
+            $res = true; // fake that everything is ok
+        }
+        
+        
+        
         if (!$res) {
             return PEAR::raiseError('Could not send notification email.');
         }

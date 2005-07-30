@@ -161,7 +161,7 @@ if (is_array($comments) && (count($comments) > 0)) {
            //$userInfos[$comment->user_handle] = user_name();
         }
         echo '<li><p style="margin: 0em 0em 0.3em 0em;">';
-        echo make_link('/user/'.$comment->user_handle, $comment->user_handle);
+        echo make_link('/user/'.$comment->user_handle, user_name($comment->user_handle));
         echo ' [' . make_utc_date($comment->timestamp) . ']</p>';
         echo nl2br(htmlentities(trim($comment->comment))) . "\n</li>";
     }
