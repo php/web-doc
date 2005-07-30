@@ -79,7 +79,16 @@ foreach ($parts as $part) {
     }
 }
 
-if (!($uri = part_is_valid_uri($uri))) {
+// exception for the /user/xx shortcut
+$parts = explode('/', $uri);
+if ((count($parts) == 3 || count($parts) == 4) &&
+    $parts[1] == 'user')
+{
+    $userid = $parts[2];
+    $uri    = './users.php';
+
+// generic uri validator
+} elseif (!($uri = part_is_valid_uri($uri))) {
     unset($uri);
 }
 
