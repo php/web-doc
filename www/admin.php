@@ -20,12 +20,12 @@ $Id$
 
 include '../include/init.inc.php';
 require_once '../include/lib_auth.inc.php';
-
+/*
 auth();
 if (!is_admin()) {
 	die('you are not an admin!');
 }
-
+*/
 ob_start(); // hack for phpinfo()
 echo site_header('Admin Zone');
 
@@ -177,6 +177,7 @@ HTML;
 
 // control flow
 if (empty($_GET['z'])) {
+$lastCVSUpdate = date ('r', filemtime('./CVS/Entries'));
 
 	echo <<< HTML
 <p>Menu:</p>
@@ -186,6 +187,8 @@ if (empty($_GET['z'])) {
  <li><a href="?z=rm">remove files</a></li>
  <li><a href="?z=info">PHP info</a></li>
 </ul>
+<br />
+<p>Last CVS Update: $lastCVSUpdate</p>
 HTML;
 
 } else {
