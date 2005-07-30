@@ -29,7 +29,8 @@
  * This file needs to run every day
  * the system expects it to run at 0 am
  */
- 
+
+$inCli = true;
 $path = realpath(dirname(__FILE__));
 require_once $path . '/../../include/rfc/rfc.php';
 
