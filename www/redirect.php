@@ -85,6 +85,9 @@ if ((count($parts) == 3 || count($parts) == 4) &&
     $parts[1] == 'user')
 {
     $userid = $parts[2];
+    if (isset($parts[3]) && $parts[3] == 'edit') {
+        $doEdit = true;
+    }
     $uri    = './users.php';
 
 // generic uri validator

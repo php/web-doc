@@ -607,7 +607,7 @@ class proposal {
      *   + User must be logged in.
      *   + User must be a full-featured PEAR developer.
      *   + Only one vote can be cast.
-     *   + Proposers can't vote on their own package, though can for RFC's.
+     *   + Proposers can't vote on their own package.
      *
      * @param object $dbh         the current DB object
      * @param string $userHandle  the user's handle
