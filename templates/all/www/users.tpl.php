@@ -2,6 +2,10 @@
 global $info, $doEdit, $pictureError;
 
 if (isset($doEdit)) {
+
+if ($GLOBALS['user'] == $GLOBALS['userid']) {
+// only edit yourself
+
 switch ($pictureError) {
     case 'succes':
         $errors = "&docweb.users.succes;";
@@ -33,6 +37,7 @@ $errors
     <input type="text" name="name" value="$info[name]" /></td></tr>
 <tr><td>&docweb.users.country;</td><td>
 <select name="country">
+<option value="">Please Select</option>
 $countries
 </select></td></tr>
 <tr><td>&docweb.users.website;</td><td>
@@ -46,7 +51,13 @@ $countries
 HTML;
 
 } else {
+echo '<h3>&docweb.users.error.notyou;</h3>';
+}
+
+} else {
+if (isset($info['country'])) {
 $cntrycode = $GLOBALS['COUNTRIES'][$info['country']];
+}
 echo <<< HTML
 <p><strong>&docweb.users.username;</strong>: $info[username]<br />
 <strong>&docweb.users.name;</strong>: $info[name]<br />
@@ -62,7 +73,7 @@ if (is_file($_SERVER['DOCUMENT_ROOT'] . '/images/users/' . $info['username'] . '
 
 echo '</p>';
 
-if ($info['username'] == $GLOBALS['userid']) {
+if ($GLOBALS['user'] == $GLOBALS['userid']) {
     echo '<p><a href="'.$info['username'].'/edit">Edit Your profile</a>';
 }
 
