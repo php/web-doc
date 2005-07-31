@@ -141,7 +141,7 @@ function master_user_name($nick)
 
 	// if we found a name, cache it in the DB
 	if (preg_match('@<th[^>]+>Name:</th>\s+<td><input[^>]+value="([^"]+)"@', $txt, $match)) {
- 		sqlite_exec($GLOBALS['idx'], "INSERT INTO users (username, name) VALUES ('$nick', '$match[1]')");
+ 		sqlite_query($GLOBALS['idx'], "INSERT INTO users (username, name) VALUES ('$nick', '$match[1]')"); //the server has no sqlite_exec support yet (still php4)
 		return $match[1];
 	}
 
