@@ -16,15 +16,26 @@ switch ($pictureError) {
     default:
         $errors = '';
 }
+$countries = '';
+foreach ($GLOBALS['COUNTRIES'] as $code => $cntry) {
+if ($info['country'] == $code) {
+    $selected = ' selected="selected" ';
+} else {
+    $selected = '';
+}
+    $countries .= "<option value=\"".$code."\"$selected>".$cntry."</option>\n";
+}
 echo <<< HTML
-<h3>$info[username], you can edit your info here</h3>
+<h3>$info[name], you can edit your info here</h3>
 $errors
 <form enctype="multipart/form-data" action="$_SERVER[REQUEST_URI]" method="post">
 <table>
 <tr><td>&docweb.users.name;</td><td>
     <input type="text" name="name" value="$info[name]" /></td></tr>
 <tr><td>&docweb.users.country;</td><td>
-    <input type="text" name="country" value="$info[country]" /></td></tr>
+<select name="country">
+$countries
+</select></td></tr>
 <tr><td>&docweb.users.website;</td><td>
     <input type="text" name="site" value="$info[site]" /></td></tr>
 <tr><td>&docweb.users.wishlist;</td><td>
@@ -36,10 +47,11 @@ $errors
 HTML;
 
 } else {
+$cntrycode = $GLOBALS['COUNTRIES'][$info['country']];
 echo <<< HTML
 <p><strong>&docweb.users.username;</strong>: $info[username]<br />
 <strong>&docweb.users.name;</strong>: $info[name]<br />
-<strong>&docweb.users.country;</strong>: $info[country]<br />
+<strong>&docweb.users.country;</strong>: $cntrycode<br />
 <strong>&docweb.users.website;</strong>: <a href="$info[site]">$info[site]</a><br />
 HTML;
 
@@ -50,6 +62,10 @@ if (is_file($_SERVER['DOCUMENT_ROOT'] . '/images/users/' . $info['username'] . '
 	echo "<img src='/images/users/$info[username].jpg' alt='&docweb.users.photo;'/>";
 
 echo '</p>';
+
+if ($info['username'] == $GLOBALS['userid']) {
+    echo '<p><a href="'.$info['username'].'/edit">Edit Your profile</a>';
+}
 
 }
 ?>
