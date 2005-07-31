@@ -11,7 +11,11 @@ if(empty($userid) || !is_string($userid) || !ctype_alpha($userid)) {
         exit;
 }
 
-$info = user_info($userid);
+if (!$info = user_info($userid)) {
+	$info[  'name'  ] = master_user_name($userid);
+	$info['username'] = $userid;
+	$info['country' ] = $info['site'] = $info['wishlist'] = '';
+}
 
 if (isset($_POST['editSubmit'])) {
 

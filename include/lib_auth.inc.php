@@ -108,8 +108,44 @@ function user_info($u = false)
  */
 function user_name($user = false)
 {
+	$user = $user ? $user : $GLOBALS['user'];
+
+	// first check if the name is in the DB
 	if ($info = user_info($user))
 		return $info['name'];
 
-	return $GLOBALS['user'];;
+	//no, it isn't. fetch it from the master server
+	return master_user_name($user);
 }
+
+
+/**
+ * Fetch the user's real name from the master server
+ */
+function master_user_name($nick)
+{
+	$magic_cookie = (empty($_COOKIE['MAGIC_COOKIE']) || !ctype_alnum($_COOKIE['MAGIC_COOKIE'])) ?
+			'' : // need a generic key here!!
+			$_COOKIE['MAGIC_COOKIE'];
+
+	if (!$fp = @fsockopen('master.php.net', 80))
+		return $nick;
+
+	fputs($fp, "GET /manage/users.php?username=$nick HTTP/1.0\r\n".
+		   "Host: master.php.net\r\n".
+		   "Cookie: MAGIC_COOKIE=$magic_cookie\r\n".
+		   "\r\n");
+
+	$txt = @fread($fp, 50000);
+	fclose($fp);
+
+	// if we found a name, cache it in the DB
+	if (preg_match('@<th[^>]+>Name:</th>\s+<td><input[^>]+value="([^"]+)"@', $txt, $match)) {
+ 		sqlite_exec($GLOBALS['idx'], "INSERT INTO users (username, name) VALUES ('$nick', '$match[1]')");
+		return $match[1];
+	}
+
+	return $nick;
+}
+
+?>
