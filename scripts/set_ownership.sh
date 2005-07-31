@@ -22,6 +22,15 @@ then
   echo "Setting ownership of SQLite dir ($SQLITEDIR) to $WWWUSER.$WWWGROUP"
   chown -R $WWWUSER $SQLITEDIR
   chgrp -R $WWWGROUP $SQLITEDIR
+  
+  if [ ! -d $DOCWEB/www/images/users ]
+  then
+    echo "Making files dir: $DOCWEB/www/images/users"
+    mkdir $FILESDIR
+  fi
+  echo "Setting ownership of files dir ($DOCWEB/www/images/users) to $WWWUSER.$WWWGROUP"
+  chown -R $WWWUSER $DOCWEB/www/images/users
+  chgrp -R $WWWGROUP $DOCWEB/www/images/users 
 
   echo "Done."
 else

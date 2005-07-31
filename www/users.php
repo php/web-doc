@@ -47,6 +47,7 @@ $info = user_info($userid);
 }
 
 if (isset($doEdit)) {
+    auth();
     echo site_header('docweb.common.header.users.edit');
 } else {
     echo site_header('docweb.common.header.users');

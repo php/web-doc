@@ -2,7 +2,6 @@
 global $info, $doEdit, $pictureError;
 
 if (isset($doEdit)) {
-auth();
 switch ($pictureError) {
     case 'succes':
         $errors = "&docweb.users.succes;";
