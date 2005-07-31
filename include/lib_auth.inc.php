@@ -124,9 +124,9 @@ function user_name($user = false)
  */
 function master_user_name($nick)
 {
-	$magic_cookie = (empty($_COOKIE['MAGIC_COOKIE']) || !ctype_alnum($_COOKIE['MAGIC_COOKIE'])) ?
-			'' : // need a generic key here!!
-			$_COOKIE['MAGIC_COOKIE'];
+	$magic_cookie = (!empty($_COOKIE['MAGIC_COOKIE']) || !ctype_alnum($_COOKIE['MAGIC_COOKIE'])) ?
+			$_COOKIE['MAGIC_COOKIE'] :
+                        '' ; // need a generic key here!!
 
 	if (!$fp = @fsockopen('master.php.net', 80))
 		return $nick;

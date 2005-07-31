@@ -55,8 +55,10 @@ echo '<h3>&docweb.users.error.notyou;</h3>';
 }
 
 } else {
-if (isset($info['country'])) {
+if ($info['country'] != '') {
 $cntrycode = $GLOBALS['COUNTRIES'][$info['country']];
+} else {
+$cntrycode = '';
 }
 echo <<< HTML
 <p><strong>&docweb.users.username;</strong>: $info[username]<br />
