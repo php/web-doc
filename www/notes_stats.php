@@ -24,7 +24,7 @@ require_once('../include/init.inc.php');
 
 @include('notes_stats-data.php');
 
-if (!is_array($notesData) || !$notesData) {
+if (!isset($notesData) || !is_array($notesData) || !$notesData) {
     echo DocWeb_Template::get(
         'shared/error_msg.tpl.php',
         array(
