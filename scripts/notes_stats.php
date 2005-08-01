@@ -21,6 +21,7 @@ $Id$
 */
 
 require_once '../build-ops.php';
+require_once '../include/docweb_template.class.php';
 
 // Define some globally used vars
 
@@ -37,6 +38,8 @@ if (is_readable($DBFile)) {
 } else {
     $sqlite = create_db($DBFile);
 }
+
+if (!isset($_ENV['SKIP_NNTP'])) {
 
 $s = nntp_connect("news.php.net") or die("failed to connect to news server\n");
 $res = nntp_cmd($s, 'GROUP php.notes', 211) or die("failed to get infos on news group\n");
@@ -102,14 +105,13 @@ sqlite_query($sqlite, $sql);
 sqlite_query($sqlite, 'COMMIT TRANSACTION');
 sqlite_close($sqlite);
 
+} // (end SKIP_NNTP block)
 
 /* write the output to the /www folder */
-ob_start();
 include './notes_stats_output.php';
-$output = ob_get_clean();
 
-$fp = fopen(PATH_ROOT . '/www/notes_stats.php', 'w');
-fputs($fp, $output);
+$fp = fopen(PATH_ROOT . '/www/note_stats-data.php', 'w');
+fputs($fp, $out);
 fclose($fp);
 
 /* end of the script */
