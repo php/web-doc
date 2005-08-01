@@ -22,7 +22,7 @@ $Id$
 
 require_once('../include/init.inc.php');
 
-@include('note_stats-data.php');
+@include('notes_stats-data.php');
 
 if (!is_array($notesData) || !$notesData) {
     echo DocWeb_Template::get(

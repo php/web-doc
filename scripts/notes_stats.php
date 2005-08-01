@@ -110,7 +110,7 @@ sqlite_close($sqlite);
 /* write the output to the /www folder */
 include './notes_stats_output.php';
 
-$fp = fopen(PATH_ROOT . '/www/note_stats-data.php', 'w');
+$fp = fopen(PATH_ROOT . '/www/notes_stats-data.php', 'w');
 fputs($fp, $out);
 fclose($fp);
 
