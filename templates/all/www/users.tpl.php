@@ -10,11 +10,8 @@ switch ($pictureError) {
     case 'succes':
         $errors = "&docweb.users.succes;";
     break;
-    case 'size':
-        $errors = "&docweb.users.error.size;";
-    break;
     case 'format':
-        $errors = "&docweb.users.error.format;";
+        $errors = "&docweb.users.error.format;<br />&docweb.users.error.size;";
     break;
     default:
         $errors = '';
