@@ -28,6 +28,12 @@ if ($info['country'] == $code) {
 }
     $countries .= "<option value=\"".$code."\"$selected>".$cntry."</option>\n";
 }
+
+if (is_file($_SERVER['DOCUMENT_ROOT'] . '/images/users/' . $info['username'] . '.jpg')) {
+    $currentphoto = '<tr><td>&nbsp;</td><td><input type="checkbox" name="deletephoto" />&docweb.users.delete-photo;</td></tr>';
+} else {
+    $currentphoto = '';
+}
 echo <<< HTML
 <h3>$info[name], you can edit your info here</h3>
 $errors
@@ -45,6 +51,7 @@ $countries
 <tr><td>&docweb.users.wishlist;</td><td>
     <input type="text" name="wishlist" value="$info[wishlist]" /></td></tr>
 <tr><td>&docweb.users.photo;</td><td><input type="file" name="photo"/></td></tr>
+$currentphoto
 <tr><td>&nbsp;</td><td><input type="submit" name="editSubmit" value="&docweb.common.submit;"></td></tr>
 </table>
 </form>

@@ -30,21 +30,27 @@ if (!$result) {
     sqlite_error_string(sqlite_last_error($idx));
 }    
 
-        if (!empty($_FILES['photo']['name'])) {
-            // this will need some more security checks
-            if ($_FILES['photo']['size'] >= round((1024 * 1024)/10)) {
-                $pictureError = 'size';
-                unlink($_FILES['photo']['tmp_name']);
+    if (isset($_POST['deletephoto']) && $_POST['deletephoto'] == 'on') {
+        if (is_file($_SERVER['DOCUMENT_ROOT'] . '/images/users/' . $info['username'] . '.jpg')) {
+            unlink($_SERVER['DOCUMENT_ROOT'] . '/images/users/' . $info['username'] . '.jpg');
+        }
+    }        
+
+    if (!empty($_FILES['photo']['name'])) {
+        // this will need some more security checks
+        if ($_FILES['photo']['size'] >= round((1024 * 1024)/10)) {
+            $pictureError = 'size';
+            unlink($_FILES['photo']['tmp_name']);
+        } else {
+            $img = getimagesize($_FILES['photo']['tmp_name']);
+            if (!$img or $img[0] >= 500 or $img[1] >= 500 or $img['mime'] != 'image/jpeg') {
+                $pictureError = 'format';
             } else {
-                $img = getimagesize($_FILES['photo']['tmp_name']);
-                if (!$img or $img[0] >= 500 or $img[1] >= 500 or $img['mime'] != 'image/jpeg') {
-                    $pictureError = 'format';
-                } else {
-                    move_uploaded_file($_FILES['photo']['tmp_name'],
-                         $_SERVER['DOCUMENT_ROOT'].'/images/users/' . $info['username'] . '.jpg');
-                }
+                move_uploaded_file($_FILES['photo']['tmp_name'],
+                     $_SERVER['DOCUMENT_ROOT'].'/images/users/' . $info['username'] . '.jpg');
             }
         }
+    }
 $pictureError = 'succes';
 unset($info);
 $info = user_info($userid);
