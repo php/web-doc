@@ -265,7 +265,7 @@ switch ($proposal->status) {
 
                 if ($vote->is_conditional) {
                     echo '^';
-                } elseif (!empty($vote->comment)) {
+                } elseif ($vote->comment != '-') {
                     echo '*';
                 }
                 echo ' &nbsp;(';
