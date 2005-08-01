@@ -31,7 +31,7 @@
       </table>
     </td>
     <td valign="top">
-      Last half year (with more than <?php echo $minact; ?> actions counted)
+      Last year (with more than <?php echo $minact; ?> actions counted)
       <table border='0'>
         <tr>
           <th colspan="5" align="center">Recent Editors stats</th>

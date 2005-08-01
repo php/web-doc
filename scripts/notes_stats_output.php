@@ -33,7 +33,7 @@ $info = sqlite_fetch_array(sqlite_query($sqlite, 'SELECT * FROM info'), SQLITE_A
 // fetch/sort data
 $array = sqlite_fetch_all(sqlite_query($sqlite, 'SELECT * FROM notes'), SQLITE_ASSOC);
 sqlite_close($sqlite);
-$time  = time() - 60*60*24*180;
+$time  = time() - 60*60*24*365;
 
 foreach($array as $row) {
     @++$data[$row['who']][$row['action']];
