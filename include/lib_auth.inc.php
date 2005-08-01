@@ -50,16 +50,17 @@ if (isset($_COOKIE['MAGIC_COOKIE'])) {
 function auth()
 {
 	global $user, $password;
-
+        $return = $_SERVER['REQUEST_URI'];
+        
 	if (isset($_COOKIE['MAGIC_COOKIE'])) {
 
 		if (!verify_password($user, $password)) {
-			header ('Location: http://doc.php.net/login.php');
+			header ('Location: http://doc.php.net/login.php?return='.$return);
 			exit;
 		}
 	} elseif (isset($_POST['username']) && isset($_POST['passwd'])) {
 		if (!verify_password($_POST['username'], $_POST['passwd'])) {
-			header ('Location: http://doc.php.net/login.php');
+			header ('Location: http://doc.php.net/login.php?return='.$return);
 			exit;
 		}
 
@@ -71,7 +72,7 @@ function auth()
 			'.php.net'
 		);
 	} else {
-		header ('Location: http://doc.php.net/login.php');
+		header ('Location: http://doc.php.net/login.php?return='.$return);
 		exit;
 	}
 }
@@ -124,7 +125,7 @@ function user_name($user = false)
  */
 function master_user_name($nick)
 {
-	$magic_cookie = (!empty($_COOKIE['MAGIC_COOKIE']) || !ctype_alnum($_COOKIE['MAGIC_COOKIE'])) ?
+	$magic_cookie = (!empty($_COOKIE['MAGIC_COOKIE'])) ?
 			$_COOKIE['MAGIC_COOKIE'] :
                         '' ; // need a generic key here!!
 

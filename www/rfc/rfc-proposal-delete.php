@@ -28,6 +28,7 @@
 $path = realpath(dirname(__FILE__));
 require_once $path . '/../../include/rfc/rfc.php';
 
+auth();
 
 if (!empty($_GET['isDeleted'])) {
     echo site_header('RFC :: Delete');

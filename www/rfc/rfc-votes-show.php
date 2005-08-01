@@ -40,7 +40,7 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
 echo site_header('RFC :: Votes :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Proposal Votes for ' . htmlspecialchars($proposal->pkg_name) . "</h1>\n";
 
-if ($proposal->mayVote($dbh, @$docwebUser)) {
+if (isset($docwebUser) && $proposal->mayVote($dbh, $docwebUser)) {
     $form =& new HTML_QuickForm('vote', 'post',
                                 'rfc-votes-show.php?id=' . $proposal->id);
 
@@ -212,7 +212,7 @@ if ($proposal->status == 'vote') {
   <td class="ulcell" valign="top">
    <ul>
     <li>You must be a full-featured PEAR developer.</li>
-    <li>You must be logged in.</li>
+    <li>You must be <a href="/login.php?return=<?php echo $_SERVER['REQUEST_URI']; ?>">logged in</a>.</li>
     <li>Only one vote can be cast.</li>
     <li>Proposers can not vote on their own package.</li>
    </ul>

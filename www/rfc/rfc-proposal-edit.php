@@ -30,6 +30,9 @@
  */
 $path = realpath(dirname(__FILE__));
 require_once $path . '/../../include/rfc/rfc.php';
+
+auth();
+
 /**
  * Obtain code for Bulletin Board markup.
  */
