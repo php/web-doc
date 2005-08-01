@@ -19,7 +19,7 @@
 $Id$
 */
 
-// config comees from notes_stats.php
+// config comes from notes_stats.php
 
 if (@filesize($DBFile) < 3000000) { // require at least 3 MBs
     $out = FALSE;
