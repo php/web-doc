@@ -30,4 +30,4 @@ Initial Installation
 
 </VirtualHost>
 8. If you limit the amount of memory which PHP scripts can use
-   increase the limit to 16M from 8M in your php.ini file.   
+   increase the limit to 32M from 8M in your php.ini file.   
