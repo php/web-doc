@@ -6,6 +6,7 @@
  <meta http-equiv="Content-Script-Type" content="text/javascript" />
  <meta http-equiv="Content-Style-Type" content="text/css" />
  <meta http-equiv="Content-Language" content="<?php echo $lang; ?>" />
+ <script type="text/javascript" src="/style/pngerizer.js"></script>
  <link rel="shortcut icon" href="/images/favicon/<?php echo $project; ?>/favicon.ico" />
  <style type="text/css">
   @import url(/style/site.css);
