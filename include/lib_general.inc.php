@@ -282,7 +282,7 @@ function get_bugs_rss($project=SITE)
         (filemtime($localFile) > time() - RSS_STALE_CACHE_BUGS))) {
         // cache miss: download (& cache) rss
         $fp = fopen($localFile, 'w');
-        fwrite($fp, file_get_contents($RSS_URL));
+        fwrite($fp, @file_get_contents($RSS_URL));
         fclose($fp);
     }
 
