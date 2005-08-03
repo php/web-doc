@@ -77,7 +77,7 @@
           <tr bgcolor="<?php echo $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB'; ?>">
             <td><?php echo ++$i; ?></td>
             <td><?php echo $id; ?></td>
-            <td><?php $val; ?></td>
+            <td><?php echo $val; ?></td>
           </tr>
           <?php
           if ($i == 15) {
@@ -103,7 +103,7 @@
           <tr bgcolor="<?php echo $bg = ($bg == '#EBEBEB') ? '#BEBEBE' : '#EBEBEB'; ?>">
             <td><?php echo ++$i ?></td>
             <td><?php echo $id ?></td>
-            <td><?php $c; ?></td>
+            <td><?php echo $c; ?></td>
           </tr>
           <?php
           if ($i == 20) {
