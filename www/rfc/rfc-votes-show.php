@@ -108,6 +108,7 @@ if (isset($docwebUser) && $proposal->mayVote($dbh, $docwebUser)) {
                 $proposal->addVote($dbh, new ppVote($voteData));
                 $proposal->sendActionEmail('proposal_vote', 'user', $docwebUser);
                 report_success('Your vote has been registered successfully');
+                $form->removeElement('submit');
                 $form->freeze();
             }
         } else {
