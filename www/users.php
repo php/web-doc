@@ -4,7 +4,19 @@
 include '../include/init.inc.php';
 require_once '../include/lib_auth.inc.php';
 
-if(empty($userid) || !is_string($userid)) {
+// show the users list
+if (empty($userid)) {
+    $q = sqlite_query('SELECT * FROM users ORDER BY username', $idx);
+    $data = sqlite_fetch_all($q, SQLITE_ASSOC);
+
+    echo site_header('docweb.common.header.users');
+    echo DocWeb_Template::get('userlist.tpl.php');
+    echo site_footer();
+    exit;
+}
+
+
+if(!is_string($userid) || !ctype_alnum($userid)) {
         echo site_header('docweb.common.header.users');
         echo '<h3>No such user found</h3>';
         echo site_footer();
