@@ -4,7 +4,7 @@
 include '../include/init.inc.php';
 require_once '../include/lib_auth.inc.php';
 
-if(empty($userid) || !is_string($userid) || !ctype_alpha($userid)) {
+if(empty($userid) || !is_string($userid)) {
         echo site_header('docweb.common.header.users');
         echo '<h3>No such user found</h3>';
         echo site_footer();
