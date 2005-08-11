@@ -79,6 +79,9 @@ $form =& new HTML_QuickForm('delete-proposal', 'post',
 $form->addElement('checkbox', 'delete', 'Really delete proposal for ',
                   htmlspecialchars($proposal->pkg_category) . '::'
                   . htmlspecialchars($proposal->pkg_name));
+$form->addElement('textarea', 'reason',
+                  'Please tell us why you chose to delete this proposal ');
+                                    
 $form->addElement('submit', 'submit', 'Do it');
 
 $form->addRule('delete', 'You have to check the box to delete!!', 'required',
@@ -87,7 +90,7 @@ $form->addRule('delete', 'You have to check the box to delete!!', 'required',
 if (isset($_POST['submit'])) {
     if ($form->validate()) {
         $proposal->delete($dbh);
-        $proposal->sendActionEmail('proposal_delete', 'mixed', $docwebUser);
+        $proposal->sendActionEmail('proposal_delete', 'mixed', $docwebUser,                                                     $form->exportValue('reason'));
         ob_end_clean();
         header('Location: rfc-proposal-delete.php?id=' . $proposal->id . '&isDeleted=1');
     } else {
