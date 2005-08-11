@@ -150,9 +150,11 @@ function extract_links($text)
 // Returns an insite address for a specified project, language and path (with fallback)
 function get_insite_address($project = NULL, $lang = NULL, $path = NULL)
 {
-    if (!isset($project)) { $project = SITE;  }
-    if (!isset($lang))    { $lang    = LANGC; }
-    if (!isset($path))    { $path    = URI;   }
+    if (!isset($project))      { $project = SITE;  }
+    if (!isset($lang))         { $lang    = LANGC; }
+    if (!isset($path))         { $path    = URI;   }
+    if ($project != SITE)      { $path    = '/';   }
+    if ($path == '/index.php') { $path    = '/';   }
 
     $ret = '/';
     if ($project != $GLOBALS['defaultProject']) {
