@@ -153,8 +153,12 @@ function get_insite_address($project = NULL, $lang = NULL, $path = NULL)
     if (!isset($project))      { $project = SITE;  }
     if (!isset($lang))         { $lang    = LANGC; }
     if (!isset($path))         { $path    = URI;   }
-    if ($path == '/users.php') { $path    = '/';   }
     if ($path == '/index.php') { $path    = '/';   }
+
+    if ($project != SITE && 
+       ($path != '/revcheck.php' && !strstr($path, '/rfc/') && $path != '/checkent.php')) {
+        $path = '/';
+    }
 
     $ret = '/';
     if ($project != $GLOBALS['defaultProject']) {
