@@ -1,5 +1,5 @@
 <?php
-global $data;
+global $data, $COUNTRIES;
 
 echo <<< HTML
 <table border="1">
@@ -13,7 +13,7 @@ HTML;
 
 foreach ($data as $user) {
 
-    $user['country'] = empty($user['country']) ? '&nbsp;' : $user['country'];
+    $user['country'] = empty($user['country']) ? '&nbsp;' : $COUNTRIES[$user['country']];
 
     echo <<< HTML
  <tr>
