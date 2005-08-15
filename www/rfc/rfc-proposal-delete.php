@@ -80,7 +80,7 @@ $form->addElement('checkbox', 'delete', 'Really delete proposal for ',
                   htmlspecialchars($proposal->pkg_category) . '::'
                   . htmlspecialchars($proposal->pkg_name));
 $form->addElement('textarea', 'reason',
-                  'Please tell us why you chose to delete this proposal ');
+                  'Please tell us why you chose to delete this proposal ');
                                     
 $form->addElement('submit', 'submit', 'Do it');
 
