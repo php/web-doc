@@ -29,7 +29,7 @@ $proposalEmailTexts = array(
             'user'    => '{email_pear_dev}, {owner_name} {owner_email}'
         ),
         'subject'   => '{pkg_category}::{pkg_name} deleted',
-        'text'      => "{actor_name} ({actor_link}) has deleted the proposal for {pkg_category}::{pkg_name}."
+        'text'      => "{actor_name} ({actor_link}) has deleted the proposal for {pkg_category}::{pkg_name}.\n\nThe reason for that is:\n\n{comment}"
     ),
 
     // $proposal->sendActionEmail("change_status_proposal", $_COOKIE["PEAR_USER"], $proposal);
