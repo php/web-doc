@@ -74,6 +74,7 @@ $COUNTRIES = array(
     "AR" => "Argentina",
     "AU" => "Australia",
     "AT" => "Austria",
+    "BY" => "Belarus",
     "BE" => "Belgium",
     "BR" => "Brazil",
     "CA" => "Canada",
