@@ -89,7 +89,7 @@ switch ($proposal->markup) {
     default:
        require_once 'HTML/BBCodeParser.php';
        $bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
-       $describtion = $bbparser->qparse(nl2br(htmlentities($proposal->pkg_describtion)));
+       $describtion = nl2br(htmlentities($bbparser->qparse($proposal->pkg_describtion)));
 }
 
 ?>

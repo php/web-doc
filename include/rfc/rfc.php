@@ -416,7 +416,8 @@ class proposal {
         if (!$res) {
             return $res;
         }
-        return new proposal($res);
+        $t = new proposal($res);
+        return $t;
     }
 
     function &getAll(&$dbh, $status = null, $limit = null, $order= null)
