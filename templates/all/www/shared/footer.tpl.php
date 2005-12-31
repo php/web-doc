@@ -1,7 +1,7 @@
  </div>
  <div id="footer">
   <p>
-   <a href="<?php echo $master; ?>copyright.php">&docweb.common.footer.copyright;</a> 2004-2005 &docweb.common.footer.copyright-text;.
+   <a href="<?php echo $master; ?>copyright.php">&docweb.common.footer.copyright;</a> 2004-2006 &docweb.common.footer.copyright-text;.
   </p>
   <p>
    <a href="<?php echo $master; ?>credits.php">&docweb.common.footer.credits;</a>
