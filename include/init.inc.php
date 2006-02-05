@@ -73,7 +73,7 @@ if ($inCli != true) {
 
     // language engine
     require_once('docweb_language.class.php');
-    $Language =& new DocWeb_Language(LANGC);
+    $Language = new DocWeb_Language(LANGC);
 
     // template engine
     require_once('docweb_template.class.php');
