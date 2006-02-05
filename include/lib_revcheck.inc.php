@@ -126,6 +126,60 @@ function get_outdated_files($idx, $lang, $dir)
 
 }
 
+// return an array with the outdated files maintained by $user
+function get_outdated_translator_files($idx, $lang, $user)
+{
+    $sql = 'SELECT
+        a.status as status,
+        a.name as file,
+        a.maintainer as maintainer,
+        c.revision as en_rev,
+        c.size as en_size,
+        a.size as trans_size,
+        a.revision as trans_rev,
+        a.mdate as trans_date,
+        c.mdate as en_date,
+        b.name AS name,
+        a.dir as dir
+    FROM
+        files a,
+        dirs b
+    LEFT JOIN
+        files c
+    ON
+        c.name = a.name
+    AND
+        c.dir = a.dir
+    WHERE
+        b.id = a.dir
+    AND
+        a.lang="' . $lang . '"
+    AND
+        c.lang="en"
+    AND
+        a.maintainer = "' . $user . '"
+    AND
+        a.revision != c.revision order by b.name';
+    $result = sqlite_query($idx, $sql);
+    $tmp = array();
+    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+        $tmp[] = array(
+        'name' => $r['name'],
+        'en_date' => $r['en_date'],
+        'trans_date' => $r['trans_date'],
+        'en_rev' => $r['en_rev'],
+        'en_size' => $r['en_size'],
+        'trans_size' => $r['trans_size'],
+        'trans_rev' => $r['trans_rev'],
+        'status' => $r['status'],
+        'maintainer' => $r['maintainer'],
+        'file' => $r['file']);
+    }
+
+    return $tmp;
+
+}
+
 // Return an array with the revchecked documentation types
 function revcheck_available_types()
 {

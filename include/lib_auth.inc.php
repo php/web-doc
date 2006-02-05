@@ -35,6 +35,7 @@ $admins = array(
 	'philip',
 	'sean',
 	'vincent',
+	'mazzanet',
 );
 
 $user = $password = false;

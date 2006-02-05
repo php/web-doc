@@ -378,6 +378,8 @@ END_OF_MULTILINE;
         case 'files' :
         // we need a dir to browse
         $dirs = get_dirs($dbhandle, $LANG);
+        $users = get_translators($dbhandle, $LANG);
+
         if (empty($dirs)) {
             echo 'no files';
         } else {
@@ -392,10 +394,26 @@ END_OF_MULTILINE;
                 echo '<option value="' . $id . '"' . $selected . '>' . $name . '</option>' . "\n";
             }
             echo '</select><input type="hidden" name="p" value="files" /><input type="submit" value="See outdated files" /></p></form>';
+            
+            echo '<p>Or choose a translator :</p>';
+            echo '<form method="get" action="' . BASE_URL . '/revcheck.php?p=files"><p><select name="user">';
+            foreach ($users as $id => $user) {
+                if (isset($_GET['user']) && $_GET['user'] == $id) {
+                    $selected = ' selected="selected"';
+                } else {
+                    $selected = '';
+                }
+                echo '<option value="' . $id . '"' . $selected . '>' . $id . '</option>' . "\n";
+            }
+            echo '</select><input type="hidden" name="p" value="files" /><input type="submit" value="See outdated files" /></p></form>';
         }
 
-        if (isset($_GET['dir'])) {
-            $outdated = get_outdated_files($dbhandle, $LANG, $_GET['dir']);
+        if (isset($_GET['dir']) || isset($_GET['user'])) {
+            if (isset($_GET['user'])) {
+                $outdated = get_outdated_translator_files($dbhandle, $LANG, $_GET['user']);
+            } else {
+                $outdated = get_outdated_files($dbhandle, $LANG, $_GET['dir']);
+            }
             if (empty($outdated)) {
                 echo 'No files info';
             } else {
@@ -425,8 +443,13 @@ END_OF_MULTILINE;
 
 END_OF_MULTILINE;
                 $last_dir = false;
+                $prev_name = $outdated[0]['name'];
 
                 foreach ($outdated as $r) {
+                    if ($r['name'] != $prev_name) {
+                       echo '<tr class="blue"><th colspan="12">'.$r['name'].'</th></tr>';
+                       $prev_name = $r['name'];
+                    }
                     $r['en_date'] = intval((time() - $r['en_date']) / 86400);
                     $r['trans_date'] = intval((time() - $r['trans_date']) / 86400);
                     // Make decision on file category by revision, date and size
