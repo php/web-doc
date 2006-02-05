@@ -280,21 +280,20 @@ function get_oldfiles($idx, $lang)
      old_files
 
      WHERE
-     lang="' . $lang . '"
-     ';
+     lang="' . $lang . '"';
 
     $result = sqlite_query($idx, $sql);
-    $num = sqlite_num_rows($result);
-    if ($num == 0) {
-        // only 'null' will produce a 0 with sizeof()
-        return null;
-    } else {
-        $tmp = array();
-        while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
-            $tmp[] = array('dir' => $r['dir'], 'size' => $r['size'], 'file' => $r['file']);
-        }
-        return $tmp;
+
+    $tmp = array();
+    $special_files = array(
+        'translation.xml'=>1,
+    );
+
+    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+        if (isset($special_files[$r['file']])) continue; // skip some files
+        $tmp[] = array('dir' => $r['dir'], 'size' => $r['size'], 'file' => $r['file']);
     }
+    return $tmp;
 }
 
 function get_description($idx, $lang)
