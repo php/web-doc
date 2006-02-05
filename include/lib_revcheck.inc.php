@@ -157,7 +157,7 @@ function get_outdated_translator_files($idx, $lang, $user)
     AND
         c.lang="en"
     AND
-        a.maintainer = "' . $user . '"
+        a.maintainer = \'' . sqlite_escape_string($user) . '\'
     AND
         a.revision != c.revision order by b.name';
     $result = sqlite_query($idx, $sql);
