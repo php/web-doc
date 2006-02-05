@@ -179,7 +179,7 @@ TRANSLATORS_HEAD;
                     $col = 'wip';
                 }
                 echo '<tr class="', $col, '">' . "\n";
-                echo '<td><a name="maint-'.$nick.'">'. $data['name'] . '</a></td>', "\n";
+                echo '<td><a name="maint-'.$nick.'" href="'.BASE_URL. '/revcheck.php?p=files&amp;user='.$nick. '">'. $data['name'] . '</a></td>', "\n";
                 echo '<td>', $data['mail'], '</td>', "\n";
                 echo '<td>', $nick, '</td>', "\n";
                 echo '<td class="c">', $cvsu, '</td>', "\n";
