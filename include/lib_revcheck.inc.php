@@ -103,7 +103,7 @@ function get_outdated_files($idx, $lang, $dir)
     AND
         c.lang="en" 
     AND
-        a.dir = "' . $dir . '"
+        a.dir = "' . (int)$dir . '"
     AND
         a.revision != c.revision order by b.name';
     $result = sqlite_query($idx, $sql);
