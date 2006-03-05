@@ -73,6 +73,10 @@ AC_ARG_WITH(files-dir,[  --with-files-dir[=DIR]     'files' location (for RFC, e
   [FILESDIR="$withval"],
   [FILESDIR="`pwd`/files/"])
 
+AC_ARG_WITH(src-dir,[  --with-src-dir[=DIR]       php-src (HEAD) location  [default=`pwd`/php-src]],
+  [SRCDIR="$withval"],
+  [SRCDIR="`pwd`/php-src/"])
+
 
 AC_ARG_WITH(www-user,[  --with-www-user[=USER]     Web Server user  [default=`whoami`]],
   [WWWUSER="$withval"],
@@ -97,6 +101,7 @@ if test `uname|grep CYGWIN` ; then
   SQLDIR=`cygpath -m $SQLDIR`
   SQLITEDIR=`cygpath -m $SQLITEDIR`
   FILESDIR=`cygpath -m $FILESDIR`
+  SRCDIR=`cygpath -m $SRCDIR`
 fi
 
 
@@ -108,6 +113,7 @@ AC_SUBST(SCRIPTSDIR)
 AC_SUBST(SQLDIR)
 AC_SUBST(SQLITEDIR)
 AC_SUBST(FILESDIR)
+AC_SUBST(SRCDIR)
 AC_SUBST(WWWUSER)
 AC_SUBST(WWWGROUP)
 AC_SUBST(LIVEDOCS)
