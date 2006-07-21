@@ -1106,7 +1106,8 @@ $proposalTypeMap = array(
                          'pkg_example'          => "Example (.php)",
                          'pkg_example_source'   => "Example source (.phps/.htm)",
                          'pkg_doc'              => "Documentation",
-			 'pkg_site'             => "Website");
+                         'pkg_site'             => "Website",
+                         'pkg_lists'            => "Mailing list archive");
 
 class ppLink {
 
