@@ -290,7 +290,7 @@ function do_revcheck($dir = '') {
             if (
             (!is_dir($DOCS . 'en' . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
             || ($file == "functions.xml" && strpos($dir, '/reference') !== false)
-            || $dir == '/chmonly'
+            || $dir == '/chmonly' || $dir == '/internals'
             || $file == 'contributors.ent' || $file == 'contributors.xml'
             || ($dir == '/appendices' && $file == 'reserved.constants.xml')) {
                 continue;
