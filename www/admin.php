@@ -38,6 +38,13 @@ function info() {
 	exit;
 }
 
+function pearinfo() {
+    ob_end_clean();
+    require_once 'PEAR/Info.php';
+    $info = new PEAR_Info('/usr/local/share/pear');
+    $info->show();
+    exit;
+}
 
 function print_file_list($base)
 {
@@ -186,6 +193,7 @@ $lastCVSUpdate = date ('r', filemtime('./CVS/Entries'));
  <li><a href="?z=chmodf">chmod</a></li>
  <li><a href="?z=rm">remove files</a></li>
  <li><a href="?z=info">PHP info</a></li>
+ <li><a href="?z=pearinfo">PEAR info</a></li>
 </ul>
 <br />
 <p>Last CVS Update: $lastCVSUpdate</p>
@@ -197,6 +205,7 @@ HTML;
 		case 'chmodf':
 		case 'rm':
 		case 'info':
+		case 'pearinfo':
 			$_GET['z']();
 			break;
 
