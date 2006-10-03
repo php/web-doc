@@ -229,3 +229,32 @@ margin: auto;
 
 /* howto's nav footer */
 div.NAVFOOTER { clear: both; }
+
+/* phpt classes */
+tr.phpt_approved td {
+    background-color: #D9FFCC;
+}
+tr.phpt_implemented td {
+    background-color: #CCD9FF;
+}
+tr.phpt_filled td {
+    background-color: #FFF2CC;
+}
+tr.phpt_none td {
+    background-color: #f5f5f5;
+}
+form.phpt input, form.phpt textarea {
+    display: block;
+    margin-bottom: 20px;
+}
+
+form.phpt input[type="submit"]{
+    margin-bottom: 0px;
+    margin-right: 5px;
+    display: inline;
+}
+
+form.phpt td input{
+    display: inline;
+    margin-bottom: 0px;
+}
