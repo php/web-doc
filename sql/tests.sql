@@ -1,12 +1,3 @@
-/*
- * Tables for the RFC system
- * Original PEPr sql can be found at pearweb/sql/pepr.sql
- *
- * This is for a SQLite database, only edit if you
- * know what SQLite doesn't support 
- */ 
-;
-
 CREATE TABLE tests (
   id            INTEGER PRIMARY KEY,
   title         varchar(150) NOT NULL default '',
