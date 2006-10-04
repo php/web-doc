@@ -22,7 +22,7 @@ $Id$
  */
 define('PHPT_EOL',           "\n");
 define('PHPT_SQLITE_FILE',   SQLITE_DIR . 'tests.sqlite');
-define('PHPT_DOC_PATH',      CVS_DIR.'/phpdoc-all/en/');
+define('PHPT_DOC_PATH',      CVS_DIR.'phpdoc-all/en/');
 
 define('PHPT_LIMIT_RESULTS', 200);
 
@@ -244,7 +244,6 @@ function phpt_scan_file($prefix, $path, &$userdata) {
             
             $title = preg_replace('#<function>([\w_-]+)</function>#', '\1()', $matches[1][$key]);
 
-            //$example = preg_replace('/print_r(\s+)\(/', 'var_dump\1(', $example);
 
             // let's create the entry
 
@@ -399,9 +398,9 @@ function phpt_commit_changes($sqlite, $input)
     $test      = !empty($input['test'])     ? sqlite_escape_string(phpt_clean_ws($input['test'])) : '';
     $skipif    = !empty($input['skipif'])   ? sqlite_escape_string(phpt_clean_ws($input['skipif'])) : '';
     $expected  = !empty($input['expected']) ? sqlite_escape_string(phpt_clean_ws($input['expected'])) : '';
-    $flags     = isset($input['approve'])   ? PHPT_FLAG_APPROVED : 0;
+    $flags     = isset($input['approve'])   ? '(flags | '.PHPT_FLAG_APPROVED.')' : '(flags & ~'.PHPT_FLAG_APPROVED.')';
     if (!empty($expected)) {
-        $flags |= PHPT_FLAG_FILLED;
+        $flags .= ' | '.PHPT_FLAG_FILLED;
     }
     
     $sql_query = "UPDATE tests SET edit_date = datetime('now'),
@@ -409,7 +408,7 @@ function phpt_commit_changes($sqlite, $input)
                                    test      = '$test',
                                    skipif    = '$skipif',
                                    expected  = '$expected',
-                                   flags     = flags | $flags
+                                   flags     = ($flags)
                              WHERE id = ".intval($input['editId']);
     //echo $sql_query;
     return @sqlite_exec($sqlite, $sql_query);
