@@ -53,7 +53,8 @@ define('PHPT_FORMAT', "--TEST--".PHPT_EOL.
 
 // disable magic_quotes_gpc
 
-function phpt_clean_gpc (&$item, $key) {
+function phpt_clean_gpc (&$item, $key) 
+{
     $item = stripslashes($item);
 }
 
@@ -190,7 +191,8 @@ function phpt_import_from_source($sqlite)
  *
  * @return bool
  */
-function phpt_list_files($prefix, $path, &$userdata) {
+function phpt_list_files($prefix, $path, &$userdata) 
+{
     
     if (is_dir($prefix.$path) && is_resource($handle = @opendir($prefix.$path))) {
 
@@ -217,7 +219,8 @@ function phpt_list_files($prefix, $path, &$userdata) {
  *
  * @return null
  */
-function phpt_scan_file($prefix, $path, &$userdata) {
+function phpt_scan_file($prefix, $path, &$userdata) 
+{
     
     if (!is_file($prefix.$path)) {
         return false;
