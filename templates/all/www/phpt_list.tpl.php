@@ -10,7 +10,8 @@ echo <<<HTML
 
 <h1>&docweb.phpt.list;</h1>
 
-<a href="?import">&docweb.phpt.import;</a><br /><br />
+<a href="?import">&docweb.phpt.import;</a><br />
+<a href="?generateAll">&docweb.phpt.generateall;</a><br /><br />
 
 <form action="phpt_generator.php" method="post" class="phpt">
 
