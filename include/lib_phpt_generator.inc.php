@@ -36,6 +36,7 @@ define('PHPT_FLAG_IMPLEMENTED', 8);
 
 define('PHPT_FORMAT_SKIPIF', "--TEST--".PHPT_EOL.                        
                              "%s (generated)".PHPT_EOL. 
+                             "Location: %s".PHPT_EOL. 
                              "--SKIPIF--".PHPT_EOL.
                              "%s".PHPT_EOL. 
                              "--FILE--".PHPT_EOL.                       
@@ -45,6 +46,7 @@ define('PHPT_FORMAT_SKIPIF', "--TEST--".PHPT_EOL.
                       
 define('PHPT_FORMAT', "--TEST--".PHPT_EOL.                        
                       "%s (generated)".PHPT_EOL. 
+                      "Location: %s".PHPT_EOL. 
                       "--FILE--".PHPT_EOL.                       
                       "%s".PHPT_EOL.                        
                       "--EXPECT--".PHPT_EOL.
@@ -354,12 +356,14 @@ function phpt_generate($infos)
     if (empty($infos['skipif'])) {
 
         return sprintf(PHPT_FORMAT, $infos['title'],
+                                    $infos['location'],
                                     $infos['test'],
                                     $infos['expected']);
                                                             
     } else {
     
         return sprintf(PHPT_FORMAT_SKIPIF, $infos['title'],
+                                           $infos['location'],
                                            $infos['skipif'],
                                            $infos['test'],
                                            $infos['expected']);
