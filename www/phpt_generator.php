@@ -36,7 +36,7 @@ if (get_magic_quotes_gpc()) {
 if (!$sqlite = phpt_sqlite_open()) {
     echo site_header('docweb.common.header.phptgen'); 
     echo '<p>Unable to open examples database</p>';
-    echo site_footer();
+    echo site_footer('$Id$');
     exit();
 }
 
@@ -167,7 +167,7 @@ if (!empty($_REQUEST['editId'])) {
             'q'      => $q,
         )
     );
-    echo site_footer();
+    echo site_footer('$Id$');
     exit;
 
 }
@@ -231,7 +231,7 @@ echo DocWeb_Template::get(
     )
 );
     
-echo site_footer();
+echo site_footer('$Id$');
 
 
 ?>

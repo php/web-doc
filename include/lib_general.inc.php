@@ -110,12 +110,13 @@ function site_nav_langs()
     );
 }
 
-function site_footer()
+function site_footer($cvs_version = NULL)
 {
     $master = get_insite_address(NULL, NULL, '');
     return DocWeb_Template::get(
         'shared/footer.tpl.php',
-        array('master' => $master)
+        array('master'      => $master,
+              'cvs_version' => $cvs_version)
     );
 }
 
