@@ -323,12 +323,76 @@ function phpt_generate_list($sqlite, $ids)
             $myArchive->addString('test'.$row['id'].'.phpt', phpt_generate($row));
         }
         
+        // Destructor, to correctly close the file
+        $myArchive->_Archive_Tar();
+
         readfile($archivePath);
         unlink($archivePath);
 
     }
 }
+/**
+ * Generate a list of examples selected by flag
+ *
+ * @return null
+ */
+function phpt_generate_all($sqlite, $flags)
+{
 
+    // select data
+
+    $sql_query = 'SELECT id,
+                 title,
+                 location,
+                 test,
+                 skipif,
+                 expected,
+                 edit_date,
+                 import_date,
+                 flags
+            FROM tests
+           WHERE flags & '.$flags.' = '.$flags;
+               
+    $results = sqlite_query($sqlite, $sql_query);
+    
+    if (count($ids) === 1) {
+        phpt_download(sqlite_fetch_array($results, SQLITE_ASSOC));
+    } else {
+        $flags_verbose = array();
+
+        if ($flags & PHPT_FLAG_FILLED) {
+            $flags_verbose[] = 'filled';
+        }
+
+        if ($flags & PHPT_FLAG_APPROVED) {
+            $flags_verbose[] = 'approved';
+        }
+
+        if ($flags & PHPT_FLAG_IMPLEMENTED) {
+            $flags_verbose[] = 'implemented';
+        }
+        
+
+        $archivePath = '/tmp/phpt_'.implode('_', $flags_verbose).'.tgz';
+    
+        header('Content-Type: application/gzip');
+        header('Content-Disposition: attachment; filename='.basename($archivePath));
+
+        
+
+        $myArchive = new Archive_Tar($archivePath, 'gz');
+
+        while ($row = sqlite_fetch_array($results, SQLITE_ASSOC)) {
+            $myArchive->addString('test'.$row['id'].'.phpt', phpt_generate($row));
+        }
+        // Destructor, to correctly close the file
+        $myArchive->_Archive_Tar();
+
+        readfile($archivePath);
+        unlink($archivePath);
+
+    }
+}
 /**
  * Delete a list of tests
  *

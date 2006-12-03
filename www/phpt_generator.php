@@ -50,23 +50,11 @@ if (!empty($_REQUEST['ids']) && isset($_REQUEST['generate'])) {
 }
 
 /**
- * Generate every tests
+ * Generate every filled tests
  */
 if (isset($_REQUEST['generateAll'])) {
 
-    $sql_query = 'SELECT id
-                    FROM tests
-                   WHERE flags & '.PHPT_FLAG_FILLED;
-               
-    $results = sqlite_query($sqlite, $sql_query);
-
-    $ids = array();
-
-    while($row = sqlite_fetch_array($results, SQLITE_ASSOC)) {
-        $ids[] = $row['id'];
-    }
-
-    phpt_generate_list($sqlite, $ids);
+    phpt_generate_all($sqlite, PHPT_FLAG_FILLED);
 
     exit;
 }
