@@ -251,7 +251,7 @@ switch ($proposal->status) {
 
             foreach ($proposal->votes as $vote) {
                 if (!isset($users[$vote->user_handle])) {
-		   $users[$vote->user_handle] = array('name'=>user_name($vote->user_handle));
+           $users[$vote->user_handle] = array('name'=>user_name($vote->user_handle));
                 }
                 if ($vote->value > 0) {
                     $vote->value = '+' . $vote->value;

@@ -409,17 +409,17 @@ function translator_get_critical($idx, $lang)
     AND
         (
             b.revision - a.revision >= ' . ALERT_REV . '
-  	OR
-	    (
-   	         b.revision != a.revision
-	     AND
-	         (
+    OR
+        (
+             b.revision != a.revision
+         AND
+             (
                      b.size - a.size >= ' . (1024 * ALERT_SIZE) . '
                   OR 
                      php("intval",(b.mdate - a.mdate) / 86400) >= ' . ALERT_DATE . '
-         	)
+            )
              )
-	)
+    )
     AND
         a.size is not NULL
     GROUP BY
@@ -651,7 +651,7 @@ function get_stats_notrans($idx, $lang)
     WHERE
         a.lang="' . $lang . '" 
     AND
-	b.lang="en"
+    b.lang="en"
     AND
         a.revision is NULL
     AND

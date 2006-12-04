@@ -86,7 +86,7 @@ class DocWeb_DAO_MetaInfo extends DocWeb_DAO_Common
     /**
      * Determines if the passed function name is an alias
      * 
-     * @param	string $func
+     * @param   string $func
      * @return bool
      */
     function isAlias($func)

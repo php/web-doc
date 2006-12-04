@@ -23,19 +23,19 @@
 require_once 'cvs-auth.inc';
 
 if (!$idx = sqlite_open(SQLITE_DIR . 'users.sqlite')) {
- 	die ('auth DB not available');
+    die ('auth DB not available');
 }
 
 //list of docweb admins that have 'special' rights
 $admins = array(
-	'didou',
-	'goba',
-	'jacques',
-	'nlopess',
-	'philip',
-	'sean',
-	'vincent',
-	'mazzanet',
+    'didou',
+    'goba',
+    'jacques',
+    'nlopess',
+    'philip',
+    'sean',
+    'vincent',
+    'mazzanet',
     'colder',
 );
 
@@ -43,7 +43,7 @@ $user = $password = false;
 
 // make the username & password global
 if (isset($_COOKIE['MAGIC_COOKIE'])) {
-	list($user, $password) = explode(':', base64_decode(@$_COOKIE['MAGIC_COOKIE']), 2);
+    list($user, $password) = explode(':', base64_decode(@$_COOKIE['MAGIC_COOKIE']), 2);
 }
 
 /**
@@ -51,32 +51,32 @@ if (isset($_COOKIE['MAGIC_COOKIE'])) {
  */
 function auth()
 {
-	global $user, $password;
+    global $user, $password;
         $return = $_SERVER['REQUEST_URI'];
         
-	if (isset($_COOKIE['MAGIC_COOKIE'])) {
+    if (isset($_COOKIE['MAGIC_COOKIE'])) {
 
-		if (!verify_password($user, $password)) {
-			header ('Location: http://doc.php.net/login.php?return='.$return);
-			exit;
-		}
-	} elseif (isset($_POST['username']) && isset($_POST['passwd'])) {
-		if (!verify_password($_POST['username'], $_POST['passwd'])) {
-			header ('Location: http://doc.php.net/login.php?return='.$return);
-			exit;
-		}
+        if (!verify_password($user, $password)) {
+            header ('Location: http://doc.php.net/login.php?return='.$return);
+            exit;
+        }
+    } elseif (isset($_POST['username']) && isset($_POST['passwd'])) {
+        if (!verify_password($_POST['username'], $_POST['passwd'])) {
+            header ('Location: http://doc.php.net/login.php?return='.$return);
+            exit;
+        }
 
-		setcookie(
-			'MAGIC_COOKIE',
-			base64_encode("{$_POST['username']}:{$_POST['passwd']}"),
-			time()+3600*24*12,
-			'/',
-			'.php.net'
-		);
-	} else {
-		header ('Location: http://doc.php.net/login.php?return='.$return);
-		exit;
-	}
+        setcookie(
+            'MAGIC_COOKIE',
+            base64_encode("{$_POST['username']}:{$_POST['passwd']}"),
+            time()+3600*24*12,
+            '/',
+            '.php.net'
+        );
+    } else {
+        header ('Location: http://doc.php.net/login.php?return='.$return);
+        exit;
+    }
 }
 
 
@@ -85,7 +85,7 @@ function auth()
  */
 function is_admin()
 {
-	return in_array($GLOBALS['user'], $GLOBALS['admins']);
+    return in_array($GLOBALS['user'], $GLOBALS['admins']);
 }
 
 
@@ -94,15 +94,15 @@ function is_admin()
  */
 function user_info($u = false)
 {
-	global $idx, $user;
+    global $idx, $user;
 
-	$u = $u ? $u : $user;
-	$result = @sqlite_unbuffered_query($idx, "SELECT * FROM users WHERE username='" . sqlite_escape_string($u) . "'");
-	if (!$result) {
-		return false;
-	}
+    $u = $u ? $u : $user;
+    $result = @sqlite_unbuffered_query($idx, "SELECT * FROM users WHERE username='" . sqlite_escape_string($u) . "'");
+    if (!$result) {
+        return false;
+    }
 
-	return sqlite_fetch_array($result, SQLITE_ASSOC);
+    return sqlite_fetch_array($result, SQLITE_ASSOC);
 }
 
 
@@ -111,14 +111,14 @@ function user_info($u = false)
  */
 function user_name($user = false)
 {
-	$user = $user ? $user : $GLOBALS['user'];
+    $user = $user ? $user : $GLOBALS['user'];
 
-	// first check if the name is in the DB
-	if ($info = user_info($user))
-		return $info['name'];
+    // first check if the name is in the DB
+    if ($info = user_info($user))
+        return $info['name'];
 
-	//no, it isn't. fetch it from the master server
-	return master_user_name($user);
+    //no, it isn't. fetch it from the master server
+    return master_user_name($user);
 }
 
 
@@ -127,28 +127,28 @@ function user_name($user = false)
  */
 function master_user_name($nick)
 {
-	$magic_cookie = (!empty($_COOKIE['MAGIC_COOKIE'])) ?
-			$_COOKIE['MAGIC_COOKIE'] :
+    $magic_cookie = (!empty($_COOKIE['MAGIC_COOKIE'])) ?
+            $_COOKIE['MAGIC_COOKIE'] :
                         '' ; // need a generic key here!!
 
-	if (!$fp = @fsockopen('master.php.net', 80))
-		return $nick;
+    if (!$fp = @fsockopen('master.php.net', 80))
+        return $nick;
 
-	fputs($fp, "GET /manage/users.php?username=$nick HTTP/1.0\r\n".
-		   "Host: master.php.net\r\n".
-		   "Cookie: MAGIC_COOKIE=$magic_cookie\r\n".
-		   "\r\n");
+    fputs($fp, "GET /manage/users.php?username=$nick HTTP/1.0\r\n".
+           "Host: master.php.net\r\n".
+           "Cookie: MAGIC_COOKIE=$magic_cookie\r\n".
+           "\r\n");
 
-	$txt = @fread($fp, 50000);
-	fclose($fp);
+    $txt = @fread($fp, 50000);
+    fclose($fp);
 
-	// if we found a name, cache it in the DB
-	if (preg_match('@<th[^>]+>Name:</th>\s+<td><input[^>]+value="([^"]+)"@', $txt, $match)) {
- 		sqlite_query($GLOBALS['idx'], "INSERT INTO users (username, name) VALUES ('$nick', '$match[1]')"); //the server has no sqlite_exec support yet (still php4)
-		return $match[1];
-	}
+    // if we found a name, cache it in the DB
+    if (preg_match('@<th[^>]+>Name:</th>\s+<td><input[^>]+value="([^"]+)"@', $txt, $match)) {
+        sqlite_query($GLOBALS['idx'], "INSERT INTO users (username, name) VALUES ('$nick', '$match[1]')"); //the server has no sqlite_exec support yet (still php4)
+        return $match[1];
+    }
 
-	return $nick;
+    return $nick;
 }
 
 ?>

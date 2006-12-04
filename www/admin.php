@@ -23,7 +23,7 @@ require_once '../include/lib_auth.inc.php';
 
 auth();
 if (!is_admin()) {
-	die('you are not an admin!');
+    die('you are not an admin!');
 }
 
 ob_start(); // hack for phpinfo()
@@ -33,9 +33,9 @@ echo site_header('Admin Zone');
 // helper functions
 
 function info() {
-	ob_end_clean(); //get ride of the headers
-	phpinfo();
-	exit;
+    ob_end_clean(); //get ride of the headers
+    phpinfo();
+    exit;
 }
 
 function pearinfo() {
@@ -48,62 +48,62 @@ function pearinfo() {
 
 function print_file_list($base)
 {
-	if (!empty($_GET['file']) && !is_dir(dirname(__FILE__) . "/../$_GET[file]"))
-		return;
+    if (!empty($_GET['file']) && !is_dir(dirname(__FILE__) . "/../$_GET[file]"))
+        return;
 
-	$files = glob(dirname(__FILE__) . '/../' .  @$_GET['file'] . $base);
-	$uri   = preg_replace('/&file=[^&]*/', '', $_SERVER['REQUEST_URI']);
-	if ($files) {
-		echo '<p>Available files:</p><ul>';
-		foreach ($files as $file) {
-			$file = basename($file);
-			if ($file == 'CVS') continue;
-			echo "<li><a href='$uri&file=". urlencode(@$_GET['file'] . "/$file")  . "'>$file</a></li>";
-		}
-		echo '</ul>';
-	} else {
-		echo '<p>There are no files currently available</p>';
-	}
+    $files = glob(dirname(__FILE__) . '/../' .  @$_GET['file'] . $base);
+    $uri   = preg_replace('/&file=[^&]*/', '', $_SERVER['REQUEST_URI']);
+    if ($files) {
+        echo '<p>Available files:</p><ul>';
+        foreach ($files as $file) {
+            $file = basename($file);
+            if ($file == 'CVS') continue;
+            echo "<li><a href='$uri&file=". urlencode(@$_GET['file'] . "/$file")  . "'>$file</a></li>";
+        }
+        echo '</ul>';
+    } else {
+        echo '<p>There are no files currently available</p>';
+    }
 
 }
 
 function sql()
 {
-	if (empty($_POST['command'])) {
-		sql_print_textarea('', @$_REQUEST['file']);
+    if (empty($_POST['command'])) {
+        sql_print_textarea('', @$_REQUEST['file']);
 
-	// execute the sql
-	} else {
-		$file = dirname(__FILE__) . '/../sqlite/' . $_POST['file'];
-		$idx = sqlite_open($file, 0666, $error);
-		if (!$idx) {
-			echo "<p>$error</p>";
-			sql_print_textarea($_POST['command'], $_POST['file']);
-			return;
-		}
+    // execute the sql
+    } else {
+        $file = dirname(__FILE__) . '/../sqlite/' . $_POST['file'];
+        $idx = sqlite_open($file, 0666, $error);
+        if (!$idx) {
+            echo "<p>$error</p>";
+            sql_print_textarea($_POST['command'], $_POST['file']);
+            return;
+        }
 
-		$result = sqlite_query($idx, $_POST['command']);
+        $result = sqlite_query($idx, $_POST['command']);
 
-		if (!$result) {
-			echo '<p><strong>There was an error in the query:</strong> ' . sqlite_error_string(sqlite_last_error($idx)) . '</p><p>&nbsp;</p>';
-			sql_print_textarea($_POST['command'], $_POST['file']);
-			return;
-		}
+        if (!$result) {
+            echo '<p><strong>There was an error in the query:</strong> ' . sqlite_error_string(sqlite_last_error($idx)) . '</p><p>&nbsp;</p>';
+            sql_print_textarea($_POST['command'], $_POST['file']);
+            return;
+        }
 
-		echo '<p>File size: ' . filesize($file) / 1024 . ' KB</p>';
-		echo '<p>Affected rows: ' . sqlite_changes($idx) , '</p>';
-		echo '<pre>' . htmlspecialchars(print_r(sqlite_fetch_all($result), true)) . '</pre>';
-		sqlite_close($idx);
-		sql_print_textarea($_POST['command'], $_POST['file']);
-	}
+        echo '<p>File size: ' . filesize($file) / 1024 . ' KB</p>';
+        echo '<p>Affected rows: ' . sqlite_changes($idx) , '</p>';
+        echo '<pre>' . htmlspecialchars(print_r(sqlite_fetch_all($result), true)) . '</pre>';
+        sqlite_close($idx);
+        sql_print_textarea($_POST['command'], $_POST['file']);
+    }
 }
 
 
 function sql_print_textarea($txt, $file)
 {
-	print_file_list('sqlite/*.sqlite');
+    print_file_list('sqlite/*.sqlite');
 
-	echo <<< HTML
+    echo <<< HTML
 <p>&nbsp;</p>
 <form method="POST" action="$_SERVER[REQUEST_URI]">
  <p>SQL: <textarea name="command" rows="5" cols="70">$txt</textarea></p>
@@ -117,64 +117,64 @@ HTML;
 
 function chmodf()
 {
-	if (empty($_POST['mod']) || empty($_REQUEST['file'])) {
-		rmch_print_html(@$_REQUEST['file'], @$_POST['mod'], true);
+    if (empty($_POST['mod']) || empty($_REQUEST['file'])) {
+        rmch_print_html(@$_REQUEST['file'], @$_POST['mod'], true);
 
-	// change the permissions
-	} else {
-		$path = realpath(dirname(__FILE__) . "/../$_POST[file]");
-		$allowed = dirname(dirname(__FILE__));
+    // change the permissions
+    } else {
+        $path = realpath(dirname(__FILE__) . "/../$_POST[file]");
+        $allowed = dirname(dirname(__FILE__));
 
-		if (strncmp($path, $allowed, strlen($allowed))) {
-			echo "<p>The file isn't within an allowed directory!</p>";
-			return;
-		}
+        if (strncmp($path, $allowed, strlen($allowed))) {
+            echo "<p>The file isn't within an allowed directory!</p>";
+            return;
+        }
 
-		if (chmod($path, octdec($_POST['mod'])))
-			echo '<p>chmod() ok!</p>';
-		else
-			echo '<p>chmod() failed!</p>';
-	}
+        if (chmod($path, octdec($_POST['mod'])))
+            echo '<p>chmod() ok!</p>';
+        else
+            echo '<p>chmod() failed!</p>';
+    }
 }
 
 
 function rm()
 {
-	if (empty($_REQUEST['file'])) {
-		rmch_print_html(@$_REQUEST['file'], '', false);
+    if (empty($_REQUEST['file'])) {
+        rmch_print_html(@$_REQUEST['file'], '', false);
 
-	// change the permissions
-	} else {
-		$path = realpath(dirname(__FILE__) . "/../$_REQUEST[file]");
-		$allowed = dirname(dirname(__FILE__));
+    // change the permissions
+    } else {
+        $path = realpath(dirname(__FILE__) . "/../$_REQUEST[file]");
+        $allowed = dirname(dirname(__FILE__));
 
-		if (strncmp($path, $allowed, strlen($allowed))) {
-			echo "<p>The file isn't within an allowed directory!</p>";
-			return;
-		}
+        if (strncmp($path, $allowed, strlen($allowed))) {
+            echo "<p>The file isn't within an allowed directory!</p>";
+            return;
+        }
 
-		if (unlink($path))
-			echo '<p>unlink() ok!</p>';
-		else
-			echo '<p>unlink() failed!</p>';
-	}
+        if (unlink($path))
+            echo '<p>unlink() ok!</p>';
+        else
+            echo '<p>unlink() failed!</p>';
+    }
 }
 
 
 function rmch_print_html($file, $val, $mod)
 {
-	print_file_list('/*');
+    print_file_list('/*');
 
-	echo <<< HTML
+    echo <<< HTML
 <p>&nbsp;</p>
 <form method="POST" action="$_SERVER[REQUEST_URI]">
  <p>File: <input type="text" name="file" value="$file" /></p>
 HTML;
 
-	if ($mod)
- 		echo '<p>Permissions: <input type="text" name="mod" value="' . $val . '" /></p>';
+    if ($mod)
+        echo '<p>Permissions: <input type="text" name="mod" value="' . $val . '" /></p>';
 
-	echo <<< HTML
+    echo <<< HTML
  <p><input type="submit" value="Execute" /></p>
 </form>
 HTML;
@@ -186,7 +186,7 @@ HTML;
 if (empty($_GET['z'])) {
 $lastCVSUpdate = date ('r', filemtime('./CVS/Entries'));
 
-	echo <<< HTML
+    echo <<< HTML
 <p>Menu:</p>
 <ul>
  <li><a href="?z=sql">SQL Injector</a></li>
@@ -200,18 +200,18 @@ $lastCVSUpdate = date ('r', filemtime('./CVS/Entries'));
 HTML;
 
 } else {
-	switch ($_GET['z']) {
-		case 'sql':
-		case 'chmodf':
-		case 'rm':
-		case 'info':
-		case 'pearinfo':
-			$_GET['z']();
-			break;
+    switch ($_GET['z']) {
+        case 'sql':
+        case 'chmodf':
+        case 'rm':
+        case 'info':
+        case 'pearinfo':
+            $_GET['z']();
+            break;
 
-		default:
-			echo '<p>wrong zone!</p>';
-	}
+        default:
+            echo '<p>wrong zone!</p>';
+    }
 }
 
 

@@ -26,7 +26,7 @@
 error_reporting(E_ALL);
 
 /**
-*	Usage
+*   Usage
 **/
 
 // keep this call, we need it
@@ -55,7 +55,7 @@ exit(0);
 }
 
 /**
-*	Configuration
+*   Configuration
 **/
 
 // define some common variables
@@ -157,7 +157,7 @@ CREATE TABLE old_files (
 SQL;
 
 /**
-*	Functions
+*   Functions
 **/
 
 function parse_translation($lang)
@@ -476,7 +476,7 @@ function getmicrotime()
 }
 
 /**
-*	Script execution
+*   Script execution
 **/
 
 $time_start = getmicrotime();

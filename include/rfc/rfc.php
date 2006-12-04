@@ -525,8 +525,8 @@ class proposal {
             }
             $this->id = sqlite_last_insert_rowid($dbh->connection);
         }
-	
-	if(isset($this->links) && $this->links !== null) {
+    
+    if(isset($this->links) && $this->links !== null) {
         ppLink::deleteAll($dbh, $this->id);
         foreach ($this->links as $link) {
             if (!empty($link->url)) {
@@ -536,7 +536,7 @@ class proposal {
                 }
             }
         }
-	}
+    }
         if (!empty($this->comment)) {
             $this->comment->store($dbh, $this->id);
             unset($this->comment);
@@ -922,7 +922,7 @@ class ppComment {
     {
         global $dbh;
         $sql = "SELECT *, timestamp FROM ".$table." WHERE pkg_prop_id = ".$proposalId."
-	        AND user_handle='".$handle."' AND timestamp = ".$timestamp;
+            AND user_handle='".$handle."' AND timestamp = ".$timestamp;
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
@@ -955,7 +955,7 @@ class ppComment {
         }
         $sql = "INSERT INTO ".$this->table." (pkg_prop_id, user_handle, comment, timestamp)
                     VALUES (".$proposalId.", ".$dbh->quoteSmart($this->user_handle).",
-		     ".$dbh->quoteSmart($this->comment).", ".time().")";
+             ".$dbh->quoteSmart($this->comment).", ".time().")";
         $res = $dbh->query($sql);
         return $res;
     }
@@ -967,7 +967,7 @@ class ppComment {
             return PEAR::raiseError("Inconsistant comment data. Can not delete comment.");
         }
         $sql = "DELETE FROM ".$this->table." WHERE user_handle = '".$this->user_handle."'
-	 AND pkg_prop_id = ".$this->pkg_prop_id." AND timestamp = ".$this->timestamp;
+     AND pkg_prop_id = ".$this->pkg_prop_id." AND timestamp = ".$this->timestamp;
         $res = $dbh->query($sql);
         return true;
     }
@@ -1005,7 +1005,7 @@ class ppVote {
     function get(&$dbh, $proposalId, $handle)
     {
         $sql = "SELECT *, timestamp FROM package_proposal_votes WHERE 
-	pkg_prop_id = ".$proposalId." AND user_handle='".$handle."'";
+    pkg_prop_id = ".$proposalId." AND user_handle='".$handle."'";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
@@ -1022,7 +1022,7 @@ class ppVote {
     function &getAll(&$dbh, $proposalId)
     {
         $sql = "SELECT *, timestamp FROM package_proposal_votes WHERE
-	 pkg_prop_id = ".$proposalId." ORDER BY timestamp ASC";
+     pkg_prop_id = ".$proposalId." ORDER BY timestamp ASC";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
@@ -1047,11 +1047,11 @@ class ppVote {
 
         $sql = "INSERT INTO package_proposal_votes (pkg_prop_id, user_handle, value, is_conditional, comment, reviews, timestamp)
                     VALUES (".$proposalId.",
-		     ".$dbh->quoteSmart($this->user_handle).",
-		     ".$this->value.", ".(int)$this->is_conditional.",
-		     ".$dbh->quoteSmart($this->comment).",
-		     ".$dbh->quoteSmart(serialize($this->reviews)).",
-		     ".time().")";
+             ".$dbh->quoteSmart($this->user_handle).",
+             ".$this->value.", ".(int)$this->is_conditional.",
+             ".$dbh->quoteSmart($this->comment).",
+             ".$dbh->quoteSmart(serialize($this->reviews)).",
+             ".time().")";
         $res = $dbh->query($sql);
         return $res;
     }
@@ -1070,11 +1070,11 @@ class ppVote {
     function getSum($dbh, $proposalId)
     {
         $sql = "SELECT SUM(value) FROM package_proposal_votes WHERE 
-	pkg_prop_id = ".$proposalId." GROUP BY pkg_prop_id";
+    pkg_prop_id = ".$proposalId." GROUP BY pkg_prop_id";
         $result = $dbh->getOne($sql);
         $res['all'] = (is_numeric($result)) ? $result : 0;
         $sql = "SELECT SUM(value) FROM package_proposal_votes WHERE 
-	pkg_prop_id = ".$proposalId." AND is_conditional = 1 GROUP BY pkg_prop_id";
+    pkg_prop_id = ".$proposalId." AND is_conditional = 1 GROUP BY pkg_prop_id";
         $result = $dbh->getOne($sql);
         $res['conditional'] = (is_numeric($result)) ? $result : 0;
         return $res;
@@ -1083,7 +1083,7 @@ class ppVote {
     function getCount($dbh, $proposalId)
     {
         $sql = "SELECT COUNT(user_handle) FROM package_proposal_votes WHERE
-	 pkg_prop_id = ".$proposalId." GROUP BY pkg_prop_id";
+     pkg_prop_id = ".$proposalId." GROUP BY pkg_prop_id";
         $res = $dbh->getOne($sql);
         return (!empty($res)) ? $res: " 0";
     }

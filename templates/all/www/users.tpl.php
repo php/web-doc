@@ -72,10 +72,10 @@ echo <<< HTML
 HTML;
 
 if ($info['wishlist'])
-	echo "<a href='$info[wishlist]'>&docweb.users.wishlist;</a><br />";
+    echo "<a href='$info[wishlist]'>&docweb.users.wishlist;</a><br />";
 
 if (is_file($_SERVER['DOCUMENT_ROOT'] . '/images/users/' . $info['username'] . '.jpg'))
-	echo "<img src='/images/users/$info[username].jpg' alt='&docweb.users.photo;'/>";
+    echo "<img src='/images/users/$info[username].jpg' alt='&docweb.users.photo;'/>";
 
 echo '</p>';
 

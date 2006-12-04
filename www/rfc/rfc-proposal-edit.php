@@ -242,7 +242,7 @@ if ($proposal != null) {
         case 'vote':
         default:
             if (is_admin() &&
-	     ($proposal->user_handle != $docwebUser)) {
+         ($proposal->user_handle != $docwebUser)) {
                 $next_stage_text = 'Extend vote time';
             } else {
                 $next_stage_text = '';
@@ -333,7 +333,7 @@ if (isset($_POST['submit'])) {
         } else {
             if (isset($proposal) && $proposal->status != 'draft') {
                 if (!empty($values['action_comment'])  || (is_admin() &&
-		 ($proposal->user_handle != $docwebUser))) {
+         ($proposal->user_handle != $docwebUser))) {
                     if (empty($values['action_comment'])) {
                         PEAR::raiseError('A changelog comment is required.');
                     }

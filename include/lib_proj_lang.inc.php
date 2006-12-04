@@ -27,13 +27,13 @@ $Id$
 // Map of supported documentation types to CVS module names
 $PROJECTS = array(
 // project => (Name, local folder, cvs module)
-    'www'      => array('Documentation',         '',		''),
-    'php'      => array('PHP Documentation',     'phpdoc-all',	'phpdoc/en'),
-    'smarty'   => array('Smarty',                'smarty/docs',	'smarty/docs/en'),
-    'pear'     => array('PEAR Documentation',    'peardoc',	'peardoc/en'),
-    'gtk'      => array('PHP-GTK Documentation', 'php-gtk-doc',	'php-gtk-doc/manual/en'),
-    'livedocs' => array('Livedocs',              '',		''),
-    'pecl'     => array('PECL Documentation',    '',		''),
+    'www'      => array('Documentation',         '',        ''),
+    'php'      => array('PHP Documentation',     'phpdoc-all',  'phpdoc/en'),
+    'smarty'   => array('Smarty',                'smarty/docs', 'smarty/docs/en'),
+    'pear'     => array('PEAR Documentation',    'peardoc', 'peardoc/en'),
+    'gtk'      => array('PHP-GTK Documentation', 'php-gtk-doc', 'php-gtk-doc/manual/en'),
+    'livedocs' => array('Livedocs',              '',        ''),
+    'pecl'     => array('PECL Documentation',    '',        ''),
 );
 
 // Supported languages

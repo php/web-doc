@@ -44,7 +44,7 @@
      <dd><?php echo $extlinks; ?></dd>
      <?php if ($showBugs) { ?>
          <dt>&docweb.common.header.project-doc-bugs;</dt>
-	 <dd><a href="<?php echo $bugsLink; ?>"><?php echo $bugCount; ?> &docweb.common.header.open-bugs;</a></dd>
+     <dd><a href="<?php echo $bugsLink; ?>"><?php echo $bugCount; ?> &docweb.common.header.open-bugs;</a></dd>
      <?php } ?>
     </dl>
    </div>

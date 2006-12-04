@@ -92,7 +92,7 @@ if ((!empty($_REQUEST['ids']) && isset($_REQUEST['delete']))
 
     auth();
     if (!is_admin()) {
-	    die('you are not an admin!');
+        die('you are not an admin!');
     }
 }
 

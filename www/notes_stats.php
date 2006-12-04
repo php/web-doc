@@ -54,8 +54,8 @@ if (!isset($notesData) || !is_array($notesData) || !$notesData) {
 echo site_header("docweb.common.header.notes-stats");
 echo DocWeb_Template::get(
          'notes_stats.tpl.php',
-	 $notesData
+     $notesData
      );
 echo site_footer();
 
-?>							    
+?>                              
