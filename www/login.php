@@ -8,7 +8,7 @@ if (isset($_COOKIE['MAGIC_COOKIE']) || !empty($_POST)) {
     auth();
         
     if (isset($_REQUEST['return']) && !empty($_REQUEST['return'])
-        && strpos($_REQUEST['return'], "\n") === false) {
+        && ctype_print($_REQUEST['return'])) {
 
         header('Location: http://'.$_SERVER['HTTP_HOST'].$_REQUEST['return']);
     }
