@@ -4,7 +4,13 @@
 
 <p>
 <form method="post" name="login" action="/login.php">
-<input type="hidden" name="return" value="<?php echo rawurlencode(@$_REQUEST['return']); ?>" />
+<input type="hidden" name="return" value="<?php
+
+    if (isset($_REQUEST['return'])) {
+        echo htmlspecialchars($_REQUEST['return']);
+    }
+
+?>" />
 <table border="0" cellspacing="2" cellpadding="2">
   <tr>
     <th>Username</th>

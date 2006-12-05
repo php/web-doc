@@ -52,7 +52,7 @@ if (isset($_COOKIE['MAGIC_COOKIE'])) {
 function auth()
 {
     global $user, $password;
-        $return = $_SERVER['REQUEST_URI'];
+    $return = urlencode($_SERVER['REQUEST_URI']);
         
     if (isset($_COOKIE['MAGIC_COOKIE'])) {
 
