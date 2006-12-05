@@ -42,17 +42,19 @@ function part_get_filename($part) {
     $filename = preg_replace('/\?.*$/', '', $part);
 
     // remove webroot-escape attempts
-    $filename = str_replace(array('..', '//'), array('', '/'), $filename);
+    $filename = str_replace('..', '', $filename);
     
-    // fake DirectoryIndex
-    if (substr($filename, -1) == '/' || $filename == '') {
-        $filename .= 'index.php';
+    // remove obsolete slashes
+    $filename = preg_replace('#/{2,}#', '/', $filename);
+    
+    // strip ending slashes
+    $filename = rtrim($filename, '/');
+
+    $filename = './'.$filename;
+
+    if (is_dir($filename)) {
+        return $filename.'/index.php';
     }
-
-    $filename = "./$filename";
-
-    if (is_dir($filename))
-        return "$filename/index.php";
 
     return $filename;
 }
@@ -103,24 +105,31 @@ if (isset($uri)) {
     // If it's a PHP file include it, otherwise pass it through
     if (substr($uri, -4) == '.php') {
         require($uri);
+        return;
     } else {
-        // get the file mime type
+        // the file can't be a directory nor a php file
+        // Validate the mime type
+        $mime = false;
         foreach ($mime_types as $ext => $type) {
-            if (substr($uri, -strlen(ext)) == $ext) {
+            
+            if (substr($uri, -strlen($ext)) == $ext) {
                 $mime = $type;
                 break;
             }
-        }
 
-        header("Content-Type: $mime");
-        readfile($uri);
+        }
+        if ($mime !== false) {
+            header("Content-Type: $mime");
+            readfile($uri);
+            return;
+        } 
     }
-} else {
-  // no resource found:
-  header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
-  $_SERVER["REDIRECT_STATUS"] = '404';
-  $uri = '/';
-  require('error.php');
 }
+// script has not exited yet, an error must have occured, display 404.
+// no resource found:
+header($_SERVER['SERVER_PROTOCOL']." 404 Not Found");
+$_SERVER["REDIRECT_STATUS"] = '404';
+$uri = '/';
+require('error.php');
 
 ?>
