@@ -1,6 +1,9 @@
 # $Id$
 
 RewriteEngine on
+# dochowto fix
+RewriteRule ^((.+)/)?dochowto$ /$1dochowto/ [R=301]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /redirect.php
