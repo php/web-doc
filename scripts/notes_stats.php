@@ -73,7 +73,7 @@ for ($i = $first; $i <= $last; ++$i) {
         break;
     }
 
-    echo "\n$i";
+    echo "\r$i";
 
     /*
      * What should be matched:
