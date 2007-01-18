@@ -7,6 +7,7 @@ Initial Installation
 3. Create the SQLite and files directories and chown them to the user and
    group who apache runs under. (see scripts/set_ownership.sh)
 4. The PEAR packages for the RFC System can be found at include/rfc/PACKAGES
+   You will also need to have: XML_RSS, XML_Parser
 5. A cronjob should be setup to run include/rfc/rfc-cron.php at 4am
 6. You may want to create a www/robots.txt to allow or disallow bots crawling
    your local docweb development site.
