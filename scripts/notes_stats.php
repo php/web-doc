@@ -58,7 +58,14 @@ $last_update = time();
 
 for ($i = $first; $i <= $last; ++$i) {
     $line = fgets($s, 4096);
-    list($n, $subj, $author, $odate) = explode("\t", $line, 5);
+    $n = $subj = $author = $odate = null;
+
+    $line_parts = explode("\t", $line, 5);
+
+    if(isset($line_parts[0])) $n      = $line_parts[0];
+    if(isset($line_parts[1])) $subj   = $line_parts[1];
+    if(isset($line_parts[2])) $author = $line_parts[2];
+    if(isset($line_parts[3])) $odate  = $line_parts[3];
 
     /* check if the server has closed the connection
        the program will continue to fetch data later */
@@ -66,7 +73,7 @@ for ($i = $first; $i <= $last; ++$i) {
         break;
     }
 
-    echo "\r$i";
+    echo "\n$i";
 
     /*
      * What should be matched:
