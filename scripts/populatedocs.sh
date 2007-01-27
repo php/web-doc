@@ -15,12 +15,12 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.9 2007-01-27 18:32:31 sean Exp $
+# $Id: populatedocs.sh,v 1.10 2007-01-27 19:03:38 sean Exp $
 
 pushd .
 
 cd `dirname $0`/..
-./build-ops
+source ./build-ops
 
 if [ ! -d ${CVSDIR} ]
 then
