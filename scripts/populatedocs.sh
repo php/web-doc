@@ -15,7 +15,7 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.8 2005-02-07 00:38:20 sean Exp $
+# $Id: populatedocs.sh,v 1.9 2007-01-27 18:32:31 sean Exp $
 
 pushd .
 
@@ -24,9 +24,11 @@ cd `dirname $0`/..
 
 if [ ! -d ${CVSDIR} ]
 then
+  echo "Making CVS directory: ${CVSDIR}"
   /bin/mkdir ${CVSDIR}
 fi
 
+echo "Changing to CVS directory: ${CVSDIR}"
 cd ${CVSDIR}
 
 echo "Checking out PHP docs..."
@@ -40,5 +42,6 @@ echo "Checking out PEAR docs..."
 echo "Checking out php-src..."
 /usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co php-src
 
+echo -n "Reverting directory:"
 popd
 
