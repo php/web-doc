@@ -45,7 +45,7 @@ if (!isset($inCli) OR $inCli != true) {
     // set up constants (use defaults if necessary)
     define('SITE',  isset($project)  ? $project  : $defaultProject);
     define('LANGC', isset($language) ? $language : $defaultLanguage);
-    define('URI',   isset($uri)      ? preg_replace('@^[/\.]+@', '/' ,$uri) : $_SERVER['REQUEST_URI']);
+    define('URI',   isset($uri)      ? preg_replace('@^[/\.]+@', '/' ,$uri) : htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES));
     define('LANGD', $LANGUAGES[LANGC]);
 
     if (isset($project)) {
