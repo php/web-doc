@@ -22,8 +22,11 @@ if (count($LANGS) == 0) {
 
 
 foreach ($LANGS as $lang) {
+    if ($lang === 'en' || $lang === 'all') {
+        continue;
+    }
     if (!generation_image($TYPE, $lang) ) {
-        echo "The $TYPE documentation for $lang language don't exist.\n";
+        echo "The $TYPE documentation for $lang language does not exist.\n";
     } else {
         echo " Generated images/revcheck/info_revcheck_" . $TYPE . "_" . $lang . ".png\n";
     }
