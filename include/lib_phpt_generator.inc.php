@@ -355,7 +355,7 @@ function phpt_generate_all($sqlite, $flags)
                
     $results = sqlite_query($sqlite, $sql_query);
     
-    if (count($ids) === 1) {
+    if (sqlite_num_rows($results) === 1) {
         phpt_download(sqlite_fetch_array($results, SQLITE_ASSOC));
     } else {
         $flags_verbose = array();
