@@ -87,7 +87,7 @@ function generation_image($TYPE, $lang) {
     $graph->subtitle->SetColor('darkred');
 
     $t1 = new Text(date('m/d/Y')); 
-    $t1->Pos(522,294);
+    $t1->SetPos(522,294);
     $t1->SetFont(FF_FONT1,FS_NORMAL);
     $t1->Align("right", 'bottom'); 
     $t1->SetColor("black");
