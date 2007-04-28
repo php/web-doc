@@ -193,7 +193,8 @@ $lastCVSUpdate = date ('r', filemtime('./CVS/Entries'));
  <li><a href="?z=chmodf">chmod</a></li>
  <li><a href="?z=rm">remove files</a></li>
  <li><a href="?z=info">PHP info</a></li>
- <li><a href="?z=pearinfo">PEAR info</a></li>
+ <!--<li><a href="?z=pearinfo">PEAR info</a></li>
+     pearinfo is broken for everyone-->
 </ul>
 <br />
 <p>Last CVS Update: $lastCVSUpdate</p>
