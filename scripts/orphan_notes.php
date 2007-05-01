@@ -121,8 +121,8 @@ function output_html() {
 
     foreach($array as $id => $notes) {
         echo '<tr class="old"><td>'.$id.'</td><td>' .
-             preg_replace('/(\d+)/', '<a href="http://master.php.net/manage/user-notes.php?keyword=$1">$1</a>', implode(', ', $notes)) .
-             '</td><td><form action="http://master.php.net/manage/user-notes.php?action=mass" method="post">'.
+             preg_replace('/(\d+)/', '<a href="https://master.php.net/manage/user-notes.php?keyword=$1">$1</a>', implode(', ', $notes)) .
+             '</td><td><form action="https://master.php.net/manage/user-notes.php?action=mass" method="post">'.
              '<input type="hidden" name="step" value="1" /><input type="hidden" name="old_sect" value="' . $id . '" />'.
              '<input type="text" name="new_sect" value="" size="30" maxlength="80" /><input type="submit" value="&gt;" /></form></td></tr>';
 
