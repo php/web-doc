@@ -56,6 +56,7 @@ $LANGUAGES = array(
     'it'    => 'Italian',
     'ja'    => 'Japanese',
     'kr'    => 'Korean',
+    'no'    => 'Norwegian',
     'pl'    => 'Polish',
     'pt'    => 'Portuguese',
     'ro'    => 'Romanian',
