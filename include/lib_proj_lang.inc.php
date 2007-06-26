@@ -33,7 +33,6 @@ $PROJECTS = array(
     'pear'     => array('PEAR Documentation',    'peardoc', 'peardoc/en'),
     'gtk'      => array('PHP-GTK Documentation', 'php-gtk-doc', 'php-gtk-doc/manual/en'),
     'livedocs' => array('Livedocs',              '',        ''),
-    'pecl'     => array('PECL Documentation',    '',        ''),
 );
 
 // Supported languages
