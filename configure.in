@@ -86,9 +86,9 @@ AC_ARG_WITH(www-group,[  --with-www-group[=GROUP]   Web Server group  [default=`
   [WWWGROUP="$withval"],
   [WWWGROUP="`groups | cut -d" " -f1`"])
 
-AC_ARG_WITH(livedocs,[  --with-livedocs[=URL]      URL to livedocs mirror  [default=http://docs.php.net/]],
-  [LIVEDOCS="$withval"],
-  [LIVEDOCS="http://docs.php.net/"])
+AC_ARG_WITH(phd,[  --with-phd[=URL]      URL to PhD mirror  [default=http://docs.php.net/]],
+  [PHD="$withval"],
+  [PHD="http://docs.php.net/"])
 
 DOCWEB=`pwd`
 
@@ -116,7 +116,7 @@ AC_SUBST(FILESDIR)
 AC_SUBST(SRCDIR)
 AC_SUBST(WWWUSER)
 AC_SUBST(WWWGROUP)
-AC_SUBST(LIVEDOCS)
+AC_SUBST(PHD)
 
 AC_OUTPUT(build-ops.php build-ops)
 

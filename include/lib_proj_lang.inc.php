@@ -32,7 +32,7 @@ $PROJECTS = array(
     'smarty'   => array('Smarty',                'smarty/docs', 'smarty/docs/en'),
     'pear'     => array('PEAR Documentation',    'peardoc', 'peardoc/en'),
     'gtk'      => array('PHP-GTK Documentation', 'php-gtk-doc', 'php-gtk-doc/manual/en'),
-    'livedocs' => array('Livedocs',              '',        ''),
+    'phd'      => array('phd',                   '',        ''),
 );
 
 // Supported languages

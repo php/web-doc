@@ -54,13 +54,13 @@ function site_header($title = '', $style = array())
     $langdisplay = $GLOBALS['LANGUAGES'][LANGC];
     $projdisplay = $GLOBALS['PROJECTS'][SITE][0];
     // this will prevent 404 errors
-    $project     = (in_array(SITE, array('www', 'livedocs')) ? 'php' : SITE);
+    $project     = (in_array(SITE, array('www', 'phd')) ? 'php' : SITE);
     $locallinks  = site_nav_provider();
     $extlinks    = ext_nav_provider();
 
     $extra_style = '';
     // prevent errors
-    $guess_style = (in_array(SITE, array('www', 'livedocs')) ? '' : SITE . '.css');
+    $guess_style = (in_array(SITE, array('www', 'phd')) ? '' : SITE . '.css');
     $styles = array_filter(($style ? array($style) : array($guess_style)));
 
     // Set proper encoding with HTTP header first
@@ -269,14 +269,14 @@ function get_bugs_rss($project=SITE)
                       .'&amp;bug_age=0';
             break;
         
-        case 'livedocs':
+        case 'phd':
             $RSS_URL = 'http://bugs.php.net/rss/search.php?boolean=0'
                       .'&limit=All&order_by=status&direction=ASC&cmd=display'
-                      .'&status=Open&bug_type%5B%5D=Livedocs+problem'
+                      .'&status=Open&bug_type%5B%5D=Doc+Build+problem'
                       .'&bug_age=0';
             $link    = 'http://bugs.php.net/search.php?boolean=0'
                       .'&amp;limit=All&amp;order_by=status&amp;direction=ASC&amp;cmd=display'
-                      .'&amp;status=Open&amp;bug_type%5B%5D=Livedocs+problem'
+                      .'&amp;status=Open&amp;bug_type%5B%5D=Doc+Build+problem'
                       .'&amp;bug_age=0';
             break;
             
