@@ -1,3 +1,7 @@
 TODO for the PHP docweb project:
 
-Write a TODO
+Overhaul the entity check:
+ It utilizes the livedocs database yet we no longer use livedocs. 
+ Files affected:
+  - include/lib_url_entities.inc.php
+  - scripts/grab_livedocs_db.php
