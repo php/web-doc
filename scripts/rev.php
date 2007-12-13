@@ -91,7 +91,7 @@ for ($i = 0; $i < $langc; $i++) {
     }
     
     if (!is_dir($DOCS . $LANGS[$i])) {
-        echo "Error: the \"{$LANGS[$i]}\" lang doesn't exist for $TYPE, skipping..\n";
+        echo "Error: the \"{$LANGS[$i]}\" lang doesn't exist for $TYPE in dir {$DOCS}, skipping..\n";
         unset($LANGS[$i]);
     }
 }
@@ -289,10 +289,15 @@ function do_revcheck($dir = '') {
         while (($file = readdir($dh)) !== false) {
             if (
             (!is_dir($DOCS . 'en' . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
-            || ($file == "functions.xml" && strpos($dir, '/reference') !== false)
-            || $dir == '/chmonly' || $dir == '/internals'
+            || (strpos($file, 'entities.') === 0 && $dir == '/reference')
+            || $dir == '/chmonly' || $dir == '/internals' || $dir == '/internals2'
             || $file == 'contributors.ent' || $file == 'contributors.xml'
-            || ($dir == '/appendices' && $file == 'reserved.constants.xml')) {
+            || ($dir == '/appendices' && ($file == 'reserved.constants.xml' || $file == 'extensions.xml'))
+            || $file == 'README'
+            || $file == 'DO_NOT_TRANSLATE'
+            || $file == 'rsusi.txt'
+            || $file == 'missing-ids.xml'
+            ) {
                 continue;
             }
 
@@ -370,10 +375,15 @@ function check_old_files($dir = '', $lang) {
         while (($file = readdir($dh)) !== false) {
             if (
             (!is_dir($DOCS . $lang . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
-            || ($file == "functions.xml" && strpos($dir, '/reference') !== false)
-            || $dir == '/chmonly'
+            || (strpos($file, 'entities.') === 0 && $dir == '/reference')
+            || $dir == '/chmonly' || $dir == '/internals' || $dir == '/internals2'
             || $file == 'contributors.ent' || $file == 'contributors.xml'
-            || ($dir == '/appendices' && $file == 'reserved.constants.xml')) {
+            || ($dir == '/appendices' && ($file == 'reserved.constants.xml' || $file == 'extensions.xml'))
+            || $file == 'README'
+            || $file == 'DO_NOT_TRANSLATE'
+            || $file == 'rsusi.txt'
+            || $file == 'missing-ids.xml'
+            ) {
                 continue;
             }
 
