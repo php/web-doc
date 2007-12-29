@@ -289,7 +289,7 @@ function do_revcheck($dir = '') {
         while (($file = readdir($dh)) !== false) {
             if (
             (!is_dir($DOCS . 'en' . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
-            || (strpos($file, 'entities.') === 0 && $dir == '/reference')
+            || strpos($file, 'entities.') === 0
             || $dir == '/chmonly' || $dir == '/internals' || $dir == '/internals2'
             || $file == 'contributors.ent' || $file == 'contributors.xml'
             || ($dir == '/appendices' && ($file == 'reserved.constants.xml' || $file == 'extensions.xml'))
@@ -375,7 +375,7 @@ function check_old_files($dir = '', $lang) {
         while (($file = readdir($dh)) !== false) {
             if (
             (!is_dir($DOCS . $lang . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
-            || (strpos($file, 'entities.') === 0 && $dir == '/reference')
+            || strpos($file, 'entities.') === 0
             || $dir == '/chmonly' || $dir == '/internals' || $dir == '/internals2'
             || $file == 'contributors.ent' || $file == 'contributors.xml'
             || ($dir == '/appendices' && ($file == 'reserved.constants.xml' || $file == 'extensions.xml'))
