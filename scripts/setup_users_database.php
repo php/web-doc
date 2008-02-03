@@ -20,11 +20,12 @@
  * $Id$
  */
 
-$idx = sqlite_open("../sqlite/users.sqlite", 0666);
+$PWD = dirname(__FILE__) . "/";
+$idx = sqlite_open("$PWD../sqlite/users.sqlite", 0666);
 if (!$idx) {
-    die("could not open ../sqlite/users.sqlite");
+    die("could not open $PWD../sqlite/users.sqlite");
 }
-sqlite_query($idx, file_get_contents("../sql/users.sql"));
+sqlite_query($idx, file_get_contents($PWD ."../sql/users.sql"));
 sqlite_close($idx);
 
 /* vim: set noet ts=4 sw=4 ft=php: : */

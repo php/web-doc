@@ -19,7 +19,8 @@
 $Id$
 */
 
-$path = '../sqlite/tests.sqlite';
+$PWD = dirname(__FILE__) . "/";
+$path = $PWD.'../sqlite/tests.sqlite';
 
 $idx = sqlite_open($path, 0666);
 
@@ -27,5 +28,5 @@ if (!$idx) {
     die('Could not open '.$path);
 }
 
-sqlite_query($idx, file_get_contents("../sql/tests.sql"));
+sqlite_query($idx, file_get_contents($PWD ."../sql/tests.sql"));
 sqlite_close($idx);
