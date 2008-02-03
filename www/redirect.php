@@ -18,6 +18,7 @@
 $Id$
 */
 
+require_once('../build-ops.php');
 require_once('../include/lib_proj_lang.inc.php');
 
 /* mime types for downloading files */
