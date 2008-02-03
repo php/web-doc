@@ -7,7 +7,8 @@ Requirements: PHP 5 with GD (both for the bundled JpGraph to work)
 2. You need to run the scripts/populatedocs.sh to fetch all the required
    documentation for the site.
 3. Create the SQLite and files directories and chown them to the user and
-   group who apache runs under. (see scripts/set_ownership.sh)
+   group who apache runs under. (see scripts/setup_users_database.php &&
+   scripts/set_ownership.sh)
 4. Generate the initial SQLite databases by running the following scripts:
    scripts/setup_users_database.php
    scripts/setup_rfc_database.php
