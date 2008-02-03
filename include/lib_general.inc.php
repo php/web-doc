@@ -60,7 +60,7 @@ function site_header($title = '', $style = array())
 
     $extra_style = '';
     // prevent errors
-    $guess_style = (in_array(SITE, array('www', 'phd')) ? '' : SITE . '.css');
+    $guess_style = (SITE == 'www') ? '' : SITE . '.css';
     $styles = array_filter(($style ? array($style) : array($guess_style)));
 
     // Set proper encoding with HTTP header first
