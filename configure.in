@@ -86,7 +86,7 @@ AC_ARG_WITH(www-group,[  --with-www-group[=GROUP]   Web Server group  [default=`
   [WWWGROUP="$withval"],
   [WWWGROUP="`groups | cut -d" " -f1`"])
 
-AC_ARG_WITH(phd,[  --with-phd[=URL]      URL to PhD mirror  [default=http://docs.php.net/]],
+AC_ARG_WITH(phd,[  --with-phd[=URL]           URL to PhD mirror  [default=http://docs.php.net/]],
   [PHD="$withval"],
   [PHD="http://docs.php.net/"])
 
