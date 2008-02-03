@@ -15,8 +15,9 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.10 2007-01-27 19:03:38 sean Exp $
+# $Id: populatedocs.sh,v 1.11 2008-02-03 15:14:30 bjori Exp $
 
+CVSBIN=/usr/bin/cvs
 pushd .
 
 cd `dirname $0`/..
@@ -32,16 +33,43 @@ echo "Changing to CVS directory: ${CVSDIR}"
 cd ${CVSDIR}
 
 echo "Checking out PHP docs..."
-/usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co phpdoc-all
+if [ -d ${DOCDIR} ]
+then
+  (cd ${DOCDIR} && ${CVSBIN} up)
+else
+  ${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co -d ${DOCDIR} phpdoc-all
+fi
+
 echo "Checking out PHP GTK docs..."
-/usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co php-gtk-doc
+if [ -d ${GTKDIR} ]
+then
+  (cd ${GTKDIR} && ${CVSBIN} up)
+else
+  ${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co -d ${GTKDIR} php-gtk-doc
+fi
+
 echo "Checking out Smarty docs..."
-/usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co smarty/docs
+${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co smarty/docs
+
 echo "Checking out PEAR docs..."
-/usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co peardoc
+if [ -d ${PEARDIR} ]
+then
+  (cd ${PEARDIR} && ${CVSBIN} up)
+else
+  ${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co -d ${PEARDIR} peardoc
+fi
+
 echo "Checking out php-src..."
-/usr/bin/cvs -d :pserver:cvsread@cvs.php.net:/repository co php-src
+if [ -d ${SRCDIR} ]
+then
+  (cd ${SRCDIR} && ${CVSBIN} up)
+else
+  BDIR=basename ${SRCDIR}
+  ${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co -d ${BDIR} php-src
+fi
 
 echo -n "Reverting directory:"
 popd
+
+# vim: et ts=2 sw=2
 

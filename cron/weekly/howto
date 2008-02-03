@@ -2,7 +2,7 @@
 
 . `dirname $0`/../../build-ops
 
-cd ${CVSDIR}/phpdoc-all
+cd ${CVSDIR}/${DOCDIR}
 autoconf
 ./configure --with-jade=/usr/local/bin/jade --with-nsgmls=/usr/local/bin/nsgmls
 make howtophp

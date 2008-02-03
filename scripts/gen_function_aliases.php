@@ -40,7 +40,7 @@ $special = array(
     'apache' => 'sapi/apache/php_apache.c',
 );
 
-$phpsrc = CVS_DIR . '/php-src/';
+$phpsrc = SRC_DIR;
 
 // search the extensions
 $exts = array();
@@ -96,3 +96,4 @@ $DAO->metaLogEndTime('aliases');
 
 echo "** Done.\n";
 ?>
+

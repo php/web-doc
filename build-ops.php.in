@@ -5,6 +5,9 @@
 define('PHP_BINARY',  '@PHP@');
 define('CRON_DIR',    '@CRONDIR@');
 define('CVS_DIR',     '@CVSDIR@');
+define('DOC_DIR',     '@DOCDIR@');
+define('PEAR_DIR',    '@PEARDIR@');
+define('GTK_DIR',     '@GTKDIR@');
 define('PATH_ROOT',   '@DOCWEB@');
 define('SCRIPTS_DIR', '@SCRIPTSDIR@');
 define('SQL_DIR',     '@SQLDIR@');

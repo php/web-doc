@@ -22,7 +22,7 @@ $Id$
  */
 define('PHPT_EOL',           "\n");
 define('PHPT_SQLITE_FILE',   SQLITE_DIR . 'tests.sqlite');
-define('PHPT_DOC_PATH',      CVS_DIR.'phpdoc-all/en/');
+define('PHPT_DOC_PATH',      CVS_DIR . '/' .DOC_DIR. '/en/');
 
 define('PHPT_LIMIT_RESULTS', 200);
 

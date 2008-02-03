@@ -31,7 +31,7 @@ echo "Generating Missing Examples data...\n";
 
 $DAO = new DocWeb_DAO_MetaInfo(TRUE);
 
-$reference = CVS_DIR . '/phpdoc-all/en/reference';
+$reference = CVS_DIR . '/' .DOC_DIR .'/en/reference';
 
 $excludefuncs = array(
     'overload' => 'The example is in the introductory section',
