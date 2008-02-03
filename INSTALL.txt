@@ -6,13 +6,12 @@ Requirements: PHP 5 with GD (both for the bundled JpGraph to work)
 1. Run ./configure [--help]
 2. You need to run the scripts/populatedocs.sh to fetch all the required
    documentation for the site.
-3. Create the SQLite and files directories and chown them to the user and
-   group who apache runs under. (see scripts/setup_users_database.php &&
-   scripts/set_ownership.sh)
-4. Generate the initial SQLite databases by running the following scripts:
+3. Generate the initial SQLite databases by running the following scripts:
    scripts/setup_users_database.php
    scripts/setup_rfc_database.php
    scripts/setup_tests_database.php
+4. chown the created files (see 3.) to the user and
+   group who apache runs under. (see scripts/set_ownership.sh)
 5. The PEAR packages for the RFC System can be found at include/rfc/PACKAGES
    You will also need to have: XML_RSS, XML_Parser
 6. A cronjob should be setup to run include/rfc/rfc-cron.php at 4am
