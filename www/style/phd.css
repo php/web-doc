@@ -1,0 +1,11 @@
+/* $Id$ */
+
+@import url(/style/common.css);
+
+#releases ul {
+	margin: 0 0 10px 0;
+}
+ul.fixes li {
+	padding: 1px;
+}
+
