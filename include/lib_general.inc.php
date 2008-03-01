@@ -297,7 +297,7 @@ function get_bugs_rss($project=SITE)
 
     require_once "XML/RSS.php";
 
-    $RSS =& new XML_RSS($localFile);
+    $RSS = new XML_RSS($localFile);
     $RSS->parse();
     $items = $RSS->getItems();      
     return array(

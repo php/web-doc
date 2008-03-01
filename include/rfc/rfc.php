@@ -440,7 +440,7 @@ class proposal {
         }
         $result = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-            $result[$set['id']] =& new proposal($set);
+            $result[$set['id']] = new proposal($set);
         }
         return $result;
     }
@@ -928,7 +928,7 @@ class ppComment {
             return $res;
         }
         $set = $res->fetchRow(DB_FETCHMODE_ASSOC);
-        $comment =& new ppComment($set);
+        $comment = new ppComment($set);
         return $comment;
     }
 
@@ -942,7 +942,7 @@ class ppComment {
         }
         $comments = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-            $comments[] =& new ppVote($set);
+            $comments[] = new ppVote($set);
         }
         return $comments;
     }
@@ -1015,7 +1015,7 @@ class ppVote {
         }
         $set = $res->fetchRow(DB_FETCHMODE_ASSOC);
         $set['reviews'] = unserialize($set['reviews']);
-        $vote =& new ppVote($set);
+        $vote = new ppVote($set);
         return $vote;
     }
 
@@ -1030,7 +1030,7 @@ class ppVote {
         $votes = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
             $set['reviews'] = unserialize($set['reviews']);
-            $votes[$set['user_handle']] =& new ppVote($set);
+            $votes[$set['user_handle']] = new ppVote($set);
         }
         return $votes;
     }
@@ -1133,7 +1133,7 @@ class ppLink {
         }
         $links = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-            $links[] =& new ppLink($set);
+            $links[] = new ppLink($set);
         }
         return $links;
     }

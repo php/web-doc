@@ -99,7 +99,7 @@ class DocWeb_Template
         }
 
         // template file is readable, instanciate class
-        $Template =& new DocWeb_Template($filename);
+        $Template = new DocWeb_Template($filename);
         $Template->language = $language;
         return $Template;
     }
