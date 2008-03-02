@@ -38,7 +38,17 @@ $sql = "
     FROM
         meta_info
 ";
-list($startTime, $endTime, $schemes) = sqlite_fetch_array(sqlite_query($sqlite, $sql));
+
+$metaQ = sqlite_query($sqlite, $sql);
+if (!$metaQ) {
+    echo site_header('docweb.common.header.checkent'); 
+    echo '<p>No meta info about this project was found to check.</p>'; // @@@ template this
+    echo site_footer();
+    exit();
+	
+}
+
+list($startTime, $endTime, $schemes) = sqlite_fetch_array($metaQ);
 
 $entData = array();
 $sql = "
@@ -51,7 +61,16 @@ $sql = "
     ORDER BY
         check_result, entity
 ";
+
 $urlsQ = sqlite_query($sqlite, $sql);
+if (!$urlsQ) {
+    echo site_header('docweb.common.header.checkent'); 
+    echo '<p>No URLs for this project were found to check.</p>'; // @@@ template this
+    echo site_footer();
+    exit();
+	
+}
+
 while ($row = sqlite_fetch_array($urlsQ)) {
     $entData[$row['check_result']][] = $row;
 }
