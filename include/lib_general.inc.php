@@ -188,7 +188,7 @@ function site_nav_provider()
     if (strpos($_SERVER['REQUEST_URI'], 'rfc') !== false) {
         $links['submit-rfc'] = BASE_URL .'/rfc/rfc-proposal-edit.php';
     }
-    if (in_array(SITE, array('gtk', 'pear', 'php', 'smarty'))) {
+    if (in_array(SITE, array('gtk', 'pear', 'php'))) {
         $links['rev-check'] = BASE_URL .'/revcheck.php';
     }
     if (SITE == 'php') {
@@ -199,7 +199,6 @@ function site_nav_provider()
     switch(SITE) {
         case 'php':
         case 'pear':
-        case 'smarty':
         case 'gtk':
             $links['checkent']     = BASE_URL . '/checkent.php';
             break;
@@ -217,7 +216,6 @@ function site_nav_provider()
                 $links['phpt-generator']   = BASE_URL . '/phpt_generator.php';
     
             case 'pear':
-            case 'smarty':
         }
     }
 

@@ -24,17 +24,6 @@ echo "Generating PEAR pictures"
 ${PHP} -q ./gen_picture_info.php pear
 echo "... done"
 
-
-# SMARTY
-echo "Generating SMARTY database"
-${PHP} -q ./rev.php smarty
-echo "... done."
-echo "Generating SMARTY pictures"
-${PHP} -q ./gen_picture_info.php smarty
-echo "... done"
-
-
-
 echo "Generating global graphs"
 ${PHP} -q ./gen_picture_info_all_lang.php
 echo "... done"

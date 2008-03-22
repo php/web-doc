@@ -15,7 +15,7 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.11 2008-02-03 15:14:30 bjori Exp $
+# $Id: populatedocs.sh,v 1.12 2008-03-22 18:44:38 bjori Exp $
 
 CVSBIN=/usr/bin/cvs
 pushd .
@@ -47,9 +47,6 @@ then
 else
   ${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co -d ${GTKDIR} php-gtk-doc
 fi
-
-echo "Checking out Smarty docs..."
-${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co smarty/docs
 
 echo "Checking out PEAR docs..."
 if [ -d ${PEARDIR} ]

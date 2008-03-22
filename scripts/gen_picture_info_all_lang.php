@@ -12,7 +12,6 @@ include '../include/lib_revcheck.inc.php';
 $type_col_bar = array(
 
 'php' => '9999cc',
-'smarty' => 'f0c040',
 'pear' => '339900',
 'gtk' => '0099cc'
 

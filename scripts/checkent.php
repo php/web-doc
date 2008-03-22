@@ -39,18 +39,13 @@ switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
         $entType = 'pear';
         break;
 
-    case 'smarty':
-        $filename = CVS_DIR . '/smarty/docs/entities/global.ent';
-        $entType = 'smarty';
-        break;
-
     case 'gtk':
         $filename = CVS_DIR . GTK_DIR. '/manual/global.ent';
         $entType = 'gtk';
         break;
 
     default:
-        echo "Usage: {$_SERVER['argv'][0]} phpdoc|peardoc|smarty|gtk\n";
+        echo "Usage: {$_SERVER['argv'][0]} phpdoc|peardoc|gtk\n";
         die();
 }
 
