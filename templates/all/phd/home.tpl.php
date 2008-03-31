@@ -11,14 +11,14 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
   <li>
     <a href="/phd/PhD-0.2.2.tgz">PhD 0.2.2</a> <span class="date">31. March 2008</span><!-- {{{ -->
     <ul class="fixes">
-      <li>Added initial hCalendar support for &gt;author&lt;. (Hannes)</li>
-      <li>Added initial eRDF support for &gt;refentry&lt;. (Hannes)</li>
-      <li>Added support for &gt;footnote&lt; and &gt;footnoteref&lt;. (Gwynne, Hannes)</li>
+      <li>Added initial hCalendar support for &lt;author&gt;. (Hannes)</li>
+      <li>Added initial eRDF support for &lt;refentry&gt;. (Hannes)</li>
+      <li>Added support for &lt;footnote&gt; and &lt;footnoteref&gt;. (Gwynne, Hannes)</li>
       <li>Added anchor generation for various elements. (Hannes)</li>
       <li>Added option (-s/--skip) to skip rendering of chunks. (Hannes)</li>
       <li>Added option (-o/--output) to specify output directory (FR#43193). (Richard)</li>
-      <li>Added support for &gt;sect4&lt; titles . (Gwynne)</li>
-      <li>Added an 'infdec' role to &gt;literal&lt; in XHTML. (Gwynne)</li>
+      <li>Added support for &lt;sect4&gt; titles . (Gwynne)</li>
+      <li>Added an 'infdec' role to &lt;literal&gt; in XHTML. (Gwynne)</li>
       <li>Fixed couple of typos in PhD info messages. (Richard Q.)</li>
       <li>Reformatted package.xml for readability and consistency. (Gwynne)</li>
       <li>Merged README.RENDERER into README and updated README with current information. (Gwynne)</li>
@@ -34,7 +34,6 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
       </li>
     </ul><!-- }}} -->
   </li>
- 
   <li>
     <a href="/phd/PhD-0.2.2.tgz">PhD 0.2.2</a> <span class="date">30. January 2008</span><!-- {{{ -->
     <ul class="fixes">
