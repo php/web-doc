@@ -16,7 +16,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
       <li>Added support for &lt;footnote&gt; and &lt;footnoteref&gt;. (Gwynne, Hannes)</li>
       <li>Added anchor generation for various elements. (Hannes)</li>
       <li>Added option (-s/--skip) to skip rendering of chunks. (Hannes)</li>
-      <li>Added option (-o/--output) to specify output directory (FR#43193). (Richard)</li>
+      <li>Added option (-o/--output) to specify output directory (FR<?php bugl(43193) ?>). (Richard)</li>
       <li>Added support for &lt;sect4&gt; titles . (Gwynne)</li>
       <li>Added an 'infdec' role to &lt;literal&gt; in XHTML. (Gwynne)</li>
       <li>Fixed couple of typos in PhD info messages. (Richard Q.)</li>
