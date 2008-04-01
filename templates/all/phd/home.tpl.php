@@ -9,7 +9,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
-    <a href="/phd/PhD-0.2.2.tgz">PhD 0.2.2</a> <span class="date">31. March 2008</span><!-- {{{ -->
+    <a href="/phd/PhD-0.2.3.tgz">PhD 0.2.3</a> <span class="date">31. March 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added initial hCalendar support for &lt;author&gt;. (Hannes)</li>
       <li>Added initial eRDF support for &lt;refentry&gt;. (Hannes)</li>
