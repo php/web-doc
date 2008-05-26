@@ -261,21 +261,21 @@ function get_bug_count ($project=SITE) {
             $link    = 'http://bugs.php.net/search.php?boolean=0'
                       .'&limit=All&order_by=status&direction=ASC&cmd=display'
                       .'&status=Open&bug_type%5B%5D=Documentation+problem'
-                      .'&bug_age=0&count_only=1';
+                      .'&bug_age=0';
             break;
         
         case 'phd':
             $link    = 'http://bugs.php.net/search.php?boolean=0'
                       .'&limit=All&order_by=status&direction=ASC&cmd=display'
                       .'&status=Open&bug_type%5B%5D=Doc+Build+problem'
-                      .'&bug_age=0&count_only=1';
+                      .'&bug_age=0';
             break;
 
         case 'gtk':
             $link    = 'http://bugs.php.net/search.php?boolean=0'
                       .'&limit=All&order_by=status&direction=ASC&cmd=display'
                       .'&status=Open&bug_type%5B%5D=PHP-GTK+related'
-                      .'&bug_age=0&count_only=1';
+                      .'&bug_age=0';
             break;
             
         default:
@@ -284,7 +284,7 @@ function get_bug_count ($project=SITE) {
 
     // Cached (CACHE_BUGS_COUNT defined in init.inc.php)
     if (!(is_readable($localFile) && (filemtime($localFile) > (time() - CACHE_BUGS_COUNT)))) {
-        if (!$count = file_get_contents($link)) {
+        if (!$count = file_get_contents($link . '&count_only=1')) {
             return false;
         }
         file_put_contents($localFile, $count);        
