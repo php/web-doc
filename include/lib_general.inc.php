@@ -67,7 +67,7 @@ function site_header($title = '', $style = array())
     header("Content-type: text/html; charset=$encoding");
 
     // bugs for count
-    if ($bugs = get_bugs_rss()) {
+    if ($bugs = get_bugs_count()) {
         $showBugs = true;
         $bugCount = $bugs['count'];
         $bugsLink = $bugs['link'];
@@ -249,4 +249,46 @@ function ext_nav_provider()
         'shared/nav_links.tpl.php',
         array('links' => $links, 'Language' => &$GLOBALS['Language'])
     );
+}
+
+function get_bug_count ($project=SITE) {
+    
+    $localFile = FILES_DIR . "bugs_{$project}.count";
+
+    // Cached (CACHE_BUGS_COUNT defined in init.inc.php)
+    if ((is_readable($localFile) && (filemtime($localFile) > (time() - CACHE_BUGS_COUNT)))) {
+        $count = file_get_contents($localFile);
+        if (strlen($count) > 0) {
+            return (int) $count;
+        }
+    }
+
+    switch ($project)
+    {
+        case 'php':
+            $link    = 'http://bugs.php.net/search.php?boolean=0'
+                      .'&limit=All&order_by=status&direction=ASC&cmd=display'
+                      .'&status=Open&bug_type%5B%5D=Documentation+problem'
+                      .'&bug_age=0&count_only=1';
+            break;
+        
+        case 'phd':
+            $link    = 'http://bugs.php.net/search.php?boolean=0'
+                      .'&limit=All&order_by=status&direction=ASC&cmd=display'
+                      .'&status=Open&bug_type%5B%5D=Doc+Build+problem'
+                      .'&bug_age=0&count_only=1';
+            break;
+            
+        default:
+            return false;
+    }
+
+    if (!$count = file_get_contents($link)) {
+        return false;
+    }
+    file_put_contents($localFile, $count);
+    
+    return array ('count' => (int) $count,
+                  'link'  => $link,
+                 );
 }
