@@ -255,14 +255,6 @@ function get_bug_count ($project=SITE) {
     
     $localFile = FILES_DIR . "bugs_{$project}.count";
 
-    // Cached (CACHE_BUGS_COUNT defined in init.inc.php)
-    if ((is_readable($localFile) && (filemtime($localFile) > (time() - CACHE_BUGS_COUNT)))) {
-        $count = file_get_contents($localFile);
-        if (strlen($count) > 0) {
-            return (int) $count;
-        }
-    }
-
     switch ($project)
     {
         case 'php':
@@ -290,12 +282,20 @@ function get_bug_count ($project=SITE) {
             return false;
     }
 
-    if (!$count = file_get_contents($link)) {
-        return false;
+    // Cached (CACHE_BUGS_COUNT defined in init.inc.php)
+    if (!(is_readable($localFile) && (filemtime($localFile) > (time() - CACHE_BUGS_COUNT)))) {
+        if (!$count = file_get_contents($link)) {
+            return false;
+        }
+        file_put_contents($localFile, $count);        
+    } else {
+        $count = file_get_contents($localFile);
     }
-    file_put_contents($localFile, $count);
-    
-    return array ('count' => (int) $count,
-                  'link'  => $link,
-                 );
+
+    if (strlen($count) > 0) {
+        return array ('count' => (int) $count,
+                      'link'  => $link,
+                     );
+    }
+    return false;
 }
