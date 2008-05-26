@@ -278,6 +278,13 @@ function get_bug_count ($project=SITE) {
                       .'&status=Open&bug_type%5B%5D=Doc+Build+problem'
                       .'&bug_age=0&count_only=1';
             break;
+
+        case 'gtk':
+            $link    = 'http://bugs.php.net/search.php?boolean=0'
+                      .'&limit=All&order_by=status&direction=ASC&cmd=display'
+                      .'&status=Open&bug_type%5B%5D=PHP-GTK+related'
+                      .'&bug_age=0&count_only=1';
+            break;
             
         default:
             return false;
