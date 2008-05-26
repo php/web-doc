@@ -67,7 +67,7 @@ function site_header($title = '', $style = array())
     header("Content-type: text/html; charset=$encoding");
 
     // bugs for count
-    if ($bugs = get_bugs_count()) {
+    if ($bugs = get_bug_count()) {
         $showBugs = true;
         $bugCount = $bugs['count'];
         $bugsLink = $bugs['link'];
