@@ -9,6 +9,15 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/phd/PhD-0.3.0.tgz">PhD 0.3.0</a> <span class="date">24. July 2008</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Added CHM output format. (Rudy)</li>
+      <li>Added KDevelop (Index &amp; Table of contents) output theme. (Rudy)</li>
+      <li>Added Man page output format. (Rudy)</li>
+      <li>Added support for phpdoc:exception. (Hannes)</li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/phd/PhD-0.2.4.tgz">PhD 0.2.4</a> <span class="date">24. May 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li><?php bugfix(44906); ?> (Missing space after modifier in properties list). (Hannes)</li>
