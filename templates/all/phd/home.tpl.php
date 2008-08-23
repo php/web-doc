@@ -9,6 +9,20 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/phd/PhD-0.3.1.tgz">PhD 0.3.1</a> <span class="date">23. August 2008</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Added PDF output format. (Rudy)</li>
+      <li>Added support for phpdoc:classref. (Hannes)</li>
+      <li>Added support for phpdoc:varentry. (Hannes)</li>
+      <li>Added support for the phpdoc howto. (Hannes)</li>
+      <li>Renamed phpdoc:exception to phpdoc:exceptionref. (Hannes)</li>
+      <li><?php bugfix(45627); ?> (Unix manpages using non-standard folder name). (Rudy)</li>
+      <li><?php bugfix(45626); ?> (Unix manpages should be gzipped). (Rudy)</li>
+      <li><?php bugfix(45618); ?> (Bad filenames in man pages). (Rudy)</li>
+      <li>Fixed unclosed div element on set pages. (Hannes)</li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/phd/PhD-0.3.0.tgz">PhD 0.3.0</a> <span class="date">24. July 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added CHM output format. (Rudy)</li>
