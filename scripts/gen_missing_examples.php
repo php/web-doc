@@ -57,7 +57,7 @@ closedir($dir);
 
 sort($exts, SORT_STRING);
 
-$extfuncs = array();
+$extfuncs = array('delete', 'main');
 $functotal = 0;
 
 foreach ($exts as $ext) {
@@ -83,7 +83,8 @@ foreach ($exts as $ext) {
 
             if (
                 strstr($file, "<example") === false &&
-                strstr($file, "<informalexample") === false
+                strstr($file, "<informalexample") === false &&
+                strstr($file, "&info.function.alias;") === false
             ) {
                 // this function doesn't have an example
 
