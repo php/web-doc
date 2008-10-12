@@ -37,6 +37,8 @@ $excludefuncs = array(
     'overload' => 'The example is in the introductory section',
     'mysql-db-query' => 'Deprecated function',
     'mysql-change-user' => 'PHP 3',
+    'delete' => 'Pseudo function',
+    'main' => 'Pseudo function'
 );
 
 $exts = array();
@@ -57,7 +59,7 @@ closedir($dir);
 
 sort($exts, SORT_STRING);
 
-$extfuncs = array('delete', 'main');
+$extfuncs = array();
 $functotal = 0;
 
 foreach ($exts as $ext) {
