@@ -9,6 +9,35 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/phd/PhD-0.4.0.tgz">PhD 0.4.0</a> <span class="date">20. October 2008</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Added PEAR XHTML theme. (Rudy, Christian)</li>
+      <li>Added support for new elements (Christian)
+        <ul>
+          <li>glossentry</li>
+          <li>glossdef</li>
+          <li>glosslist</li>
+          <li>important</li>
+          <li>paramdef</li>
+          <li>personblurb</li>
+          <li>phrase</li>
+          <li>prompt</li>
+          <li>releaseinfo</li>
+          <li>spanspec</li>
+          <li>qandadiv</li>
+        </ul>
+      </li>
+      <li>Improved &lt;email&gt; support (now creates mailto: links). (Christian)</li>
+      <li>Chunks without xml:id are no longer chunked. (Christian)</li>
+      <li><?php bugfix(46252); ?> (Class properties links to a function if theres one with the same name). (Hannes)</li>
+      <li><?php bugfix(46094); ?> (and then from now on italic). (Hannes)</li>
+      <li><?php bugfix(45071); ?> (Links to require/include(_once) not rendered). (Hannes)</li>
+      <li>Fixed a bug where it was only possible to pass one parameter to phd.bat. (Kalle)</li>
+      <li>Fixed a bug where it wasn't possible to have paths with spaces in when using phd.bat. (Kalle)</li>
+      <li>Fixed xhtml validation issue for itemizedlist. (Christian)</li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/phd/PhD-0.3.1.tgz">PhD 0.3.1</a> <span class="date">23. August 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added PDF output format. (Rudy)</li>
