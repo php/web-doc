@@ -470,14 +470,14 @@ END_OF_MULTILINE;
 
                     // If we have a 'numeric' revision diff and it is not zero,
                     // make a link to the CVS repository's diff script
-                    $r['short_name'] = '<a href="http://cvs.php.net/viewcvs.cgi/' .
+                    $r['short_name'] = '<a href="http://cvs.php.net/viewvc.cgi/' .
                     $PROJECTS[$project][2] . $r['name'] .'/' . $r['file'] .
                     "?r1=1." . $r["trans_rev"] .
                     "&amp;r2=1." . $r["en_rev"] .
                     '&amp;view=patch">' . $r['file'] . '</a>';
 
                     // Add a [NoWS] link
-                    $r['short_name'] .= ' <a href="http://cvs.php.net/viewcvs.cgi/' .
+                    $r['short_name'] .= ' <a href="http://cvs.php.net/viewvc.cgi/' .
                     $PROJECTS[$project][2] . $r['name'] .'/' . $r['file'] .
                     '?r1=1.' . $r['trans_rev'] .
                     '&amp;r2=1.' . $r['en_rev'] .
