@@ -1,0 +1,7 @@
+#!/bin/sh
+
+. `dirname $0`/../../build-ops
+
+cd ${SCRIPTSDIR}
+
+./gen_translation_info.sh
