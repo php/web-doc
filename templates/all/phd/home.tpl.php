@@ -11,16 +11,15 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
   <li>
     <a href="/phd/PhD-0.4.2.tgz">PhD 0.4.2</a> <span class="date">18. December 2008</span><!-- {{{ -->
     <ul class="fixes">
-      <li>- Added support for phd:chunk="false" attribute on chunks. (Christian)</li>
-      <li>- Added Turkish support for CHM. (Nilgun)</li>
-      <li>- Added option (-L/--lang language) to use for CHM headers. (Hannes)</li>
-      <li>- Added support for orderedlist numeration. (Hannes)</li>
-      <li>- Added fallback to PHP_Compat getopt() on Windows. (Christian)</li>
-      <li>- Added anchors for tips, warnings, important and notes. (Nilgun)</li>
-      <li>- &lt;interfacename&gt; now automagically links to interfaces. (Hannes)</li>
-      <li>- Automatically use the phpdoc configure.php generated version
-            information file if it exists. (Hannes)</li>
-      <li>- Removed default border for formal tables. (Philip)</li>
+      <li>Added support for phd:chunk="false" attribute on chunks. (Christian)</li>
+      <li>Added Turkish support for CHM. (Nilgun)</li>
+      <li>Added option (-L/--lang language) to use for CHM headers. (Hannes)</li>
+      <li>Added support for orderedlist numeration. (Hannes)</li>
+      <li>Added fallback to PHP_Compat getopt() on Windows. (Christian)</li>
+      <li>Added anchors for tips, warnings, important and notes. (Nilgun)</li>
+      <li>&lt;interfacename&gt; now automagically links to interfaces. (Hannes)</li>
+      <li>Automatically use the phpdoc configure.php generated version information file if it exists. (Hannes)</li>
+      <li>Removed default border for formal tables. (Philip)</li>
     </ul><!-- }}} -->
   </li>
   <li>
