@@ -14,5 +14,6 @@ for LANG in $LANGS; do
   $PHP -n -d error_reporting=0 scripts/revcheck.php ${LANG}                > $TRANSPATH/revcheck_${LANG}.html
   $PHP -n -d error_reporting=0 scripts/check-trans-maint.php -n -l ${LANG} -m 1 > $TRANSPATH/maintainer_${LANG}.html
   $PHP -n -d error_reporting=0 scripts/check-trans-params.php ${LANG} 1 1  > $TRANSPATH/params_${LANG}.html
+  $PHP -n -d error_reporting=0 scripts/reviewedcheck.php ${LANG}           > $TRANSPATH/reviewedcheck_${LANG}.html
 
 done
