@@ -2,7 +2,7 @@
 # +----------------------------------------------------------------------+
 # | PHP Documentation Tools Site Source Code                             |
 # +----------------------------------------------------------------------+
-# | Copyright (c) 1997-2004 The PHP Group                                |
+# | Copyright (c) 1997-2009 The PHP Group                                |
 # +----------------------------------------------------------------------+
 # | This source file is subject to version 3.0 of the PHP license,       |
 # | that is bundled with this package in the file LICENSE, and is        |
@@ -15,7 +15,7 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.12 2008-03-22 18:44:38 bjori Exp $
+# $Id: populatedocs.sh,v 1.13 2008-12-31 07:02:34 philip Exp $
 
 CVSBIN=/usr/bin/cvs
 pushd .
