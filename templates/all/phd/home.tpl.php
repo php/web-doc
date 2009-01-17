@@ -9,6 +9,24 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/phd/PhD-0.4.3.tgz">PhD 0.4.3</a> <span class="date">17. January 2009</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Automatically add anchors for refsect roles. (Hannes)</li>
+      <li>Added description for seealso links. (Hannes)</li>
+      <li>Fixed a bug where prefaces had unlisted childrens. (Hannes)</li>
+      <li>Compressed methodnames in classsynopsis again. (Hannes)</li>
+      <li>Added Next/Prev and Image Zoom buttons to CHM build (Richard Quadling)</li>
+      <li><?php bugfix(46941); ?> (FR: Find broken links). (Hannes)</li>
+      <li><?php bugfix(46931); ?> (wrong order of the META tag in the HEAD element). (Chen Gang)</li>
+      <li><?php bugfix(46924); ?> (parameter elements force incorrect line breaks). (Hannes)</li>
+      <li><?php bugfix(46726); ?> (Incorrect HTML output). (Hannes)</li>
+      <li><?php bugfix(46714); ?> (change deprecated ereg_replace(Since PHP 5.3.0) to preg_replace). (Chen Gang)</li>
+      <li><?php bugfix(45570); ?> (PhD doesn't use the colspec "align" attribute in xhtml output). (Hannes)</li>
+      <li><?php bugfix(45318); ?> (table colspec rendering issues). (Hannes)</li>
+      <li><?php bugfix(44598); ?> (Much space on 'expected output' section). (Hannes)</li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/phd/PhD-0.4.2.tgz">PhD 0.4.2</a> <span class="date">18. December 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added support for phd:chunk="false" attribute on chunks. (Christian)</li>
