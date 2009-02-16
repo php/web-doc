@@ -9,6 +9,23 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/phd/PhD-0.4.4.tgz">PhD 0.4.4</a> <span class="date">16. February 2009</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Add support for &lt;package&gt; in pear theme. (Christian)</li>
+      <li>Replace ereg_replace with preg_replace. (Christian)</li>
+      <li>Implement request <?php bugl(47201); ?> (Allow custom source code highlighter (e.g. Geshi)). (Christian)</li>
+      <li>Support &lt;uri&gt; and &lt;screenshot&gt;. (Christian)</li>
+      <li>Copy images automatically using MediaManager. (Christian)</li>
+      <li>Update polish phd translation. (Jarosław Głowacki)</li>
+      <li>Generate syntactically correct php files for pearweb when description or title have a quote in it. (Christian)</li>
+      <li>Improve object orientated version info support. (Hannes)</li>
+      <li>Fixed HTML problems with empty paragraphs in examples and qandaset questions. (Christian)</li>
+      <li>Fixed encoding issues in the Polish CHM builds. (Jarosław Głowacki)</li>
+      <li><?php bugfix(47362); ?> (&lt;h1&gt; tag gets omitted in bightml). (Christian)</li>
+      <li><?php bugfix(47196); ?> (improve render of initializer tag). (Laurent)</li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/phd/PhD-0.4.3.tgz">PhD 0.4.3</a> <span class="date">17. January 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Automatically add anchors for refsect roles. (Hannes)</li>
