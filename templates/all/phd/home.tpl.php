@@ -12,7 +12,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     <a href="/phd/PhD-0.4.4.tgz">PhD 0.4.4</a> <span class="date">16. February 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Add support for &lt;package&gt; in pear theme. (Christian)</li>
-      <li>Replace ereg_replace with preg_replace. (Christian)</li>
+      <li>Replace ereg_replace with preg_replace. (Richard Quadling)</li>
       <li>Implement request <?php bugl(47201); ?> (Allow custom source code highlighter (e.g. Geshi)). (Christian)</li>
       <li>Support &lt;uri&gt; and &lt;screenshot&gt;. (Christian)</li>
       <li>Copy images automatically using MediaManager. (Christian)</li>
