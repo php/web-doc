@@ -5,6 +5,7 @@ vim: et ts=2 sw=2 ft=html fdm=marker
 function bugfix($number) { echo "Fixed bug "; bugl($number); }
 function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$number</a>"; }
 ?>
+<p>For PhD documentation see the <a href="/phd/docs/">PhD: The definitive guide to PHP's DocBook Rendering System</a> section.</p>
 <p>PhD releases:</p>
 
 <ul id="releases">
