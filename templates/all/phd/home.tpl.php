@@ -10,6 +10,16 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/phd/PhD-0.4.5.tgz">PhD 0.4.5</a> <span class="date">19. February 2009</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Changed copyright year to 2007-2009. (Christian)</li>
+      <li>Fixed PEAR chm manual title for french. (Laurent)</li>
+      <li>Fixed PEAR chm navbar alignment. (Laurent)</li>
+      <li><?php bugfix(47408); ?> (Same image directory used for each theme). (Christian)</li>
+      <li><?php bugfix(47413); ?> (PEAR themes don't work when rendered together at once). (Christian)</li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/phd/PhD-0.4.4.tgz">PhD 0.4.4</a> <span class="date">16. February 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Add support for &lt;package&gt; in pear theme. (Christian)</li>
