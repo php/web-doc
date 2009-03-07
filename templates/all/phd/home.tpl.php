@@ -10,6 +10,17 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/phd/PhD-0.4.6.tgz">PhD 0.4.6</a> <span class="date">07. March 2009</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Added language support with unknownversion into phpdotnet theme. (Philip)</li>
+      <li>phpbook/phpbook-xsl/version.xml is no longer used (Hannes)</li>
+      <li>Fix
+        <a href="http://pear.php.net/bugs/bug.php?id=15967">PEAR bug #15967</a>:
+        Wrong ID passed to pearweb manualFooter() (Christian)
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/phd/PhD-0.4.5.tgz">PhD 0.4.5</a> <span class="date">19. February 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Changed copyright year to 2007-2009. (Christian)</li>
