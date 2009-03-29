@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 CRONSETPATH=`dirname $0`/$1
 OUTPUT=/dev/null
