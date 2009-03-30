@@ -1,9 +1,9 @@
 <?php
 /* $Id$ */
 
-include '../include/jpgraph/jpgraph.php';
-include '../include/jpgraph/jpgraph_pie.php';
-include '../include/jpgraph/jpgraph_pie3d.php';
+include '../include/jpgraph/src/jpgraph.php';
+include '../include/jpgraph/src/jpgraph_pie.php';
+include '../include/jpgraph/src/jpgraph_pie3d.php';
 
 $inCli = true;
 include '../include/init.inc.php';

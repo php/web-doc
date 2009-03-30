@@ -1,7 +1,7 @@
 <?php
 
-include '../include/jpgraph/jpgraph.php';
-include '../include/jpgraph/jpgraph_bar.php';
+include '../include/jpgraph/src/jpgraph.php';
+include '../include/jpgraph/src/jpgraph_bar.php';
 
 $inCli = true;
 include '../include/init.inc.php';
