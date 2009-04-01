@@ -193,7 +193,8 @@ function site_nav_provider()
     }
     if (SITE == 'php') {
         $links['doc-howto'] = BASE_URL . '/dochowto/index.php';
-        $links['entities']  = BASE_URL . '/entities.php';
+//        FIXME: Disabled until livedocs requirement is removed
+//        $links['entities']  = BASE_URL . '/entities.php';
     }
 
     switch(SITE) {
