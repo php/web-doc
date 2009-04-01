@@ -21,8 +21,6 @@
 $Id$
 */
 
-error_reporting(E_ALL);
-
 // get paths
 require_once(dirname(realpath(__FILE__)) . '/../build-ops.php');
 
