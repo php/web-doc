@@ -10,6 +10,22 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/phd/PhD-0.4.7.tgz">PhD 0.4.7</a> <span class="date">07. May 2009</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Added support for &lt;token&gt; (Christian)</li>
+      <li>Added support for &lt;simplesect&gt; (Richard Q, Nilgun)</li>
+      <li>Improved support for &lt;tag&gt; classes (Christian)</li>
+      <li>Improved support for &lt;variablelist&gt; (Nilgun)</li>
+      <li>Updated translations:
+        <ul>
+          <li>Danish (Kalle)</li>
+          <li>Swedish (Kalle)</li>
+          <li>Turkish (Nilgun)</li>
+        </ul>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/phd/PhD-0.4.6.tgz">PhD 0.4.6</a> <span class="date">07. March 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added language support with unknownversion into phpdotnet theme. (Philip)</li>
