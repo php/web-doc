@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<f xmlns="http://pear.php.net/dtd/rest.categorypackageinfo"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.categorypackageinfo
+    http://pear.php.net/dtd/rest.categorypackageinfo.xsd">
+<pi>
+<p>
+ <n>phd</n>
+ <c>doc.php.net</c>
+ <ca xlink:href="/rest/c/Default">Default</ca>
+ <l>BSD</l>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various other requirements needed to build the PHP.net documentation.</d>
+ <r xlink:href="/rest/r/phd"/>
+ 
+</p><?xml version="1.0" encoding="UTF-8" ?>
+<a xmlns="http://pear.php.net/dtd/rest.allreleases"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases
+    http://pear.php.net/dtd/rest.allreleases.xsd">
+ <p>PhD</p>
+ <c>doc.php.net</c>
+ <r><v>0.4.7</v><s>beta</s></r>
+ <r><v>0.4.6</v><s>beta</s></r>
+ <r><v>0.4.5</v><s>beta</s></r>
+ <r><v>0.4.4</v><s>beta</s></r>
+ <r><v>0.4.3</v><s>beta</s></r>
+ <r><v>0.4.2</v><s>beta</s></r>
+ <r><v>0.4.1</v><s>beta</s></r>
+ <r><v>0.4.0</v><s>beta</s></r>
+ <r><v>0.3.1</v><s>beta</s></r>
+ <r><v>0.3.0</v><s>beta</s></r>
+ <r><v>0.2.4</v><s>beta</s></r>
+ <r><v>0.2.3</v><s>beta</s></r>
+ <r><v>0.1RC1</v><s>snapshot</s></r>
+ <r><v>0.2.2</v><s>snapshot</s></r>
+</a>
+<deps>
+ <v>0.4.7</v>
+ <d>a:2:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:2:{i:0;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:4:&quot;haru&quot;;}}}}</d>
+</deps>
+
+<deps>
+ <v>0.4.6</v>
+ <d>a:2:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}}}</d>
+</deps>
+
+<deps>
+ <v>0.4.5</v>
+ <d>a:2:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}}}</d>
+</deps>
+
+<deps>
+ <v>0.4.4</v>
+ <d>a:2:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}}}</d>
+</deps>
+
+<deps>
+ <v>0.4.3</v>
+ <d>a:2:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}}}</d>
+</deps>
+
+<deps>
+ <v>0.4.2</v>
+ <d>a:2:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}}}</d>
+</deps>
+
+<deps>
+ <v>0.4.1</v>
+ <d>a:2:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}}}</d>
+</deps>
+
+<deps>
+ <v>0.4.0</v>
+ <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}}</d>
+</deps>
+
+<deps>
+ <v>0.3.1</v>
+ <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}}</d>
+</deps>
+
+<deps>
+ <v>0.3.0</v>
+ <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}}</d>
+</deps>
+
+<deps>
+ <v>0.2.4</v>
+ <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}}</d>
+</deps>
+
+<deps>
+ <v>0.2.3</v>
+ <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}}</d>
+</deps>
+
+<deps>
+ <v>0.2.2</v>
+ <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}}</d>
+</deps>
+
+<deps>
+ <v>0.1RC1</v>
+ <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:4:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}i:3;a:1:{s:4:&quot;name&quot;;s:10:&quot;reflection&quot;;}}}}</d>
+</deps>
+</pi>
+<pi>
+<p>
+ <n>pman</n>
+ <c>doc.php.net</c>
+ <ca xlink:href="/rest/c/Default">Default</ca>
+ <l>CC-by</l>
+ <lu>http://creativecommons.org/licenses/by/3.0/</lu>
+
+ <s>PHP Unix manual pages</s>
+ <d>Unix manual pages of the PHP documentations from php.net.</d>
+ <r xlink:href="/rest/r/pman"/>
+ 
+</p>
+<a>
+ <r><v>1.0.1</v><s>stable</s></r>
+ <r><v>1.0.0</v><s>stable</s></r>
+</a>
+<deps>
+ <v>1.0.1</v>
+ <d>a:1:{s:8:&quot;required&quot;;a:2:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}}}</d>
+</deps>
+
+<deps>
+ <v>1.0.0</v>
+ <d>a:1:{s:8:&quot;required&quot;;a:2:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}}}</d>
+</deps>
+</pi>
+</f>

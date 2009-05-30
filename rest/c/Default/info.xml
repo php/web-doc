@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<c xmlns="http://pear.php.net/dtd/rest.category"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.category
+    http://pear.php.net/dtd/rest.category.xsd">
+ <n>Default</n>
+ <c>doc.php.net</c>
+ <a>Default</a>
+ <d>Default Category</d>
+</c>

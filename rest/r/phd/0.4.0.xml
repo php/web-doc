@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<r xmlns="http://pear.php.net/dtd/rest.release"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.release
+    http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="/rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>0.4.0</v>
+ <st>beta</st>
+ <l>BSD Style</l>
+ <m>cweiske</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2008-10-20 14:29:14</da>
+ <n>- Added PEAR XHTML theme. (Rudy, Christian)
+- Added support for new elements (Christian)
+  * glossentry
+  * glossdef
+  * glosslist
+  * important
+  * paramdef
+  * personblurb
+  * phrase
+  * prompt
+  * releaseinfo
+  * spanspec
+  * qandadiv
+- Improved email support (now creates mailto: links). (Christian)
+- Chunks without xml:id are no longer chunked. (Christian)
+- Fixed bug#46252 (Class properties links to a function if theres one with the same name). (Hannes)
+- Fixed bug#46094 (and then from now on italic). (Hannes)
+- Fixed bug#45071 (Links to require/include(_once) not rendered). (Hannes)
+- Fixed a bug where it was only possible to pass one parameter to phd.bat. (Kalle)
+- Fixed a bug where it wasn't possible to have paths with spaces in when using phd.bat. (Kalle)
+- Fixed xhtml validation issue for itemizedlist. (Christian)</n>
+ <f>66841</f>
+ <g>http://doc.php.net/get/PhD-0.4.0</g>
+ <x xlink:href="package.0.4.0.xml"/>
+</r>

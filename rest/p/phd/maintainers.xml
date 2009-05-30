@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<m xmlns="http://pear.php.net/dtd/rest.packagemaintainers"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.packagemaintainers
+    http://pear.php.net/dtd/rest.packagemaintainers.xsd">
+ <p>PhD</p>
+ <c>doc.php.net</c>
+ <m><h>bjori</h><a>1</a></m> <m><h>gwynne</h><a>1</a></m> <m><h>loudi</h><a>1</a></m> <m><h>cweiske</h><a>1</a></m></m>

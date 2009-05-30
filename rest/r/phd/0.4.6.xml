@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<r xmlns="http://pear.php.net/dtd/rest.release"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.release
+    http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="/rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>0.4.6</v>
+ <st>beta</st>
+ <l>BSD Style</l>
+ <m>cweiske</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2009-03-07 14:08:45</da>
+ <n>- Added language support with unknownversion into phpdotnet theme. (Philip)
+- phpbook/phpbook-xsl/version.xml is no longer used (Hannes)
+- Fix PEAR bug #15967: Wrong ID passed to pearweb manualFooter() (Christian)</n>
+ <f>76173</f>
+ <g>http://doc.php.net/get/PhD-0.4.6</g>
+ <x xlink:href="package.0.4.6.xml"/>
+</r>

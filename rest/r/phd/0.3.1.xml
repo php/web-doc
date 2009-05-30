@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<r xmlns="http://pear.php.net/dtd/rest.release"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.release
+    http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="/rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>0.3.1</v>
+ <st>beta</st>
+ <l>BSD Style</l>
+ <m>bjori</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2008-08-23 09:36:21</da>
+ <n>- Added PDF output format. (Rudy)
+- Added support for phpdoc:classref. (Hannes)
+- Added support for phpdoc:varentry. (Hannes)
+- Added support for the phpdoc howto. (Hannes)
+- Renamed phpdoc:exception to phpdoc:exceptionref. (Hannes)
+- Fixed bug#45627 (Unix manpages using non-standard folder name). (Rudy)
+- Fixed bug#45626 (Unix manpages should be gzipped). (Rudy)
+- Fixed bug#45618 (Bad filenames in man pages). (Rudy)
+- Fixed unclosed div element on set pages. (Hannes)</n>
+ <f>53801</f>
+ <g>http://doc.php.net/get/PhD-0.3.1</g>
+ <x xlink:href="package.0.3.1.xml"/>
+</r>

@@ -1,0 +1,1 @@
+a:1:{s:8:"required";a:3:{s:3:"php";a:1:{s:3:"min";s:5:"5.2.3";}s:13:"pearinstaller";a:1:{s:3:"min";s:5:"1.4.0";}s:9:"extension";a:4:{i:0;a:1:{s:4:"name";s:6:"libxml";}i:1;a:1:{s:4:"name";s:9:"xmlreader";}i:2;a:1:{s:4:"name";s:3:"dom";}i:3;a:1:{s:4:"name";s:10:"reflection";}}}}
