@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release2 http://pear.php.net/dtd/rest.release2.xsd">
+ <p xlink:href="rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>0.4.4</v>
+ <a>0.4.4</a>
+ <mp>5.2.3</mp>
+ <st>snapshot</st>
+ <l>BSD Style</l>
+ <m>bjori</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2009-02-16 09:55:28</da>
+ <n>
+- Add support for &lt;package&gt; in pear theme (Christian)
+- Replace ereg_replace with preg_replace
+- Implement request #47201: Allow custom source code highlighter (e.g. Geshi) (Christian)
+- Fix HTML problems with empty paragraphs in examples and qandaset questions (Christian)
+- Support &lt;uri&gt; and &lt;screenshot&gt; (Christian)
+- Copy images automatically using MediaManager (Christian)
+- Fixed bug#47362: &lt;h1&gt; tag gets omitted in bightml (Christian)
+- Fixed bug#47196: improve render of initializer tag (Laurent)
+- Fixed encoding issues in the Polish CHM builds. (Jarosław Głowacki)
+- Update polish phd translation (Jarosław Głowacki)
+- Generate syntactically correct php files for pearweb when description or
+  title have a quote in it. (Christian)
+- Improve object orientated version info support (Hannes)
+ </n>
+ <f>
+  <g>http://doc.php.net/get/PhD-0.4.4</g>
+  <x xlink:href="package.0.4.4.xml"/>
+ </f>
+</r>

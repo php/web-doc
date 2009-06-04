@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release2 http://pear.php.net/dtd/rest.release2.xsd">
+ <p xlink:href="rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>0.2.0</v>
+ <a>0.2.0</a>
+ <mp>5.2.3</mp>
+ <st>snapshot</st>
+ <l>BSD Style</l>
+ <m>bjori</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace the Docbook-XSL
+  and various other requirements needed to build the PHP.net documentation</d>
+ <da>2007-11-08 18:05:02</da>
+ <n>- Added partial rendering
+- Added various verbosity levels
+- Added getopt() parsing for few configuration options
+- Added support for errorcode, symbol and superscript elements (used by few translations)
+- Suppressed the contrib element
+- Fixed bug#43192 (Chunked HTML output difficult to use without TOC). (Edward Z. Yang)
+- Fixed bug#43191 (build.php fails to included necessary theme dependencies). (Edward Z. Yang, Richard Q)</n>
+ <f>
+  <g>http://doc.php.net/get/PhD-0.2.0</g>
+  <x xlink:href="package.0.2.0.xml"/>
+ </f>
+</r>
