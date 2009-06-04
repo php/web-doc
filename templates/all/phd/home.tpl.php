@@ -10,7 +10,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
-    <a href="/phd/PhD-0.4.7.tgz">PhD 0.4.7</a> <span class="date">07. May 2009</span><!-- {{{ -->
+    <a href="/get/PhD-0.4.7.tgz">PhD 0.4.7</a> <span class="date">07. May 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added support for &lt;token&gt; (Christian)</li>
       <li>Added support for &lt;simplesect&gt; (Richard Q, Nilgun)</li>
@@ -26,7 +26,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.4.6.tgz">PhD 0.4.6</a> <span class="date">07. March 2009</span><!-- {{{ -->
+    <a href="/get/PhD-0.4.6.tgz">PhD 0.4.6</a> <span class="date">07. March 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added language support with unknownversion into phpdotnet theme. (Philip)</li>
       <li>phpbook/phpbook-xsl/version.xml is no longer used (Hannes)</li>
@@ -37,7 +37,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.4.5.tgz">PhD 0.4.5</a> <span class="date">19. February 2009</span><!-- {{{ -->
+    <a href="/get/PhD-0.4.5.tgz">PhD 0.4.5</a> <span class="date">19. February 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Changed copyright year to 2007-2009. (Christian)</li>
       <li>Fixed PEAR chm manual title for french. (Laurent)</li>
@@ -47,7 +47,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.4.4.tgz">PhD 0.4.4</a> <span class="date">16. February 2009</span><!-- {{{ -->
+    <a href="/get/PhD-0.4.4.tgz">PhD 0.4.4</a> <span class="date">16. February 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Add support for &lt;package&gt; in pear theme. (Christian)</li>
       <li>Replace ereg_replace with preg_replace. (Richard Quadling)</li>
@@ -64,7 +64,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.4.3.tgz">PhD 0.4.3</a> <span class="date">17. January 2009</span><!-- {{{ -->
+    <a href="/get/PhD-0.4.3.tgz">PhD 0.4.3</a> <span class="date">17. January 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Automatically add anchors for refsect roles. (Hannes)</li>
       <li>Added description for seealso links. (Hannes)</li>
@@ -82,7 +82,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.4.2.tgz">PhD 0.4.2</a> <span class="date">18. December 2008</span><!-- {{{ -->
+    <a href="/get/PhD-0.4.2.tgz">PhD 0.4.2</a> <span class="date">18. December 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added support for phd:chunk="false" attribute on chunks. (Christian)</li>
       <li>Added Turkish support for CHM. (Nilgun)</li>
@@ -96,7 +96,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.4.1.tgz">PhD 0.4.1</a> <span class="date">08. November 2008</span><!-- {{{ -->
+    <a href="/get/PhD-0.4.1.tgz">PhD 0.4.1</a> <span class="date">08. November 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li><?php bugfix(46413);?> Weird examples in Unix manual pages (Rudy)</li>
       <li>Added varlistentries to the CHM index. (Rudy)</li>
@@ -121,7 +121,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.4.0.tgz">PhD 0.4.0</a> <span class="date">20. October 2008</span><!-- {{{ -->
+    <a href="/get/PhD-0.4.0.tgz">PhD 0.4.0</a> <span class="date">20. October 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added PEAR XHTML theme. (Rudy, Christian)</li>
       <li>Added support for new elements (Christian)
@@ -150,7 +150,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.3.1.tgz">PhD 0.3.1</a> <span class="date">23. August 2008</span><!-- {{{ -->
+    <a href="/get/PhD-0.3.1.tgz">PhD 0.3.1</a> <span class="date">23. August 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added PDF output format. (Rudy)</li>
       <li>Added support for phpdoc:classref. (Hannes)</li>
@@ -164,7 +164,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.3.0.tgz">PhD 0.3.0</a> <span class="date">24. July 2008</span><!-- {{{ -->
+    <a href="/get/PhD-0.3.0.tgz">PhD 0.3.0</a> <span class="date">24. July 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added CHM output format. (Rudy)</li>
       <li>Added KDevelop (Index &amp; Table of contents) output theme. (Rudy)</li>
@@ -173,7 +173,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.2.4.tgz">PhD 0.2.4</a> <span class="date">24. May 2008</span><!-- {{{ -->
+    <a href="/get/PhD-0.2.4.tgz">PhD 0.2.4</a> <span class="date">24. May 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li><?php bugfix(44906); ?> (Missing space after modifier in properties list). (Hannes)</li>
       <li><?php bugfix(44881); ?> (Class constants with $). (Hannes)</li>
@@ -189,7 +189,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.2.3.tgz">PhD 0.2.3</a> <span class="date">31. March 2008</span><!-- {{{ -->
+    <a href="/get/PhD-0.2.3.tgz">PhD 0.2.3</a> <span class="date">31. March 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added initial hCalendar support for &lt;author&gt;. (Hannes)</li>
       <li>Added initial eRDF support for &lt;refentry&gt;. (Hannes)</li>
@@ -215,7 +215,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.2.2.tgz">PhD 0.2.2</a> <span class="date">30. January 2008</span><!-- {{{ -->
+    <a href="/get/PhD-0.2.2.tgz">PhD 0.2.2</a> <span class="date">30. January 2008</span><!-- {{{ -->
     <ul class="fixes">
       <li>Removed support for phnotify. (Hannes)</li>
       <li>Added index caching. (Edward Z.)</li>
@@ -237,7 +237,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-  <a href="/phd/PhD-0.2.1.tgz">PhD 0.2.1</a> <span class="date">12. December 2007</span><!-- {{{ -->
+  <a href="/get/PhD-0.2.1.tgz">PhD 0.2.1</a> <span class="date">12. December 2007</span><!-- {{{ -->
     <ul class="fixes">
       <li>Multiple &lt;term&gt;s should be line seperated. (Hannes)</li>
       <li>Fixed autogenerated links to methods. (Edward Z.)</li>
@@ -247,7 +247,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.2.0.tgz">PhD 0.2.0</a> <span class="date">8. November 2007</span><!-- {{{ -->
+    <a href="/get/PhD-0.2.0.tgz">PhD 0.2.0</a> <span class="date">8. November 2007</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added partial rendering. (Hannes)</li>
       <li>Added various verbosity levels. (Hannes)</li>
@@ -259,7 +259,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.1.0.tgz">PhD 0.1.0</a> <span class="date">20. October 2007</span><!-- {{{ -->
+    <a href="/get/PhD-0.1.0.tgz">PhD 0.1.0</a> <span class="date">20. October 2007</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added example numbering. (Hannes)</li>
       <li>Improved support for modifiers in fieldsynopsis. (Hannes)</li>
@@ -291,7 +291,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
     </ul><!-- }}} -->
   </li>
   <li>
-    <a href="/phd/PhD-0.1RC1.tgz">PhD 0.1RC1</a> <span class="date">1 October 2007</span>
+    <a href="/get/PhD-0.1RC1.tgz">PhD 0.1RC1</a> <span class="date">1 October 2007</span>
     <ul class="fixes">
       <li>Initial release</li>
     </ul>
