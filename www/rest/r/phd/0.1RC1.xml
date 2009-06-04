@@ -11,8 +11,7 @@
   and various other requirements needed to build the PHP.net documentation</d>
  <da>2007-10-03 11:52:50</da>
  <n>Initial release</n>
- <f>
-  <g>http://doc.php.net/get/PhD-0.1RC1</g>
-  <x xlink:href="package.0.1RC1.xml"/>
- </f>
+ <f>19690</f>
+ <g>http://doc.php.net/get/PhD-0.1RC1</g>
+ <x xlink:href="package.0.1RC1.xml"/>
 </r>
