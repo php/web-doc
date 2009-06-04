@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="iso-8859-1" ?>
-<a xmlns="http://pear.php.net/dtd/rest.allpackages"
-    xsi:schemaLocation="http://pear.php.net/dtd/rest.allpackages
-    http://pear.php.net/dtd/rest.allpackages.xsd">
- <c>doc.php.net</c>
- <p>phd</p>
- <p>pman</p>
-</a>
