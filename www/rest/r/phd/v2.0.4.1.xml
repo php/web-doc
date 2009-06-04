@@ -29,8 +29,7 @@
 - Make &quot;Prev&quot; links work correctly on last pages (e.g. last in chapter) (Christian)
 - Change double quotes to single ones, gives speedup for pear builds (Brett)
 - Docblock enhancements and Coding Standards fixes (Brett)</n>
- <f>
-  <g>http://doc.php.net/get/PhD-0.4.1</g>
-  <x xlink:href="package.0.4.1.xml"/>
- </f>
+ <f>71232</f>
+ <g>http://doc.php.net/get/PhD-0.4.1</g>
+ <x xlink:href="package.0.4.1.xml"/>
 </r>

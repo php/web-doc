@@ -16,8 +16,7 @@
 - Added KDevelop (Index &amp; Table of contents) output theme. (Rudy)
 - Added Man page output format. (Rudy)
 - Added support for phpdoc:exception. (Hannes)</n>
- <f>
-  <g>http://doc.php.net/get/PhD-0.3.0</g>
-  <x xlink:href="package.0.3.0.xml"/>
- </f>
+ <f>39686</f>
+ <g>http://doc.php.net/get/PhD-0.3.0</g>
+ <x xlink:href="package.0.3.0.xml"/>
 </r>

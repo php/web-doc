@@ -22,8 +22,7 @@
 - Automatically use the phpdoc configure.php generated version
   information file if it exists. (Hannes)
 - Removed default border for formal tables. (Philip)</n>
- <f>
-  <g>http://doc.php.net/get/PhD-0.4.2</g>
-  <x xlink:href="package.0.4.2.xml"/>
- </f>
+ <f>71629</f>
+ <g>http://doc.php.net/get/PhD-0.4.2</g>
+ <x xlink:href="package.0.4.2.xml"/>
 </r>

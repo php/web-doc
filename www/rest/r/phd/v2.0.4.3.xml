@@ -25,8 +25,7 @@
 - Fixed bug#45570 (PhD doesn't use the colspec &quot;align&quot; attribute in xhtml output). (Hannes)
 - Fixed bug#45318 (table colspec rendering issues). (Hannes)
 - Fixed bug#44598 (Much space on 'expected output' section). (Hannes)</n>
- <f>
-  <g>http://doc.php.net/get/PhD-0.4.3</g>
-  <x xlink:href="package.0.4.3.xml"/>
- </f>
+ <f>72664</f>
+ <g>http://doc.php.net/get/PhD-0.4.3</g>
+ <x xlink:href="package.0.4.3.xml"/>
 </r>

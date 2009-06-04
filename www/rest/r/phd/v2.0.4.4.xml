@@ -27,8 +27,7 @@
   title have a quote in it. (Christian)
 - Improve object orientated version info support (Hannes)
  </n>
- <f>
-  <g>http://doc.php.net/get/PhD-0.4.4</g>
-  <x xlink:href="package.0.4.4.xml"/>
- </f>
+ <f>75470</f>
+ <g>http://doc.php.net/get/PhD-0.4.4</g>
+ <x xlink:href="package.0.4.4.xml"/>
 </r>

@@ -13,8 +13,7 @@
  <da>2009-01-07 19:35:48</da>
  <n>- Fixed bug #46413 Weird examples in Unix manual pages. (Rudy)
 - Fixed installation on case-insensitive file-systems. (Hannes)</n>
- <f>
-  <g>http://doc.php.net/get/pman-1.0.1</g>
-  <x xlink:href="package.1.0.1.xml"/>
- </f>
+ <f>3895049</f>
+ <g>http://doc.php.net/get/pman-1.0.1</g>
+ <x xlink:href="package.1.0.1.xml"/>
 </r>

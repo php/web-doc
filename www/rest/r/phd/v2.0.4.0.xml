@@ -33,8 +33,7 @@
 - Fixed a bug where it was only possible to pass one parameter to phd.bat. (Kalle)
 - Fixed a bug where it wasn't possible to have paths with spaces in when using phd.bat. (Kalle)
 - Fixed xhtml validation issue for itemizedlist. (Christian)</n>
- <f>
-  <g>http://doc.php.net/get/PhD-0.4.0</g>
-  <x xlink:href="package.0.4.0.xml"/>
- </f>
+ <f>66841</f>
+ <g>http://doc.php.net/get/PhD-0.4.0</g>
+ <x xlink:href="package.0.4.0.xml"/>
 </r>
