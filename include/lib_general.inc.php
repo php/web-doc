@@ -182,12 +182,12 @@ function site_nav_provider()
 {
     $links = array(
         'subsite-homepage'      => BASE_URL .'/',
-        'request-for-comments'  => BASE_URL .'/rfc/rfc-overview.php',
+//        'request-for-comments'  => BASE_URL .'/rfc/rfc-overview.php',
         'userlist'              => BASE_URL .'/users.php',
     );
-    if (strpos($_SERVER['REQUEST_URI'], 'rfc') !== false) {
-        $links['submit-rfc'] = BASE_URL .'/rfc/rfc-proposal-edit.php';
-    }
+//    if (strpos($_SERVER['REQUEST_URI'], 'rfc') !== false) {
+//       $links['submit-rfc'] = BASE_URL .'/rfc/rfc-proposal-edit.php';
+//    }
     if (in_array(SITE, array('gtk', 'pear', 'php'))) {
         $links['rev-check'] = BASE_URL .'/revcheck.php';
     }
