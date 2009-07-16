@@ -15,7 +15,7 @@
 # | Authors: Jacques Marneweck <jacques@php.net>                         |
 # +----------------------------------------------------------------------+
 #
-# $Id: populatedocs.sh,v 1.13 2008-12-31 07:02:34 philip Exp $
+# $Id$
 
 CVSBIN=/usr/bin/cvs
 pushd .
