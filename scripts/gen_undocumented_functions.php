@@ -31,7 +31,7 @@ echo "Generating Missing Examples data...\n";
 
 $DAO = new DocWeb_DAO_MetaInfo(TRUE);
 
-$reference = CVS_DIR . '/' . DOC_DIR ."/en/reference";
+$reference = SVN_DIR . '/' . DOC_DIR ."/en/reference";
 
 $exts = array();
 $dir = opendir($reference);

@@ -472,14 +472,14 @@ function get_translators($idx, $lang)
                 nick,
                 t.name as name,
                 mail,
-                cvs
+                svn
             FROM
                 translators t
                 WHERE lang="' . $lang . '"';
     $persons = array();
     $result = sqlite_query($idx, $sql);
     while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
-        $persons[$r['nick']] = array('name' => $r['name'], 'mail' => $r['mail'], 'cvs' => $r['cvs']);
+        $persons[$r['nick']] = array('name' => $r['name'], 'mail' => $r['mail'], 'svn' => $r['svn']);
     }
     return $persons;
 }
@@ -544,7 +544,7 @@ function get_stats_uptodate($idx, $lang)
 // Return an array
 function mtime($dir, $file, $lang)
 {
-    return intval((time() - @filemtime(ROOT_PATH . "/cvs/phpdoc-all/$lang$dir/$file")) / 86400);
+    return intval((time() - @filemtime(ROOT_PATH . "/svn/phpdoc-all/$lang$dir/$file")) / 86400);
 }
 
 function get_stats_critical($idx, $lang)

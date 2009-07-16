@@ -53,19 +53,19 @@ AC_ARG_WITH(cron-dir,[  --with-cron-dir[=DIR]      CRON scripts location  [defau
   [CRONDIR="$withval"],
   [CRONDIR="`pwd`/cron/"])
 
-AC_ARG_WITH(cvs-dir,[  --with-cvs-dir[=DIR]       CVS root location  [default=`pwd`/cvs]],
-  [CVSDIR="$withval"],
-  [CVSDIR="`pwd`/cvs/"])
+AC_ARG_WITH(svn-dir,[  --with-svn-dir[=DIR]       SVN root location  [default=`pwd`/svn]],
+  [SVNDIR="$withval"],
+  [SVNDIR="`pwd`/svn/"])
 
-AC_ARG_WITH(phpdoc-dir,[  --with-phpdoc-dir[=DIR]  The phpdoc-all folder (under CVS root) [default=phpdoc-all]],
+AC_ARG_WITH(phpdoc-dir,[  --with-phpdoc-dir[=DIR]  The phpdoc-all folder (under SVN root) [default=phpdoc-all]],
   [DOCDIR="$withval"],
   [DOCDIR="phpdoc-all"])
 
-AC_ARG_WITH(gtk-doc-dir,[  --with-gtk-doc-dir[=DIR]  The gtk-doc-dir folder (under CVS root) [default=php-gtk-doc]],
+AC_ARG_WITH(gtk-doc-dir,[  --with-gtk-doc-dir[=DIR]  The gtk-doc-dir folder (under SVN root) [default=php-gtk-doc]],
   [GTKDIR="$withval"],
   [GTKDIR="php-gtk-doc"])
 
-AC_ARG_WITH(peardoc-dir,[  --with-peardoc-dir[=DIR]  The peardoc folder (under CVS root) [default=peardoc]],
+AC_ARG_WITH(peardoc-dir,[  --with-peardoc-dir[=DIR]  The peardoc folder (under SVN root) [default=peardoc]],
   [PEARDIR="$withval"],
   [PEARDIR="peardoc"])
 
@@ -107,7 +107,7 @@ DOCWEB=`pwd`
 if test `uname|grep CYGWIN` ; then
   PHP=`cygpath -m $PHP`
   CRONDIR=`cygpath -m $CRONDIR`
-  CVSDIR=`cygpath -m $CVSDIR`
+  SVNDIR=`cygpath -m $SVNDIR`
   DOCWEB=`cygpath -m $DOCWEB`
   SCRIPTSDIR=`cygpath -m $SCRIPTSDIR`
   SQLDIR=`cygpath -m $SQLDIR`
@@ -119,7 +119,7 @@ fi
 
 AC_SUBST(PHP)
 AC_SUBST(CRONDIR)
-AC_SUBST(CVSDIR)
+AC_SUBST(SVNDIR)
 AC_SUBST(DOCDIR)
 AC_SUBST(GTKDIR)
 AC_SUBST(PEARDIR)

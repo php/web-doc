@@ -57,7 +57,7 @@ function print_file_list($base)
         echo '<p>Available files:</p><ul>';
         foreach ($files as $file) {
             $file = basename($file);
-            if ($file == 'CVS') continue;
+            if ($file == '.svn') continue;
             echo "<li><a href='$uri&file=". urlencode(@$_GET['file'] . "/$file")  . "'>$file</a></li>";
         }
         echo '</ul>';
@@ -184,7 +184,7 @@ HTML;
 
 // control flow
 if (empty($_GET['z'])) {
-$lastCVSUpdate = date ('r', filemtime('./CVS/Entries'));
+$lastSVNUpdate = date ('r', filemtime('./.svn/entries'));
 
     echo <<< HTML
 <p>Menu:</p>
@@ -197,7 +197,7 @@ $lastCVSUpdate = date ('r', filemtime('./CVS/Entries'));
      pearinfo is broken for everyone-->
 </ul>
 <br />
-<p>Last CVS Update: $lastCVSUpdate</p>
+<p>Last SVN Update: $lastSVNUpdate</p>
 HTML;
 
 } else {

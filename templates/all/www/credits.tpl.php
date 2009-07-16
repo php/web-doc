@@ -9,7 +9,7 @@
  <dd>&docweb.credits.php-systems;</dd>
  <dt>&docweb.credits.section.devs;</dt>
  <dd>
-  See <a href="http://cvs.php.net/viewvc.cgi/docweb/">CVS</a> for commit details.
+  See <a href="http://svn.php.net/viewvc/web/doc/trunk/">SVN</a> for commit details.
  </dd>
 </dl>
 

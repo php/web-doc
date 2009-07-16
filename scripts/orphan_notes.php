@@ -28,8 +28,8 @@
 $inCli = true;
 include '../include/init.inc.php';
 
-$manual_dir = CVS_DIR .'/phpweb/manual/en';
-$notes_dir  = CVS_DIR .'/phpweb/backend/notes';
+$manual_dir = SVN_DIR .'/phpweb/manual/en';
+$notes_dir  = SVN_DIR .'/phpweb/backend/notes';
 
 
 /* Collect manual IDs */

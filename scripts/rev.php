@@ -70,7 +70,7 @@ if (!in_array($TYPE, array('php', 'pear'))) {
     exit(0);
 }
 
-$DOCS = CVS_DIR . '/' . get_cvs_dir($TYPE);
+$DOCS = SVN_DIR . get_svn_dir($TYPE);
 
 // $argv was shifted before
 $LANGS = $argv;
@@ -118,7 +118,7 @@ CREATE TABLE translators (
   nick TEXT,
   name TEXT,
   mail TEXT,
-  cvs TEXT,
+  svn TEXT,
   editor TEXT
 );
 
@@ -199,12 +199,12 @@ function parse_translation($lang)
     if (isset($txml)) {
         // Find all persons matching the pattern
         if (preg_match_all("!<person (.+)/\\s?>!U", $txml, $matches)) {
-            $default = array('cvs' => 'n/a', 'nick' => 'n/a', 'editor' => 'n/a', 'email' => 'n/a', 'name' => 'n/a');
+            $default = array('svn' => 'n/a', 'nick' => 'n/a', 'editor' => 'n/a', 'email' => 'n/a', 'name' => 'n/a');
             $persons = parse_attr_string($matches[1]);
 
             foreach ($persons as $person) {
                 $person = array_merge($default, $person);
-                $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '" . sqlite_escape_string($person['nick']) . "', '" . sqlite_escape_string(@iconv($charset, 'UTF-8//IGNORE', $person['name'])) . "', '" . sqlite_escape_string($person['email']) . "', '" . sqlite_escape_string($person['cvs']) . "', '" . sqlite_escape_string($person['editor']) . "');\n";
+                $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '" . sqlite_escape_string($person['nick']) . "', '" . sqlite_escape_string(@iconv($charset, 'UTF-8//IGNORE', $person['name'])) . "', '" . sqlite_escape_string($person['email']) . "', '" . sqlite_escape_string($person['svn']) . "', '" . sqlite_escape_string($person['editor']) . "');\n";
             }
         }
 
@@ -303,7 +303,7 @@ function do_revcheck($dir = '') {
                 continue;
             }
 
-            if ($file != '.' && $file != '..' && $file != 'CVS' && $dir != '/functions') {
+            if ($file != '.' && $file != '..' && $file != '.svn' && $dir != '/functions') {
 
                 if (is_dir($DOCS . 'en' . $dir.'/' .$file)) {
                     $entriesDir[] = $file;
@@ -389,7 +389,7 @@ function check_old_files($dir = '', $lang) {
                 continue;
             }
 
-            if ($file != '.' && $file != '..' && $file != 'CVS' && $dir != '/functions') {
+            if ($file != '.' && $file != '..' && $file != '.svn' && $dir != '/functions') {
 
                 if (is_dir($DOCS . $lang . $dir.'/' .$file)) {
                     $entriesDir[] = $file;
@@ -443,7 +443,7 @@ function get_tags($file)
 
 
     // Check for the translations "revision tag"
-    if (preg_match("/<!--\s*EN-Revision:\s*\d+\.(\d+)\s*Maintainer:\s*(\\S*)\s*Status:\s*(.+)\s*-->/U",
+    if (preg_match("/<!--\s*EN-Revision:\s*(\d+)\s*Maintainer:\s*(\\S*)\s*Status:\s*(.+)\s*-->/U",
     $line, $match)) {
         // note the simple quotes
         return array("'" . trim($match[1]) . "'", "'" . trim($match[2]) . "'", "'" . trim($match[3]) . "'");
@@ -472,7 +472,7 @@ function get_original_rev($file)
 
     // Return if this was needed (it should be there)
     // . is for $ in the preg!
-    preg_match("/<!-- .Revision: \d+\.(\d+) . -->/", $line, $match);
+    preg_match("/<!-- .Revision: (\d+) . -->/", $line, $match);
     if (!empty($match)) {
         return $match[1];
     } else {

@@ -1,7 +1,7 @@
 #!/bin/sh
 . `dirname $0`/../build-ops
 
-cd ${CVSDIR}
+cd ${SVNDIR}
 
 TRANSPATH=${DOCWEB}/www/trantools;
 LANGS=`$PHP -r 'include "phpweb/include/languages.inc"; echo implode( " ", array_keys( $LANGUAGES ) );'`;

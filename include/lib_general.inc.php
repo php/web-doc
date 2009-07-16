@@ -25,7 +25,7 @@ require_once dirname(__FILE__) . '/lib_auth.inc.php';
 
 function is_translation($project, $language)
 {
-    return is_dir(CVS_DIR . $GLOBALS['PROJECTS'][$project] . '/' . $language);
+    return is_dir(SVN_DIR . $GLOBALS['PROJECTS'][$project] . '/' . $language);
 }
 
 function is_project($project)
@@ -33,7 +33,7 @@ function is_project($project)
     return isset($GLOBALS['PROJECTS'][$project]);
 }
 
-function get_cvs_dir($project)
+function get_svn_dir($project)
 {
     // @@@ make this return something until the function is found
     return $GLOBALS['PROJECTS'][$project][1] . '/';
@@ -110,13 +110,13 @@ function site_nav_langs()
     );
 }
 
-function site_footer($cvs_version = NULL)
+function site_footer($svn_version = NULL)
 {
     $master = get_insite_address(NULL, NULL, '');
     return DocWeb_Template::get(
         'shared/footer.tpl.php',
         array('master'      => $master,
-              'cvs_version' => $cvs_version)
+              'svn_version' => $svn_version)
     );
 }
 

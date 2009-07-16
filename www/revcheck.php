@@ -155,7 +155,7 @@ if ($dbhandle = sqlite_open($DBLANG)) {
 <th rowspan="2">Name</th>
 <th rowspan="2">Contact email</th>
 <th rowspan="2">Nick</th>
-<th rowspan="2">CVS</th>
+<th rowspan="2">SVN</th>
 <th colspan="7">Files maintained</th>
 </tr>
 <tr>
@@ -171,18 +171,18 @@ TRANSLATORS_HEAD;
             $class = 'old';
 
             foreach ($translators as $nick => $data) {
-                if ($data['cvs'] == 'yes') {
-                    $cvsu = 'x';
+                if ($data['svn'] == 'yes') {
+                    $svnu = 'x';
                     $col = 'old';
                 } else {
-                    $cvsu = '&nbsp;';
+                    $svnu = '&nbsp;';
                     $col = 'wip';
                 }
                 echo '<tr class="', $col, '">' . "\n";
                 echo '<td><a name="maint-'.$nick.'" href="'.BASE_URL. '/revcheck.php?p=files&amp;user='.$nick. '">'. $data['name'] . '</a></td>', "\n";
                 echo '<td>', $data['mail'], '</td>', "\n";
                 echo '<td>', $nick, '</td>', "\n";
-                echo '<td class="c">', $cvsu, '</td>', "\n";
+                echo '<td class="c">', $svnu, '</td>', "\n";
                 echo '<td class="c">&nbsp;</td>' ,
                 '<td class="c">' , @$files_w[$nick]['uptodate'], "</td>" ,
                 '<td class="c">' , @$files_w[$nick]['old'] , "</td>" ,
@@ -422,7 +422,7 @@ END_OF_MULTILINE;
 <table width="820" border="0" cellpadding="4" cellspacing="1" class="Tc">
   <tr class="blue">
     <th rowspan="2">Translated file</th>
-    <th colspan="3">Revision</th>
+    <th colspan="2">Revision</th>
     <th colspan="3">Size in kB</th>
     <th colspan="3">Age in days</th>
     <th rowspan="2">Maintainer</th>
@@ -431,7 +431,6 @@ END_OF_MULTILINE;
   <tr class="blue">
     <th>en</th>
     <th>$LANG</th>
-    <th>diff</th>
     <th>en</th>
     <th>$LANG</th>
     <th>diff</th>
@@ -456,12 +455,10 @@ END_OF_MULTILINE;
                     $rev_diff  = intval($r['en_rev']) - intval($r['trans_rev']);
                     $size_diff = intval($r['en_size']) - intval($r['trans_size']);
                     $date_diff = $r['en_date'] - $r['trans_date'];
-                    if ($rev_diff >= ALERT_REV || $size_diff >= ALERT_SIZE || $date_diff <= ALERT_DATE) {
-                        $status_mark = REV_CRITICAL;
-                    } elseif ($rev_diff === "n/a") {
+                    if ($r['trans_rev'] === 'n/a') {
                         $status_mark = REV_NOREV;
-                    } else {
-                        $status_mark = REV_OLD;
+                    } else if ($rev_diff > 0 || $size_diff >= ALERT_SIZE || $date_diff <= ALERT_DATE) {
+                        $status_mark = REV_CRITICAL;
                     }
                     // Make the maintainer a link, if we have that maintainer in the list
                     if ($r['maintainer'] && $r["maintainer"] != 'nobody') {
@@ -469,27 +466,31 @@ END_OF_MULTILINE;
                     }
 
                     // If we have a 'numeric' revision diff and it is not zero,
-                    // make a link to the CVS repository's diff script
-                    $r['short_name'] = '<a href="http://cvs.php.net/viewvc.cgi/' .
-                    $PROJECTS[$project][2] . $r['name'] .'/' . $r['file'] .
-                    "?r1=1." . $r["trans_rev"] .
-                    "&amp;r2=1." . $r["en_rev"] .
-                    '&amp;view=patch">' . $r['file'] . '</a>';
+                    // make a link to the SVN repository's diff script
+                    if ($r['trans_rev'] !== 'n/a') {
+                        $r['short_name'] = '<a href="http://svn.php.net/viewvc/' .
+                        $PROJECTS[$project][2] . '/trunk/' . $r['name'] . '/' . $r['file'] .
+                        "?r1=" . $r["trans_rev"] .
+                        "&amp;r2=" . $r["en_rev"] .
+                        '&amp;view=patch">' . $r['file'] . '</a>';
 
-                    // Add a [NoWS] link
-                    $r['short_name'] .= ' <a href="http://cvs.php.net/viewvc.cgi/' .
-                    $PROJECTS[$project][2] . $r['name'] .'/' . $r['file'] .
-                    '?r1=1.' . $r['trans_rev'] .
-                    '&amp;r2=1.' . $r['en_rev'] .
-                    '">[NoWS]</a>';
+                        // Add a [NoWS] link
+                        $r['short_name'] .= ' <a href="http://svn.php.net/viewvc/' .
+                        $PROJECTS[$project][2] . '/trunk/' . $r['name'] . '/' . $r['file'] .
+                        '?r1=' . $r['trans_rev'] .
+                        '&amp;r2=' . $r['en_rev'] .
+                        '">[NoWS]</a>';
+                    } else {
+                        $r['short_name'] = $r['file'];
+                    }
+
 
 
                     // Write out the line for the current file (get file name shorter)
                     echo "<tr class=\"{$CSS[$status_mark]}\">".
                     "<td>{$r['short_name']}</td>".
-                    "<td>1.{$r['en_rev']}</td>" .
-                    "<td>1.{$r['trans_rev']}</td>" .
-                    "<td align=\"right\"><strong>" . $rev_diff . "</strong></td>" .
+                    "<td>{$r['en_rev']}</td>" .
+                    "<td>{$r['trans_rev']}</td>" .
                     "<td> {$r['en_size']}</td>" .
                     "<td> {$r['trans_size']}</td>" .
                     "<td align=\"right\"><strong>" . $size_diff . "</strong></td>" .

@@ -22,7 +22,7 @@ $Id$
  */
 define('PHPT_EOL',           "\n");
 define('PHPT_SQLITE_FILE',   SQLITE_DIR . 'tests.sqlite');
-define('PHPT_DOC_PATH',      CVS_DIR . '/' .DOC_DIR. '/en/');
+define('PHPT_DOC_PATH',      SVN_DIR . '/' .DOC_DIR. '/en/');
 
 define('PHPT_LIMIT_RESULTS', 200);
 
@@ -89,7 +89,7 @@ function phpt_extrapolate($row)
                     'test'              => '',
                     'skipif'            => '',
                     'approve_checkbox'  => '',
-                    'cvs_link'          => 'http://cvs.php.net/viewvc.cgi/phpdoc/en/'.$row['location'].'?view=markup',
+                    'svn_link'          => 'http://svn.php.net/viewvc/phpdoc/en/trunk/'.$row['location'].'?view=markup',
                     'test_lines'        => 4,
                     'expected_lines'    => 4,
                     'skipif_lines'      => 1,
@@ -201,7 +201,7 @@ function phpt_list_files($prefix, $path, &$userdata)
         while ($name = readdir($handle)) {
             if (strpos($name, ".xml") !== false) {
                 phpt_scan_file($prefix, $path.$name, $userdata);
-            } else if(is_dir($prefix.$path.$name) && $name !== 'CVS' && $name !== '.' && $name !== '..') {
+            } else if(is_dir($prefix.$path.$name) && $name !== '.svn' && $name !== '.' && $name !== '..') {
                 phpt_list_files($prefix, $path.$name.DIRECTORY_SEPARATOR, $userdata);
             }
 

@@ -17,52 +17,52 @@
 #
 # $Id$
 
-CVSBIN=/usr/bin/cvs
+SVNBIN=/usr/bin/svn
 pushd .
 
 cd `dirname $0`/..
 source ./build-ops
 
-if [ ! -d ${CVSDIR} ]
+if [ ! -d ${SVNDIR} ]
 then
-  echo "Making CVS directory: ${CVSDIR}"
-  /bin/mkdir ${CVSDIR}
+  echo "Making SVN directory: ${SVNDIR}"
+  /bin/mkdir ${SVNDIR}
 fi
 
-echo "Changing to CVS directory: ${CVSDIR}"
-cd ${CVSDIR}
+echo "Changing to SVN directory: ${SVNDIR}"
+cd ${SVNDIR}
 
 echo "Checking out PHP docs..."
 if [ -d ${DOCDIR} ]
 then
-  (cd ${DOCDIR} && ${CVSBIN} up)
+  (cd ${DOCDIR} && ${SVNBIN} up)
 else
-  ${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co -d ${DOCDIR} phpdoc-all
+  ${SVNBIN} co http://svn.php.net/repository/phpdoc/modules/doc-all ${DOCDIR}
 fi
 
 echo "Checking out PHP GTK docs..."
 if [ -d ${GTKDIR} ]
 then
-  (cd ${GTKDIR} && ${CVSBIN} up)
+  (cd ${GTKDIR} && ${SVNBIN} up)
 else
-  ${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co -d ${GTKDIR} php-gtk-doc
+  ${SVNBIN} co http://svn.php.net/repository/gtk/php-gtk-doc/trunk ${GTKDIR}
 fi
 
 echo "Checking out PEAR docs..."
 if [ -d ${PEARDIR} ]
 then
-  (cd ${PEARDIR} && ${CVSBIN} up)
+  (cd ${PEARDIR} && ${SVNBIN} up)
 else
-  ${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co -d ${PEARDIR} peardoc
+  ${SVNBIN} co http://svn.php.net/repository/pear/peardoc/trunk ${PEARDIR}
 fi
 
 echo "Checking out php-src..."
 if [ -d ${SRCDIR} ]
 then
-  (cd ${SRCDIR} && ${CVSBIN} up)
+  (cd ${SRCDIR} && ${SVNBIN} up)
 else
-  BDIR=basename ${SRCDIR}
-  ${CVSBIN} -d :pserver:cvsread@cvs.php.net:/repository co -d ${BDIR} php-src
+  BDIR=`basename ${SRCDIR}`
+  ${SVNBIN} co http://svn.php.net/repository/php/php-src/trunk ${BDIR}
 fi
 
 echo -n "Reverting directory:"

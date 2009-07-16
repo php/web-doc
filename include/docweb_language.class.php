@@ -22,7 +22,7 @@ $Id$
 * PHP DocWeb - Language Class
 *
 * Simple language class. Allows for very simple i18n of DocWeb content
-* Gets data from [cvs]phpdoc-all
+* Gets data from [svn]phpdoc-all
 *
 * @package  docweb
 * @since    2004.09.25
@@ -73,7 +73,7 @@ class DocWeb_Language
     }
 
     /**
-    * Gets entity data from cvs:phpdoc-all/$lang/docweb/main.ent
+    * Gets entity data from svn:phpdoc-all/$lang/docweb/main.ent
     *
     * @param  string  $lang language to 'get'
     * @return array native language texts
@@ -86,7 +86,7 @@ class DocWeb_Language
         }
 
         // use this file:
-        $entFile = CVS_DIR .'/' .DOC_DIR ."/$lang/docweb/main.ent";
+        $entFile = SVN_DIR .'/' .DOC_DIR ."/$lang/docweb/main.ent";
 
         if (is_readable($entFile)) {
             // file is good; get its contents

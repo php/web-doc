@@ -30,17 +30,17 @@ require_once '../include/init.inc.php';
 // determine type (and display usage on fail)
 switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
     case 'phpdoc':
-        $filename = CVS_DIR . '/' . DOC_DIR.  '/entities/global.ent';
+        $filename = SVN_DIR . '/' . DOC_DIR.  '/entities/global.ent';
         $entType = 'php';
         break;
 
     case 'peardoc':
-        $filename = CVS_DIR . '/' . PEAR_DIR. '/global.ent';
+        $filename = SVN_DIR . '/' . PEAR_DIR. '/global.ent';
         $entType = 'pear';
         break;
 
     case 'gtk':
-        $filename = CVS_DIR . GTK_DIR. '/manual/global.ent';
+        $filename = SVN_DIR . GTK_DIR. '/manual/global.ent';
         $entType = 'gtk';
         break;
 
