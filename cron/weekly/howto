@@ -3,8 +3,8 @@
 . `dirname $0`/../../build-ops
 
 cd ${SVNDIR}/${DOCDIR}
-php configure.php --enable-howto
-phd -d ${CVSDIR}/${DOCDIR}/howto/.howto.xml -t howto
+php doc-base/configure.php --enable-howto
+phd -d ${SVNDIR}/${DOCDIR}/doc-base/howto/.howto.xml -t howto
 mv howto/*.php ${DOCWEB}/www/dochowto/
 
 #make howtotgz
