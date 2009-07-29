@@ -1,4 +1,7 @@
+
 TODO for the PHP docweb project:
+
+Remove autoconf/build_ops magic.
 
 Overhaul the entity check:
  It utilizes the livedocs database yet we no longer use livedocs. 
