@@ -35,7 +35,7 @@ switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
         break;
 
     case 'peardoc':
-        $filename = SVN_DIR . '/' . PEAR_DIR. '/global.ent';
+        $filename = SVN_DIR . '/' . PEAR_DIR. '/entities/global.ent';
         $entType = 'pear';
         break;
 
