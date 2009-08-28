@@ -13,6 +13,10 @@
   </p>
   <a>
    <r>
+    <v>0.4.8</v>
+    <s>beta</s>
+   </r>
+   <r>
     <v>0.4.7</v>
     <s>beta</s>
    </r>
@@ -82,8 +86,8 @@
    </r>
   </a>
   <deps>
-   <v>0.4.2</v>
-   <d>a:2:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}}}</d>
+   <v>0.4.8</v>
+   <d>a:2:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:2:{i:0;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:4:&quot;haru&quot;;}}}}</d>
   </deps>
  </pi>
 </f>

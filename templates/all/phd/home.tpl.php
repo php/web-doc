@@ -10,6 +10,16 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/get/PhD-0.4.8.tgz">PhD 0.4.8</a> <span class="date">28. August 2009</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Add support for external troff highlighter in man pages (Christian)</li>
+      <li>Add title attribute to anchor tags so address can be seen in CHM files for external links (Richard Q.)</li>
+      <li>CVS-&gt;SVN langs migration (Philip)</li>
+      <li><?php bugfix(49006); ?> (The manpage format groups function arguments incorrectly) (Moacir)</li>
+      <li><?php bugfix(49005); ?> (Reference sign in function prototypes in the manpage rendering) (Moacir)</li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-0.4.7.tgz">PhD 0.4.7</a> <span class="date">07. May 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added support for &lt;token&gt; (Christian)</li>
