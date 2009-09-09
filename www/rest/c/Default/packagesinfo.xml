@@ -146,5 +146,6 @@
    <d>A package for PhD to render the pear.php.net (peardoc) documentation</d>
    <r xmlns="http://pear.php.net/dtd/rest.package" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.package http://pear.php.net/dtd/rest.package.xsd"/>
   </p>
+ </pi>
 </f>
 
