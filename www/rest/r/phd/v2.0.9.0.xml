@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release2 http://pear.php.net/dtd/rest.release2.xsd">
+ <p xlink:href="rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>0.9.0</v>
+ <a>0.9.0</a>
+ <mp>5.3.0</mp>
+ <st>beta</st>
+ <l>BSD Style</l>
+ <m>moacir</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2009-09-09 09:20:23</da>
+ <n>
+- Use namespaces [moacir]
+- Use PEAR classname conventions [cweiske]
+- Add support for dbhtml Process Instructions (PI) [moacir]
+- Add the --package option [moacir]
+- Add the Generic Package [moacir]
+- Add the phpdotnet/phd namespace [cweiske]
+- Kill themes and add a concept of &quot;packages&quot; [moacir]
+- Rewrite indexer [bjori, loudi, moacir]
+- Rewrite program flow [bjori]
+ </n>
+ <f>34383</f>
+ <g>http://doc.php.net/get/PhD-0.9.0</g>
+ <x xlink:href="package.0.9.0.xml"/>
+</r>

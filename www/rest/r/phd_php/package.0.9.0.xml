@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.8.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="     http://pear.php.net/dtd/tasks-1.0   http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PhD_PHP</name>
+ <channel>doc.php.net</channel>
+ <summary>PHP documentation rendering package for PhD</summary>
+ <description>A package for PhD to render the php.net (phpdoc) documentation</description>
+ <lead>
+  <name>Hannes Magnusson</name>
+  <user>bjori</user>
+  <email>bjori@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Moacir de Oliveira</name>
+  <user>moacir</user>
+  <email>moacir@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-09-09</date>
+ <time>09:20:46</time>
+ <version>
+  <release>0.9.0</release>
+  <api>0.9.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+- Initial release
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="93408f94bedd355eab9f3080988c47e1" name="phpdotnet/phd/Package/PHP/Factory.php" role="php" />
+   <file md5sum="e8b5f7819bcb292fdb5e513f03d32d09" name="phpdotnet/phd/Package/PHP/CHM.php" role="php" />
+   <file md5sum="9130595a78d395e7e99d6e0d2b821be6" name="phpdotnet/phd/Package/PHP/Web.php" role="php" />
+   <file md5sum="97d904ebd28c3b02bb5043c349156e0f" name="phpdotnet/phd/Package/PHP/PDF.php" role="php" />
+   <file md5sum="303c14bc1b5a642c53a6394a3ade008a" name="phpdotnet/phd/Package/PHP/BigXHTML.php" role="php" />
+   <file md5sum="72e016db1c41962520733073d6c45622" name="phpdotnet/phd/Package/PHP/Functions.php" role="php" />
+   <file md5sum="e8f3520d94753fed5e10d762e9dc0106" name="phpdotnet/phd/Package/PHP/BigPDF.php" role="php" />
+   <file md5sum="9ca7ff9fb5ba66d2b2c0184a98d97419" name="phpdotnet/phd/Package/PHP/KDevelop.php" role="php" />
+   <file md5sum="fa0de865d3d9c8c8c766253a557c8ab4" name="phpdotnet/phd/Package/PHP/ChunkedXHTML.php" role="php" />
+   <file md5sum="dfdc6a8574fe4788c3b5ad5d5e24f74f" name="phpdotnet/phd/Package/PHP/HowTo.php" role="php" />
+   <file md5sum="f32e8c9f23ceba5d9375448427dbed67" name="phpdotnet/phd/Package/PHP/XHTML.php" role="php" />
+   <file md5sum="6ba641dc858477469c525bb82017048a" name="phpdotnet/phd/Package/PHP/README" role="doc" />
+   <file md5sum="4ed88f36131095b8f98ce40ab13dbb63" name="phpdotnet/phd/Package/PHP/HOWTO.GENERATE_CHM" role="doc" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.8.0</min>
+   </pearinstaller>
+   <package>
+    <name>PhD</name>
+    <channel>doc.php.net</channel>
+    <min>0.9.0</min>
+   </package>
+   <extension>
+    <name>libxml</name>
+   </extension>
+   <extension>
+    <name>xmlreader</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+  </required>
+  <optional>
+   <extension>
+    <name>haru</name>
+   </extension>
+  </optional>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.9.0</release>
+    <api>0.9.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-09-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Initial release
+   </notes>
+  </release>
+ </changelog>
+</package>

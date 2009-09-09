@@ -10,6 +10,20 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/get/PhD-0.9.0.tgz">PhD 0.9.0</a> <span class="date">09. September 2009</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Use namespaces (Moacir)</li>
+      <li>Use PEAR classname conventions (Christian)</li>
+      <li>Add support for dbhtml Process Instructions (PI) (Moacir)</li>
+      <li>Add the --package option (Moacir)</li>
+      <li>Add the Generic Package (Moacir)</li>
+      <li>Add the phpdotnet/phd namespace (Christian)</li>
+      <li>Kill themes and add a concept of "packages" (Moacir)</li>
+      <li>Rewrite indexer (Hannes, Rudy, Moacir)</li>
+      <li>Rewrite program flow (Hannes)</li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-0.4.8.tgz">PhD 0.4.8</a> <span class="date">28. August 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Add support for external troff highlighter in man pages (Christian)</li>
