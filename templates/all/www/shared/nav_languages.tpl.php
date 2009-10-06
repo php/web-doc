@@ -9,7 +9,7 @@ foreach ($languages as $code => $name) {
     }
 
     if ($code == 'all') {
-        echo 'href="' . get_insite_address(NULL, 'all') . '">&docweb.common.all;</a> '."\n";
+        echo 'href="' . get_insite_address(NULL, 'all') . '">&docweb.common.all;</a>&nbsp;'."\n";
     }
     else {
 
