@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release2 http://pear.php.net/dtd/rest.release2.xsd">
+ <p xlink:href="rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>0.9.1</v>
+ <a>0.9.1</a>
+ <mp>5.3.0</mp>
+ <st>beta</st>
+ <l>BSD Style</l>
+ <m>moacir</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2009-12-21 10:21:16</da>
+ <n>
+- Added fallback option to find English files when unable to find translated files (Richard Quadling)
+- Added VERBOSE_ERRORS, VERBOSE_INFO and VERBOSE_WARNINGS to group verbose levels (Richard Quadling)
+- Added VERBOSE_MISSING_ATTRIBUTES verbose level (Richard Quadling)
+- Separated PhD verbose messages into informational and warnings (Richard Quadling)
+- PhD verbose warning messages are colored magenta (Richard Quadling)
+- Added MediaManger-&gt;findFile() method to return full filename of required image (Richard Quadling)
+- Added the --css option (Moacir)
+- Added the --forceindex option (Christian)
+- Fixed bug #45071 - Links to require/include(_once) not rendered (Moacir)
+- Fixed bug #47406 - Add support for external css (Moacir)
+- Fixed bug #48264 - No style for HTML version of php docs (Moacir)
+- Fixed bug #49547 - default of --color is true, not false (Richard Quadling)
+- Fixed bug #49675 - Missing links in SeeAlso (Moacir)
+- Fixed bug #49743 - Problem with functions both procedural and oo (Moacir)
+- Fixed bug #49839 - Patch to clean up peardoc output (Michael Gauthier)
+- Fixed --noindex option which did not work properly (Christian)
+- Fixed --verbose option which did not work properly (Moacir)
+ </n>
+ <f>37223</f>
+ <g>http://doc.php.net/get/PhD-0.9.1</g>
+ <x xlink:href="package.0.9.1.xml"/>
+</r>

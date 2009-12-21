@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd_php">PhD_PHP</p>
+ <c>doc.php.net</c>
+ <v>0.9.1</v>
+ <st>beta</st>
+ <l>BSD Style</l>
+ <m>moacir</m>
+ <s>PHP documentation rendering package for PhD</s>
+ <d>A package for PhD to render the php.net (phpdoc) documentation</d>
+ <da>2009-12-21 10:21:54</da>
+ <n>
+- Added new format TocFeed (Moacir).
+ </n>
+ <f>18467</f>
+ <g>http://doc.php.net/get/PhD_PHP-0.9.1</g>
+ <x xlink:href="package.0.9.1.xml"/>
+</r>

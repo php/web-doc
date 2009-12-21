@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="     http://pear.php.net/dtd/tasks-1.0   http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PhD_PEAR</name>
+ <channel>doc.php.net</channel>
+ <summary>PEAR formats for PhD</summary>
+ <description>A package for PhD to render the pear.php.net (peardoc) documentation</description>
+ <lead>
+  <name>Christian Weiske</name>
+  <user>cweiske</user>
+  <email>cweiske@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Moacir de Oliveira</name>
+  <user>moacir</user>
+  <email>moacir@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-12-21</date>
+ <time>10:22:08</time>
+ <version>
+  <release>0.9.1</release>
+  <api>0.9.1</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+- Added Next/Prev and Image Zoom buttons to CHM build (Richard Quadling)
+- Add title attribute to anchor tags so address can be seen in CHM files for external links (Richard Quadling)
+- Implemented PEAR request #2390: RSS feeds for PEAR Dcumentation Index (Christian)
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="8e9cf906c406c611081f6f490b888c08" name="phpdotnet/phd/Package/PEAR/BigXHTML.php" role="php" />
+   <file md5sum="d7582a62ad3f624384d3fc4deda28905" name="phpdotnet/phd/Package/PEAR/CHM.php" role="php" />
+   <file md5sum="55df25a01a7c75fb18d3fc5eab9b7eba" name="phpdotnet/phd/Package/PEAR/ChunkedXHTML.php" role="php" />
+   <file md5sum="d7ef31b690e494c75b23551633f84074" name="phpdotnet/phd/Package/PEAR/Factory.php" role="php" />
+   <file md5sum="7af678b2bb87317cf2f8681f9ef54e03" name="phpdotnet/phd/Package/PEAR/TocFeed.php" role="php" />
+   <file md5sum="1d4be59ccaf74a54937a9e643146d231" name="phpdotnet/phd/Package/PEAR/Web.php" role="php" />
+   <file md5sum="41854765f501b3bcb5fdb9b55924ee16" name="phpdotnet/phd/Package/PEAR/XHTML.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.8.0</min>
+   </pearinstaller>
+   <package>
+    <name>PhD</name>
+    <channel>doc.php.net</channel>
+    <min>0.9.0</min>
+   </package>
+   <extension>
+    <name>libxml</name>
+   </extension>
+   <extension>
+    <name>xmlreader</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.9.0</release>
+    <api>0.9.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-09-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Initial release
+   </notes>
+  </release>
+ </changelog>
+</package>

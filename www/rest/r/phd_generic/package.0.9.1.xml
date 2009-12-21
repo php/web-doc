@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="     http://pear.php.net/dtd/tasks-1.0   http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PhD_Generic</name>
+ <channel>doc.php.net</channel>
+ <summary>Generic rendering package for PhD</summary>
+ <description>A generic rendering package for PhD</description>
+ <lead>
+  <name>Hannes Magnusson</name>
+  <user>bjori</user>
+  <email>bjori@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Christian Weiske</name>
+  <user>cweiske</user>
+  <email>cweiske@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Moacir de Oliveira</name>
+  <user>moacir</user>
+  <email>moacir@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-12-21</date>
+ <time>10:21:32</time>
+ <version>
+  <release>0.9.1</release>
+  <api>0.9.1</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+- Added support for errortext (Hannes)
+- Implemented PEAR request #2390: RSS feeds for PEAR Dcumentation Index (Christian)
+- Fixed bug #49925 - imagedata now supports width and/or depth (becomes width and/or height) (Richard Quadling)
+- Removed the format php (Moacir)
+- VERBOSE_MISSING_ATTRIBUTE message generated when missing one of the width/height attributes on imagedata (Richard Quadling)
+- VERBOSE_MISSING_ATTRIBUTE message generated when missing alt attributes on mediaobject  imagedata (Richard Quadling)
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="da9da92508dd4576a166cc5b51c5a28d" name="phpdotnet/phd/Package/Generic/Factory.php" role="php" />
+   <file md5sum="86cbd0d935a8c33bc20cc2046039b55f" name="phpdotnet/phd/Package/Generic/Manpage.php" role="php" />
+   <file md5sum="fef435de5ae3d3a4403295637b8ffb30" name="phpdotnet/phd/Package/Generic/PDF.php" role="php" />
+   <file md5sum="921dd7622900ac01b94bc6de36b7fc2e" name="phpdotnet/phd/Package/Generic/BigXHTML.php" role="php" />
+   <file md5sum="d8213c170fbe830ce43273d27fa3a0c8" name="phpdotnet/phd/Package/Generic/ChunkedXHTML.php" role="php" />
+   <file md5sum="3c50196d5b401bb5d73a10410f3246dd" name="phpdotnet/phd/Package/Generic/TocFeed.php" role="php" />
+   <file md5sum="5b5edf36c5bdf82dfda2df6416979c7f" name="phpdotnet/phd/Package/Generic/XHTML.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.8.0</min>
+   </pearinstaller>
+   <package>
+    <name>PhD</name>
+    <channel>doc.php.net</channel>
+    <min>0.9.0</min>
+   </package>
+   <extension>
+    <name>libxml</name>
+   </extension>
+   <extension>
+    <name>xmlreader</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+  </required>
+  <optional>
+   <extension>
+    <name>haru</name>
+   </extension>
+  </optional>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.9.0</release>
+    <api>0.9.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-09-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Initial release
+   </notes>
+  </release>
+ </changelog>
+</package>

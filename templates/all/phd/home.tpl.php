@@ -10,6 +10,65 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/get/PhD-0.9.1.tgz">PhD 0.9.1</a> <span class="date">21. December 2009</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Added fallback option to find English files when unable to find translated files (Richard Quadling)</li>
+      <li>Added VERBOSE_ERRORS, VERBOSE_INFO and VERBOSE_WARNINGS to group verbose levels (Richard Quadling)</li>
+      <li>Added VERBOSE_MISSING_ATTRIBUTES verbose level (Richard Quadling)</li>
+      <li>Separated PhD verbose messages into informational and warnings (Richard Quadling)</li>
+      <li>PhD verbose warning messages are colored magenta (Richard Quadling)</li>
+      <li>Added MediaManger-&gt;findFile() method to return full filename of required image (Richard Quadling)</li>
+      <li>Added the --css option (Moacir)</li>
+      <li>Added the --forceindex option (Christian)</li>
+      <li>Fixed --noindex option which did not work properly (Christian)</li>
+      <li>Fixed --verbose option which did not work properly (Moacir)</li>
+      <li><?php bugfix(45071); ?> - Links to require/include(_once) not rendered (Moacir)</li>
+      <li><?php bugfix(47406); ?> - Add support for external css (Moacir)</li>
+      <li><?php bugfix(48264); ?> - No style for HTML version of php docs (Moacir)</li>
+      <li><?php bugfix(49547); ?> - default of --color is true, not false (Richard Quadling)</li>
+      <li><?php bugfix(49675); ?> - Missing links in SeeAlso (Moacir)</li>
+      <li><?php bugfix(49743); ?> - Problem with functions both procedural and oo (Moacir)</li>
+      <li><?php bugfix(49839); ?> - Patch to clean up peardoc output (Michael Gauthier)</li>
+      <li>
+        <a href="/get/PhD_Generic-0.9.1.tgz">PhD_Generic 0.9.1</a> <span class="date">21. December 2009</span><!-- {{{ -->
+        <ul class="fixes">
+          <li>Added support for &lt;errortext&gt; (Hannes)</li>
+          <li>Implemented PEAR request #2390: RSS feeds for PEAR Dcumentation Index (Christian)</li>
+          <li>Removed the format php (Moacir)</li>
+          <li>VERBOSE_MISSING_ATTRIBUTE message generated when missing one of the width/height attributes on imagedata (Richard Quadling)</li>
+          <li>VERBOSE_MISSING_ATTRIBUTE message generated when missing alt attributes on mediaobject &gt; imagedata (Richard Quadling)</li>
+          <li><?php bugfix(49925); ?> - imagedata now supports width and/or depth (becomes width and/or height) (Richard Quadling)</li>
+        </ul><!-- }}} -->
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-0.9.1.tgz">PhD_PHP 0.9.1</a> <span class="date">21. December 2009</span><!-- {{{ -->
+        <ul class="fixes">
+          <li>Added new output format TocFeed (Moacir)</li>
+        </ul><!-- }}} -->
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-0.9.1.tgz">PhD_PEAR 0.9.1</a> <span class="date">21. December 2009</span><!-- {{{ -->
+        <ul class="fixes">
+          <li>Added Next/Prev and Image Zoom buttons to CHM build (Richard Quadling)</li>
+          <li>Add title attribute to anchor tags so address can be seen in CHM files for external links (Richard Quadling)</li>
+          <li>Implemented PEAR request #2390: RSS feeds for PEAR Dcumentation Index (Christian)</li>
+        </ul><!-- }}} -->
+      </li>
+      <li>
+        <a href="/get/PhD_GeSHi-0.9.1.tgz">PhD_GeSHi 0.9.1</a> <span class="date">21. December 2009</span><!-- {{{ -->
+        <ul class="fixes">
+          <li>Initial Release (Christian)</li>
+        </ul><!-- }}} -->
+      </li>
+      <li>
+        <a href="/get/PhD_GeSHi11x-0.9.1.tgz">PhD_GeSHi11x 0.9.1</a> <span class="date">21. December 2009</span><!-- {{{ -->
+        <ul class="fixes">
+          <li>Initial Release (Christian)</li>
+        </ul><!-- }}} -->
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-0.9.0.tgz">PhD 0.9.0</a> <span class="date">09. September 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Use namespaces (Moacir)</li>

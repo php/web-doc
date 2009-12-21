@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd_geshi11x">PhD_GeSHi11x</p>
+ <c>doc.php.net</c>
+ <v>0.9.1</v>
+ <st>beta</st>
+ <l>BSD Style</l>
+ <m>moacir</m>
+ <s>GeSHi 1.1.x code highlighter for PhD</s>
+ <d>Provides a GeSHi based syntax highlighter for PhD.
+   It highlights XHTML and man pages.
+   It requires a geshi11x folder in your include path
+   to work properly. GeSHi 1.1.x is currently (as of 2009)
+   under development in svn, so this package
+   may break.</d>
+ <da>2009-12-21 10:22:31</da>
+ <n>
+- Initial release
+ </n>
+ <f>2224</f>
+ <g>http://doc.php.net/get/PhD_GeSHi11x-0.9.1</g>
+ <x xlink:href="package.0.9.1.xml"/>
+</r>

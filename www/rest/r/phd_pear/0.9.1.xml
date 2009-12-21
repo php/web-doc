@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd_pear">PhD_PEAR</p>
+ <c>doc.php.net</c>
+ <v>0.9.1</v>
+ <st>beta</st>
+ <l>BSD Style</l>
+ <m>moacir</m>
+ <s>PEAR formats for PhD</s>
+ <d>A package for PhD to render the pear.php.net (peardoc) documentation</d>
+ <da>2009-12-21 10:22:08</da>
+ <n>
+- Added Next/Prev and Image Zoom buttons to CHM build (Richard Quadling)
+- Add title attribute to anchor tags so address can be seen in CHM files for external links (Richard Quadling)
+- Implemented PEAR request #2390: RSS feeds for PEAR Dcumentation Index (Christian)
+ </n>
+ <f>15093</f>
+ <g>http://doc.php.net/get/PhD_PEAR-0.9.1</g>
+ <x xlink:href="package.0.9.1.xml"/>
+</r>
