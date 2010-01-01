@@ -381,7 +381,7 @@ END_OF_MULTILINE;
         $users = get_translators($dbhandle, $LANG);
 
         if (empty($dirs)) {
-            echo 'no files';
+            echo 'No files';
         } else {
             echo '<p>Choose a directory :</p>';
             echo '<form method="get" action="' . BASE_URL . '/revcheck.php?p=files"><p><select name="dir">';
@@ -408,7 +408,7 @@ END_OF_MULTILINE;
             echo '</select><input type="hidden" name="p" value="files" /><input type="submit" value="See outdated files" /></p></form>';
         }
 
-        if (isset($_GET['dir']) || isset($_GET['user'])) {
+        if (!empty($dirs) && (isset($_GET['dir']) || isset($_GET['user']))) {
             if (isset($_GET['user'])) {
                 $outdated = get_outdated_translator_files($dbhandle, $LANG, $_GET['user']);
             } else {
