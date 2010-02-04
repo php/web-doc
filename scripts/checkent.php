@@ -30,7 +30,7 @@ require_once '../include/init.inc.php';
 // determine type (and display usage on fail)
 switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
     case 'phpdoc':
-        $filename = SVN_DIR . '/' . DOC_DIR.  '/entities/global.ent';
+        $filename = SVN_DIR . '/' . DOC_DIR.  '/doc-base/entities/global.ent';
         $entType = 'php';
         break;
 
