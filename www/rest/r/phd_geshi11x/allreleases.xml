@@ -3,6 +3,10 @@
  <p>PhD_GeSHi11x</p>
  <c>doc.php.net</c>
  <r>
+  <v>1.0.0</v>
+  <s>stable</s>
+ </r>
+ <r>
   <v>0.9.1</v>
   <s>beta</s>
  </r>

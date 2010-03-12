@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>1.0.0</v>
+ <st>stable</st>
+ <l>BSD Style</l>
+ <m>moacir</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2010-03-11 19:02:57</da>
+ <n>
+- Use textual descriptions for VERBOSE_xxx messages (Richard Quadling)
+- Implemented FR#50668 - add xinclude processing in phd. (Shahar Evron)
+- Added support for DBTimestamp Processing Instruction. (Moacir)
+- Added support for edition, inlinemediaobject, exceptionname, firstterm, trademark
+  and edition Docbook5 elements. (Hannes)
+- Updated translations: (Kalle)
+   - Danish
+   - Swedish
+- Disabled colored output on Windows. (Kalle)
+- Fixed bug #45098 - named constants require long opt. (Hannes)
+- Fixed bug #51070 - Double acronym tags in HTML output. (Moacir)
+ </n>
+ <f>38389</f>
+ <g>http://doc.php.net/get/PhD-1.0.0</g>
+ <x xlink:href="package.1.0.0.xml"/>
+</r>

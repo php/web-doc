@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="     http://pear.php.net/dtd/tasks-1.0   http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PhD_PHP</name>
+ <channel>doc.php.net</channel>
+ <summary>PHP documentation rendering package for PhD</summary>
+ <description>A package for PhD to render the php.net (phpdoc) documentation</description>
+ <lead>
+  <name>Hannes Magnusson</name>
+  <user>bjori</user>
+  <email>bjori@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Moacir de Oliveira</name>
+  <user>moacir</user>
+  <email>moacir@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2010-03-11</date>
+ <time>19:03:38</time>
+ <version>
+  <release>1.0.0</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+- Stopped double encoding of entities in CHM TOC, Index and keyword lists (Richard Quadling)
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="5415122f3691fd4b540fa0a8d2d1fedb" name="phpdotnet/phd/Package/PHP/Factory.php" role="php" />
+   <file md5sum="175b2558404fb15b586d053e3ac2f8b0" name="phpdotnet/phd/Package/PHP/CHM.php" role="php" />
+   <file md5sum="3b7ed5bace0e4f24aedf1cc74ff52ae0" name="phpdotnet/phd/Package/PHP/Web.php" role="php" />
+   <file md5sum="0674608025465e074331813bdc1c9e7b" name="phpdotnet/phd/Package/PHP/PDF.php" role="php" />
+   <file md5sum="76e56850e15dd21f69b5b405bd5cf40b" name="phpdotnet/phd/Package/PHP/BigXHTML.php" role="php" />
+   <file md5sum="72e016db1c41962520733073d6c45622" name="phpdotnet/phd/Package/PHP/Functions.php" role="php" />
+   <file md5sum="c02529e072034da7633acbe8c4a16c6f" name="phpdotnet/phd/Package/PHP/BigPDF.php" role="php" />
+   <file md5sum="0ade4d43a20713f397f00226f3bc7736" name="phpdotnet/phd/Package/PHP/KDevelop.php" role="php" />
+   <file md5sum="61fdb668c50ce6108aaa4f7045a363cc" name="phpdotnet/phd/Package/PHP/ChunkedXHTML.php" role="php" />
+   <file md5sum="277bb05668bd964aba88fb28ce5b49fb" name="phpdotnet/phd/Package/PHP/HowTo.php" role="php" />
+   <file md5sum="8f11bb6ca8b8501f74dc0ea35e6d335d" name="phpdotnet/phd/Package/PHP/XHTML.php" role="php" />
+   <file md5sum="9eb0e25a8af067c14a702e4472d5f9f6" name="phpdotnet/phd/Package/PHP/TocFeed.php" role="php" />
+   <file md5sum="6ba641dc858477469c525bb82017048a" name="phpdotnet/phd/Package/PHP/README" role="doc" />
+   <file md5sum="4ed88f36131095b8f98ce40ab13dbb63" name="phpdotnet/phd/Package/PHP/HOWTO.GENERATE_CHM" role="doc" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.8.0</min>
+   </pearinstaller>
+   <package>
+    <name>PhD</name>
+    <channel>doc.php.net</channel>
+    <min>0.9.0</min>
+   </package>
+   <extension>
+    <name>libxml</name>
+   </extension>
+   <extension>
+    <name>xmlreader</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+  </required>
+  <optional>
+   <extension>
+    <name>haru</name>
+   </extension>
+  </optional>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.9.0</release>
+    <api>0.9.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-09-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Initial release
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.1</release>
+    <api>0.9.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-12-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added new format TocFeed (Moacir).
+   </notes>
+  </release>
+ </changelog>
+</package>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="     http://pear.php.net/dtd/tasks-1.0   http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PhD_IDE</name>
+ <channel>doc.php.net</channel>
+ <summary>Render docbook for IDEs</summary>
+ <description>An IDE specific rendering package for PhD</description>
+ <lead>
+  <name>Moacir de Oliveira</name>
+  <user>moacir</user>
+  <email>moacir@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2010-03-11</date>
+ <time>21:19:48</time>
+ <version>
+  <release>1.0.0</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+- Initial release
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="40745797aa30304559012103797e45bf" name="phpdotnet/phd/Package/IDE/API/Function.php" role="php" />
+   <file md5sum="2ccc5edb3f7dfbc9345de7306d0e783d" name="phpdotnet/phd/Package/IDE/API/Param.php" role="php" />
+   <file md5sum="c2e89c8bb5b7bd33066cde88b44663fc" name="phpdotnet/phd/Package/IDE/Factory.php" role="php" />
+   <file md5sum="8f76871cdb58fff805d24ec2b1a26869" name="phpdotnet/phd/Package/IDE/Funclist.php" role="php" />
+   <file md5sum="01537c7715cf333b4d2a490dd4d6b1cf" name="phpdotnet/phd/Package/IDE/Functions.php" role="php" />
+   <file md5sum="43248060652f8f6cd61224e5789725e3" name="phpdotnet/phd/Package/IDE/API.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.8.0</min>
+   </pearinstaller>
+   <package>
+    <name>PhD</name>
+    <channel>doc.php.net</channel>
+    <min>0.9.0</min>
+   </package>
+   <extension>
+    <name>simplexml</name>
+   </extension>
+   <extension>
+    <name>libxml</name>
+   </extension>
+   <extension>
+    <name>xmlreader</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-03-11</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Initial release
+   </notes>
+  </release>
+ </changelog>
+</package>

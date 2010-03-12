@@ -10,6 +10,47 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/get/PhD-1.0.0.tgz">PhD 1.0.0</a> <span class="date">11. March 2010</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Use textual descriptions for VERBOSE_xxx messages (Richard Quadling)</li>
+      <li>Added support for DBTimestamp Processing Instruction. (Moacir)</li>
+      <li>Added support for edition, inlinemediaobject, exceptionname, firstterm, trademark and edition Docbook5 elements. (Hannes)</li>
+      <li>Updated translations: (Kalle)
+        <ul>
+         <li>Danish</li>
+         <li>Swedish</li>
+        </ul>
+      </li>
+      <li>Disabled colored output on Windows. (Kalle)</li>
+      <li>Stopped double encoding of entities in CHM TOC, Index and keyword lists (Richard Quadling)</li>
+      <li><?php bugfix(45098); ?> - Named constants require long opt. (Hannes)</li>
+      <li><?php bugfix(50668); ?> - Add xinclude processing in PhD. (Shahar Evron)</li>
+      <li><?php bugfix(50799); ?> - No text mapping for screen. (Paul Jones)</li>
+      <li><?php bugfix(51070); ?> - Double acronym tags in HTML output. (Moacir)</li>
+      <li>
+        <a href="/get/PhD_IDE-1.0.0.tgz">PhD_IDE 1.0.0</a> <span class="date">11. March 2010</span>
+        <ul class="fixes">
+          <li>Initial Release \o/</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_Generic-1.0.0.tgz">PhD_Generic 1.0.0</a> <span class="date">11. March 2010</span>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.0.0.tgz">PhD_PHP 1.0.0</a> <span class="date">11. March 2010</span>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.0.0.tgz">PhD_PEAR 1.0.0</a> <span class="date">11. March 2010</span>
+      </li>
+      <li>
+        <a href="/get/PhD_GeSHi-1.0.0.tgz">PhD_GeSHi 1.0.0</a> <span class="date">11. March 2010</span>
+      </li>
+      <li>
+        <a href="/get/PhD_GeSHi11x-1.0.0.tgz">PhD_GeSHi11x 1.0.0</a> <span class="date">11. March 2010</span>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-0.9.1.tgz">PhD 0.9.1</a> <span class="date">21. December 2009</span><!-- {{{ -->
     <ul class="fixes">
       <li>Added fallback option to find English files when unable to find translated files (Richard Quadling)</li>

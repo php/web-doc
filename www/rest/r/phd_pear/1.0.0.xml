@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd_pear">PhD_PEAR</p>
+ <c>doc.php.net</c>
+ <v>1.0.0</v>
+ <st>stable</st>
+ <l>BSD Style</l>
+ <m>moacir</m>
+ <s>PEAR formats for PhD</s>
+ <d>A package for PhD to render the pear.php.net (peardoc) documentation</d>
+ <da>2010-03-11 19:03:45</da>
+ <n>
+- notes
+ </n>
+ <f>15138</f>
+ <g>http://doc.php.net/get/PhD_PEAR-1.0.0</g>
+ <x xlink:href="package.1.0.0.xml"/>
+</r>
