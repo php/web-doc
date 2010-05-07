@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="     http://pear.php.net/dtd/tasks-1.0   http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PhD_IDE</name>
+ <channel>doc.php.net</channel>
+ <summary>Render docbook for IDEs</summary>
+ <description>An IDE specific rendering package for PhD</description>
+ <lead>
+  <name>Moacir de Oliveira</name>
+  <user>moacir</user>
+  <email>moacir@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2010-05-07</date>
+ <time>17:26:43</time>
+ <version>
+  <release>1.1.0</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+- New Formats Available:
+    * json
+    * php
+- functions format is now called xml
+- New Base class
+- Added IDE demo
+- Fixed Bug #51482 - PhD_IDE generates invalid XML
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="40745797aa30304559012103797e45bf" name="phpdotnet/phd/Package/IDE/API/Function.php" role="php" />
+   <file md5sum="2ccc5edb3f7dfbc9345de7306d0e783d" name="phpdotnet/phd/Package/IDE/API/Param.php" role="php" />
+   <file md5sum="ddd1858c38c5136f85859d8fac50da53" name="phpdotnet/phd/Package/IDE/Factory.php" role="php" />
+   <file md5sum="1286d8ba345ac2f5b20fdf37770da752" name="phpdotnet/phd/Package/IDE/Funclist.php" role="php" />
+   <file md5sum="d39eb29d86cc808ad9302612cc2fd1f9" name="phpdotnet/phd/Package/IDE/XML.php" role="php" />
+   <file md5sum="16cb1890cd10cec88b62e91b28f52813" name="phpdotnet/phd/Package/IDE/PHP.php" role="php" />
+   <file md5sum="177619e8d47bd768c9a736a9f849c750" name="phpdotnet/phd/Package/IDE/JSON.php" role="php" />
+   <file md5sum="005574bbe53937ab9f93b2745ca0a4e6" name="phpdotnet/phd/Package/IDE/Base.php" role="php" />
+   <file md5sum="a5755b3b1120f51c9c5cef8915756954" name="phpdotnet/phd/Package/IDE/API.php" role="php" />
+   <file md5sum="9377e5e844e296a7d56ce1891f69cbc3" name="phpdotnet/phd/Package/IDE/demo.php" role="script">
+    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+   </file>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.8.0</min>
+   </pearinstaller>
+   <package>
+    <name>PhD</name>
+    <channel>doc.php.net</channel>
+    <min>0.9.0</min>
+   </package>
+   <extension>
+    <name>simplexml</name>
+   </extension>
+   <extension>
+    <name>libxml</name>
+   </extension>
+   <extension>
+    <name>xmlreader</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+  </required>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install as="phd-ide" name="phpdotnet/phd/Package/IDE/demo.php" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-03-11</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Initial release
+   </notes>
+  </release>
+ </changelog>
+</package>
