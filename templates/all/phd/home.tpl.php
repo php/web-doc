@@ -10,6 +10,51 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/get/PhD-1.0.1.tgz">PhD 1.0.1</a> <span class="date">10. August 2010</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Now searches the include-path for custom package classes in the \phpdotnet\phd namespace (Paul M Jones)</li>
+      <li>Added --ext command line option to specify filename extension (Paul M Jones)</li>
+      <li>Added --saveconfig option to generate a config file to load (Hannes)</li>
+      <li>Added 'package_dirs' config option to specify package directories to autoload from (Hannes)</li>
+      <li>Corrected grammar in Danish translation + fixed encoding (Daniel Egeberg)</li>
+      <li>Allow colored output on Windows, but not by default (Richard Quadling)</li>
+      <li>Allow &lt;void/&gt; as return type for methodsynopsis tags rather than &lt;type&gt;void&lt;/type&gt; (Richard Quadling)</li>
+      <li>Added support for &lt;sidebar&gt; (Richard Quadling)</li>
+      <li>Now builds toc/* by default for the PHP package, and added --notoc option to use cached version (Philip)</li>
+      <li>Changed the VERBOSE_DEFAULT error level to exclude VERBOSE_TOC_WRITING messages (Philip)</li>
+      <li>Fixed encoding problems with the function iconv() in the CHM format (Moacir)</li>
+      <li>Fixed the --lang option that was creating an infinite recursion (Moacir)</li>
+      <li>
+        <a href="/get/PhD_Generic-1.0.1.tgz">PhD_Generic 1.0.1</a> <span class="date">10. August 2010</span>
+        <ul class="fixes">
+          <li>Several formatting fixes for the unix manual pages (Hannes)</li>
+          <li>Added Generic Unix Manual pages output format (Hannes)</li>
+          <li>Added format_option to bold options (Philip)</li>
+          <li><?php bugfix(50666); ?> - Missing entries in table (man pages) (Hannes)</li>
+          <li><?php bugfix(51301); ?> - Wrong escape sequence (man pages) (Hannes)</li>
+          <li><?php bugfix(51346); ?> - Extra whitespace when using &lt;type&gt; and plural (Daniel Egeberg)</li>
+          <li><?php bugfix(51514); ?> - Added tr, th and td mappings (Patch provided by Paul M Jones) (Richard Quadling)</li>
+          <li><?php bugfix(51833); ?> - Multiple paragraphs in notes render incorrectly (Daniel Egeberg)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.0.1.tgz">PhD_PHP 1.0.1</a> <span class="date">10. August 2010</span>
+        <ul class="fixes">
+          <li>Added the Persian language for CHM builds (Philip)</li>
+          <li>Made all &gt;refentry&lt; create a new Unix Manual Page (Hannes)</li>
+          <li>Create Unix Manual Page for the predefined variables too (Hannes)</li>
+          <li><?php bugfix(51750); ?> - Add ()'s when rendering methodname elements (Hannes)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.0.1.tgz">PhD_PEAR 1.0.1</a> <span class="date">10. August 2010</span>
+        <ul class="fixes">
+          <li>Added the Persian language for CHM builds (Philip)</li>
+        </ul>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.0.0.tgz">PhD 1.0.0</a> <span class="date">11. March 2010</span><!-- {{{ -->
     <ul class="fixes">
       <li>Use textual descriptions for VERBOSE_xxx messages (Richard Quadling)</li>

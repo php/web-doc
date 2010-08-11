@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd_generic">PhD_Generic</p>
+ <c>doc.php.net</c>
+ <v>1.0.1</v>
+ <st>stable</st>
+ <l>BSD Style</l>
+ <m>moacir</m>
+ <s>Generic rendering package for PhD</s>
+ <d>A generic rendering package for PhD</d>
+ <da>2010-08-10 22:19:12</da>
+ <n>
+- Fixed #51514 - Added tr, th and td mappings (Patch provided by Paul M Jones) (Richard Quadling)
+- Fixed #51346 - Extra whitespace when using &lt;type&gt; and plural (Daniel Egeberg)
+- Fixed #50666 - Missing entries in table (man pages) (Hannes)
+- Fixed #51301 - Wrong escape sequence (man pages) (Hannes)
+- Several formatting fixes for the unix manual pages (Hannes)
+- Added Generic Unix Manual pages output format (Hannes)
+- Fixed #51833 - Multiple paragraphs in notes render incorrectly (Daniel Egeberg)
+- Added format_option to bold options (Philip)
+ </n>
+ <f>27225</f>
+ <g>http://doc.php.net/get/PhD_Generic-1.0.1</g>
+ <x xlink:href="package.1.0.1.xml"/>
+</r>

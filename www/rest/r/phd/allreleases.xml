@@ -3,6 +3,10 @@
  <p>PhD</p>
  <c>doc.php.net</c>
  <r>
+  <v>1.0.1</v>
+  <s>stable</s>
+ </r>
+ <r>
   <v>1.0.0</v>
   <s>stable</s>
  </r>
@@ -79,11 +83,11 @@
   <s>snapshot</s>
  </r>
  <r>
-  <v>0.1RC1</v>
-  <s>snapshot</s>
- </r>
- <r>
   <v>0.1.0</v>
   <s>beta</s>
+ </r>
+ <r>
+  <v>0.1RC1</v>
+  <s>snapshot</s>
  </r>
 </a>
