@@ -459,7 +459,11 @@ END_OF_MULTILINE;
                         $status_mark = REV_NOREV;
                     } else if ($rev_diff > 0 || $size_diff >= ALERT_SIZE || $date_diff <= ALERT_DATE) {
                         $status_mark = REV_CRITICAL;
+                    } else {
+                        // We need a value here for the CSS, default to 'old'
+                        $status_mark = REV_OLD;
                     }
+
                     // Make the maintainer a link, if we have that maintainer in the list
                     if ($r['maintainer'] && $r["maintainer"] != 'nobody') {
                         $r["maintainer"] = '<a href="?p=translators#maint-' . $r['maintainer'] . '">' . $r["maintainer"] . '</a>';
