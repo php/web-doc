@@ -20,7 +20,7 @@
  * @author    Vincent Gevers <vincent@php.net>
  * @author    Tobias Schlitt <toby@php.net>
  * @author    Daniel Convissor <danielc@php.net>
- * @copyright Copyright (c) 1997-2009 The PHP Group
+ * @copyright Copyright (c) 1997-2011 The PHP Group
  * @license   http://www.php.net/license/3_0.txt  PHP License
  * @version   $Id$
  */

@@ -3,7 +3,7 @@
 +----------------------------------------------------------------------+
 | PHP Documentation Site Source Code                                   |
 +----------------------------------------------------------------------+
-| Copyright (c) 2005-2009 The PHP Group                                |
+| Copyright (c) 2005-2011 The PHP Group                                |
 | Copyright (c) 1997-2004 Dave Barr                                    |
 +----------------------------------------------------------------------+
 | This source file is subject to version 3.0 of the PHP license,       |
