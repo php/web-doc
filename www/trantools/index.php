@@ -48,12 +48,12 @@ foreach ($files as $filename) {
 }
 
 foreach ($keepers as $cc => $kept) {
-	
+
 	if (!is_array($kept) || empty($kept)) {
 		continue;
 	}
 
-	echo "<h3>$cc</h3>\n";
+	echo "<h3 id='$cc'>$cc</h3>\n";
 	echo "<ul>\n";
 
 	foreach ($kept as $filename) {
