@@ -13,6 +13,10 @@
   </p>
   <a>
    <r>
+    <v>1.1.0</v>
+    <s>stable</s>
+   </r>
+   <r>
     <v>1.0.1</v>
     <s>stable</s>
    </r>
@@ -118,6 +122,10 @@
   </p>
   <a>
    <r>
+    <v>1.1.0</v>
+    <s>stable</s>
+   </r>
+   <r>
     <v>1.0.1</v>
     <s>stable</s>
    </r>
@@ -151,6 +159,10 @@
   </p>
   <a>
    <r>
+    <v>1.1.0</v>
+    <s>stable</s>
+   </r>
+   <r>
     <v>1.0.1</v>
     <s>stable</s>
    </r>
@@ -183,6 +195,10 @@
    <r xmlns="http://pear.php.net/dtd/rest.package" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.package http://pear.php.net/dtd/rest.package.xsd"/>
   </p>
   <a>
+   <r>
+    <v>1.1.0</v>
+    <s>stable</s>
+   </r>
    <r>
     <v>1.0.1</v>
     <s>stable</s>

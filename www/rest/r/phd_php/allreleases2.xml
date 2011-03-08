@@ -3,6 +3,11 @@
  <p>PhD_PHP</p>
  <c>doc.php.net</c>
  <r>
+  <v>1.1.0</v>
+  <s>stable</s>
+  <m>5.3.0</m>
+ </r>
+ <r>
   <v>1.0.1</v>
   <s>stable</s>
   <m>5.3.0</m>

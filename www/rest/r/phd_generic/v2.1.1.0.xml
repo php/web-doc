@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release2 http://pear.php.net/dtd/rest.release2.xsd">
+ <p xlink:href="rest/p/phd_generic">PhD_Generic</p>
+ <c>doc.php.net</c>
+ <v>1.1.0</v>
+ <a>1.1.0</a>
+ <mp>5.3.0</mp>
+ <st>stable</st>
+ <l>BSD Style</l>
+ <m>moacir</m>
+ <s>Generic rendering package for PhD</s>
+ <d>A generic rendering package for PhD</d>
+ <da>2011-03-07 21:33:28</da>
+ <n>
+Allow xml:id on &lt;table&gt; (Richard Quadling)
+Add class=&quot;note&quot; to &lt;note&gt;s generated &lt;blockquote&gt; (Hannes)
+Generate an ID for &lt;refsect1&gt; (Hannes)
+Generate IDS for all &lt;example&gt;s (Hannes)
+ </n>
+ <f>27463</f>
+ <g>http://doc.php.net/get/PhD_Generic-1.1.0</g>
+ <x xlink:href="package.1.1.0.xml"/>
+</r>

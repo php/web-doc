@@ -10,6 +10,37 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 
 <ul id="releases">
   <li>
+    <a href="/get/PhD-1.1.0.tgz">PhD 1.1.0</a> <span class="date">08. March 2011</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Added support for package cli options (Moacir)</li>
+      <li>Do not disable color configuration settings when loading from phd.config.php on Windows when saved setting is enabled (Richard Quadling)</li>
+      <li>Using saveconfig once no longer saves the config on every call to render (Richard Quadling)</li>
+      <li>Restoring a saved config now correctly sets the error reporting level to the restored verbosity (Richard Quadling)</li>
+      <li>
+        <a href="/get/PhD_Generic-1.1.0.tgz">PhD_Generic 1.1.0</a> <span class="date">08. March 2011</span>
+        <ul class="fixes">
+          <li>Allow xml:id on &lt;table&gt; (Richard Quadling)</li>
+          <li>Add class="note" to &lt;note&gt;s generated &lt;blockquote&gt; (Hannes)</li>
+          <li>Generate an ID for &lt;refsect1&gt; (Hannes)</li>
+          <li>Generate IDS for all &lt;example&gt;s (Hannes)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.0.tgz">PhD_PHP 1.1.0</a> <span class="date">08. March 2011</span>
+        <ul class="fixes">
+          <li>New output format Epub (Moacir)</li>
+          <li>Prepare CHM rendering to use the new CSS rules (Richard Quadling)</li>
+          <li>Display a message when loading an external stylesheet (Richard Quadling)</li>
+          <li>Incorporate stylesheet names supplied at the command line into the CHM file (Richard Quadling)</li>
+          <li>New output format EnhancedCHM - the same as CHM but with the User Notes (Requires ext/bz2) (Richard Quadling)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.1.0.tgz">PhD_PEAR 1.1.0</a> <span class="date">08. March 2011</span>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.0.1.tgz">PhD 1.0.1</a> <span class="date">10. August 2010</span><!-- {{{ -->
     <ul class="fixes">
       <li>Now searches the include-path for custom package classes in the \phpdotnet\phd namespace (Paul M Jones)</li>
