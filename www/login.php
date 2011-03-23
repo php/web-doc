@@ -3,7 +3,8 @@
 
 include '../include/init.inc.php';
 
-if (isset($_COOKIE['MAGIC_COOKIE']) || !empty($_POST)) {
+// FIXME: MAGIC_COKIE disabled
+if (!empty($_POST)) {
     require_once '../include/lib_auth.inc.php';
     auth();
         

@@ -23,53 +23,45 @@
 
 require_once(dirname(__FILE__) . '/../build-ops.php');
 
-function auth_vs_cvs($name, $pass)
+function auth_vs_svn($user, $pass, &$errors = null)
 {
-	$cvs_encode = array(
-		32, 120,  53,  35,  36, 109,  72, 108,
-		70,  64,  76,  67, 116,  74,  68,  87,
-		111,  52,  75, 119,  49,  34,  82,  81,
-		95,  65, 112,  86, 118, 110, 122, 105,
-		64,  57,  83,  43,  46, 102,  40,  89,
-		38, 103,  45,  50,  42, 123,  91,  35,
-		125,  55,  54,  66, 124, 126,  59,  47,
-		92,  71, 115,  91,  92,  93,  94,  56,
-		96, 121, 117, 104, 101, 100,  69,  73,
-		99,  63,  94,  93,  39,  37,  61,  48,
-		58, 113,  32,  90,  44,  98,  60,  51,
-		33,  97,  62, 123, 124, 125, 126, 127 
-	);
+    $errors = array();
 
-	$cvsinfo = array('host'=>'cvs.php.net', 'port'=>2401, 'repos'=>'/repository');
+    $post = http_build_query(
+        array(
+            'token' => getenv('AUTH_TOKEN'),
+            'username' => $user,
+            'password' => $pass,
+        )    
+    );   
 
-	/* encode the password for cvs */
-	$encpwd = 'A';
-	$l = strlen($pass);
-	for ($i = 0; $i < $l; $i++) {
-		$o = ord($pass{$i});
-		if ($o >= 32 && $o <= 127) {
-			$encpwd .= chr($cvs_encode[$o - 32]);
-		} else {
-			$encpwd .= $pass{$i};
-		}
-	}
+    $opts = array(
+        'method'    => 'POST',
+        'header'    => 'Content-type: application/x-www-form-urlencoded',
+        'content'   => $post,
+    );   
 
-	$cvs = fsockopen($cvsinfo['host'], $cvsinfo['port'], $errno, $errstr);
-	if (!$cvs)
-		return false;
-	
-	$pkt = "BEGIN AUTH REQUEST\n$cvsinfo[repos]\n$name\n$encpwd\nEND AUTH REQUEST\n";
-	
-	fwrite($cvs, $pkt);
-	$response = fgets($cvs);
-	fclose($cvs);
+    $ctx = stream_context_create(array('http' => $opts));
 
-	return !strncmp($response, 'I LOVE YOU', 10);
+    $s = file_get_contents('https://master.php.net/fetch/cvsauth.php', false, $ctx);
+
+    $a = @unserialize($s);
+    if (!is_array($a)) {
+        $errors[] = "Failed to get authentication information.\nMaybe master is down?\n";
+        return false;
+    }    
+    if (isset($a['errno'])) {
+        $errors[] = "Authentication failed: {$a['errstr']}\n";
+        return false;
+    }    
+
+    return true;
 }
+
 
 /**
  * Check local credential cache before sending extra queries
- * to cvs.php.net
+ * to master.php.net
  */
 function auth_vs_local ($idx, $user, $pass) {
 
@@ -97,10 +89,7 @@ function auth_vs_local ($idx, $user, $pass) {
 function verify_password($user, $pass) {
 	global $idx;
 
-	/**
-	 * You cannot auth as our cvsread@php.net pseudo user
-	 */
-	if (!$user || !$pass || $user == 'cvsread') {
+	if (!$user || !$pass) {
 		return false;
 	}
 
@@ -108,9 +97,7 @@ function verify_password($user, $pass) {
 		return true;
 	}
 
-	if (auth_vs_cvs($user, $pass)) {
-
-		sqlite_query($idx, "REPLACE INTO auth VALUES ('" . sqlite_escape_string($user) . "', '" . sha1($pass) . "', '" . time() . "')");
+	if (auth_vs_svn($user, $pass)) {
 		return true;
 	}
 
