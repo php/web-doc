@@ -26,6 +26,8 @@ if (!$idx = sqlite_open(SQLITE_DIR . 'users.sqlite')) {
     die ('auth DB not available');
 }
 
+$user = null; // Register globals...
+
 //list of docweb admins that have 'special' rights
 $admins = array(
     'didou',
