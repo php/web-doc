@@ -10,11 +10,11 @@
  <m>phpdoc</m>
  <s>PHP Unix manual pages</s>
  <d>Unix manual pages of the PHP documentations from php.net.</d>
- <da>2011-04-16 14:48:54</da>
+ <da>2011-04-16 15:30:53</da>
  <n>
 New release \o/
  </n>
- <f>5206885</f>
+ <f>5206903</f>
  <g>http://doc.php.net/get/pman-2011.04.16</g>
  <x xlink:href="package.2011.04.16.xml"/>
 </r>
