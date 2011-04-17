@@ -245,7 +245,7 @@
    </r>
   </a>
   <deps>
-   <v>0.9.1</v>
+   <v>1.0.0</v>
    <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.3.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.8.0&quot;;}s:7:&quot;package&quot;;a:2:{i:0;a:3:{s:4:&quot;name&quot;;s:3:&quot;PhD&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;s:3:&quot;min&quot;;s:5:&quot;0.9.0&quot;;}i:1;a:4:{s:4:&quot;name&quot;;s:5:&quot;geshi&quot;;s:7:&quot;channel&quot;;s:28:&quot;mediawiki.googlecode.com/svn&quot;;s:3:&quot;min&quot;;s:5:&quot;1.0.0&quot;;s:11:&quot;recommended&quot;;s:5:&quot;1.0.0&quot;;}}}}</d>
   </deps>
  </pi>
@@ -275,7 +275,7 @@
    </r>
   </a>
   <deps>
-   <v>0.9.1</v>
+   <v>1.0.0</v>
    <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.3.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.8.0&quot;;}s:7:&quot;package&quot;;a:3:{s:4:&quot;name&quot;;s:3:&quot;PhD&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;s:3:&quot;min&quot;;s:5:&quot;0.9.0&quot;;}}}</d>
   </deps>
  </pi>
@@ -316,6 +316,10 @@
   </p>
   <a>
    <r>
+    <v>2011.04.17</v>
+    <s>stable</s>
+   </r>
+   <r>
     <v>2011.04.16</v>
     <s>stable</s>
    </r>
@@ -337,8 +341,8 @@
    </r>
   </a>
   <deps>
-   <v>1.0.1</v>
-   <d>a:1:{s:8:&quot;required&quot;;a:2:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}}}</d>
+   <v>2011.04.17</v>
+   <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.0.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.9.0&quot;;}s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:4:&quot;zlib&quot;;}}}</d>
   </deps>
  </pi>
 </f>
