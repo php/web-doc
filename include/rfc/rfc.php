@@ -751,7 +751,7 @@ class proposal {
     { // !!!
         global $dbh;
 
-        $master_url = 'http://doc.php.net/';
+        $master_url = 'https://doc.php.net/';
         require dirname(__FILE__) . '/rfc-emails.php';
         $email = $proposalEmailTexts[$event];
         if (empty($email)) {
@@ -868,7 +868,7 @@ class proposal {
         $email['to'] = array_shift($to);
         $headers = "CC: ". implode(", ", $to) . "\n";
         $headers .= "From: " . $from . "\n";
-        $headers .= "X-Mailer: " . "RFC, Docweb Proposal System <http://doc.php.net/>" . "\n";
+        $headers .= "X-Mailer: " . "RFC, Docweb Proposal System <https://doc.php.net/>" . "\n";
         $headers .= "X-RFC-Category: " . $this->pkg_category . "\n";
         $headers .= "X-RFC-Name: " . $this->pkg_name . "\n";
         $headers .= "X-RFC-Status: " . $this->getStatus() . "\n";

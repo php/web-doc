@@ -51,11 +51,11 @@ function auth()
 
     if (isset($_POST['username']) && isset($_POST['passwd'])) {
         if (!verify_password($_POST['username'], $_POST['passwd'])) {
-            header ('Location: http://doc.php.net/login.php?return='.$return);
+            header ('Location: https://doc.php.net/login.php?return='.$return);
             exit;
         }
     } else {
-        header ('Location: http://doc.php.net/login.php?return='.$return);
+        header ('Location: https://doc.php.net/login.php?return='.$return);
         exit;
     }
 }

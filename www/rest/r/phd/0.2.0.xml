@@ -18,6 +18,6 @@
 - Fixed bug#43192 (Chunked HTML output difficult to use without TOC). (Edward Z. Yang)
 - Fixed bug#43191 (build.php fails to included necessary theme dependencies). (Edward Z. Yang, Richard Q)</n>
  <f>23669</f>
- <g>http://doc.php.net/get/PhD-0.2.0</g>
+ <g>https://doc.php.net/get/PhD-0.2.0</g>
  <x xlink:href="package.0.2.0.xml"/>
 </r>

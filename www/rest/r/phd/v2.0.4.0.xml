@@ -34,6 +34,6 @@
 - Fixed a bug where it wasn't possible to have paths with spaces in when using phd.bat. (Kalle)
 - Fixed xhtml validation issue for itemizedlist. (Christian)</n>
  <f>66841</f>
- <g>http://doc.php.net/get/PhD-0.4.0</g>
+ <g>https://doc.php.net/get/PhD-0.4.0</g>
  <x xlink:href="package.0.4.0.xml"/>
 </r>

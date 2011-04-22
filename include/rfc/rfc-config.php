@@ -91,4 +91,4 @@ define('PROPOSAL_EMAIL_PREFIX', '[RFC]');
 /**
  * RFC: the string put on the end of each email
  */
-define('PROPOSAL_EMAIL_POSTFIX', "\n\n-- \nSent by RFC, the automatic proposal system at http://doc.php.net");
+define('PROPOSAL_EMAIL_POSTFIX', "\n\n-- \nSent by RFC, the automatic proposal system at https://doc.php.net");

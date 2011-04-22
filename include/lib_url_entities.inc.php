@@ -23,7 +23,7 @@ $Id$
 */
 
 // user agent
-define('DOCWEB_CRAWLER_USER_AGENT', 'DocWeb Link Crawler (http://doc.php.net)');
+define('DOCWEB_CRAWLER_USER_AGENT', 'DocWeb Link Crawler (https://doc.php.net)');
 
 // for results
 define('SUCCESS',             0);
