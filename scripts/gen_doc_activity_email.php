@@ -34,7 +34,7 @@ require '../build-ops.php';
 
 date_default_timezone_set('UTC');
 
-define('DEBUG_MODE', TRUE); // Enable to not send emails.
+define('DEBUG_MODE', FALSE); // Enable to not send emails.
 define('EMAIL_TEMPLATE_FILENAME', '../templates/emails/email-template-doc-activity.txt');
 define('DAYS_LOOKUP', 7); // Number of days, in the past, to search/use for the report
 
