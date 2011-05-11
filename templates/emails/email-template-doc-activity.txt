@@ -15,7 +15,7 @@ Those who closed documentation bugs:
 
 BUGS_CLOSED
 
-Those who handled with user notes:
+Those who handled user notes:
 -----------------------------------------------
   (actions: delete, reject, edit)
 
