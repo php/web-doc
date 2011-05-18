@@ -21,3 +21,7 @@ Those who handled user notes:
 
 NOTES_HANDLED
 
+---
+See also: 
+ - Edit the documentation online: https://edit.php.net/
+ - Documentation HOWTO: https://doc.php.net/dochowto/
