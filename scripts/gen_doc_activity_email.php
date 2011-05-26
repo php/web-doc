@@ -41,6 +41,7 @@ define('DAYS_LOOKUP', 7); // Number of days, in the past, to search/use for the 
 $svn_modules = array('phpdoc', 'phd', 'web/doc-editor');
 $time_past   = date('Y-m-d', strtotime('-'. DAYS_LOOKUP . ' days'));
 $time_future = date('Y-m-d', strtotime('+'. DAYS_LOOKUP . ' days'));
+$time_now    = date('Y-m-d');
 
 if (!function_exists('sqlite_open')) {
 	echo 'Fail. I require ext/sqlite to work.', PHP_EOL;
