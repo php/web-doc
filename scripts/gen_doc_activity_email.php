@@ -40,7 +40,7 @@ define('DAYS_LOOKUP', 7); // Number of days, in the past, to search/use for the 
 
 $svn_modules = array('phpdoc', 'phd', 'web/doc-editor');
 $time_past   = date('Y-m-d', strtotime('-'. DAYS_LOOKUP . ' days'));
-$time_now    = date('Y-m-d');
+$time_future = date('Y-m-d', strtotime('+'. DAYS_LOOKUP . ' days'));
 
 if (!function_exists('sqlite_open')) {
 	echo 'Fail. I require ext/sqlite to work.', PHP_EOL;
@@ -66,7 +66,7 @@ $counts = array();
 $text   = '';
 foreach ($svn_modules as $svn_module) {
 	
-	$command = "svn log http://svn.php.net/repository/$svn_module --revision \{$time_past}:\{$time_now} --non-interactive --xml";
+	$command = "svn log http://svn.php.net/repository/$svn_module --revision \{$time_past}:\{$time_future} --non-interactive --xml";
 	$results = shell_exec($command);
 	
 	// Elementless XML file has strlen of 35
