@@ -169,7 +169,7 @@ $email_text = str_replace('SVN_MODULES_LIST', implode($svn_modules, ', '), $emai
 $email_text = str_replace('DATES_ACTIVITY', "$time_past to $time_now", $email_text);
 
 if (!DEBUG_MODE) {
-	mail('phpdoc@lists.php.net', 'Last weeks PHP documentation activity report', $email_text, 'From: noreply@php.net', '-fnoreply@php.net');
+	mail('phpdoc@lists.php.net', 'The weekly PHP documentation activity report', $email_text, 'From: noreply@php.net', '-fnoreply@php.net');
 } else {
 	echo $email_text;
 }
