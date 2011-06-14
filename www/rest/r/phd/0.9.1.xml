@@ -30,6 +30,6 @@
 - Fixed --verbose option which did not work properly (Moacir)
  </n>
  <f>37223</f>
- <g>https://doc.php.net/get/PhD-0.9.1</g>
+ <g>http://doc.php.net/get/PhD-0.9.1</g>
  <x xlink:href="package.0.9.1.xml"/>
 </r>

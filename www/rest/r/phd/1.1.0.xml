@@ -17,6 +17,6 @@ Using saveconfig once no longer saves the config on every call to render (Richar
 Restoring a saved config now correctly sets the error reporting level to the restored verbosity (Richard Quadling)
  </n>
  <f>41560</f>
- <g>https://doc.php.net/get/PhD-1.1.0</g>
+ <g>http://doc.php.net/get/PhD-1.1.0</g>
  <x xlink:href="package.1.1.0.xml"/>
 </r>

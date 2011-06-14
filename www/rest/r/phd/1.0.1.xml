@@ -25,6 +25,6 @@
 - Fixed the --lang option that was creating an infinite recursion (Moacir)
  </n>
  <f>40280</f>
- <g>https://doc.php.net/get/PhD-1.0.1</g>
+ <g>http://doc.php.net/get/PhD-1.0.1</g>
  <x xlink:href="package.1.0.1.xml"/>
 </r>

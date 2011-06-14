@@ -28,6 +28,6 @@
 - Fixed bug#43421 (All intra-document hyperlinks broken in the Single HTML file form of manual)
 - Fixed bug#43416 (Function links do not render as links)</n>
  <f>26418</f>
- <g>https://doc.php.net/get/PhD-0.2.2</g>
+ <g>http://doc.php.net/get/PhD-0.2.2</g>
  <x xlink:href="package.0.2.2.xml"/>
 </r>

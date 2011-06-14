@@ -18,6 +18,6 @@
 - Fix PEAR bug #15967: Wrong ID passed to pearweb manualFooter() (Christian)
  </n>
  <f>76173</f>
- <g>https://doc.php.net/get/PhD-0.4.6</g>
+ <g>http://doc.php.net/get/PhD-0.4.6</g>
  <x xlink:href="package.0.4.6.xml"/>
 </r>

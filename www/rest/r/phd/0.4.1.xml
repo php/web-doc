@@ -28,6 +28,6 @@
 - Change double quotes to single ones, gives speedup for pear builds (Brett)
 - Docblock enhancements and Coding Standards fixes (Brett)</n>
  <f>71232</f>
- <g>https://doc.php.net/get/PhD-0.4.1</g>
+ <g>http://doc.php.net/get/PhD-0.4.1</g>
  <x xlink:href="package.0.4.1.xml"/>
 </r>

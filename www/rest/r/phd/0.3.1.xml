@@ -20,6 +20,6 @@
 - Fixed bug#45618 (Bad filenames in man pages). (Rudy)
 - Fixed unclosed div element on set pages. (Hannes)</n>
  <f>53801</f>
- <g>https://doc.php.net/get/PhD-0.3.1</g>
+ <g>http://doc.php.net/get/PhD-0.3.1</g>
  <x xlink:href="package.0.3.1.xml"/>
 </r>

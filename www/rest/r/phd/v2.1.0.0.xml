@@ -26,6 +26,6 @@
 - Fixed bug #51070 - Double acronym tags in HTML output. (Moacir)
  </n>
  <f>38389</f>
- <g>https://doc.php.net/get/PhD-1.0.0</g>
+ <g>http://doc.php.net/get/PhD-1.0.0</g>
  <x xlink:href="package.1.0.0.xml"/>
 </r>

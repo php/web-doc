@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.6.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>PhD</name>
- <uri>https://doc.php.net/phd/phd-0.2.2</uri>
+ <uri>http://doc.php.net/phd/phd-0.2.2</uri>
  <summary>A PHP based Docbook renderer</summary>
  <description>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL
   and various other requirements needed to build the PHP.net documentation</description>
