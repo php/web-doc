@@ -6,9 +6,9 @@
  <servers>
   <primary>
    <rest>
-    <baseurl type="REST1.0">https://doc.php.net/rest/</baseurl>
-    <baseurl type="REST1.1">https://doc.php.net/rest/</baseurl>
-    <baseurl type="REST1.3">https://doc.php.net/rest/</baseurl>
+    <baseurl type="REST1.0">http://doc.php.net/rest/</baseurl>
+    <baseurl type="REST1.1">http://doc.php.net/rest/</baseurl>
+    <baseurl type="REST1.3">http://doc.php.net/rest/</baseurl>
    </rest>
   </primary>
  </servers>
