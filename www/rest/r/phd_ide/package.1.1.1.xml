@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="     http://pear.php.net/dtd/tasks-1.0   http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PhD_IDE</name>
+ <channel>doc.php.net</channel>
+ <summary>Render docbook for IDEs</summary>
+ <description>An IDE specific rendering package for PhD</description>
+ <lead>
+  <name>Moacir de Oliveira</name>
+  <user>moacir</user>
+  <email>moacir@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2011-06-21</date>
+ <time>20:55:53</time>
+ <version>
+  <release>1.1.1</release>
+  <api>1.1.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+- Added first version of PHPStub package format (Alexey Shein)
+- Added changelog information (Philip)
+- Added the description of parameters (Moacir)
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="cd5d8ee9906a93e2e707c0d010a21742" name="phpdotnet/phd/Package/IDE/API/Function.php" role="php" />
+   <file md5sum="a58bd2b9a25f53055f64824f0c85fb48" name="phpdotnet/phd/Package/IDE/API/Param.php" role="php" />
+   <file md5sum="f9f861687f86ec43d97c0f9eb2e626c6" name="phpdotnet/phd/Package/IDE/Factory.php" role="php" />
+   <file md5sum="d3f3bdd189bcb8a818d7f7a3f2f2c398" name="phpdotnet/phd/Package/IDE/Funclist.php" role="php" />
+   <file md5sum="f8ca883f4f4cbe021fcd764495b8e3ba" name="phpdotnet/phd/Package/IDE/XML.php" role="php" />
+   <file md5sum="b5a663c2df5a458e3337a981e5dbf4ee" name="phpdotnet/phd/Package/IDE/PHP.php" role="php" />
+   <file md5sum="f0e5168c0641000d2c8ce27f86c106e8" name="phpdotnet/phd/Package/IDE/PHPStub.php" role="php" />
+   <file md5sum="3d209d124bebb3a921d8aa49644756c8" name="phpdotnet/phd/Package/IDE/JSON.php" role="php" />
+   <file md5sum="8b88a85fa83a609e5ec8947767f3e0e8" name="phpdotnet/phd/Package/IDE/Base.php" role="php" />
+   <file md5sum="02d44690802a0895885eb20c1ad61ed8" name="phpdotnet/phd/Package/IDE/API.php" role="php" />
+   <file md5sum="447bfdf29791aa5e75adb030d7496b11" name="phpdotnet/phd/Package/IDE/demo.php" role="script">
+    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+   </file>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.8.0</min>
+   </pearinstaller>
+   <package>
+    <name>PhD</name>
+    <channel>doc.php.net</channel>
+    <min>0.9.0</min>
+   </package>
+   <extension>
+    <name>simplexml</name>
+   </extension>
+   <extension>
+    <name>libxml</name>
+   </extension>
+   <extension>
+    <name>xmlreader</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+  </required>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install as="phd-ide" name="phpdotnet/phd/Package/IDE/demo.php" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2010-03-11</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Initial release
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-05-07</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- New Formats Available:
+    * json
+    * php
+- functions format is now called xml
+- New Base class
+- Added IDE demo
+- Fixed Bug #51482 - PhD_IDE generates invalid XML
+   </notes>
+  </release>
+ </changelog>
+</package>

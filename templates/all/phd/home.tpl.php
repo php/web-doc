@@ -9,6 +9,46 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 <p>PhD releases:</p>
 
 <ul id="releases">
+
+  <li>
+    <a href="/get/PhD-1.1.1.tgz">PhD 1.1.1</a> <span class="date">21. June 2011</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Improved the performance of the indexer by ~ 75%. (Hannes)</li>
+      <li>Added --quit option to quit after processing command line params. Useful when used with --saveconfig to just save the config (Richard Quadling)</li>
+      <li>Output directory can now be nested (for example /rendering/PHP/en) (Richard Quadling)</li>
+      <li>New translations:
+        <ul>
+          <li>Spanish (Pablo Bangueses)</li>
+          <li>Serbian (Nikola Smolenski)</li>
+        </ul>
+      </li>
+      <li>Added --packagedir option to use external packages. (Moacir)</li>
+      <li>Added Format::getDebugTree() method to allow the current location in the tree to be reportable. (Richard Quadling)</li>
+      <li><?php bugfix(52664); ?> - "Missing" example#1. (Hannes)</li>
+      <li>
+        <a href="/get/PhD_Generic-1.1.1.tgz">PhD_Generic 1.1.1</a> <span class="date">21. June 2011</span>
+        <ul class="fixes">
+          <li><?php bugfix(54705); ?> - Tables in manpages not visible. (Hannes)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.1.tgz">PhD_PHP 1.1.1</a> <span class="date">21. June 2011</span>
+        <ul class="fixes">
+          <li>Added support for local CSS files (Richard Quadling)</li>
+          <li><?php bugfix(54436); ?> - gzip issues with -P PHP -f manpage (Moacir)</li>
+          <li><?php bugfix(53536); ?> - Small display bug in attribute description for mysqli-&gt;insert_id. (Hannes)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_IDE-1.1.1.tgz">PhD_IDE 1.1.1</a> <span class="date">21. June 2011</span>
+        <ul class="fixes">
+          <li>Added first version of PHPStub package format (Alexey Shein)</li>
+          <li>Added changelog information (Philip)</li>
+          <li>Added the description of parameters (Moacir)</li>
+        </ul>
+      </li>
+    </ul><!-- }}} -->
+  </li>
   <li>
     <a href="/get/PhD-1.1.0.tgz">PhD 1.1.0</a> <span class="date">08. March 2011</span><!-- {{{ -->
     <ul class="fixes">
