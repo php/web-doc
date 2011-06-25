@@ -1,7 +1,7 @@
  </div>
  <div id="footer">
   <p>
-   <a href="<?php echo $master; ?>copyright.php">&docweb.common.footer.copyright;</a> 2004-2009 &docweb.common.footer.copyright-text;.
+   <a href="<?php echo $master; ?>copyright.php">&docweb.common.footer.copyright;</a> 2004-2011 &docweb.common.footer.copyright-text;.
   </p>
   <?php 
     if(isset($cvs_version)) { 
