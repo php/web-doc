@@ -275,8 +275,8 @@ function get_bug_count ($project=SITE) {
             return false;
     }
 
-    $link = 'http://bugs.php.net/search.php?cmd=display&bug_type=All&status=Open&by=Any' . 
-            '&package_name%5B%5D=' . $package;
+    $link = 'https://bugs.php.net/search.php?cmd=display&bug_type=All&status=Open&by=Any' . 
+            '&package_name[]=' . $package;
 
     // Cached (CACHE_BUGS_COUNT defined in init.inc.php)
     if (!(is_readable($localFile) && (filemtime($localFile) > (time() - CACHE_BUGS_COUNT)))) {
