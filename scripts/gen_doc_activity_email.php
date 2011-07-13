@@ -24,7 +24,6 @@ Notes:
 	  losers except for the documentation.
 Todo:
 	- Add SVN lines changed/added/deleted instead of # commits
-	- Research the bugs api and ensure it works
 	- Add other bug activities? So, not only bug->closed?
 	- Determine if posting statistics is wise (good or bad)
 */
@@ -105,7 +104,7 @@ $email_text = str_replace('SVN_COMMIT_COUNTS', $text, $email_text);
 /**** Weekly closed bugs ****************************************************/
 /****************************************************************************/
 
-$rawbuginfo = file_get_contents('http://bugs.php.net/api.php?type=docs&action=closed&interval=week');
+$rawbuginfo = file_get_contents('http://bugs.php.net/api.php?type=docs&action=closed&interval=' . DAYS_LOOKUP);
 
 $text = '';
 if (!empty($rawbuginfo)) {
@@ -139,7 +138,9 @@ $dbfile = SQLITE_DIR . 'notes_stats.sqlite';
 $text   = '';
 if (is_readable($dbfile) && $db = sqlite_open($dbfile, 0666)) {
 
-	$sql = "SELECT who, count(*) as count FROM notes WHERE time > (strftime('%s', 'now')-604800) GROUP BY who ORDER BY count DESC";
+	$seconds = 86400*DAYS_LOOKUP;
+
+	$sql = "SELECT who, count(*) as count FROM notes WHERE time > (strftime('%s', 'now')-{$seconds}) GROUP BY who ORDER BY count DESC";
 
 	$res = sqlite_query($db, $sql);
 	if ($res) {
@@ -169,7 +170,7 @@ $email_text = str_replace('SVN_MODULES_LIST', implode($svn_modules, ', '), $emai
 $email_text = str_replace('DATES_ACTIVITY', "$time_past to $time_now", $email_text);
 
 if (!DEBUG_MODE) {
-	mail('phpdoc@lists.php.net', 'The weekly PHP documentation activity report', $email_text, 'From: noreply@php.net', '-fnoreply@php.net');
+	mail('phpdoc@lists.php.net', 'The PHP documentation activity report', $email_text, 'From: noreply@php.net', '-fnoreply@php.net');
 } else {
 	echo $email_text;
 }
