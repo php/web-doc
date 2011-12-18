@@ -3,16 +3,16 @@
  <p xlink:href="rest/p/phd_pear">PhD_PEAR</p>
  <c>doc.php.net</c>
  <v>1.1.2</v>
- <st>snapshot</st>
+ <st>stable</st>
  <l>BSD Style</l>
  <m>bjori</m>
  <s>PEAR formats for PhD</s>
  <d>A package for PhD to render the pear.php.net (peardoc) documentation</d>
- <da>2011-12-18 13:16:03</da>
+ <da>2011-12-18 13:49:38</da>
  <n>
 - Use transliteration for the Windows CHM TOC and Index - Romanian only - (Richard)
  </n>
- <f>15371</f>
+ <f>15363</f>
  <g>http://doc.php.net/get/PhD_PEAR-1.1.2</g>
  <x xlink:href="package.1.1.2.xml"/>
 </r>

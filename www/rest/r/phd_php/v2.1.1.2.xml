@@ -5,17 +5,17 @@
  <v>1.1.2</v>
  <a>1.1.0</a>
  <mp>5.3.0</mp>
- <st>snapshot</st>
+ <st>stable</st>
  <l>BSD Style</l>
  <m>bjori</m>
  <s>PHP documentation rendering package for PhD</s>
  <d>A package for PhD to render the php.net (phpdoc) documentation</d>
- <da>2011-12-18 13:16:04</da>
+ <da>2011-12-18 13:49:38</da>
  <n>
 - Use transliteration for the Windows CHM TOC and Index - Romanian only - (Richard Q)
 - Allow Windows CHM files to use the url() loaded content defined in the CSS files (Richard Q)
  </n>
- <f>24922</f>
+ <f>24918</f>
  <g>http://doc.php.net/get/PhD_PHP-1.1.2</g>
  <x xlink:href="package.1.1.2.xml"/>
 </r>
