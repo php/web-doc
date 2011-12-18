@@ -13,6 +13,10 @@
   </p>
   <a>
    <r>
+    <v>1.1.2</v>
+    <s>snapshot</s>
+   </r>
+   <r>
     <v>1.1.1</v>
     <s>stable</s>
    </r>
@@ -110,8 +114,8 @@
    </r>
   </a>
   <deps>
-   <v>1.1.1</v>
-   <d>a:2:{s:8:&quot;required&quot;;a:4:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.3.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.8.0&quot;;}s:7:&quot;package&quot;;a:2:{s:4:&quot;name&quot;;s:11:&quot;PhD_Generic&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;}s:9:&quot;extension&quot;;a:5:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}i:3;a:1:{s:4:&quot;name&quot;;s:7:&quot;sqlite3&quot;;}i:4;a:1:{s:4:&quot;name&quot;;s:4:&quot;zlib&quot;;}}}s:8:&quot;optional&quot;;a:2:{s:7:&quot;package&quot;;a:3:{i:0;a:2:{s:4:&quot;name&quot;;s:7:&quot;PhD_PHP&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;}i:1;a:2:{s:4:&quot;name&quot;;s:8:&quot;PhD_PEAR&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;}i:2;a:2:{s:4:&quot;name&quot;;s:7:&quot;PhD_IDE&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;}}s:9:&quot;extension&quot;;a:2:{i:0;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:4:&quot;haru&quot;;}}}}</d>
+   <v>0.4.5</v>
+   <d>a:2:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.2.3&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.4.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:5:&quot;posix&quot;;}}}</d>
   </deps>
  </pi>
  <pi>
@@ -126,6 +130,10 @@
   </p>
   <a>
    <r>
+    <v>1.1.2</v>
+    <s>snapshot</s>
+   </r>
+   <r>
     <v>1.1.1</v>
     <s>stable</s>
    </r>
@@ -151,8 +159,8 @@
    </r>
   </a>
   <deps>
-   <v>1.1.1</v>
-   <d>a:2:{s:8:&quot;required&quot;;a:4:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.3.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.8.0&quot;;}s:7:&quot;package&quot;;a:3:{s:4:&quot;name&quot;;s:3:&quot;PhD&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;s:3:&quot;min&quot;;s:5:&quot;0.9.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:2:{i:0;a:1:{s:4:&quot;name&quot;;s:4:&quot;haru&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:4:&quot;zlib&quot;;}}}}</d>
+   <v>0.9.0</v>
+   <d>a:2:{s:8:&quot;required&quot;;a:4:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.3.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.8.0&quot;;}s:7:&quot;package&quot;;a:3:{s:4:&quot;name&quot;;s:3:&quot;PhD&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;s:3:&quot;min&quot;;s:5:&quot;0.9.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:4:&quot;haru&quot;;}}}</d>
   </deps>
  </pi>
  <pi>
@@ -167,6 +175,10 @@
   </p>
   <a>
    <r>
+    <v>1.1.2</v>
+    <s>snapshot</s>
+   </r>
+   <r>
     <v>1.1.1</v>
     <s>stable</s>
    </r>
@@ -192,8 +204,8 @@
    </r>
   </a>
   <deps>
-   <v>1.1.1</v>
-   <d>a:2:{s:8:&quot;required&quot;;a:4:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.3.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.8.0&quot;;}s:7:&quot;package&quot;;a:3:{s:4:&quot;name&quot;;s:3:&quot;PhD&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;s:3:&quot;min&quot;;s:5:&quot;0.9.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:4:&quot;haru&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:5:&quot;iconv&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;bz2&quot;;}}}}</d>
+   <v>0.9.0</v>
+   <d>a:2:{s:8:&quot;required&quot;;a:4:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.3.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.8.0&quot;;}s:7:&quot;package&quot;;a:3:{s:4:&quot;name&quot;;s:3:&quot;PhD&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;s:3:&quot;min&quot;;s:5:&quot;0.9.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}s:8:&quot;optional&quot;;a:1:{s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:4:&quot;haru&quot;;}}}</d>
   </deps>
  </pi>
  <pi>
@@ -207,6 +219,10 @@
    <r xmlns="http://pear.php.net/dtd/rest.package" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.package http://pear.php.net/dtd/rest.package.xsd"/>
   </p>
   <a>
+   <r>
+    <v>1.1.2</v>
+    <s>snapshot</s>
+   </r>
    <r>
     <v>1.1.0</v>
     <s>stable</s>
@@ -229,7 +245,7 @@
    </r>
   </a>
   <deps>
-   <v>1.1.0</v>
+   <v>0.9.0</v>
    <d>a:1:{s:8:&quot;required&quot;;a:4:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.3.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.8.0&quot;;}s:7:&quot;package&quot;;a:3:{s:4:&quot;name&quot;;s:3:&quot;PhD&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;s:3:&quot;min&quot;;s:5:&quot;0.9.0&quot;;}s:9:&quot;extension&quot;;a:3:{i:0;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}}</d>
   </deps>
  </pi>
@@ -316,7 +332,7 @@
    </r>
   </a>
   <deps>
-   <v>1.1.1</v>
+   <v>1.0.0</v>
    <d>a:1:{s:8:&quot;required&quot;;a:4:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.3.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.8.0&quot;;}s:7:&quot;package&quot;;a:3:{s:4:&quot;name&quot;;s:3:&quot;PhD&quot;;s:7:&quot;channel&quot;;s:11:&quot;doc.php.net&quot;;s:3:&quot;min&quot;;s:5:&quot;0.9.0&quot;;}s:9:&quot;extension&quot;;a:4:{i:0;a:1:{s:4:&quot;name&quot;;s:9:&quot;simplexml&quot;;}i:1;a:1:{s:4:&quot;name&quot;;s:6:&quot;libxml&quot;;}i:2;a:1:{s:4:&quot;name&quot;;s:9:&quot;xmlreader&quot;;}i:3;a:1:{s:4:&quot;name&quot;;s:3:&quot;dom&quot;;}}}}</d>
   </deps>
  </pi>
@@ -365,7 +381,7 @@
    </r>
   </a>
   <deps>
-   <v>2011.06.25</v>
+   <v>2011.04.17</v>
    <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.0.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.9.0&quot;;}s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:4:&quot;zlib&quot;;}}}</d>
   </deps>
  </pi>

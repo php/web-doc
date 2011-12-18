@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd_generic">PhD_Generic</p>
+ <c>doc.php.net</c>
+ <v>1.1.2</v>
+ <st>snapshot</st>
+ <l>BSD Style</l>
+ <m>bjori</m>
+ <s>Generic rendering package for PhD</s>
+ <d>A generic rendering package for PhD</d>
+ <da>2011-12-18 13:16:03</da>
+ <n>
+- Added support for authorinitials, printhistory, revhistory, revision and revremark (Hannes)
+- Added generate-index-for=(refentry,function,examples) support for the phpdoc PI handler (Hannes)
+ </n>
+ <f>27916</f>
+ <g>http://doc.php.net/get/PhD_Generic-1.1.2</g>
+ <x xlink:href="package.1.1.2.xml"/>
+</r>
