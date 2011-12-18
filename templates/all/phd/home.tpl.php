@@ -11,6 +11,33 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 <ul id="releases">
 
   <li>
+    <a href="/get/PhD-1.1.2.tgz">PhD 1.1.2</a> <span class="date">18. December 2011</span><!-- {{{ -->
+    <ul class="fixes">
+      <li><?php bugfix(51853); ?> - Added phpdoc PI handler to handle manually added version information (Hannes)</li>
+      <li><?php bugfix(49927); ?> - Added the possiblity of adding version information for classes</li>
+      <li>
+        <a href="/get/PhD_Generic-1.1.2.tgz">PhD_Generic 1.1.2</a> <span class="date">18. December 2011</span>
+        <ul class="fixes">
+          <li>Added support for authorinitials, printhistory, revhistory, revision and revremark (Hannes)</li>
+          <li>Added generate-index-for=(refentry,function,examples) support for the phpdoc PI handler</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.2.tgz">PhD_PHP 1.1.2</a> <span class="date">18. June 2011</span>
+        <ul class="fixes">
+          <li>Use transliteration for the Windows CHM TOC and Index - Romanian only (Richard Q)</li>
+          <li>Allow Windows CHM files to use the url() loaded content defined in the CSS files (Richard Q)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.1.2.tgz">PhD_PEAR 1.1.2</a> <span class="date">18. June 2011</span>
+        <ul class="fixes">
+          <li>Use transliteration for the Windows CHM TOC and Index - Romanian only (Richard Q)</li>
+        </ul>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.1.1.tgz">PhD 1.1.1</a> <span class="date">21. June 2011</span><!-- {{{ -->
     <ul class="fixes">
       <li>Improved the performance of the indexer by ~ 75%. (Hannes)</li>
