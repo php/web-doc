@@ -11,6 +11,38 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 <ul id="releases">
 
   <li>
+    <a href="/get/PhD-1.1.3.tgz">PhD 1.1.3</a> <span class="date">1. March 2012</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Removed redundant align and valign attributes on table-related tags (Alexey Borzov)</li>
+      <li>
+        <a href="/get/PhD_Generic-1.1.3.tgz">PhD_Generic 1.1.3</a> <span class="date">1. March 2012</span>
+        <ul class="fixes">
+          <li>Allow link to methodsynopsis (Jakub Vrana)</li>
+          <li>Got rid of presentational tags: &lt;b&gt;, &lt;i&gt;, &lt;tt&gt; changed to &lt;strong&gt;, &lt;em&gt;, &lt;code&gt; (Alexey Borzov)</li>
+          <li>Make presentational attributes on table related-tags (align, valign, width) output as inline styles (Alexey Borzov)</li>
+          <li>Fixed ID generation for refsections (Alexey Borzov)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.3.tgz">PhD_PHP 1.1.3</a> <span class="date">1. March 2012</span>
+        <ul class="fixes">
+          <li>Changed &lt;b&gt; tag to &lt;strong&gt; (Alexey Borzov)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.1.3.tgz">PhD_PEAR 1.1.3</a> <span class="date">1. March 2012</span>
+        <ul class="fixes">
+          <li>Fixed #54208 - no attributes for table-related tags (Alexey Borzov)</li>
+          <li>Allow linking to refsections (Alexey Borzov)</li>
+          <li>Package now generates (almost) valid HTML5:<ul>
+            <li>Got rid of presentational tags: &lt;b&gt;, &lt;i&gt;, &lt;tt&gt; changed to &lt;strong&gt;, &lt;em&gt;, &lt;code&gt; (Alexey Borzov)</li>
+            <li>&lt;p&gt; tags are now properly closed before block level tags and reopened after them if needed (Alexey Borzov)</li>
+          </ul></li>
+        </ul>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.1.2.tgz">PhD 1.1.2</a> <span class="date">18. December 2011</span><!-- {{{ -->
     <ul class="fixes">
       <li><?php bugfix(51853); ?> - Added phpdoc PI handler to handle manually added version information (Hannes)</li>
