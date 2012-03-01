@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="     http://pear.php.net/dtd/tasks-1.0   http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PhD_PHP</name>
+ <channel>doc.php.net</channel>
+ <summary>PHP documentation rendering package for PhD</summary>
+ <description>A package for PhD to render the php.net (phpdoc) documentation</description>
+ <lead>
+  <name>Hannes Magnusson</name>
+  <user>bjori</user>
+  <email>bjori@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Moacir de Oliveira</name>
+  <user>moacir</user>
+  <email>moacir@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2012-03-01</date>
+ <time>09:05:27</time>
+ <version>
+  <release>1.1.3</release>
+  <api>1.1.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+- Changed &lt;b&gt; tag to &lt;strong&gt; (Alexey Borzov)
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="98f3c8d2d4c78d6f10a456f217b2d3ed" name="phpdotnet/phd/Package/PHP/Factory.php" role="php" />
+   <file md5sum="e565af50daac03fd1c754a76e38cdce7" name="phpdotnet/phd/Package/PHP/CHM.php" role="php" />
+   <file md5sum="c9f695412b6987f0559449db17da7030" name="phpdotnet/phd/Package/PHP/Web.php" role="php" />
+   <file md5sum="a7c82a790ea7cd790df33fed75298e3e" name="phpdotnet/phd/Package/PHP/PDF.php" role="php" />
+   <file md5sum="42e28b85ff5fb0a7abfa2f17bfeaf8a9" name="phpdotnet/phd/Package/PHP/BigXHTML.php" role="php" />
+   <file md5sum="25a768f2622aa084e9dd9c2155effec9" name="phpdotnet/phd/Package/PHP/Manpage.php" role="php" />
+   <file md5sum="2a2259a948fca475fd4bbb7862c367bb" name="phpdotnet/phd/Package/PHP/BigPDF.php" role="php" />
+   <file md5sum="db73eb41a9eed4c94e13fe1616026737" name="phpdotnet/phd/Package/PHP/KDevelop.php" role="php" />
+   <file md5sum="d77512da9229c99703cb1c94dbb4cbc0" name="phpdotnet/phd/Package/PHP/ChunkedXHTML.php" role="php" />
+   <file md5sum="9887f47039c3e4528a16f2d9dde64673" name="phpdotnet/phd/Package/PHP/HowTo.php" role="php" />
+   <file md5sum="2664f9413f27cde0142b0a578d752314" name="phpdotnet/phd/Package/PHP/XHTML.php" role="php" />
+   <file md5sum="af1356f3b73db5565c7b69ef7c2fbf28" name="phpdotnet/phd/Package/PHP/TocFeed.php" role="php" />
+   <file md5sum="998d402a86aca0dd64778e6878fa073d" name="phpdotnet/phd/Package/PHP/Epub.php" role="php" />
+   <file md5sum="639443461e4e467d6a1ada140842bd5b" name="phpdotnet/phd/Package/PHP/README" role="doc" />
+   <file md5sum="4ed88f36131095b8f98ce40ab13dbb63" name="phpdotnet/phd/Package/PHP/HOWTO.GENERATE_CHM" role="doc" />
+   <file md5sum="78af94e0fa365820e3299b073b0a9db3" name="phpdotnet/phd/Package/PHP/EnhancedCHM.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.8.0</min>
+   </pearinstaller>
+   <package>
+    <name>PhD</name>
+    <channel>doc.php.net</channel>
+    <min>0.9.0</min>
+   </package>
+   <extension>
+    <name>libxml</name>
+   </extension>
+   <extension>
+    <name>xmlreader</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+  </required>
+  <optional>
+   <extension>
+    <name>haru</name>
+   </extension>
+   <extension>
+    <name>iconv</name>
+   </extension>
+   <extension>
+    <name>bz2</name>
+   </extension>
+  </optional>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.9.0</release>
+    <api>0.9.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-09-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Initial release
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.1</release>
+    <api>0.9.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-12-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added new format TocFeed (Moacir).
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-03-11</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Stopped double encoding of entities in CHM TOC, Index and keyword lists (Richard Quadling)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-08-10</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added the Persian language for CHM builds (Philip)
+- Made all &gt;refentry&lt; create a new Unix Manual Page (Hannes)
+- Create Unix Manual Page for the predefined variables too (Hannes)
+- Fixed bug#51750 Add ()&apos;s when rendering methodname elements (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-03-07</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- New output format Epub (Moacir)
+- Prepare CHM rendering to use the new CSS rules (Richard Quadling)
+- Display a message when loading an external stylesheet (Richard Quadling)
+- Incorporate stylesheet names supplied at the command line into the CHM file (Richard Quadling)
+- New output format EnhancedCHM - the same as CHM but with the User Notes (Requires ext/bz2) (Richard Quadling)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.1</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-06-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Fixed Bug #54436 - gzip issues with -P PHP -f manpage (Moacir)
+- Fixed bug #53536 - Small display bug in attribute description for mysqli-&gt;insert_id. (Hannes)
+- Added support for local CSS files (Richard Quadling)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.2</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-06-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Use transliteration for the Windows CHM TOC and Index - Romanian only - (Richard Q)
+- Allow Windows CHM files to use the url() loaded content defined in the CSS files (Richard Q)
+   </notes>
+  </release>
+ </changelog>
+</package>

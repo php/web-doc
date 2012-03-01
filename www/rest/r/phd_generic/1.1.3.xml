@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd_generic">PhD_Generic</p>
+ <c>doc.php.net</c>
+ <v>1.1.3</v>
+ <st>stable</st>
+ <l>BSD Style</l>
+ <m>bjori</m>
+ <s>Generic rendering package for PhD</s>
+ <d>A generic rendering package for PhD</d>
+ <da>2012-03-01 09:05:26</da>
+ <n>
+- Allow link to methodsynopsis (Jakub Vrana)
+- Got rid of presentational tags: &lt;b&gt;, &lt;i&gt;, &lt;tt&gt; changed to &lt;strong&gt;, &lt;em&gt;, &lt;code&gt; (Alexey Borzov)
+- Make presentational attributes on table related-tags (align, valign, width) output as inline styles (Alexey Borzov)
+- Fixed ID generation for refsections (Alexey Borzov)
+ </n>
+ <f>29040</f>
+ <g>http://doc.php.net/get/PhD_Generic-1.1.3</g>
+ <x xlink:href="package.1.1.3.xml"/>
+</r>

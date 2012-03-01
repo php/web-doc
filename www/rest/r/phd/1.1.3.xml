@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>1.1.3</v>
+ <st>stable</st>
+ <l>BSD Style</l>
+ <m>bjori</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2012-03-01 09:05:26</da>
+ <n>
+- Removed redundant align and valign attributes on table-related tags (Alexey Borzov)
+ </n>
+ <f>44983</f>
+ <g>http://doc.php.net/get/PhD-1.1.3</g>
+ <x xlink:href="package.1.1.3.xml"/>
+</r>
