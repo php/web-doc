@@ -20,7 +20,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
         <a href="/get/PhD_PHP-1.1.4.tgz">PhD_PHP 1.1.4</a> <span class="date">6. April 2012</span>
         <ul class="fixes">
           <li>Link callable types (Jakub)</li>
-          <li>Link langauge constructs from &gt;function&lt; (Jakub)</li>
+          <li>Link langauge constructs from &lt;function&gt; (Jakub)</li>
           <li>Show "next" link on the frontpage (Moacir)</li>
         </ul>
       </li>
