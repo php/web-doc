@@ -11,7 +11,7 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 <ul id="releases">
 
   <li>
-    <a href="/get/PhD-1.1.4.tgz">PhD 1.1.4</a> <span class="date">6. Arpil 2012</span><!-- {{{ -->
+    <a href="/get/PhD-1.1.4.tgz">PhD 1.1.4</a> <span class="date">6. April 2012</span><!-- {{{ -->
     <ul class="fixes">
       <li>
         <a href="/get/PhD_Generic-1.1.4.tgz">PhD_Generic 1.1.4</a> <span class="date">6. April 2012</span>
