@@ -11,6 +11,25 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 <ul id="releases">
 
   <li>
+    <a href="/get/PhD-1.1.4.tgz">PhD 1.1.4</a> <span class="date">6. Arpil 2012</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>
+        <a href="/get/PhD_Generic-1.1.4.tgz">PhD_Generic 1.1.4</a> <span class="date">6. April 2012</span>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.4.tgz">PhD_PHP 1.1.4</a> <span class="date">6. April 2012</span>
+        <ul class="fixes">
+          <li>Link callable types (Jakub)</li>
+          <li>Link langauge constructs from &gt;function&lt; (Jakub)</li>
+          <li>Show "next" link on the frontpage (Moacir)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.1.4.tgz">PhD_PEAR 1.1.4</a> <span class="date">6. April 2012</span>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.1.3.tgz">PhD 1.1.3</a> <span class="date">1. March 2012</span><!-- {{{ -->
     <ul class="fixes">
       <li>Removed redundant align and valign attributes on table-related tags (Alexey Borzov)</li>
