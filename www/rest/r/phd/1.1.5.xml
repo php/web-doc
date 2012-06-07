@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>1.1.5</v>
+ <st>stable</st>
+ <l>BSD Style</l>
+ <m>bjori</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2012-06-07 17:03:47</da>
+ <n>
+- Show individual package version in --version. (Hannes)
+- Fixed bug#54217 Warn about nonexisting parameters. (Moacir)
+- Fixed bug#50725 Generate nav links at top of function index (Peter Cowburn)
+- Fixed bug#47392 Option to specify filename for bightmls. (Hannes)
+ </n>
+ <f>44712</f>
+ <g>http://doc.php.net/get/PhD-1.1.5</g>
+ <x xlink:href="package.1.1.5.xml"/>
+</r>
