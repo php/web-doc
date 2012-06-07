@@ -11,6 +11,30 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 <ul id="releases">
 
   <li>
+    <a href="/get/PhD-1.1.5.tgz">PhD 1.1.5</a> <span class="date">7. June 2012</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>
+        <li>Show individual package version in --version. (Hannes)</li>
+        <li><?php bugfix(54217) ?> - Warn about nonexisting parameters. (Moacir)</li>
+        <li><?php bugfix(50725) ?> - Generate nav links at top of function index (Peter Cowburn)</li>
+        <li><?php bugfix(47392) ?> - Option to specify filename for bightmls. (Hannes)</li>
+        <a href="/get/PhD_Generic-1.1.5.tgz">PhD_Generic 1.1.5</a> <span class="date">7. June 2012</span>
+        <ul class="fixes">
+        <li><?php bugfix(46772) ?> - Add class reference pages to the man files. (Hannes)</li>
+        <li><?php bugfix(47650) ?> - Overwrite the TOC on changes. (Hannes)</li>
+        <li>Fix invalid ID on multiple unknown refsect roles. (Hannes)</li>
+        <li>Added support for "soft-deprecation-notice" attribute on refsynopsisdiv to collect alternate suggestions into the $setup phpweb array. (Hannes)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.5.tgz">PhD_PHP 1.1.5</a> <span class="date">7. June 2012</span>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.1.5.tgz">PhD_PEAR 1.1.5</a> <span class="date">7. June 2012</span>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.1.4.tgz">PhD 1.1.4</a> <span class="date">6. April 2012</span><!-- {{{ -->
     <ul class="fixes">
       <li>
