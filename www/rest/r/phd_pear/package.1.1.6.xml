@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="     http://pear.php.net/dtd/tasks-1.0   http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PhD_PEAR</name>
+ <channel>doc.php.net</channel>
+ <summary>PEAR formats for PhD</summary>
+ <description>A package for PhD to render the pear.php.net (peardoc) documentation</description>
+ <lead>
+  <name>Christian Weiske</name>
+  <user>cweiske</user>
+  <email>cweiske@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Moacir de Oliveira</name>
+  <user>moacir</user>
+  <email>moacir@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2012-06-16</date>
+ <time>18:25:38</time>
+ <version>
+  <release>1.1.6</release>
+  <api>1.1.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+- Bump version
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="8784b34abbfb91fb58542806dab5842a" name="phpdotnet/phd/Package/PEAR/BigXHTML.php" role="php" />
+   <file md5sum="ad27d5d32e102a88a35699f029745e61" name="phpdotnet/phd/Package/PEAR/CHM.php" role="php" />
+   <file md5sum="70e05ca2170dcb380f4e880d0c3a3df3" name="phpdotnet/phd/Package/PEAR/ChunkedXHTML.php" role="php" />
+   <file md5sum="2fbaca7e3a438b463faf51ecd47c9b8a" name="phpdotnet/phd/Package/PEAR/Factory.php" role="php">
+    <tasks:replace from="@phd_pear_version@" to="version" type="package-info" />
+   </file>
+   <file md5sum="b742e4ae68e287cc17167e7192ac5081" name="phpdotnet/phd/Package/PEAR/TocFeed.php" role="php" />
+   <file md5sum="d3a11914add49912ab1813c2987c2366" name="phpdotnet/phd/Package/PEAR/Web.php" role="php" />
+   <file md5sum="d949c855ccf2a9e39ec330fc61ab676d" name="phpdotnet/phd/Package/PEAR/XHTML.php" role="php" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.8.0</min>
+   </pearinstaller>
+   <package>
+    <name>PhD</name>
+    <channel>doc.php.net</channel>
+    <min>0.9.0</min>
+   </package>
+   <extension>
+    <name>libxml</name>
+   </extension>
+   <extension>
+    <name>xmlreader</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.9.0</release>
+    <api>0.9.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-09-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Initial release
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.1</release>
+    <api>0.9.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-12-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added Next/Prev and Image Zoom buttons to CHM build (Richard Quadling)
+- Add title attribute to anchor tags so address can be seen in CHM files for external links (Richard Quadling)
+- Implemented PEAR request #2390: RSS feeds for PEAR Dcumentation Index (Christian)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-03-11</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Release 1.0.0
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-08-10</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added the Persian language for CHM builds (Philip)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-03-07</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Release 1.1.0
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.2</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-03-07</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Use transliteration for the Windows CHM TOC and Index - Romanian only - (Richard)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.3</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-03-01</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Fixed #54208 - no attributes for table-related tags (Alexey Borzov)
+- Allow linking to refsections (Alexey Borzov)
+- Package now generates (almost) valid HTML5:
+  - Got rid of presentational tags: &lt;b&gt;, &lt;i&gt;, &lt;tt&gt; changed to &lt;strong&gt;, &lt;em&gt;, &lt;code&gt; (Alexey Borzov)
+  - &lt;p&gt; tags are now properly closed before block level tags and reopened after them if needed (Alexey Borzov)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.4</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-04-06</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Bump version
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.5</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-06-07</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Bump version
+   </notes>
+  </release>
+ </changelog>
+</package>
