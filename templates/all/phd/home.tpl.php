@@ -11,9 +11,27 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 <ul id="releases">
 
   <li>
+    <a href="/get/PhD-1.1.6.tgz">PhD 1.1.6</a> <span class="date">16. June 2012</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>Fixed indexing of content with markup. (Hannes)</li>
+      <li>Added support for generate-changelog-for, extension-membership and related phpdoc PI. (Hannes)</li>
+      <li>
+        <a href="/get/PhD_Generic-1.1.6.tgz">PhD_Generic 1.1.6</a> <span class="date">16. June 2012</span>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.6.tgz">PhD_PHP 1.1.6</a> <span class="date">16. June 2012</span>
+        <ul class="fixes">
+            <li>Added phd:args support for &lt;function;&gt; and &lt;methodname&gt;. (Hannes)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.1.6.tgz">PhD_PEAR 1.1.6</a> <span class="date">16. June 2012</span>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.1.5.tgz">PhD 1.1.5</a> <span class="date">7. June 2012</span><!-- {{{ -->
     <ul class="fixes">
-      <li>
         <li>Show individual package version in --version. (Hannes)</li>
         <li><?php bugfix(54217) ?> - Warn about nonexisting parameters. (Moacir)</li>
         <li><?php bugfix(50725) ?> - Generate nav links at top of function index (Peter Cowburn)</li>
