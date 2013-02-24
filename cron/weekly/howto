@@ -4,7 +4,7 @@
 
 cd ${SVNDIR}/${DOCDIR}
 php doc-base/configure.php --enable-howto
-php /home/local/svn/phd_trunk/render.php -d ${SVNDIR}/${DOCDIR}/doc-base/howto/.howto.xml --package PHP -f howto -o ${SVNDIR}/${DOCDIR}/
+phd -d ${SVNDIR}/${DOCDIR}/doc-base/howto/.howto.xml --package PHP -f howto -o ${SVNDIR}/${DOCDIR}/
 mv php-howto/*.php ${DOCWEB}/www/dochowto/
 
 #make howtotgz
