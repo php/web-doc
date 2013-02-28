@@ -8,7 +8,7 @@ phd -d ${SVNDIR}/${DOCDIR}/doc-base/howto/.howto.xml --package PHP -f howto -o $
 # the generated path is wrong: 
 # http://git.php.net/?p=phd.git;a=blob;f=phpdotnet/phd/Package/PHP/HowTo.php;h=e06bfff451f4a947a41e493fc4f7252c21f130ca;hb=HEAD#l72
 # dochowto is under www/ while the include directory is on the same level as www, so it is two level above dochowto
-sed -i -e 's/..\/include\/init.inc.php/..\/..\/include\/init.inc.php/g' php-howto/*.php
+sed -i -e "s|../include/init.inc.php|${DOCWEB}/include/init.inc.php|g" php-howto/*.php
 mv -f php-howto/*.php ${DOCWEB}/www/dochowto/
 
 #make howtotgz
