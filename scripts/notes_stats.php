@@ -47,8 +47,13 @@ $res = nntp_cmd($s, 'GROUP php.notes', 211) or die("failed to get infos on news 
 $first = sqlite_single_query($sqlite, 'SELECT last_article FROM info');
 list($last) = explode(' ', $res);
 
-if ($first > $last)
+if ($first > $last) {
     die("Nothing I can do, no new notes available\n");
+}
+// process only 10k news in one iteration
+elseif ($last > $first+10000) {
+    $last = $first+10000;
+}
 
 echo "Fetching items: $first-$last\n";
 nntp_cmd($s, "XOVER $first-$last", 224) or die("failed to XOVER the new items\n");
