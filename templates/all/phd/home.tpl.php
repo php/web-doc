@@ -11,6 +11,24 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 <ul id="releases">
 
   <li>
+    <a href="/get/PhD-1.1.7.tgz">PhD 1.1.7</a> <span class="date">1. January 2014</span><!-- {{{ -->
+    <ul class="fixes">
+      <li><?php bugfix(64850) ?> - move placement of space between &lt;type&gt; and &lt;methodname&gt;. (Peter)</li>
+      <li><?php bugfix(66316) ?> - HTML is malformed. (Peter)</li>
+      <li>Fixed bug PhD generates garbled chm on PHP 5.4.0 or later. (Yoshinari)</li>
+      <li>Change the unknown version reference to Git, not SVN. (Adam)</li>
+      <li>
+        <a href="/get/PhD_Generic-1.1.7.tgz">PhD_Generic 1.1.7</a> <span class="date">16. June 2012</span>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.7.tgz">PhD_PHP 1.1.7</a> <span class="date">16. June 2012</span>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.1.7.tgz">PhD_PEAR 1.1.7</a> <span class="date">16. June 2012</span>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.1.6.tgz">PhD 1.1.6</a> <span class="date">16. June 2012</span><!-- {{{ -->
     <ul class="fixes">
       <li>Fixed indexing of content with markup. (Hannes)</li>
