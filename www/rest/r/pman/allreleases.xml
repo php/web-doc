@@ -3,6 +3,10 @@
  <p>pman</p>
  <c>doc.php.net</c>
  <r>
+  <v>2014.01.01</v>
+  <s>stable</s>
+ </r>
+ <r>
   <v>2012.01.14</v>
   <s>stable</s>
  </r>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/pman">pman</p>
+ <c>doc.php.net</c>
+ <v>2014.01.01</v>
+ <st>stable</st>
+ <l>Creative Commons Attribution 3.0</l>
+ <m>phpdoc</m>
+ <s>PHP Unix manual pages</s>
+ <d>Unix manual pages of the PHP documentations from php.net.</d>
+ <da>2014-01-01 19:34:54</da>
+ <n>
+New release \o/
+ </n>
+ <f>6410415</f>
+ <g>http://doc.php.net/get/pman-2014.01.01</g>
+ <x xlink:href="package.2014.01.01.xml"/>
+</r>

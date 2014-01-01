@@ -428,6 +428,10 @@
   </p>
   <a>
    <r>
+    <v>2014.01.01</v>
+    <s>stable</s>
+   </r>
+   <r>
     <v>2012.01.14</v>
     <s>stable</s>
    </r>
@@ -465,7 +469,7 @@
    </r>
   </a>
   <deps>
-   <v>2012.01.14</v>
+   <v>2014.01.01</v>
    <d>a:1:{s:8:&quot;required&quot;;a:3:{s:3:&quot;php&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;5.0.0&quot;;}s:13:&quot;pearinstaller&quot;;a:1:{s:3:&quot;min&quot;;s:5:&quot;1.9.0&quot;;}s:9:&quot;extension&quot;;a:1:{s:4:&quot;name&quot;;s:4:&quot;zlib&quot;;}}}</d>
   </deps>
  </pi>
