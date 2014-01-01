@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release2 http://pear.php.net/dtd/rest.release2.xsd">
+ <p xlink:href="rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>1.1.7</v>
+ <a>1.1.0</a>
+ <mp>5.3.0</mp>
+ <st>stable</st>
+ <l>BSD Style</l>
+ <m>bjori</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2014-01-01 19:16:20</da>
+ <n>
+- Fixed bug#64850 (move placement of space between &lt;type&gt; and &lt;methodname&gt; (Peter)
+- Fixed bug#66316 (HTML is malformed) (Peter)
+- Fixed bug PhD generates garbled chm on PHP 5.4.0 or later. (Yoshinari)
+- Change the unknown version reference to Git, not SVN. (Adam)
+ </n>
+ <f>46461</f>
+ <g>http://doc.php.net/get/PhD-1.1.7</g>
+ <x xlink:href="package.1.1.7.xml"/>
+</r>

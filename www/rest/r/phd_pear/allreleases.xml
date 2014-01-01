@@ -3,6 +3,10 @@
  <p>PhD_PEAR</p>
  <c>doc.php.net</c>
  <r>
+  <v>1.1.7</v>
+  <s>snapshot</s>
+ </r>
+ <r>
   <v>1.1.6</v>
   <s>stable</s>
  </r>
