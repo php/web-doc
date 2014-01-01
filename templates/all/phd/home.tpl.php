@@ -18,13 +18,13 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
       <li>Fixed bug PhD generates garbled chm on PHP 5.4.0 or later. (Yoshinari)</li>
       <li>Change the unknown version reference to Git, not SVN. (Adam)</li>
       <li>
-        <a href="/get/PhD_Generic-1.1.7.tgz">PhD_Generic 1.1.7</a> <span class="date">16. June 2012</span>
+        <a href="/get/PhD_Generic-1.1.7.tgz">PhD_Generic 1.1.7</a> <span class="date">1. January 2014</span>
       </li>
       <li>
-        <a href="/get/PhD_PHP-1.1.7.tgz">PhD_PHP 1.1.7</a> <span class="date">16. June 2012</span>
+        <a href="/get/PhD_PHP-1.1.7.tgz">PhD_PHP 1.1.7</a> <span class="date">1. January 2014</span>
       </li>
       <li>
-        <a href="/get/PhD_PEAR-1.1.7.tgz">PhD_PEAR 1.1.7</a> <span class="date">16. June 2012</span>
+        <a href="/get/PhD_PEAR-1.1.7.tgz">PhD_PEAR 1.1.7</a> <span class="date">1. January 2014</span>
       </li>
     </ul><!-- }}} -->
   </li>
