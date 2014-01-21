@@ -11,6 +11,21 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 <ul id="releases">
 
   <li>
+    <a href="/get/PhD-1.1.8.tgz">PhD 1.1.8</a> <span class="date">21. January 2014</span><!-- {{{ -->
+    <ul class="fixes">
+      <li><?php bugfix(66400) ?> - Class synopsis missing space between type and method name (Peter)</li>
+      <li>
+        <a href="/get/PhD_Generic-1.1.8.tgz">PhD_Generic 1.1.8</a> <span class="date">21. January 2014</span>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.8.tgz">PhD_PHP 1.1.8</a> <span class="date">21. January 2014</span>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.1.8.tgz">PhD_PEAR 1.1.8</a> <span class="date">21. January 2014</span>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.1.7.tgz">PhD 1.1.7</a> <span class="date">1. January 2014</span><!-- {{{ -->
     <ul class="fixes">
       <li><?php bugfix(64850) ?> - move placement of space between &lt;type&gt; and &lt;methodname&gt;. (Peter)</li>
