@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release2 http://pear.php.net/dtd/rest.release2.xsd">
+ <p xlink:href="rest/p/phd_php">PhD_PHP</p>
+ <c>doc.php.net</c>
+ <v>1.1.8</v>
+ <a>1.1.0</a>
+ <mp>5.3.0</mp>
+ <st>stable</st>
+ <l>BSD Style</l>
+ <m>bjori</m>
+ <s>PHP documentation rendering package for PhD</s>
+ <d>A package for PhD to render the php.net (phpdoc) documentation</d>
+ <da>2014-01-21 20:43:53</da>
+ <n>
+- Fixed bug#66400 (Class synopsis missing space between type and method name) (Peter)
+ </n>
+ <f>26141</f>
+ <g>http://doc.php.net/get/PhD_PHP-1.1.8</g>
+ <x xlink:href="package.1.1.8.xml"/>
+</r>

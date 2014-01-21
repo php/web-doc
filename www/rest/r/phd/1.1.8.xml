@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="rest/p/phd">PhD</p>
+ <c>doc.php.net</c>
+ <v>1.1.8</v>
+ <st>stable</st>
+ <l>BSD Style</l>
+ <m>bjori</m>
+ <s>A PHP based Docbook renderer</s>
+ <d>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</d>
+ <da>2014-01-21 20:44:16</da>
+ <n>
+- Fixed bug#66400 (Class synopsis missing space between type and method name) (Peter)
+ </n>
+ <f>47284</f>
+ <g>http://doc.php.net/get/PhD-1.1.8</g>
+ <x xlink:href="package.1.1.8.xml"/>
+</r>
