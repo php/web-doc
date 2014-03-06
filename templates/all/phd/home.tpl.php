@@ -11,6 +11,26 @@ function bugl($number)   { echo "<a href=\"http://bugs.php.net/$number\">#$numbe
 <ul id="releases">
 
   <li>
+    <a href="/get/PhD-1.1.9.tgz">PhD 1.1.9</a> <span class="date">6. March 2014</span><!-- {{{ -->
+    <ul class="fixes">
+      <li>
+        <a href="/get/PhD_Generic-1.1.9.tgz">PhD_Generic 1.1.9</a> <span class="date">6. March 2014</span>
+        <ul class="fixes">
+          <li>Removed &lt;em&gt; wrapper around parameters. (Levi)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.9.tgz">PhD_PHP 1.1.9</a> <span class="date">6. March 2014</span>
+        <ul class="fixes">
+          <li><?php bugfix(66644) ?> - Remove ()'s when rendering methodname in constructorsynopsis/destructorsynopsis (Peter)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.1.9.tgz">PhD_PEAR 1.1.9</a> <span class="date">6. March 2014</span>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.1.8.tgz">PhD 1.1.8</a> <span class="date">21. January 2014</span><!-- {{{ -->
     <ul class="fixes">
       <li><?php bugfix(66400) ?> - Class synopsis missing space between type and method name (Peter)</li>
