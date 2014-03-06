@@ -8,4 +8,4 @@ Overhaul the entity check:
  Files affected:
   - include/lib_url_entities.inc.php
   - scripts/grab_livedocs_db.php
- Add more cowbell!
+ Add more cowbell
