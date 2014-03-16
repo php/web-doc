@@ -70,12 +70,6 @@ function is_admin()
 function user_name($user = false)
 {
     $user = $user ? $user : $GLOBALS['user'];
-
-    // first check if the name is in the DB
-    if ($info = user_info($user))
-        return $info['name'];
-
-    //no, it isn't. fetch it from the master server
     return master_user_name($user);
 }
 
