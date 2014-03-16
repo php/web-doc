@@ -5,7 +5,6 @@ include '../include/init.inc.php';
 
 // FIXME: MAGIC_COKIE disabled
 if (!empty($_POST)) {
-    require_once '../include/lib_auth.inc.php';
     auth();
         
     if (isset($_REQUEST['return']) && !empty($_REQUEST['return'])

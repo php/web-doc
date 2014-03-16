@@ -19,7 +19,6 @@ $Id$
 */
 
 include '../include/init.inc.php';
-require_once '../include/lib_auth.inc.php';
 
 auth();
 if (!is_admin()) {
