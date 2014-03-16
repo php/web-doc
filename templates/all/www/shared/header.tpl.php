@@ -3,19 +3,13 @@
 <head>
  <title><?php echo $page_title; ?></title>
  <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $encoding; ?>" />
- <meta http-equiv="Content-Script-Type" content="text/javascript" />
- <meta http-equiv="Content-Style-Type" content="text/css" />
- <meta http-equiv="Content-Language" content="<?php echo $lang; ?>" />
- <script type="text/javascript" src="/style/pngerizer.js"></script>
- <link rel="shortcut icon" href="/images/favicon/<?php echo $project; ?>/favicon.ico" />
- <style type="text/css">
-  @import url(/style/site.css);
-  <?php
+ <link rel="icon" href="/images/favicon/<?php echo $project; ?>/favicon.ico" />
+ <link rel="stylesheet" type="text/css" href="/style/site.css" />
+ <?php
   foreach ($styles as $style_file) {
-      echo "@import url(/style/$style_file);\n";
-  }
-  ?>
- </style>
+     echo '<link rel="stylesheet" type="text/css" href="/style/' . $style_file . '" />' . "\n";
+ }
+ ?>
 </head>
 <body>
  <div id="header">

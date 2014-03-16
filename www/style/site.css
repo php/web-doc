@@ -1,5 +1,5 @@
 body, td {
-	margin: 0px;
+	margin: 0;
 	font-size: 12px;
 	font-family: sans-serif;
 }
@@ -11,36 +11,36 @@ body, td {
 }
 #header h1 {
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
 	left: 15px;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	font-size: 1.5em;
 }
 #langs {
-	background-color: #ffff99;
+	background-color: #FF9;
 	border-bottom: 1px solid #cdcdcd;
 	text-align: right;
-	padding: 2px 18px 0px;
-        height:18px;
+	padding: 2px 18px 0;
+	height: 18px;
 }
 #langs img {
 	vertical-align: middle;
 }
 #langs a.active {
-        position:relative;
-        z-index:2;
+	position: relative;
+	z-index: 2;
 }
 #langs span.active {
-	position:absolute;
-        z-index:0;
-        width:17px;
-        height:19px;
-        margin-left:-2px;
-        margin-top:-1px;
+	position: absolute;
+	z-index: 0;
+	width: 17px;
+	height: 19px;
+	margin-left: -2px;
+	margin-top: -1px;
 	background-color: #fff;
-	border:1px solid #000;
-        border-bottom:0px;
+	border: 1px solid #000;
+	border-bottom: 0;
 }
 
 h2 {
@@ -50,7 +50,7 @@ h2 {
 	padding: 1em 1.5em 0.2em 1.5em;
 }
 #page {
-	padding: 0px 15px;
+	padding: 0 15px;
 }
 
 #sidebar {
@@ -58,7 +58,7 @@ h2 {
 	width: 250px;
 }
 #sidebar h2 {
-	margin: 0px;
+	margin: 0;
 }
 #sidebar .sidebox {
 	margin: 0.5em 0 0.5em 1em;
@@ -167,11 +167,7 @@ td.ulcell {
     border: 1px solid #ccc;
 }
 
-#nav a.active {
-    background: #ddf;
-}
-
-#nav a:hover {
+#nav a.active, #nav a:hover {
     background: #ddf;
 }
 
@@ -189,9 +185,9 @@ div.success {
 }
 
 div.errors {
-    border: 1px dashed #660000;
+    border: 1px dashed #600;
     background: #fee;
-    color: #660000;
+    color: #600;
 }
 
 div.warnings {
@@ -201,20 +197,20 @@ div.warnings {
 }
 
 div.explain {
-    border: 1px dashed #000066;
-    color: #000066;
+    border: 1px dashed #006;
+    color: #006;
 }
 
 div.success {
-    border: 1px dashed #006600;
-    background-color: #CCFF99;
-    color: #006600;
+    border: 1px dashed #060;
+    background-color: #CF9;
+    color: #060;
 }
 
 div.errors ul,
 div.warnings ul,
 div.explain ul,
 div.success ul {
-    margin-top: 0em;
-    margin-bottom: 0em;
+    margin-top: 0;
+    margin-bottom: 0;
 }
