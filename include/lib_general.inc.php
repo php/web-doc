@@ -199,18 +199,12 @@ function site_nav_provider()
    }
 
     // English only
-    if (LANGC == 'all' || LANGC == 'en') {
-
-        switch(SITE) {
-            case 'php':
-                $links['orphan-notes']     = BASE_URL . '/orphan_notes.php';
-                $links['notes-stats']      = BASE_URL . '/notes_stats.php';
-                $links['undoc-functions']  = BASE_URL . '/undoc_functions.php';
-                $links['missing-examples'] = BASE_URL . '/missing_examples.php';
-                $links['phpt-generator']   = BASE_URL . '/phpt_generator.php';
-    
-            case 'pear':
-        }
+    if ((LANGC == 'all' || LANGC == 'en') && SITE == 'php') {
+        $links['orphan-notes']     = BASE_URL . '/orphan_notes.php';
+        $links['notes-stats']      = BASE_URL . '/notes_stats.php';
+        $links['undoc-functions']  = BASE_URL . '/undoc_functions.php';
+        $links['missing-examples'] = BASE_URL . '/missing_examples.php';
+        $links['phpt-generator']   = BASE_URL . '/phpt_generator.php';
     }
 
     if (is_admin())
