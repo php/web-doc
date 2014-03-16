@@ -180,14 +180,7 @@ function get_resource_url($url = '')
 // particular page the user is viewing currently
 function site_nav_provider()
 {
-    $links = array(
-        'subsite-homepage'      => BASE_URL .'/',
-//        'request-for-comments'  => BASE_URL .'/rfc/rfc-overview.php',
-        'userlist'              => BASE_URL .'/users.php',
-    );
-//    if (strpos($_SERVER['REQUEST_URI'], 'rfc') !== false) {
-//       $links['submit-rfc'] = BASE_URL .'/rfc/rfc-proposal-edit.php';
-//    }
+    $links['subsite-homepage'] = BASE_URL . '/';
     if (in_array(SITE, array('gtk', 'pear', 'php'))) {
         $links['rev-check'] = BASE_URL .'/revcheck.php';
     }

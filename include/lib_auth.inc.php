@@ -17,14 +17,9 @@
  * |          Nuno Lopes <nlopess@php.net>                                |
  * +----------------------------------------------------------------------+
  *
- * $Id$
  */
 
 require_once 'cvs-auth.inc';
-
-if (!$idx = sqlite_open(SQLITE_DIR . 'users.sqlite')) {
-    die ('auth DB not available');
-}
 
 $user = null; // Register globals...
 
@@ -68,24 +63,6 @@ function is_admin()
 {
     return in_array($GLOBALS['user'], $GLOBALS['admins']);
 }
-
-
-/**
- * read user info from the DB
- */
-function user_info($u = false)
-{
-    global $idx, $user;
-
-    $u = $u ? $u : $user;
-    $result = @sqlite_unbuffered_query($idx, "SELECT * FROM users WHERE username='" . sqlite_escape_string($u) . "'");
-    if (!$result) {
-        return false;
-    }
-
-    return sqlite_fetch_array($result, SQLITE_ASSOC);
-}
-
 
 /**
  * returns the user's real name
