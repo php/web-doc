@@ -20,7 +20,6 @@ $Id$
 
 require_once '../include/init.inc.php';
 require_once '../include/lib_phpt_generator.inc.php';
-require_once '../include/lib_auth.inc.php';
 require_once 'Archive/Tar.php';
 
 // clean magic_quotes_gpc
