@@ -33,7 +33,6 @@ require_once 'DB.php';
 require_once 'DB/storage.php'; 
 require_once $path . '/rfc-config.php';
 require_once $path . '/../init.inc.php';
-require_once $path . '/../lib_auth.inc.php';
 
 
 $docwebUser = $user;
