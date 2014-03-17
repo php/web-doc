@@ -21,8 +21,6 @@
 $Id$
 */
 
-require_once dirname(__FILE__) . '/lib_auth.inc.php';
-
 function is_translation($project, $language)
 {
     return is_dir(SVN_DIR . $GLOBALS['PROJECTS'][$project] . '/' . $language);
@@ -206,9 +204,6 @@ function site_nav_provider()
         $links['missing-examples'] = BASE_URL . '/missing_examples.php';
         $links['phpt-generator']   = BASE_URL . '/phpt_generator.php';
     }
-
-    if (is_admin())
-        $links['admin'] = BASE_URL . '/admin.php';
 
     return DocWeb_Template::get(
         'shared/nav_links.tpl.php',
