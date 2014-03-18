@@ -29,8 +29,6 @@ $PROJECTS = array(
 // project => (Name, local folder, cvs module)
     'www'      => array('Documentation',         '',        ''),
     'php'      => array('PHP Documentation',     DOC_DIR,  'phpdoc/en'),
-    'pear'     => array('PEAR Documentation',    PEAR_DIR, 'peardoc/en'),
-    'gtk'      => array('PHP-GTK Documentation', GTK_DIR, 'php-gtk-doc/manual/en'),
     'phd'      => array('phd',                   '',        ''),
 );
 

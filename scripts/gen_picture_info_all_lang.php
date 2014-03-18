@@ -11,9 +11,7 @@ include '../include/lib_revcheck.inc.php';
 // Couleurs des barres, suivant le type de la doc
 $type_col_bar = array(
 
-'php' => '9999cc',
-'pear' => '339900',
-'gtk' => '0099cc'
+'php' => '9999cc'
 
 );
 

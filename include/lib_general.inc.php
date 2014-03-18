@@ -195,7 +195,7 @@ function site_nav_provider()
             $links['checkent']     = BASE_URL . '/checkent.php';
             break;
    }
-
+   
     // English only
     if ((LANGC == 'all' || LANGC == 'en') && SITE == 'php') {
         $links['orphan-notes']     = BASE_URL . '/orphan_notes.php';

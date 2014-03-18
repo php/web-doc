@@ -34,16 +34,6 @@ switch (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : false) {
         $entType = 'php';
         break;
 
-    case 'peardoc':
-        $filename = SVN_DIR . '/' . PEAR_DIR. '/entities/global.ent';
-        $entType = 'pear';
-        break;
-
-    case 'gtk':
-        $filename = SVN_DIR . GTK_DIR. '/manual/global.ent';
-        $entType = 'gtk';
-        break;
-
     default:
         echo "Usage: {$_SERVER['argv'][0]} phpdoc|peardoc|gtk\n";
         die();
