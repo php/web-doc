@@ -1,53 +1,47 @@
 <?php
-/* $Id$ */
-
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 
 $LANG = LANGC;
+$language = $_GET['lang'];
+if (in_array($language, array_keys($LANGUAGES))) {
+    $language = 'en';
+}
 
-if (SITE == 'www') {
-    echo site_header('docweb.common.header.revcheck');
-    echo revcheck_available_types();
-    echo site_footer();
-    die;
-} else {
-    $DBLANG = SQLITE_DIR . 'rev.' . SITE . '.sqlite';
-    if (LANGC == 'en' ||LANGC == 'all') {
-        if ($dbhandle = @sqlite_open($DBLANG)) {
-            $type = SITE;
-            $langs = revcheck_available_languages($dbhandle);
-            if(!$langs) {
-                echo site_header('docweb.common.header.revcheck');
-              ?>
-                <div class="ColoredDiv">
-                <h2 class="c">Status of the translated <?php echo strtoupper(SITE); ?> Manual</h2>
-                <p class="c" style="font-size:12px;"><span class="Flag">
-                <?php 
-                if (LANGC != 'all') {
-                    echo '<img src="/images/flags/' . LANGC .'.png" alt="'. LANGD . '" title="' . LANGD . '" />';
-                } ?></span> Language: <?php echo LANGD; ?> : This documentation don't exist yet.<br />
-                </p>
-              </div>
-              <?php
-              echo site_footer();
-              die();
-            } else {
-                echo site_header('docweb.common.header.revcheck');
-                echo "
-                <p class=\"c\">
-                <img src=\"/images/revcheck/info_revcheck_" . SITE . "_all_lang.png\" alt=\"Info\" />
-                </p>";
-                echo site_footer();
-                die();
-            }
-        } else {
-            echo site_header('docweb.common.header.revcheck');
-            echo "Couldn't connect to the revcheck database";
-            echo site_footer();
-            die();
-        }
-    }
+$DBLANG = SQLITE_DIR . 'rev.php.sqlite';
+if (LANGC == 'en' ||LANGC == 'all') {
+	if ($dbhandle = @sqlite_open($DBLANG)) {
+		$langs = revcheck_available_languages($dbhandle);
+		if(!$langs) {
+			echo site_header('docweb.common.header.revcheck');
+		  ?>
+			<div class="ColoredDiv">
+			<h2 class="c">Status of the translated PHP Manual</h2>
+			<p class="c" style="font-size:12px;"><span class="Flag">
+			<?php 
+			if (LANGC != 'all') {
+				echo '<img src="/images/flags/' . LANGC .'.png" alt="'. LANGD . '" title="' . LANGD . '" />';
+			} ?></span> Language: <?php echo LANGD; ?> : This documentation don't exist yet.<br />
+			</p>
+		  </div>
+		  <?php
+		  echo site_footer();
+		  die();
+		} else {
+			echo site_header('docweb.common.header.revcheck');
+			echo "
+			<p class=\"c\">
+			<img src=\"/images/revcheck/info_revcheck_php_all_lang.png\" alt=\"Info\" />
+			</p>";
+			echo site_footer();
+			die();
+		}
+	} else {
+		echo site_header('docweb.common.header.revcheck');
+		echo "Couldn't connect to the revcheck database";
+		echo site_footer();
+		die();
+	}
 }
 $sql = "SELECT charset FROM description WHERE lang='" . LANGC . "';";
 if (!($dbhandle = @sqlite_open($DBLANG)) || !($res = @sqlite_query($dbhandle, $sql)) || !sqlite_num_rows($res))
@@ -56,7 +50,7 @@ if (!($dbhandle = @sqlite_open($DBLANG)) || !($res = @sqlite_query($dbhandle, $s
     echo site_header('docweb.common.header.revcheck');
 ?>
   <div class="ColoredDiv">
-  <h2 class="c">Status of the translated <?php echo strtoupper(SITE); ?> Manual</h2>
+  <h2 class="c">Status of the translated PHP Manual</h2>
   <p class="c" style="font-size:12px;"><span class="Flag">
   <?php 
   if (LANGC != 'all') {
@@ -108,7 +102,7 @@ array (REV_NOTRANS,  "Files available for translation")
 ?>
 
 <div class="ColoredDiv">
-  <h2 class="c">Status of the translated <?php echo strtoupper(SITE); ?> Manual</h2>
+  <h2 class="c">Status of the translated PHP Manual</h2>
   <p class="c" style="font-size:12px;">
    Generated: <?php echo date("r", filemtime($DBLANG)); ?> &nbsp; / <span class="Flag"><img src="/images/flags/<?php echo LANGC; ?>.png" alt="<?php echo LANGD; ?>" title="<?php echo LANGD; ?>" /></span> Language: <?php echo LANGD; ?><br />
   </p>
@@ -511,9 +505,9 @@ END_OF_MULTILINE;
 break;
 
 case "graph" :
-if (is_readable("images/revcheck/info_revcheck_" . SITE . "_" . LANGC . ".png")) {
+if (is_readable("images/revcheck/info_revcheck_php_" . LANGC . ".png")) {
     echo "<p class=\"c\">
-                <img src=\"/images/revcheck/info_revcheck_" . SITE . "_" . LANGC . ".png\" alt=\"Info\" />
+                <img src=\"/images/revcheck/info_revcheck_php_" . LANGC . ".png\" alt=\"Info\" />
                 </p>";
 } else {
     echo 'Can\'t find graph';
@@ -527,5 +521,3 @@ break;
 }
 
 echo site_footer();
-
-?>

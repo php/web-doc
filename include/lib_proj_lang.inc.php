@@ -34,7 +34,7 @@ $PROJECTS = array(
 
 // Supported languages
 $LANGUAGES = array(
-    'all'   => 'All',
+    'en'    => 'English',
     'ar'    => 'Arabic',
     'pt_BR' => 'Brazilian Portuguese',
     'bg'    => 'Bulgarian',
@@ -65,5 +65,4 @@ $LANGUAGES = array(
     'es'    => 'Spanish',
     'sv'    => 'Swedish',
     'tr'    => 'Turkish',
-    'en'    => 'English',
 );

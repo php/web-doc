@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
+/*
 +----------------------------------------------------------------------+
 | PHP Documentation Tools Site Source Code                             |
 +----------------------------------------------------------------------+
@@ -178,23 +178,6 @@ function get_outdated_translator_files($idx, $lang, $user)
 
     return $tmp;
 
-}
-
-// Return an array with the revchecked documentation types
-function revcheck_available_types()
-{
-    $buff = '';
-    $a = glob(SQLITE_DIR . 'rev.*.sqlite');
-    $buff .= "The revision tracking is actually available for the following documentation types : <ul>";
-    foreach($a as $b) {
-        $b = str_replace(SQLITE_DIR . 'rev.', '', $b);
-        $b = str_replace('.sqlite', '', $b);
-        if (!file_exists('./images/icons/' . $b . '.png'))
-            continue;
-        $buff .= "<li><a href=\"/".$b."/revcheck.php\"><img src=\"/images/icons/".$b.".png\" alt=\"".$b."\" /></a></li>";
-    }
-    $buff .= "</ul>";
-    return $buff;
 }
 
 // Return an array of available languages for a revchecked documentation $type
@@ -716,5 +699,3 @@ function get_stats_notag($idx, $lang)
     $result = array($r['total'], $r['size']);
     return $result;
 }
-
-?>

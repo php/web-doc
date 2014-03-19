@@ -74,7 +74,7 @@ class DocWeb_Template
     function factory($template)
     {
         // vars (become onject properties after instanciation)
-        $language        = LANGC;
+        $language        = 'all';
         $project         = SITE;
         $defaultLanguage = $GLOBALS['defaultLanguage'];
         $defaultProject  = $GLOBALS['defaultProject'];

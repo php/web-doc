@@ -34,7 +34,6 @@ require '../build-ops.php';
 date_default_timezone_set('UTC');
 
 define('DEBUG_MODE', FALSE); // Enable to not send emails.
-define('EMAIL_TEMPLATE_FILENAME', '../templates/emails/email-template-doc-activity.txt');
 define('DAYS_LOOKUP', 7); // Number of days, in the past, to search/use for the report
 
 $svn_modules = array('phpdoc', 'phd', 'web/doc-editor');
@@ -51,12 +50,36 @@ if (!function_exists('simplexml_load_string')) {
 	exit;
 }	
 
-if (!is_readable(EMAIL_TEMPLATE_FILENAME)) {
-	echo 'Fail. No email template', PHP_EOL;
-	exit;
-}
+$email_text = <<<TEMPLATE
 
-$email_text = file_get_contents(EMAIL_TEMPLATE_FILENAME);
+Hello!
+
+This lists some of the activity found within the PHP documentation over at php.net. Of course numbers mean nothing alone, but they do show general activity around the PHP documentation. Dates of activity include: DATES_ACTIVITY
+
+Those who made SVN commits:
+-----------------------------------------------
+  (php.net svn modules: SVN_MODULES_LIST)
+
+SVN_COMMIT_COUNTS
+
+Those who closed documentation bugs:
+-----------------------------------------------
+  (bug categories: problem, translation, phd, editor)
+
+BUGS_CLOSED
+
+Those who handled user notes:
+-----------------------------------------------
+  (actions: delete, reject, edit)
+
+NOTES_HANDLED
+
+---
+See also: 
+ - Edit the documentation online: https://edit.php.net/
+ - Documentation HOWTO: https://doc.php.net/dochowto/
+
+TEMPLATE;
 
 /****************************************************************************/
 /**** Weekly commits ********************************************************/
