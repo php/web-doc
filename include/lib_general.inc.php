@@ -34,7 +34,7 @@ function site_header($full_screen = false)
 	$LINKS = array(
         array('href' => '/revcheck.php', 'text' => 'Documentation Tools'),
         array('href' => '/dochowto/', 'text' => 'Documentation Howto'),
-        array('href' => '/phd/', 'text' => 'PhD Homepage'),
+        array('href' => '/phd.php', 'text' => 'PhD Homepage'),
     );
 
     require __DIR__ . '/../shared/templates/header.inc';
