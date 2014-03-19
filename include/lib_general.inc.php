@@ -37,85 +37,30 @@ function get_svn_dir($project)
     return $GLOBALS['PROJECTS'][$project][1] . '/';
 }
 
-function site_header($title = '', $style = array())
+function site_header($full_screen = false)
 {
-    define('IN_HEAD', true);
-    $lang       = 'en'; //LANGC;
-    $encoding   = 'UTF-8';
-    $page_title = ($title ? $GLOBALS['Language']->get($title) . ' - ' : '') . $GLOBALS['Language']->get('docweb.common.title.default');
-    $h1         = ($title ? $GLOBALS['Language']->get($title) : $GLOBALS['Language']->get('docweb.common.title.default'));
-    list($page_h1) = explode("\n", wordwrap($h1, 50, "...\n"));
+    $TITLE = 'Documentation Tools';
+	$SUBDOMAIN = 'doc';
+	$LINKS = array(
+        array('href' => '/revcheck.php', 'text' => 'Documentation Tools'),
+        array('href' => '/dochowto/', 'text' => 'Documentation Howto'),
+        array('href' => '/phd/', 'text' => 'PhD Homepage'),
+    );
 
-    $languages = site_nav_langs();
-    $projects  = site_nav_projects();
+    require __DIR__ . '/../shared/templates/header.inc';
 
-    $langdisplay = $GLOBALS['LANGUAGES'][LANGC];
-    $projdisplay = $GLOBALS['PROJECTS'][SITE][0];
-    // this will prevent 404 errors
-    $project     = (in_array(SITE, array('www', 'phd')) ? 'php' : SITE);
-    $locallinks  = site_nav_provider();
-    $extlinks    = ext_nav_provider();
-
-    $extra_style = '';
-    // prevent errors
-    $guess_style = (SITE == 'www') ? '' : SITE . '.css';
-    $styles = array_filter(($style ? array($style) : array($guess_style)));
-
-    // Set proper encoding with HTTP header first
-    header("Content-type: text/html; charset=$encoding");
-
-    // bugs for count
-    if ($bugs = get_bug_count()) {
-        $showBugs = true;
-        $bugCount = $bugs['count'];
-        $bugsLink = $bugs['link'];
-    } else {
-        $showBugs = $bugCount = $bugsLink = false;
+    if ($full_screen) {
+        echo '<section class="fullscreen">';
     }
-
-    return DocWeb_Template::get(
-        'shared/header.tpl.php',
-        array(
-            'encoding'    => $encoding,
-            'lang'        => $lang,
-            'project'     => $project,
-            'page_h1'     => $page_h1,
-            'styles'      => $styles,
-            'projects'    => $projects,
-            'languages'   => $languages,
-            'projdisplay' => $projdisplay,
-            'langdisplay' => $langdisplay,
-            'locallinks'  => $locallinks,
-            'extlinks'    => $extlinks,
-            'page_title'  => $page_title,
-            'showBugs'    => $showBugs,
-            'bugCount'    => $bugCount,
-            'bugsLink'    => $bugsLink,
-        )
-    );
+    else {
+        echo '<section class="mainscreen">';
+    }
 }
 
-function site_nav_projects()
+function site_footer($SECONDSCREEN = false)
 {
-    return DocWeb_Template::get('shared/nav_projects.tpl.php');
-}
-
-function site_nav_langs()
-{
-    return DocWeb_Template::get(
-        'shared/nav_languages.tpl.php',
-        array('languages' => $GLOBALS['LANGUAGES'])
-    );
-}
-
-function site_footer($svn_version = NULL)
-{
-    $master = get_insite_address(NULL, NULL, '');
-    return DocWeb_Template::get(
-        'shared/footer.tpl.php',
-        array('master'      => $master,
-              'svn_version' => $svn_version)
-    );
+	echo '</section>';
+    require __DIR__ . '/../shared/templates/footer.inc';
 }
 
 // Format email address for spam protection
@@ -172,66 +117,6 @@ function get_insite_address($project = NULL, $lang = NULL, $path = NULL)
 function get_resource_url($url = '')
 {
     return "/$url";
-}
-
-// This function provides the relevant insite navigation options for the
-// particular page the user is viewing currently
-function site_nav_provider()
-{
-    $links['subsite-homepage'] = BASE_URL . '/';
-    if (in_array(SITE, array('gtk', 'pear', 'php'))) {
-        $links['rev-check'] = BASE_URL .'/revcheck.php';
-    }
-    if (SITE == 'php') {
-        $links['doc-howto'] = BASE_URL . '/dochowto/index.php';
-//        FIXME: Disabled until livedocs requirement is removed
-//        $links['entities']  = BASE_URL . '/entities.php';
-    }
-
-    switch(SITE) {
-        case 'php':
-        case 'pear':
-        case 'gtk':
-            $links['checkent']     = BASE_URL . '/checkent.php';
-            break;
-   }
-   
-    // English only
-    if ((LANGC == 'all' || LANGC == 'en') && SITE == 'php') {
-        $links['orphan-notes']     = BASE_URL . '/orphan_notes.php';
-        $links['notes-stats']      = BASE_URL . '/notes_stats.php';
-        $links['undoc-functions']  = BASE_URL . '/undoc_functions.php';
-        $links['missing-examples'] = BASE_URL . '/missing_examples.php';
-        $links['phpt-generator']   = BASE_URL . '/phpt_generator.php';
-    }
-
-    return DocWeb_Template::get(
-        'shared/nav_links.tpl.php',
-        array('links' => $links, 'Language' => &$GLOBALS['Language'])
-    );
-}
-
-// This function provides the relevant offsite navigation options for the
-// particular page the user is viewing currently
-function ext_nav_provider()
-{
-    $links = array();
-    switch (SITE) {
-    case 'php':
-        switch (LANGC) {
-        case 'hu':
-            $links['translation-info'] = 'http://wfsz.njszt.hu/projektek_phpdoc.php';
-            break;
-        case 'it':
-            $links['translation-info'] = 'http://cortesi.com/php/';
-            break;
-        }
-        break;
-    }
-    return DocWeb_Template::get(
-        'shared/nav_links.tpl.php',
-        array('links' => $links, 'Language' => &$GLOBALS['Language'])
-    );
 }
 
 function get_bug_count ($project=SITE) {
