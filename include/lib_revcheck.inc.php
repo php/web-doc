@@ -33,8 +33,6 @@ define("REV_NOTRANS",  6); // file without translation
 define("REV_CREDIT",   7); // only used in translators list
 define("REV_WIP",      8); // only used in translators list
 
-
-
 // Return an array of directory containing outdated files
 function get_dirs($idx, $lang)
 {
@@ -208,11 +206,10 @@ function revcheck_available_languages($idx)
 // Return en integer
 function get_nb_EN_files($idx)
 {
-    $sql = "select COUNT(*) as total FROM files WHERE lang = 'en'";
+    $sql = "SELECT COUNT(*) AS total FROM files WHERE lang = 'en'";
     $res = sqlite_query($idx, $sql);
     $row = sqlite_fetch_array($res, SQLITE_ASSOC);
-    $files_EN = $row['total'];
-    return $files_EN;
+    return $row['total'];
 }
 
 function get_missfiles($idx, $lang)
@@ -279,12 +276,21 @@ function get_oldfiles($idx, $lang)
     return $tmp;
 }
 
-function get_description($idx, $lang)
+function get_misstags($idx, $lang)
 {
-    $sql = 'SELECT intro FROM description WHERE lang = "' . $lang . '";';
+    $sql = 'SELECT
+     d.name AS dir, b.size AS en_size, a.size AS trans_size, a.name AS name
+     FROM files a, dirs d 
+     LEFT JOIN files b ON a.dir = b.dir AND a.name = b.name 
+     WHERE a.lang="'.$lang.'" AND b.lang="en" AND a.revision IS NULL 
+     AND a.size IS NOT NULL AND a.dir = d.id';
+
     $result = sqlite_query($idx, $sql);
-    $row = sqlite_fetch_array($result, SQLITE_ASSOC);
-    return $row['intro'];
+    while($row = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+        $tmp[] = $row;
+    }
+
+    return $tmp;
 }
 
 // Return an integer
@@ -698,4 +704,9 @@ function get_stats_notag($idx, $lang)
     $r = sqlite_fetch_array($result, SQLITE_ASSOC);
     $result = array($r['total'], $r['size']);
     return $result;
+}
+
+function gen_date($file)
+{
+    return '<small>Generated: '.date('d M Y H:i:s', filemtime($file)).'</small>';
 }
