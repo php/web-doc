@@ -13,7 +13,7 @@ function bugl($number)
     echo "<a href=\"http://bugs.php.net/$number\">#$number</a>";
 }
 
-site_header(true);
+site_header();
 ?>
 
 <p>For PhD documentation see the <a href="/phd/docs/">PhD: The definitive guide to PHP's DocBook Rendering System</a> section.</p>
