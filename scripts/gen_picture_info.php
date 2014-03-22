@@ -1,6 +1,4 @@
 <?php
-/* $Id$ */
-
 include '../include/jpgraph/src/jpgraph.php';
 include '../include/jpgraph/src/jpgraph_pie.php';
 include '../include/jpgraph/src/jpgraph_pie3d.php';
@@ -8,45 +6,33 @@ include '../include/jpgraph/src/jpgraph_pie3d.php';
 $inCli = true;
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
+include '../include/lib_proj_lang.inc.php';
 
-$self = array_shift($argv);
-
-$TYPE = array_shift($argv); // Type of documentation
-$LANGS = $argv;
-
-// generate all languages
-if (count($LANGS) == 0) {
-    include "../include/lib_proj_lang.inc.php";
-    $LANGS = array_keys($LANGUAGES);
-}
-
-
-foreach ($LANGS as $lang) {
-    if ($lang === 'en' || $lang === 'all') {
+$langs = array_key($LANGUAGES);
+foreach ($langs as $lang) {
+    if ($lang === 'en') {
         continue;
     }
-    if (!generation_image($TYPE, $lang) ) {
-        echo "The $TYPE documentation for $lang language does not exist.\n";
+    if (!generate_image($lang)) {
+        echo "Documentation for $lang language does not exist.\n";
     } else {
-        echo " Generated images/revcheck/info_revcheck_" . $TYPE . "_" . $lang . ".png\n";
+        echo "Generated images/revcheck/info_revcheck_php_" . $lang . ".png\n";
     }
 }
 
-
-function generation_image($TYPE, $lang) {
+function generate_image($lang) {
     global $LANGUAGES;
 
-    $idx = sqlite_open(SQLITE_DIR . 'rev.' . $TYPE . '.sqlite');
+    $idx = sqlite_open(SQLITE_DIR . 'rev.php.sqlite');
     $Total_files = @get_nb_LANG_files($idx);
     if (!isset($Total_files[$lang]) ) {
         return FALSE;
     }
 
-
     $Total_files_lang = $Total_files[$lang];
     //
     $up_to_date = @get_nb_LANG_files_Translated($idx, $lang);
-    $up_to_date = ( $up_to_date['total'] == '') ? 0 : $up_to_date['total'];
+    $up_to_date = ($up_to_date['total'] == '') ? 0 : $up_to_date['total'];
     //
     $critical = @get_stats_critical($idx, $lang);
     $critical = $critical[0];
@@ -61,20 +47,18 @@ function generation_image($TYPE, $lang) {
     //
 
     $data = array($up_to_date,$critical,$old,$missing,$no_tag);
-    $pourcent = array();
+    $percent = array();
     $total = 0;
     $total = array_sum($data);
 
-    foreach ( $data as $valeur ) {
-
-        $pourcent[] = round($valeur * 100 / $total);
-
+    foreach ($data as $value) {
+        $percent[] = round($value * 100 / $total);
     }
     
     $noExplode = ($Total_files_lang == $up_to_date) ? 1 : 0;
 
-    $legend = array($pourcent[0] . '%% up to date ('.$up_to_date.')', $pourcent[1] . '%% critical ('.$critical.')', $pourcent[2] . '%% old ('.$old.')', $pourcent[3] . '%% missing ('.$missing.')', $pourcent[4] . '%% without revtag ('.$no_tag.')');
-    $title = ucfirst($TYPE). ' : Details for '.$LANGUAGES[$lang].' Doc';
+    $legend = array($percent[0] . '%% up to date ('.$up_to_date.')', $percent[1] . '%% critical ('.$critical.')', $percent[2] . '%% old ('.$old.')', $percent[3] . '%% missing ('.$missing.')', $percent[4] . '%% without revtag ('.$no_tag.')');
+    $title = 'Details for '.$LANGUAGES[$lang].' PHP Manual';
 
     $graph = new PieGraph(530,300);
     $graph->SetShadow();
@@ -107,7 +91,7 @@ function generation_image($TYPE, $lang) {
     $p1->SetLegends($legend);
 
     $graph->Add($p1);
-    $graph->Stroke('../www/images/revcheck/info_revcheck_' . $TYPE . '_' . $lang . '.png');
+    $graph->Stroke('../www/images/revcheck/info_revcheck_php_' . $lang . '.png');
 
 
     return TRUE;

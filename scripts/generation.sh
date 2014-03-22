@@ -9,19 +9,10 @@ cd ${SCRIPTSDIR}
 
 # PHP
 echo "Generating PHP database"
-${PHP} -q ./rev.php php
+${PHP} -q ./rev.php
 echo "... done."
 echo "Generating PHP pictures"
-${PHP} -q ./gen_picture_info.php php
-echo "... done"
-
-
-# PEAR
-echo "Generating PEAR database"
-${PHP} -q ./rev.php pear
-echo "... done."
-echo "Generating PEAR pictures"
-${PHP} -q ./gen_picture_info.php pear
+${PHP} -q ./gen_picture_info.php
 echo "... done"
 
 echo "Generating global graphs"

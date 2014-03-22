@@ -1,5 +1,4 @@
 <?php
-
 include '../include/jpgraph/src/jpgraph.php';
 include '../include/jpgraph/src/jpgraph_bar.php';
 
@@ -7,61 +6,28 @@ $inCli = true;
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 
+$idx = sqlite_open(SQLITE_DIR . 'rev.php.sqlite');
 
-// Couleurs des barres, suivant le type de la doc
-$type_col_bar = array(
+$language = revcheck_available_languages($idx, 'php');
+sort($language);
+$files_EN = get_nb_EN_files($idx);
 
-'php' => '9999cc'
+foreach ($language as $lang) {
+    $tmp = get_nb_LANG_files_Translated($idx, $lang);
 
-);
+    $percent_tmp[] = round($tmp['total'] * 100 / $files_EN);
+    $legend_tmp[] = $lang;
+}
 
+$percent = array_values($percent_tmp);
+$legend = array_values($legend_tmp);
 
-foreach($type_col_bar as $type => $pos) {
+echo "Generating PHP graphic for all languages...";
+generate_image();
+echo " Done.\n";
 
-    if (is_file(SQLITE_DIR . 'rev.' . $type . '.sqlite') && filesize(SQLITE_DIR . 'rev.' . $type . '.sqlite') != 0 ) {
-
-        $idx = sqlite_open(SQLITE_DIR . 'rev.' . $type . '.sqlite');
-
-        $language = revcheck_available_languages($idx, $type);
-        sort($language);
-        $files_EN = get_nb_EN_files($idx);
-
-
-        $tmp = Array();
-        $datay_tmp = Array();
-        $legendy_tmp = Array();
-        $datay = Array();
-        $legendy = Array();
-
-
-        foreach( $language as $lang ) {
-
-            $tmp = get_nb_LANG_files_Translated($idx, $lang);
-
-            $datay_tmp[] = round($tmp['total'] * 100 / $files_EN);
-            $legendy_tmp[] = $lang;
-
-        }
-        $datay = array_values($datay_tmp);
-        $legendy = array_values($legendy_tmp);
-
-        echo "Generating $type graphic for all languages...";
-
-        generation_image($type);
-
-        echo " Done.\n";
-
-    } // end if
-
-} // end foreach
-
-
-
-
-function generation_image($TYPE) {
-    global $datay;
-    global $legendy;
-    global $type_col_bar;
+function generate_image() {
+    global $percent, $legend;
 
     // Create the graph. These two calls are always required
     $graph = new Graph(550,250);
@@ -69,8 +35,7 @@ function generation_image($TYPE) {
     $graph->yaxis->scale->SetGrace(20);
 
     $graph->xaxis->SetLabelmargin(5);
-    $graph->xaxis->SetTickLabels($legendy);
-
+    $graph->xaxis->SetTickLabels($legend);
 
     $graph->ygrid->SetFill(true,'#EFEFEF@0.5','#BBCCFF@0.5');
 
@@ -81,10 +46,10 @@ function generation_image($TYPE) {
     $graph->img->SetMargin(50,30,20,40);
 
     // Create a bar pot
-    $bplot = new BarPlot($datay);
+    $bplot = new BarPlot($percent);
 
     // Adjust fill color
-    $bplot->SetFillColor('#'.$type_col_bar[$TYPE]);
+    $bplot->SetFillColor('#9999CC');
 
     $bplot->SetShadow();
     $bplot->value->Show();
@@ -98,7 +63,7 @@ function generation_image($TYPE) {
     $graph->Add($bplot);
 
     // Setup the titles
-    $graph->title->Set(strtoupper($TYPE)." documentation");
+    $graph->title->Set("PHP documentation");
     $graph->xaxis->title->Set("Language");
     $graph->yaxis->title->Set("Files up to date (%)");
 
@@ -107,6 +72,6 @@ function generation_image($TYPE) {
     $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 
     // Display the graph
-    $graph->Stroke('../www/images/revcheck/info_revcheck_' . $TYPE . '_all_lang.png');
+    $graph->Stroke('../www/images/revcheck/info_revcheck_php_all_lang.png');
 
 }

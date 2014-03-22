@@ -1,9 +1,9 @@
 <?php
 /*
 +----------------------------------------------------------------------+
-| PHP Version 4                                                        |
+| PHP Documentation Tools Site Source Code                             |
 +----------------------------------------------------------------------+
-| Copyright (c) 1997-2011 The PHP Group                                |
+| Copyright (c) 1997-2014 The PHP Group                                |
 +----------------------------------------------------------------------+
 | This source file is subject to version 3.0 of the PHP license,       |
 | that is bundled with this package in the file LICENSE, and is        |
@@ -18,70 +18,24 @@
 |                   Mark Kronsbein    <mk at php dot net>              |
 |                   Jan Fabry     <cheezy at php dot net>              |
 | SQLite version Authors:                                              |
-|                   Mehdi Achour   <didou at php dot net>              |
+|                   Mehdi Achour         <didou at php dot net>        |
+|                   Maciej Sobaczewski   <sobak at php dot net>        |
 +----------------------------------------------------------------------+
 
 */
 
 error_reporting(E_ALL);
 set_time_limit(0);
-/**
-*   Usage
-**/
-
-// keep this call, we need it
-$self = array_shift($argv);
-
-if ($argc < 2) {
-?>
-  Usage:
-    <?php echo $self;?> type [lang1 [lang2 [lang3 [..]]]]
-
-  Checks the revision of translated files against the actual english
-  xml files, and create an sqlite database to generate statisctics
-  
-  type should be a registered documentation type in 
-  <?php echo dirname($self);?>/common.php
-
-  langN should be a valid language code used in the documentation
-  repository
-
-  Read more about Revision comments and related functionality in 
-  the PHP Documentation Howto :
-    http://php.net/manual/howto/translation-revtrack.html (9.4.2)
-
-<?php
-exit(0);
-}
-
-/**
-*   Configuration
-**/
 
 // define some common variables
 $inCli = true;
 include '../include/init.inc.php';
+include '../include/lib_proj_lang.inc.php';
 
-// grab the documentation type
-$TYPE = array_shift($argv);
+$DOCS = SVN_DIR . get_svn_dir('php');
 
-if ($TYPE != 'php') {
-    echo "Error: The revcheck script is not available yet for $TYPE\n";
-    exit(0);
-}
-
-$DOCS = SVN_DIR . get_svn_dir($TYPE);
-
-// $argv was shifted before
-$LANGS = $argv;
-
-// generate all languages
-if (count($LANGS) == 0) {
-    include "../include/lib_proj_lang.inc.php";
-    $LANGS = array_keys($LANGUAGES);
-}
-
-// Test the languages :
+// Test the languages:
+$LANGS = array_keys($LANGUAGES);
 $langc = count($LANGS);
 for ($i = 0; $i < $langc; $i++) {
     // make sure we don't parse the en tree
@@ -89,16 +43,15 @@ for ($i = 0; $i < $langc; $i++) {
         unset($LANGS[$i]);
         continue;
     }
-    
+
     if (!is_dir($DOCS . $LANGS[$i])) {
-        echo "Error: the \"{$LANGS[$i]}\" lang doesn't exist for $TYPE in dir {$DOCS}, skipping..\n";
+        echo "Error: the \"{$LANGS[$i]}\" lang doesn't exist in dir {$DOCS}, skipping..\n";
         unset($LANGS[$i]);
     }
 }
-if (count($LANGS) == 0)
-{
+if (count($LANGS) == 0) {
     echo "Error: No language to revcheck, exiting.\n";
-    exit(0);
+    exit;
 }
 
 $SQL_BUFF = "INSERT INTO dirs (id, name) VALUES (1, '/');\n";
@@ -434,7 +387,7 @@ function get_tags($file)
 {
     // Read the first 500 chars. The comment should be at
     // the begining of the file
-    $fp = @fopen($file, "r") or die ("Unable to read $file.");
+    $fp = @fopen($file, "r") or die("Unable to read $file.");
     $line = fread($fp, 500);
     fclose($fp);
 
@@ -493,17 +446,17 @@ function getmicrotime()
 
 $time_start = getmicrotime();
 
-$db_name = SQLITE_DIR . 'rev.' . $TYPE . '.sqlite';
-$tmp_db = SQLITE_DIR . 'rev.' . $TYPE . '.tmp.sqlite';
+$db_name = SQLITE_DIR . 'rev.php.sqlite';
+$tmp_db = SQLITE_DIR . 'rev.php.tmp.sqlite';
 
 // 1 - Drop the old database and create the new one
 if (is_file($tmp_db)) {
 
-    echo "Temporary database found : remove.\n";
+    echo "Temporary database found: remove.\n";
 
     if (!@unlink($tmp_db)) {
-        echo "Error : Can't remove temporary database\n";
-        exit(0);
+        echo "Error: Can't remove temporary database\n";
+        exit;
     }
 }
 
@@ -512,7 +465,8 @@ if (is_file($tmp_db)) {
 $idx = sqlite_open($tmp_db, 0666);
 
 if (!$idx) {
-    die("could not open $tmp_name");
+    echo "Could not open $tmp_name";
+    exit;
 }
 sqlite_query($idx, $CREATE);
 
@@ -529,7 +483,7 @@ do_revcheck();
 // 4:1 - Recurse in the manuel seeking for old files for each language and fill $SQL_BUFF
 
 foreach ($LANGS as $lang) {
- check_old_files('', $lang);
+    check_old_files('', $lang);
 }
 
 // 5 - Query $SQL_BUFF and exit
@@ -547,6 +501,5 @@ copy($tmp_db, $db_name);
 $time_end = getmicrotime();
 $time = $time_end - $time_start;
 
-echo "Time of generation : " . $time . " s\n";
+echo "Time of generation: $time s\n";
 echo "End\n";
-exit(1);
