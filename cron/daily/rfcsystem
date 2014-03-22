@@ -1,6 +1,0 @@
-#!/bin/sh
-
-. `dirname $0`/../../build-ops
-
-cd ${DOCWEB} 
-${PHP} ./include/rfc/rfc-cron.php

@@ -1,8 +1,0 @@
-#!/bin/sh
-
-. `dirname $0`/../../build-ops
-
-cd ${SCRIPTSDIR}
-${PHP} gen_function_aliases.php
-${PHP} gen_missing_examples.php
-${PHP} gen_undocumented_functions.php
