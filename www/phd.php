@@ -22,6 +22,30 @@ site_header();
 <ul id="releases">
 
   <li>
+    <a href="/get/PhD-1.1.10.tgz">PhD 1.1.10</a> <span class="date">21. March 2014</span><!-- {{{ -->
+    <ul>
+      <li>
+        <a href="/get/PhD_Generic-1.1.10.tgz">PhD_Generic 1.1.10</a> <span class="date">21. March 2014</span>
+        <ul>
+          <li>Render segmentedlist elements as XHTML tables (Adam)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PHP-1.1.10.tgz">PhD_PHP 1.1.10</a> <span class="date">21. March 2014</span>
+        <ul>
+          <li>Fix phd:chunk="false" (Adam)</li>
+          <li>Render segmentedlist elements as XHTML tables (Adam)</li>
+        </ul>
+      </li>
+      <li>
+        <a href="/get/PhD_PEAR-1.1.10.tgz">PhD_PEAR 1.1.10</a> <span class="date">21. March 2014</span>
+        <ul>
+          <li>Render segmentedlist elements as XHTML tables (Adam)</li>
+        </ul>
+      </li>
+    </ul><!-- }}} -->
+  </li>
+  <li>
     <a href="/get/PhD-1.1.9.tgz">PhD 1.1.9</a> <span class="date">6. March 2014</span><!-- {{{ -->
     <ul>
       <li>
