@@ -18,7 +18,6 @@
 |                   Gabor Hojtsy <goba@php.net>                        |
 |                   Sean Coates <sean@php.net>                         |
 +----------------------------------------------------------------------+
-$Id$
 */
 
 // get paths
@@ -63,18 +62,3 @@ if (!isset($inCli) OR $inCli != true) {
 
 // general support library
 require_once('lib_general.inc.php');
-
-if ($inCli != true) {
-    // language & template constants
-    define('DOCWEB_ENTITIY_PREFIX', 'docweb');
-    define('DOCWEB_PARAM_ENTITIY_PREFIX', 'param');
-
-    // language engine
-    require_once('docweb_language.class.php');
-    $Language = new DocWeb_Language(LANGC);
-
-    // template engine
-    require_once('docweb_template.class.php');
-}
-
-?>

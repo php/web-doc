@@ -1,9 +1,14 @@
 <?php
-/* $Id$ */
-
 include '../include/init.inc.php';
 
-echo site_header('docweb.common.header.error');
-echo DocWeb_Template::get('error.tpl.php');
-echo site_footer();
-?>
+site_header();
+
+echo '<h2>Error 404</h2>';
+if ($_SERVER['REDIRECT_STATUS'] == 404) {
+	echo '<p>File not found: '.htmlspecialchars($_SERVER['REQUEST_URI']).'</p>';
+}
+else {
+	echo '<p>An error occured</p>';
+}
+
+site_footer();
