@@ -1,0 +1,10 @@
+#!/bin/sh
+# Please read REDAME.md in the same directory to get more info about filling in this file
+
+PHP=@PHP@
+SVNDIR=@SVNDIR@
+DOCDIR=@DOCDIR@
+DOCWEB=@DOCWEB@
+SCRIPTSDIR=@SCRIPTSDIR@
+SQLITEDIR=@SQLITEDIR@
+SRCDIR=@SRCDIR@

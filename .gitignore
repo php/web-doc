@@ -19,8 +19,6 @@ build-ops.php
 config.cache
 config.log
 config.status
-configure
-config.nice
 .*.swp
 automate4te.cache
 diff
