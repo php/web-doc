@@ -152,12 +152,12 @@ function parse_translation($lang)
     if (isset($txml)) {
         // Find all persons matching the pattern
         if (preg_match_all("!<person (.+)/\\s?>!U", $txml, $matches)) {
-            $default = array('svn' => 'n/a', 'nick' => 'n/a', 'editor' => 'n/a', 'email' => 'n/a', 'name' => 'n/a');
+            $default = array('vcs' => 'n/a', 'nick' => 'n/a', 'editor' => 'n/a', 'email' => 'n/a', 'name' => 'n/a');
             $persons = parse_attr_string($matches[1]);
 
             foreach ($persons as $person) {
                 $person = array_merge($default, $person);
-                $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '" . sqlite_escape_string($person['nick']) . "', '" . sqlite_escape_string(@iconv($charset, 'UTF-8//IGNORE', $person['name'])) . "', '" . sqlite_escape_string($person['email']) . "', '" . sqlite_escape_string($person['svn']) . "', '" . sqlite_escape_string($person['editor']) . "');\n";
+                $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '" . sqlite_escape_string($person['nick']) . "', '" . sqlite_escape_string(@iconv($charset, 'UTF-8//IGNORE', $person['name'])) . "', '" . sqlite_escape_string($person['email']) . "', '" . sqlite_escape_string($person['vcs']) . "', '" . sqlite_escape_string($person['editor']) . "');\n";
             }
         }
 
