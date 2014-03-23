@@ -393,13 +393,13 @@ END_OF_MULTILINE;
 		if ($lang == 'en') {
 			echo '<img src="images/revcheck/info_revcheck_php_all_lang.png" alt="Info" class="chart">';
 			echo '<p>This is all what we can show for original manual. To get more tools, please select translation language.</p>';
+			echo gen_date($DBLANG);
 			$sidebar = nav_languages();
 			site_footer($sidebar);
 		}
 		else {
 			echo '<p>Please choose a specified tool from the right side.</p>';
 		}
-		echo gen_date($DBLANG);
 	break;
 }
 
