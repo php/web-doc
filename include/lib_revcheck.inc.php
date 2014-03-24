@@ -708,5 +708,6 @@ function get_stats_notag($idx, $lang)
 
 function gen_date($file)
 {
-    return '<small>Generated: '.date('d M Y H:i:s', filemtime($file)).'</small>';
+    $unix = filemtime($file);
+    return '<time class="gen-date" datetime="'.date(DATE_W3C, $unix).'">Generated: '.date('d M Y H:i:s', $unix).'</time>';
 }
