@@ -78,7 +78,7 @@ TRANSLATORS_HEAD;
 				$svn = ($data['svn'] == 'yes') ? '✓' : '&nbsp;';
 
 				echo '<tr>',
-				'<td><a href="/revcheck.php?p=files&amp;user='.$nick.'">'.$data['name'].'</a></td>',
+				'<td><a href="/revcheck.php?p=files&amp;user='.$nick.'"&amp;lang='.$lang.'>'.$data['name'].'</a></td>',
 				'<td>', $data['mail'], '</td>',
 				'<td>', $nick, '</td>',
 				'<td>', $svn, '</td>',
@@ -248,7 +248,7 @@ TRANSLATORS_HEAD;
 		}
 		else {
 			echo '<p>Choose a directory:</p>';
-			echo '<form method="get" action="revcheck.php?p=files&amp;lang='.$lang.'"><p><select name="dir">';
+			echo '<form method="get" action="revcheck.php"><p><select name="dir">';
 			foreach ($dirs as $id => $name) {
 				if (isset($_GET['dir']) && $_GET['dir'] == $id) {
 					$selected = ' selected="selected"';
@@ -258,10 +258,13 @@ TRANSLATORS_HEAD;
 				}
 				echo '<option value="'.$id.'"'.$selected.'>'.$name.'</option>';
 			}
-			echo '</select><input type="hidden" name="p" value="files"><input type="submit" value="See outdated files"></p></form>';
+			echo '</select>';
+			echo '<input type="hidden" name="p" value="files">';
+			echo '<input type="hidden" name="lang" value="'.$lang.'">';
+			echo '<input type="submit" value="See outdated files"></p></form>';
 			
 			echo '<p>Or choose a translator:</p>';
-			echo '<form method="get" action="revcheck.php?p=files&amp;lang='.$lang.'"><p><select name="user">';
+			echo '<form method="get" action="revcheck.php"><p><select name="user">';
 			foreach ($users as $id => $user) {
 				if (isset($_GET['user']) && $_GET['user'] == $id) {
 					$selected = ' selected="selected"';
@@ -271,7 +274,10 @@ TRANSLATORS_HEAD;
 				}
 				echo '<option value="'.$id.'"'.$selected.'>'.$id.'</option>';
 			}
-			echo '</select><input type="hidden" name="p" value="files"><input type="submit" value="See outdated files"></p></form>';
+			echo '</select>';
+			echo '<input type="hidden" name="p" value="files">';
+			echo '<input type="hidden" name="lang" value="'.$lang.'">';
+			echo '<input type="submit" value="See outdated files"></p></form>';
 		}
 
 		if (!empty($dirs) && (isset($_GET['dir']) || isset($_GET['user']))) {
@@ -282,7 +288,7 @@ TRANSLATORS_HEAD;
 				$outdated = get_outdated_files($dbhandle, $lang, $_GET['dir']);
 			}
 			if (empty($outdated)) {
-				echo 'No files info';
+				echo '<p>No files info</p>';
 			}
 			else {
 				echo <<<END_OF_MULTILINE
