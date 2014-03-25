@@ -78,11 +78,7 @@ function get_outdated_files($idx, $lang, $dir)
         a.name as file, 
         a.maintainer as maintainer, 
         c.revision as en_rev, 
-        c.size as en_size, 
-        a.size as trans_size,
         a.revision as trans_rev,
-        a.mdate as trans_date,
-        c.mdate as en_date,
         b.name AS name, 
         a.dir as dir 
     FROM 
@@ -103,17 +99,13 @@ function get_outdated_files($idx, $lang, $dir)
     AND
         a.dir = "' . (int)$dir . '"
     AND
-        a.revision != c.revision order by b.name';
+        a.revision != c.revision ORDER BY b.name';
     $result = sqlite_query($idx, $sql);
     $tmp = array();
     while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
         $tmp[] = array(
         'name' => $r['name'],
-        'en_date' => $r['en_date'],
-        'trans_date' => $r['trans_date'],
         'en_rev' => $r['en_rev'],
-        'en_size' => $r['en_size'],
-        'trans_size' => $r['trans_size'],
         'trans_rev' => $r['trans_rev'],
         'status' => $r['status'],
         'maintainer' => $r['maintainer'],
@@ -132,11 +124,7 @@ function get_outdated_translator_files($idx, $lang, $user)
         a.name as file,
         a.maintainer as maintainer,
         c.revision as en_rev,
-        c.size as en_size,
-        a.size as trans_size,
         a.revision as trans_rev,
-        a.mdate as trans_date,
-        c.mdate as en_date,
         b.name AS name,
         a.dir as dir
     FROM
@@ -157,17 +145,13 @@ function get_outdated_translator_files($idx, $lang, $user)
     AND
         a.maintainer = \'' . sqlite_escape_string($user) . '\'
     AND
-        a.revision != c.revision order by b.name';
+        a.revision != c.revision ORDER BY b.name';
     $result = sqlite_query($idx, $sql);
     $tmp = array();
     while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
         $tmp[] = array(
         'name' => $r['name'],
-        'en_date' => $r['en_date'],
-        'trans_date' => $r['trans_date'],
         'en_rev' => $r['en_rev'],
-        'en_size' => $r['en_size'],
-        'trans_size' => $r['trans_size'],
         'trans_rev' => $r['trans_rev'],
         'status' => $r['status'],
         'maintainer' => $r['maintainer'],

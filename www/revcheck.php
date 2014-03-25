@@ -247,6 +247,12 @@ TRANSLATORS_HEAD;
 			echo '<p>No files</p>';
 		}
 		else {
+			echo '<p>This tool allows you to check which files in your translation need update. To show the list ';
+			echo 'choose a directory (it doesn\'t works recursively) or translator.</p>';
+			echo '<p>When you click on the filename you will see plaintext diff showing changes between revisions so ';
+			echo 'you will know what has changed in English version and what informations you need to update.<br>';
+			echo 'You can also click on [diff] to show colored diff. If filename is not a link it means that revision ';
+			echo 'number in your translation is unavailable for this file (and you should fix it).</p>';
 			echo '<p>Choose a directory:</p>';
 			echo '<form method="get" action="revcheck.php"><p><select name="dir">';
 			foreach ($dirs as $id => $name) {
@@ -296,68 +302,38 @@ TRANSLATORS_HEAD;
 	<tr>
 	<th rowspan="2">Translated file</th>
 	<th colspan="2">Revision</th>
-	<th colspan="3">Size in kB</th>
-	<th colspan="3">Age in days</th>
 	<th rowspan="2">Maintainer</th>
 	<th rowspan="2">Status</th>
 	</tr>
 	<tr>
 	<th>en</th>
 	<th>$lang</th>
-	<th>en</th>
-	<th>$lan</th>
-	<th>diff</th>
-	<th>en</th>
-	<th>$lang</th>
-	<th>diff</th>
 	</tr>
-	<tr><th colspan="12">{$outdated[0]['name']}</th></tr>
+	<tr><th colspan="5">{$outdated[0]['name']}</th></tr>
 END_OF_MULTILINE;
 				$last_dir = false;
 				$prev_name = $outdated[0]['name'];
 
 				foreach ($outdated as $r) {
 					if ($r['name'] != $prev_name) {
-					   echo '<tr><th colspan="12">'.$r['name'].'</th></tr>';
+					   echo '<tr><th colspan="5">'.$r['name'].'</th></tr>';
 					   $prev_name = $r['name'];
-					}
-					$r['en_date'] = intval((time() - $r['en_date']) / 86400);
-					$r['trans_date'] = intval((time() - $r['trans_date']) / 86400);
-					// Make decision on file category by revision, date and size
-					$rev_diff  = intval($r['en_rev']) - intval($r['trans_rev']);
-					$size_diff = intval($r['en_size']) - intval($r['trans_size']);
-					$date_diff = $r['en_date'] - $r['trans_date'];
-					if ($r['trans_rev'] === 'n/a') {
-						$status_mark = REV_NOREV;
-					}
-					elseif ($rev_diff > 0 || $size_diff >= ALERT_SIZE || $date_diff <= ALERT_DATE) {
-						$status_mark = REV_CRITICAL;
-					}
-					else {
-						// We need a value here for the CSS, default to 'old'
-						$status_mark = REV_OLD;
 					}
 
 					// Make the maintainer a link, if we have that maintainer in the list
 					if ($r['maintainer'] && $r["maintainer"] != 'nobody') {
-						$r["maintainer"] = '<a href="?p=translators#maint-' . $r['maintainer'] . '">' . $r["maintainer"] . '</a>';
+						$r["maintainer"] = '<a href="?p=translators&amp;lang=' . $lang . '">' . $r["maintainer"] . '</a>';
 					}
 
 					// If we have a 'numeric' revision diff and it is not zero,
 					// make a link to the SVN repository's diff script
 					if ($r['trans_rev'] !== 'n/a') {
-						$r['short_name'] = '<a href="http://svn.php.net/viewvc/' .
-						$PROJECTS[$project][2] . '/trunk/' . $r['name'] . '/' . $r['file'] .
-						"?r1=" . $r["trans_rev"] .
-						"&amp;r2=" . $r["en_rev"] .
-						'&amp;view=patch">' . $r['file'] . '</a>';
+						$r['short_name'] = '<a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
+						'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '&amp;view=patch">' . $r['file'] . '</a>';
 
-						// Add a [NoWS] link
-						$r['short_name'] .= ' <a href="http://svn.php.net/viewvc/' .
-						$PROJECTS[$project][2] . '/trunk/' . $r['name'] . '/' . $r['file'] .
-						'?r1=' . $r['trans_rev'] .
-						'&amp;r2=' . $r['en_rev'] .
-						'">[NoWS]</a>';
+						// Add a [diff] link
+						$r['short_name'] .= ' <a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
+						'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '">[diff]</a>';
 					}
 					else {
 						$r['short_name'] = $r['file'];
@@ -368,15 +344,8 @@ END_OF_MULTILINE;
 					"<td>{$r['short_name']}</td>".
 					"<td>{$r['en_rev']}</td>" .
 					"<td>{$r['trans_rev']}</td>" .
-					"<td> {$r['en_size']}</td>" .
-					"<td> {$r['trans_size']}</td>" .
-					"<td align=\"right\"><strong>" . $size_diff . "</strong></td>" .
-					"<td> {$r['en_date']}</td>" .
-					"<td> {$r['trans_date']}</td>" .
-					"<td align=\"right\"><strong>" . $date_diff . "</strong></td>" .
 					"<td> {$r['maintainer']}</td>" .
 					"<td> {$r['status']}</td></tr>\n";
-
 				}
 				echo '</table>';
 			}

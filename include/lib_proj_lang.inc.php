@@ -24,14 +24,6 @@ $Id$
 
 // split from lib_general.inc.php
 
-// Map of supported documentation types to CVS module names
-$PROJECTS = array(
-// project => (Name, local folder, cvs module)
-    'www'      => array('Documentation',         '',        ''),
-    'php'      => array('PHP Documentation',     DOC_DIR,  'phpdoc/en'),
-    'phd'      => array('phd',                   '',        ''),
-);
-
 // Supported languages
 $LANGUAGES = array(
     'en'    => 'English',

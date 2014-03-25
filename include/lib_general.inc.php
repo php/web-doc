@@ -78,7 +78,7 @@ function nav_tools($lang)
 	$out .= '<ul>';
 	$out .= '<li><a href="revcheck.php?p=translators&amp;lang='.$lang.'">Translators</a></li>';
 	$out .= '<li><a href="revcheck.php?p=filesummary&amp;lang='.$lang.'">File summary</a></li>';
-	$out .= '<li><a href="revcheck.php?p=files&amp;lang='.$lang.'">Files</a></li>';
+	$out .= '<li><a href="revcheck.php?p=files&amp;lang='.$lang.'">Outdated files</a></li>';
 	$out .= '<li><a href="revcheck.php?p=misstags&amp;lang='.$lang.'">Missing revision numbers</a></li>';
 	$out .= '<li><a href="revcheck.php?p=missfiles&amp;lang='.$lang.'">Untranslated files</a></li>';
 	$out .= '<li><a href="revcheck.php?p=oldfiles&amp;lang='.$lang.'">Not in EN tree</a></li>';

@@ -29,36 +29,5 @@ define('CACHE_BUGS_COUNT', 300); // 300 = 5mins
 // project & language config
 require_once('lib_proj_lang.inc.php');
 
-// get defaults
-list($defaultProject)    = array_keys($PROJECTS);
-list($defaultLanguage)   = array_keys($LANGUAGES);
-$defaultFallbackProject  = 'www';
-$defaultFallbackLanguage = 'en';
-
-// Only allow $_SERVER under apache to make cli scripts work
-if (!isset($inCli) OR $inCli != true) {
-    $inCli = false;
-
-    // set up constants (use defaults if necessary)
-    define('SITE',  isset($project)  ? $project  : $defaultProject);
-    define('LANGC', isset($language) ? $language : $defaultLanguage);
-    define('URI',   isset($uri)      ? preg_replace('@^[/\.]+@', '/' ,$uri) : htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES));
-    define('LANGD', $LANGUAGES[LANGC]);
-
-    if (isset($project)) {
-        $baseURL[] = $project;
-    }
-
-    if (isset($language) && $language != 'all' && $language != 'en') {
-        $baseURL[] = $language;
-    }
-
-    $baseURL = isset($baseURL) ? '/' . implode('/', $baseURL) : '';
-
-    // actually define the constant
-    define('BASE_URL', $baseURL);
-
-}
-
 // general support library
 require_once('lib_general.inc.php');
