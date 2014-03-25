@@ -78,7 +78,7 @@ TRANSLATORS_HEAD;
 				$svn = ($data['svn'] == 'yes') ? '✓' : '&nbsp;';
 
 				echo '<tr>',
-				'<td><a href="/revcheck.php?p=files&amp;user='.$nick.'"&amp;lang='.$lang.'>'.$data['name'].'</a></td>',
+				'<td><a href="/revcheck.php?p=files&amp;user='.$nick.'&amp;lang='.$lang.'">'.$data['name'].'</a></td>',
 				'<td>', $data['mail'], '</td>',
 				'<td>', $nick, '</td>',
 				'<td>', $svn, '</td>',
