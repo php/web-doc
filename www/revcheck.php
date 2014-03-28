@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE);
+
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 
@@ -18,14 +20,15 @@ if (isset($_GET['p'])) {
 $DBLANG = SQLITE_DIR . 'rev.php.sqlite';
 
 // Check if db connection can be established and if revcheck for requested lang exists
-if ($dbhandle = sqlite_open($DBLANG)) {
-	$sql = "SELECT charset FROM description WHERE lang = '$lang'";
-	if ($lang != 'en' && (!($res = sqlite_query($dbhandle, $sql)) || !sqlite_num_rows($res))) {
-		site_header();
-		echo "<p>This revision check doesn't exist yet.</p>";
-		site_footer();
-		die;
-	}
+if ($dbhandle = new SQLite3($DBLANG)) {
+    $check_lang_tmp = $dbhandle->query("SELECT COUNT(charset) AS count FROM description WHERE lang = '$lang'");
+    $check_lang = $check_lang_tmp->fetchArray();
+    if ($lang != 'en' && $check_lang['count'] < 0) {
+        site_header();
+        echo "<p>This revision check doesn't exist yet.</p>";
+        site_footer();
+        die;
+    }
 }
 else {
 	site_header();

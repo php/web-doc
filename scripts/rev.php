@@ -30,7 +30,8 @@ set_time_limit(0);
 include '../include/init.inc.php';
 include '../include/lib_proj_lang.inc.php';
 
-$DOCS = SVN_DIR . 'phpdoc-all/';
+//$DOCS = SVN_DIR . 'phpdoc-all/';
+$DOCS = SVN_DIR;
 
 // Test the languages:
 $LANGS = array_keys($LANGUAGES);
@@ -145,7 +146,7 @@ function parse_translation($lang)
         }
     }
 
-    $SQL_BUFF .= "INSERT INTO description VALUES ('$lang', '" . sqlite_escape_string($intro) . "', DATE(), '$charset');\n";
+    $SQL_BUFF .= "INSERT INTO description VALUES ('$lang', '" . SQLite3::escapeString($intro) . "', DATE(), '$charset');\n";
 
     if (isset($txml)) {
         // Find all persons matching the pattern
@@ -155,7 +156,12 @@ function parse_translation($lang)
 
             foreach ($persons as $person) {
                 $person = array_merge($default, $person);
-                $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '" . sqlite_escape_string($person['nick']) . "', '" . sqlite_escape_string(@iconv($charset, 'UTF-8//IGNORE', $person['name'])) . "', '" . sqlite_escape_string($person['email']) . "', '" . sqlite_escape_string($person['vcs']) . "', '" . sqlite_escape_string($person['editor']) . "');\n";
+                $nick   = SQLite3::escapeString($person['nick']);
+                $name   = SQLite3::escapeString(@iconv($charset, 'UTF-8//IGNORE', $person['name']));
+                $email  = SQLite3::escapeString($person['email']);
+                $vcs    = SQLite3::escapeString($person['vcs']);
+                $editor = SQLite3::escapeString($person['editor']);
+                $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '$nick', '$name', '$email', '$vcs', '$editor');\n";
             }
         }
 
@@ -163,7 +169,10 @@ function parse_translation($lang)
         if (preg_match_all("!<file(.+)/\\s?>!U", $txml, $matches)) {
             $files = parse_attr_string($matches[1]);
             foreach ($files as $file) {
-                $SQL_BUFF .= "INSERT INTO wip VALUES ('$lang', '" . sqlite_escape_string($file['name']) . "', '" . sqlite_escape_string($file['person']) . "', '" . sqlite_escape_string(isset($file['type']) ? $file['type'] : 'translation') . "');\n";
+                $name = SQLite3::escapeString($file['name']);
+                $person = SQLite3::escapeString($file['person']);
+                $type = SQLite3::escapeString(isset($file['type']) ? $file['type'] : 'translation');
+                $SQL_BUFF .= "INSERT INTO wip VALUES ('$lang', '$name', '$person', '$type');\n";
             }
         }
     }
@@ -444,13 +453,13 @@ if (is_file($tmp_db)) {
 
 
 // 2 - Create the new database
-$idx = sqlite_open($tmp_db, 0666);
+$db = new SQLite3($tmp_db);
 
-if (!$idx) {
+if (!$db) {
     echo "Could not open $tmp_name";
     exit;
 }
-sqlite_query($idx, $CREATE);
+$db->exec($CREATE);
 
 // 3 - Fill in the description table while cleaning the langs
 // without revision.xml file
@@ -468,10 +477,10 @@ foreach ($LANGS as $lang) {
 }
 
 // 5 - Query $SQL_BUFF and exit
-sqlite_query($idx, 'BEGIN TRANSACTION');
-sqlite_query($idx, $SQL_BUFF);
-sqlite_query($idx, 'COMMIT');
-sqlite_close($idx);
+$db->exec('BEGIN TRANSACTION');
+$db->exec($SQL_BUFF);
+$db->exec('COMMIT');
+$db->close();
 
 echo "Copying temporary database to final database\n";
 

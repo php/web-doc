@@ -15,6 +15,7 @@
 +----------------------------------------------------------------------+
 | Authors:          Yannick Torres <yannick@php.net>                   |
 |                   Mehdi Achour <didou@php.net>                       |
+|                   Maciej Sobaczewski <sobak@php.net>                 |
 +----------------------------------------------------------------------+
 */
 
@@ -22,16 +23,6 @@
 define("ALERT_REV",   10); // translation is 10 or more revisions behind the en one
 define("ALERT_SIZE",   3); // translation is  3 or more kB smaller than the en one
 define("ALERT_DATE", -30); // translation is 30 or more days older than the en one
-
-// Revision marks used to flag files
-define("REV_UPTODATE", 1); // actual file
-define("REV_NOREV",    2); // file with revision comment without revision
-define("REV_CRITICAL", 3); // criticaly old / small / outdated
-define("REV_OLD",      4); // outdated file
-define("REV_NOTAG",    5); // file without revision comment
-define("REV_NOTRANS",  6); // file without translation
-define("REV_CREDIT",   7); // only used in translators list
-define("REV_WIP",      8); // only used in translators list
 
 // Return an array of directory containing outdated files
 function get_dirs($idx, $lang)
@@ -58,16 +49,15 @@ function get_dirs($idx, $lang)
         a.revision != c.revision 
     ORDER BY
         b.name';
-    $res = sqlite_query($idx, $sql);
-    if (sqlite_num_rows($res)) {
-        $tmp = array();
-        while ($r = sqlite_fetch_array($res, SQLITE_ASSOC)) {
-            $tmp[$r['dir']] = $r['name'];
-        }
-        return $tmp;
-    } else {
-        return array();
+
+    $result = $idx->query($sql);
+
+    $tmp = array();
+    while ($r = $result->fetchArray()) {
+        $tmp[$r['dir']] = $r['name'];
     }
+
+    return $tmp;
 }
 
 // return an array with the outdated files in $dir
@@ -100,9 +90,9 @@ function get_outdated_files($idx, $lang, $dir)
         a.dir = "' . (int)$dir . '"
     AND
         a.revision != c.revision ORDER BY b.name';
-    $result = sqlite_query($idx, $sql);
+    $result = $idx->query($sql);
     $tmp = array();
-    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    while ($r = $result->fetchArray()) {
         $tmp[] = array(
         'name' => $r['name'],
         'en_rev' => $r['en_rev'],
@@ -143,12 +133,12 @@ function get_outdated_translator_files($idx, $lang, $user)
     AND
         c.lang="en"
     AND
-        a.maintainer = \'' . sqlite_escape_string($user) . '\'
+        a.maintainer = \'' . SQLite3::escapeString($user) . '\'
     AND
         a.revision != c.revision ORDER BY b.name';
-    $result = sqlite_query($idx, $sql);
+    $result = $idx->query($sql);
     $tmp = array();
-    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    while ($r = $result->fetchArray()) {
         $tmp[] = array(
         'name' => $r['name'],
         'en_rev' => $r['en_rev'],
@@ -172,14 +162,14 @@ function revcheck_available_languages($idx)
     }
 
     $sql = 'SELECT distinct lang FROM description';
-    $result = @sqlite_query($sql, $idx);
+    $result = @$idx->query($sql);;
 
     if (!$result) {
         return FALSE;
     }
 
     if ($result) {
-        while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+        while ($r = $result->fetchArray()) {
             $tmp[] = $r['lang'];
         }
     }
@@ -191,8 +181,8 @@ function revcheck_available_languages($idx)
 function get_nb_EN_files($idx)
 {
     $sql = "SELECT COUNT(*) AS total FROM files WHERE lang = 'en'";
-    $res = sqlite_query($idx, $sql);
-    $row = sqlite_fetch_array($res, SQLITE_ASSOC);
+    $res = $idx->query($sql);;
+    $row = $result->fetchArray();
     return $row['total'];
 }
 
@@ -221,18 +211,13 @@ function get_missfiles($idx, $lang)
         a.size is NULL 
     AND
         a.dir = d.id';
-    $result = sqlite_query($idx, $sql);
-    $num = sqlite_num_rows($result);
-    if ($num == 0) {
-        // only 'null' will produce a 0 with sizeof()
-        return null;
-    } else {
-        $tmp = array();
-        while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
-            $tmp[] = array('dir' => $r['dir'], 'size' => $r['size'], 'file' => $r['file']);
-        }
-        return $tmp;
+    $result = $idx->query($sql);
+
+    while ($r = $result->fetchArray()) {
+        $tmp[] = array('dir' => $r['dir'], 'size' => $r['size'], 'file' => $r['file']);
     }
+
+    return $tmp;
 }
 
 function get_oldfiles($idx, $lang)
@@ -246,14 +231,14 @@ function get_oldfiles($idx, $lang)
      WHERE
      lang="' . $lang . '"';
 
-    $result = sqlite_query($idx, $sql);
+    $result = $idx->query($sql);
 
     $tmp = array();
     $special_files = array(
         'translation.xml'=>1,
     );
 
-    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    while ($r = $result->fetchArray()) {
         if (isset($special_files[$r['file']])) continue; // skip some files
         $tmp[] = array('dir' => $r['dir'], 'size' => $r['size'], 'file' => $r['file']);
     }
@@ -269,8 +254,8 @@ function get_misstags($idx, $lang)
      WHERE a.lang="'.$lang.'" AND b.lang="en" AND a.revision IS NULL 
      AND a.size IS NOT NULL AND a.dir = d.id';
 
-    $result = sqlite_query($idx, $sql);
-    while($row = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    $result = $idx->query($sql);
+    while($row = $result->fetchArray()) {
         $tmp[] = $row;
     }
 
@@ -294,8 +279,8 @@ function get_nb_LANG_files($idx)
         lang
     ';
 
-    $res = sqlite_query($idx, $sql);
-    while ($row = sqlite_fetch_array($res, SQLITE_ASSOC)) {
+    $result = $idx->query($sql);
+    while ($row = $result->fetchArray()) {
         $files[$row['lang']] = $row['total'];
     }
     return $files;
@@ -315,9 +300,9 @@ function translator_get_wip($idx, $lang)
         nick
     ORDER BY
         nick';
-    $result = sqlite_query($idx, $sql);
+    $result = $idx->query($sql);
     $tmp = array();
-    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    while ($r = $result->fetchArray()) {
         $tmp[$r['nick']] = $r['total'];
     }
     return $tmp;
@@ -347,15 +332,15 @@ function translator_get_old($idx, $lang)
     AND
         b.size - a.size < ' . ALERT_SIZE . '
     AND
-        php("intval",(b.mdate - a.mdate) / 86400)  < ' . ALERT_DATE . '
+        (b.mdate - a.mdate) / 86400  < ' . ALERT_DATE . '
     AND
         a.size is not NULL
     GROUP BY
         a.maintainer';
 
-    $result = sqlite_query($idx, $sql);
+    $result = $idx->query($sql);
     $tmp = array();
-    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    while ($r = $result->fetchArray()) {
         $tmp[$r['maintainer']] = $r['total'];
     }
     return $tmp;
@@ -389,7 +374,7 @@ function translator_get_critical($idx, $lang)
              (
                      b.size - a.size >= ' . (1024 * ALERT_SIZE) . '
                   OR 
-                     php("intval",(b.mdate - a.mdate) / 86400) >= ' . ALERT_DATE . '
+                     (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . '
             )
              )
     )
@@ -399,9 +384,9 @@ function translator_get_critical($idx, $lang)
         a.maintainer
     ORDER BY
         a.maintainer';
-    $result = sqlite_query($idx, $sql);
+    $result = $idx->query($sql);
     $tmp = array();
-    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    while ($r = $result->fetchArray()) {
         $tmp[$r['maintainer']] = $r['total'];
     }
     return $tmp;
@@ -430,9 +415,9 @@ function translator_get_uptodate($idx, $lang)
         a.maintainer
     ORDER BY
         a.maintainer';
-    $result = sqlite_query($idx, $sql);
+    $result = $idx->query($sql);
     $tmp = array();
-    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    while ($r = $result->fetchArray()) {
         $tmp[$r['maintainer']] = $r['total'];
     }
     return $tmp;
@@ -450,8 +435,8 @@ function get_translators($idx, $lang)
                 translators t
                 WHERE lang="' . $lang . '"';
     $persons = array();
-    $result = sqlite_query($idx, $sql);
-    while ($r = sqlite_fetch_array($result, SQLITE_ASSOC)) {
+    $result = $idx->query($sql);
+    while ($r = $result->fetchArray()) {
         $persons[$r['nick']] = array('name' => $r['name'], 'mail' => $r['mail'], 'svn' => $r['svn']);
     }
     return $persons;
@@ -481,10 +466,8 @@ function get_nb_LANG_files_Translated($idx, $lang)
         b.lang
   ';
 
-    $res = sqlite_query($idx, $sql);
-    $result = sqlite_fetch_array($res, SQLITE_ASSOC);
-
-    return $result;
+    $result = $idx->query($sql);
+    return $result->fetchArray();
 }
 
 // Return an array
@@ -508,16 +491,10 @@ function get_stats_uptodate($idx, $lang)
     AND
         a.revision = c.revision'; 
 
-    $result = sqlite_query($idx, $sql);
-    $r = sqlite_fetch_array($result, SQLITE_ASSOC);
+    $result = $idx->query($sql);
+    $r = $result->fetchArray();
     $result = array($r['total'], $r['size']);
     return $result;
-}
-
-// Return an array
-function mtime($dir, $file, $lang)
-{
-    return intval((time() - @filemtime(ROOT_PATH . "/svn/phpdoc-all/$lang$dir/$file")) / 86400);
 }
 
 function get_stats_critical($idx, $lang)
@@ -548,7 +525,7 @@ function get_stats_critical($idx, $lang)
                  (
                      (b.size - a.size) >= ' . ALERT_SIZE . '
                   OR
-                     php("intval",(b.mdate - a.mdate) / 86400) >= ' . ALERT_DATE . '
+                     (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . '
                 )
              )
         )
@@ -557,10 +534,9 @@ function get_stats_critical($idx, $lang)
     AND
         a.dir = d.id';
 
-    sqlite_create_function($idx, 'get_mtime', 'mtime', 3);
-    $result = sqlite_query($idx, $sql);
+    $result = $idx->query($sql);
 
-    $r = sqlite_fetch_array($result, SQLITE_ASSOC);
+    $r = $result->fetchArray();
     $result = array($r['total'], $r['size']);
     return $result;
 }
@@ -591,17 +567,15 @@ function get_stats_old($idx, $lang)
     AND
         (b.size - a.size) < ' . ALERT_SIZE . '
     AND
-        php("intval",(b.mdate - a.mdate) / 86400)  <= ' . ALERT_DATE . '
+        (b.mdate - a.mdate) / 86400  <= ' . ALERT_DATE . '
     AND
         a.size is not NULL 
     AND
         a.dir = d.id';
 
-    sqlite_create_function($idx, 'get_mtime', 'mtime', 3);
+    $result = $idx->query($sql);
 
-    $result = sqlite_query($idx, $sql);
-
-    $r = sqlite_fetch_array($result, SQLITE_ASSOC);
+    $r = $result->fetchArray();
     $result = array($r['total'], $r['size']);
     return $result;
 }
@@ -632,9 +606,13 @@ function get_stats_notrans($idx, $lang)
     AND
         a.dir = d.id';
 
-    $result = sqlite_query($idx, $sql);
+    $result = $idx->query($sql);
+
+    $r = $result->fetchArray();
+
+    return array($r['total'], $r['size']);
     if (sqlite_num_rows($result)) {
-        $r = sqlite_fetch_array($result, SQLITE_ASSOC);
+        $r = $result->fetchArray();
         return array($r['total'], $r['size']);
     } else {
         return array(0,0);
@@ -651,8 +629,8 @@ function get_stats_wip($idx, $lang)
     WHERE
         lang = "' . $lang . '"';
 
-    $result = sqlite_query($idx, $sql);
-    $r = sqlite_fetch_array($result, SQLITE_ASSOC);
+    $result = $idx->query($sql);
+    $r = $result->fetchArray();
     return array($r['total'], $r['size']);
 }
 
@@ -683,9 +661,9 @@ function get_stats_notag($idx, $lang)
     AND
         a.dir = d.id';
 
-    $result = sqlite_query($idx, $sql);
+    $result = $idx->query($sql);
 
-    $r = sqlite_fetch_array($result, SQLITE_ASSOC);
+    $r = $result->fetchArray();
     $result = array($r['total'], $r['size']);
     return $result;
 }
