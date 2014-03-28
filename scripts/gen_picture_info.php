@@ -3,7 +3,6 @@ include '../include/jpgraph/src/jpgraph.php';
 include '../include/jpgraph/src/jpgraph_pie.php';
 include '../include/jpgraph/src/jpgraph_pie3d.php';
 
-$inCli = true;
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 include '../include/lib_proj_lang.inc.php';

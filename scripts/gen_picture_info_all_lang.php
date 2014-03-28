@@ -2,7 +2,6 @@
 include '../include/jpgraph/src/jpgraph.php';
 include '../include/jpgraph/src/jpgraph_bar.php';
 
-$inCli = true;
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 

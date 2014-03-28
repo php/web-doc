@@ -21,14 +21,12 @@
 |                   Mehdi Achour         <didou at php dot net>        |
 |                   Maciej Sobaczewski   <sobak at php dot net>        |
 +----------------------------------------------------------------------+
-
 */
 
 error_reporting(E_ALL);
 set_time_limit(0);
 
-// define some common variables
-$inCli = true;
+// include required files
 include '../include/init.inc.php';
 include '../include/lib_proj_lang.inc.php';
 
@@ -268,9 +266,7 @@ function do_revcheck($dir = '') {
 
         // Files first
         if (sizeof($entriesFiles) > 0 ) {
-
             foreach($entriesFiles as $file) {
-
                 $path = $DOCS . 'en' . $dir . '/' . $file;
 
                 $size = intval(filesize($path) / 1024);
@@ -281,10 +277,8 @@ function do_revcheck($dir = '') {
                 $SQL_BUFF .= "INSERT INTO files VALUES ('en', '$id', '$file', $revision, '$size','$date', NULL, NULL);\n";
 
                 foreach ($LANGS as $lang) {
-
                     $path = $DOCS . $lang . $dir . '/' . $file;
                     if (is_file($path)) {
-
                         $size = intval(filesize($path) / 1024);
                         $date = filemtime($path);
                         list($revision, $maintainer, $status) = get_tags($path);
@@ -299,19 +293,16 @@ function do_revcheck($dir = '') {
 
         // Directories..
         if (sizeof($entriesDir) > 0) {
-
             usort($entriesDir, 'dir_sort');
             reset($entriesDir);
 
             foreach ($entriesDir as $Edir) {
-
                 $path = $DOCS . 'en/' . $dir . '/' . $Edir;
                 $id++;
                 echo "Adding directory: $dir/$Edir (id: $id)\n";
 
                 $SQL_BUFF .= "INSERT INTO dirs VALUES (" . $id . ", '$dir/$Edir');\n";
                 do_revcheck($dir . '/' . $Edir);
-
             }
         }
     }
@@ -371,7 +362,6 @@ function check_old_files($dir = '', $lang) {
 
         // Directories..
         if (sizeof($entriesDir) > 0) {
-
             usort($entriesDir, 'dir_sort_old');
             reset($entriesDir);
 
@@ -433,25 +423,17 @@ function get_original_rev($file)
     }
 }
 
-
-function getmicrotime()
-{
-    list($usec, $sec) = explode(" ", microtime());
-    return ((float)$usec + (float)$sec);
-}
-
 /**
 *   Script execution
 **/
 
-$time_start = getmicrotime();
+$time_start = microtime(true);
 
 $db_name = SQLITE_DIR . 'rev.php.sqlite';
 $tmp_db = SQLITE_DIR . 'rev.php.tmp.sqlite';
 
 // 1 - Drop the old database and create the new one
 if (is_file($tmp_db)) {
-
     echo "Temporary database found: remove.\n";
 
     if (!@unlink($tmp_db)) {
@@ -481,13 +463,11 @@ foreach ($LANGS as $id => $lang) {
 do_revcheck();
 
 // 4:1 - Recurse in the manuel seeking for old files for each language and fill $SQL_BUFF
-
 foreach ($LANGS as $lang) {
     check_old_files('', $lang);
 }
 
 // 5 - Query $SQL_BUFF and exit
-
 sqlite_query($idx, 'BEGIN TRANSACTION');
 sqlite_query($idx, $SQL_BUFF);
 sqlite_query($idx, 'COMMIT');
@@ -498,8 +478,7 @@ echo "Copying temporary database to final database\n";
 copy($tmp_db, $db_name);
 @unlink($tmp_db);
 
-$time_end = getmicrotime();
-$time = $time_end - $time_start;
+$time = microtime(true) - $time_start;
 
 echo "Time of generation: $time s\n";
 echo "End\n";
