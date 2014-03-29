@@ -25,8 +25,8 @@ $Id$
 // split from lib_general.inc.php
 
 // Supported languages
+// DO NOT insert English here - it is only for translations!
 $LANGUAGES = array(
-    'en'    => 'English',
     'ar'    => 'Arabic',
     'pt_BR' => 'Brazilian Portuguese',
     'bg'    => 'Bulgarian',

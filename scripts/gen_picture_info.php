@@ -9,9 +9,6 @@ include '../include/lib_proj_lang.inc.php';
 
 $langs = array_keys($LANGUAGES);
 foreach ($langs as $lang) {
-    if ($lang === 'en') {
-        continue;
-    }
     if (!generate_image($lang)) {
         echo "Documentation for $lang language does not exist.\n";
     } else {

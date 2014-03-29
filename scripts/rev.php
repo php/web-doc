@@ -37,12 +37,6 @@ $DOCS = SVN_DIR;
 $LANGS = array_keys($LANGUAGES);
 $langc = count($LANGS);
 for ($i = 0; $i < $langc; $i++) {
-    // make sure we don't parse the en tree
-    if ($LANGS[$i] == 'en') {
-        unset($LANGS[$i]);
-        continue;
-    }
-
     if (!is_dir($DOCS . $LANGS[$i])) {
         echo "Error: the \"{$LANGS[$i]}\" lang doesn't exist in dir {$DOCS}, skipping..\n";
         unset($LANGS[$i]);

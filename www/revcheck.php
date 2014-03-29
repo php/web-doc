@@ -17,6 +17,11 @@ if (isset($_GET['p'])) {
 	$tool = $_GET['p'];
 }
 
+// Prevent viewing other tools in EN
+if ($lang == 'en') {
+	$tool = 'default';
+}
+
 $DBLANG = SQLITE_DIR . 'rev.php.sqlite';
 
 // Check if db connection can be established and if revcheck for requested lang exists

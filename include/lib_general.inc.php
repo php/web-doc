@@ -58,7 +58,7 @@ function nav_languages()
 {
     global $LANGUAGES;
     $out = '<div class="panel">';
-    $out .= '<p class="headline">Languages</p>';
+    $out .= '<p class="headline"><a href="revcheck.php">Translation status</a></p>';
     $out .= '<div class="body">';
     $out .= '<ul>';
     foreach ($LANGUAGES as $code => $name)
