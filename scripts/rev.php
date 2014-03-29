@@ -31,7 +31,7 @@ include '../include/init.inc.php';
 include '../include/lib_proj_lang.inc.php';
 
 //$DOCS = SVN_DIR . 'phpdoc-all/';
-$DOCS = SVN_DIR;
+$DOCS = SVN_DIR . DOC_DIR . "/";
 
 // Test the languages:
 $LANGS = array_keys($LANGUAGES);
@@ -447,12 +447,19 @@ if (is_file($tmp_db)) {
 
 
 // 2 - Create the new database
-$db = new SQLite3($tmp_db);
+try {
+    $db = new SQLite3($tmp_db);
+    /* Didn't throw exception at some point? */
+    if (!$db) {
+        throw Exception("Cant open $tmp_db");
+    }
 
-if (!$db) {
-    echo "Could not open $tmp_name";
+} catch(Exception $e) {
+    echo $e->getMessage();
+    echo "Could not open $tmp_db";
     exit;
 }
+
 $db->exec($CREATE);
 
 // 3 - Fill in the description table while cleaning the langs
