@@ -426,14 +426,7 @@ function translator_get_uptodate($idx, $lang)
 
 function get_translators($idx, $lang)
 {
-    $sql = 'SELECT
-                nick,
-                t.name as name,
-                mail,
-                svn
-            FROM
-                translators t
-                WHERE lang="' . $lang . '"';
+    $sql= "SELECT nick, name, mail, svn FROM translators WHERE lang = '$lang' ORDER BY nick COLLATE NOCASE";
     $persons = array();
     $result = $idx->query($sql);
     while ($r = $result->fetchArray()) {
