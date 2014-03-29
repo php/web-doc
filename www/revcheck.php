@@ -48,7 +48,7 @@ switch($tool) {
 		$translators = get_translators($dbhandle, $lang);
 
 		if (empty($translators)) {
-			echo '<p>No translators info.</p>';
+			echo '<p>Error: no translators info found in database.</p>';
 		}
 		else {
 			$uptodate = translator_get_uptodate($dbhandle, $lang);
@@ -105,7 +105,7 @@ TRANSLATORS_HEAD;
 	case 'missfiles':
 		$missfiles = get_missfiles($dbhandle, $lang);
 		if (!$missfiles) {
-			echo '<p>No missfile info.</p>';
+			echo '<p>All files translated? Would be nice... but it\'s probably an error :(</p>';
 		}
 		else {
 			$num = count($missfiles);
@@ -135,7 +135,7 @@ TRANSLATORS_HEAD;
 	case 'oldfiles':
 		$oldfiles = get_oldfiles($dbhandle, $lang);
 		if (!$oldfiles) {
-			echo '<p>No old files info.</p>';
+			echo '<p>Good, it seems that this translation doesn\'t contain any file which is not present in English tree.</p>';
 		}
 		else {
 			$num = count($oldfiles);
@@ -166,7 +166,7 @@ TRANSLATORS_HEAD;
 		$misstags = get_misstags($dbhandle, $lang);
 		$num = count($misstags);
 		if (!$num) {
-			echo 'No misstags info';
+			echo '<p>Good, all files contain revision comments.</p>';
 		}
 		else {
 			echo '<table border="0" cellpadding="3" cellspacing="1" style="text-align:center">';
@@ -252,7 +252,7 @@ TRANSLATORS_HEAD;
 		$users = get_translators($dbhandle, $lang);
 
 		if (empty($dirs)) {
-			echo '<p>No files</p>';
+			echo '<p>Error: no directories found in database.</p>';
 		}
 		else {
 			echo '<p>This tool allows you to check which files in your translation need update. To show the list ';
@@ -302,7 +302,7 @@ TRANSLATORS_HEAD;
 				$outdated = get_outdated_files($dbhandle, $lang, $_GET['dir']);
 			}
 			if (empty($outdated)) {
-				echo '<p>No files info</p>';
+				echo '<p>Good, it seems that all files are up to date for these conditions.</p>';
 			}
 			else {
 				echo <<<END_OF_MULTILINE
@@ -381,7 +381,11 @@ END_OF_MULTILINE;
 			site_footer($sidebar);
 		}
 		else {
-			echo '<p>Please choose a specified tool from the right side.</p>';
+			$intro_result = $dbhandle->query("SELECT intro FROM description WHERE lang = '$lang'");
+			$intro = $intro_result->fetchArray();
+			echo '<h2>Intro for language</h2>';
+			echo '<p>'.$intro[0].'</p>';
+			echo '<p>Links to available tools are placed on the right sidebar.</p>';
 		}
 	break;
 }

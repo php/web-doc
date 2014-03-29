@@ -108,14 +108,14 @@ SQL;
 
 function parse_translation($lang)
 {
-    global $SQL_BUFF, $DOCS;
+    global $SQL_BUFF, $DOCS, $LANGUAGES;
     echo "Parsing intro..\n";
 
     // Path to find translation.xml file, set default values,
     // in case we can't find the translation file
     $translation_xml = $DOCS . $lang . "/translation.xml";
 
-    $intro = "No intro available for the $lang translation of the manual";
+    $intro = "No intro available for the {$LANGUAGES[$lang]} translation of the manual.";
     $charset  = 'iso-8859-1';
 
     if (file_exists($translation_xml)) {
