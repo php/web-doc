@@ -30,8 +30,7 @@ set_time_limit(0);
 include '../include/init.inc.php';
 include '../include/lib_proj_lang.inc.php';
 
-//$DOCS = SVN_DIR . 'phpdoc-all/';
-$DOCS = SVN_DIR . DOC_DIR . "/";
+$DOCS = SVN_DIR . 'phpdoc-all/';
 
 // Test the languages:
 $LANGS = array_keys($LANGUAGES);
