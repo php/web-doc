@@ -25,11 +25,10 @@ define("ALERT_SIZE",   3); // translation is  3 or more kB smaller than the en o
 define("ALERT_DATE", -30); // translation is 30 or more days older than the en one
 
 // Return an array of directory containing outdated files
-function get_dirs($idx, $lang)
-{
+function get_dirs($idx, $lang) {
     $sql = 'SELECT
         distinct b.name AS name, 
-        a.dir as dir 
+        a.dir AS dir
     FROM 
         files a, 
         dirs b 
@@ -161,7 +160,7 @@ function revcheck_available_languages($idx)
         return FALSE;
     }
 
-    $sql = 'SELECT distinct lang FROM description';
+    $sql = 'SELECT lang FROM description';
     $result = @$idx->query($sql);;
 
     if (!$result) {

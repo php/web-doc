@@ -26,7 +26,7 @@ $DBLANG = SQLITE_DIR . 'rev.php.sqlite';
 
 // Check if db connection can be established and if revcheck for requested lang exists
 if ($dbhandle = new SQLite3($DBLANG)) {
-    $check_lang_tmp = $dbhandle->query("SELECT COUNT(charset) AS count FROM description WHERE lang = '$lang'");
+    $check_lang_tmp = $dbhandle->query("SELECT COUNT(lang) AS count FROM description WHERE lang = '$lang'");
     $check_lang = $check_lang_tmp->fetchArray();
     if ($lang != 'en' && $check_lang['count'] < 0) {
         site_header();

@@ -48,13 +48,11 @@ if (count($LANGS) == 0) {
 
 $SQL_BUFF = "INSERT INTO dirs (id, name) VALUES (1, '/');\n";
 
-$CREATE =<<<SQL
+$CREATE = <<<SQL
 
 CREATE TABLE description (
   lang TEXT,
   intro TEXT,
-  date TEXT,
-  charset TEXT,
   UNIQUE (lang)
 );
 
@@ -80,23 +78,29 @@ CREATE TABLE dirs (
   UNIQUE (name)
 );
 
+CREATE INDEX dirs_1 ON dirs (id);
+
 CREATE TABLE files (
-    lang TEXT,
-    dir TEXT,
-    name TEXT,
-    revision TEXT,
-    size TEXT,
-    mdate TEXT,
-    maintainer TEXT,
-    status TEXT,
-    UNIQUE(lang, dir, name)
+  lang TEXT,
+  dir TEXT,
+  name TEXT,
+  revision TEXT,
+  size TEXT,
+  mdate TEXT,
+  maintainer TEXT,
+  status TEXT,
+  UNIQUE(lang, dir, name)
 );
 
+CREATE INDEX files_1 ON files (dir, name);
+CREATE INDEX files_2 ON files (lang, revision, size, dir);
+CREATE INDEX files_3 ON files (lang, size, mdate, revision, size, dir);
+
 CREATE TABLE old_files (
-    lang TEXT,
-    dir TEXT,
-    file TEXT,
-    size INT
+  lang TEXT,
+  dir TEXT,
+  file TEXT,
+  size INT
 );
 
 SQL;
@@ -135,11 +139,11 @@ function parse_translation($lang)
 
         // Get intro text
         if (preg_match("!<intro>(.+)</intro>!s", $txml, $match)) {
-            $intro = @iconv($charset, 'UTF-8//IGNORE', trim($match[1]));
+            $intro = SQLite3::escapeString(@iconv($charset, 'UTF-8//IGNORE', trim($match[1])));
         }
     }
 
-    $SQL_BUFF .= "INSERT INTO description VALUES ('$lang', '" . SQLite3::escapeString($intro) . "', DATE(), '$charset');\n";
+    $SQL_BUFF .= "INSERT INTO description VALUES ('$lang', '$intro');\n";
 
     if (isset($txml)) {
         // Find all persons matching the pattern
@@ -349,15 +353,12 @@ function check_old_files($dir = '', $lang) {
         if (sizeof($entriesFiles) > 0 ) {
 
             foreach($entriesFiles as $file) {
-
                 $path_en = $DOCS . 'en/' . $dir . '/' . $file;
                 $path = $DOCS . $lang . $dir . '/' . $file;
 
                 if( !@is_file($path_en) ) {
-
                    $size = intval(filesize($path) / 1024);
                    $SQL_BUFF .= "INSERT INTO old_files VALUES ('$lang', '$dir', '$file', '$size');\n";
-
                 }
             }
         }
@@ -375,8 +376,7 @@ function check_old_files($dir = '', $lang) {
     closedir($dh);
 }
 
-function get_tags($file)
-{
+function get_tags($file) {
     // Read the first 500 chars. The comment should be at
     // the begining of the file
     $fp = @fopen($file, "r") or die("Unable to read $file.");
@@ -385,7 +385,6 @@ function get_tags($file)
 
     // No match before the preg
     $match = array ();
-
 
     // Check for the translations "revision tag"
     if (preg_match("/<!--\s*EN-Revision:\s*(\d+)\s*Maintainer:\s*(\\S*)\s*Status:\s*(.+)\s*-->/U",
@@ -407,8 +406,7 @@ function get_tags($file)
 
 } // get_tags() function end
 
-function get_original_rev($file)
-{
+function get_original_rev($file) {
     // Read the first 500 chars. The comment should be at
     // the begining of the file
     $fp = @fopen($file, "r") or die ("Unable to read $file.");
@@ -443,7 +441,6 @@ if (is_file($tmp_db)) {
         exit;
     }
 }
-
 
 // 2 - Create the new database
 try {
