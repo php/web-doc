@@ -1,5 +1,6 @@
 build-ops
 build-ops.php
+include/jpgraph
 shared
 sqlite
 svn
