@@ -7,19 +7,20 @@ include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 include '../include/lib_proj_lang.inc.php';
 
+$idx = new SQLite3(SQLITE_DIR . 'rev.php.sqlite');
+
 $langs = array_keys($LANGUAGES);
 foreach ($langs as $lang) {
-    if (!generate_image($lang)) {
+    if (!generate_image($lang, $idx)) {
         echo "Documentation for $lang language does not exist.\n";
     } else {
         echo "Generated images/revcheck/info_revcheck_php_" . $lang . ".png\n";
     }
 }
 
-function generate_image($lang) {
+function generate_image($lang, $idx) {
     global $LANGUAGES;
 
-    $idx = sqlite_open(SQLITE_DIR . 'rev.php.sqlite');
     $Total_files = @get_nb_LANG_files($idx);
     if (!isset($Total_files[$lang]) ) {
         return FALSE;

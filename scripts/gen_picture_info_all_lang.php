@@ -5,9 +5,9 @@ include '../include/jpgraph/src/jpgraph_bar.php';
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 
-$idx = sqlite_open(SQLITE_DIR . 'rev.php.sqlite');
+$idx = new SQLite3(SQLITE_DIR . 'rev.php.sqlite');
 
-$language = revcheck_available_languages($idx, 'php');
+$language = revcheck_available_languages($idx);
 sort($language);
 $files_EN = get_nb_EN_files($idx);
 

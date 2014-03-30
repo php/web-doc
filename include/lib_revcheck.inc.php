@@ -181,7 +181,7 @@ function get_nb_EN_files($idx)
 {
     $sql = "SELECT COUNT(*) AS total FROM files WHERE lang = 'en'";
     $res = $idx->query($sql);;
-    $row = $result->fetchArray();
+    $row = $res->fetchArray();
     return $row['total'];
 }
 
