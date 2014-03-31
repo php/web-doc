@@ -153,7 +153,11 @@ function get_outdated_translator_files($idx, $lang, $user)
 function revcheck_available_languages($idx)
 {
     $result = $idx->query('SELECT lang FROM description');
-    return $result->fetchArray(SQLITE3_NUM);
+    while ($row = $result->fetchArray(SQLITE3_NUM)) {
+		$tmp[] = $row[0];
+	}
+
+	return $tmp;
 }
 
 
