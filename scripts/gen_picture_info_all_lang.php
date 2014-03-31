@@ -9,12 +9,12 @@ $idx = new SQLite3(SQLITE_DIR . 'rev.php.sqlite');
 
 $language = revcheck_available_languages($idx);
 sort($language);
-$files_EN = get_nb_EN_files($idx);
+$files_EN = count_en_files($idx);
 
 foreach ($language as $lang) {
-    $tmp = get_nb_LANG_files_Translated($idx, $lang);
+    $tmp = get_stats_uptodate($idx, $lang);
 
-    $percent_tmp[] = round($tmp['total'] * 100 / $files_EN);
+    $percent_tmp[] = round($tmp[0] * 100 / $files_EN);
     $legend_tmp[] = $lang;
 }
 
@@ -72,5 +72,4 @@ function generate_image() {
 
     // Display the graph
     $graph->Stroke('../www/images/revcheck/info_revcheck_php_all_lang.png');
-
 }

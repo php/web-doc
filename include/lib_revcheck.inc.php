@@ -102,7 +102,6 @@ function get_outdated_files($idx, $lang, $dir)
     }
 
     return $tmp;
-
 }
 
 // return an array with the outdated files maintained by $user
@@ -148,41 +147,23 @@ function get_outdated_translator_files($idx, $lang, $user)
     }
 
     return $tmp;
-
 }
 
-// Return an array of available languages for a revchecked documentation $type
+// Return an array of available languages for manual
 function revcheck_available_languages($idx)
 {
-    $tmp = array();
-
-    if (!$idx) {
-        return FALSE;
-    }
-
-    $sql = 'SELECT lang FROM description';
-    $result = @$idx->query($sql);;
-
-    if (!$result) {
-        return FALSE;
-    }
-
-    if ($result) {
-        while ($r = $result->fetchArray()) {
-            $tmp[] = $r['lang'];
-        }
-    }
-    return $tmp;
+    $result = $idx->query('SELECT lang FROM description');
+    return $result->fetchArray(SQLITE3_NUM);
 }
 
 
 // Return en integer
-function get_nb_EN_files($idx)
+function count_en_files($idx)
 {
-    $sql = "SELECT COUNT(*) AS total FROM files WHERE lang = 'en'";
-    $res = $idx->query($sql);;
+    $sql = "SELECT COUNT(name) FROM files WHERE lang = 'en'";
+    $res = $idx->query($sql);
     $row = $res->fetchArray();
-    return $row['total'];
+    return $row[0];
 }
 
 function get_missfiles($idx, $lang)
@@ -205,9 +186,9 @@ function get_missfiles($idx, $lang)
     AND
         b.lang="en" 
     AND
-        a.revision is NULL 
+        a.revision IS NULL
     AND
-        a.size is NULL 
+        a.size IS NULL
     AND
         a.dir = d.id';
     $result = $idx->query($sql);
@@ -250,7 +231,7 @@ function get_misstags($idx, $lang)
      d.name AS dir, b.size AS en_size, a.size AS trans_size, a.name AS name
      FROM files a, dirs d 
      LEFT JOIN files b ON a.dir = b.dir AND a.name = b.name 
-     WHERE a.lang="'.$lang.'" AND b.lang="en" AND a.revision IS NULL 
+     WHERE a.lang="'.$lang.'" AND b.lang="en" AND a.revision IS NULL
      AND a.size IS NOT NULL AND a.dir = d.id';
 
     $result = $idx->query($sql);
@@ -259,30 +240,6 @@ function get_misstags($idx, $lang)
     }
 
     return $tmp;
-}
-
-// Return an integer
-function get_nb_LANG_files($idx)
-{
-    $sql = '
-    SELECT
-        lang,
-        COUNT(*) as total
-    FROM
-        files
-    WHERE
-        lang != \'en\'
-    GROUP BY
-        lang
-    ORDER BY
-        lang
-    ';
-
-    $result = $idx->query($sql);
-    while ($row = $result->fetchArray()) {
-        $files[$row['lang']] = $row['total'];
-    }
-    return $files;
 }
 
 // Return a string
@@ -344,7 +301,6 @@ function translator_get_old($idx, $lang)
     }
     return $tmp;
 }
-
 
 function translator_get_critical($idx, $lang)
 {
@@ -425,41 +381,13 @@ function translator_get_uptodate($idx, $lang)
 
 function get_translators($idx, $lang)
 {
-    $sql= "SELECT nick, name, mail, svn FROM translators WHERE lang = '$lang' ORDER BY nick COLLATE NOCASE";
+    $sql = "SELECT nick, name, mail, svn FROM translators WHERE lang = '$lang' ORDER BY nick COLLATE NOCASE";
     $persons = array();
     $result = $idx->query($sql);
     while ($r = $result->fetchArray()) {
         $persons[$r['nick']] = array('name' => $r['name'], 'mail' => $r['mail'], 'svn' => $r['svn']);
     }
     return $persons;
-}
-
-function get_nb_LANG_files_Translated($idx, $lang)
-{
-    $sql = '
-    SELECT
-        b.lang as language,
-        COUNT(*) as total
-    FROM
-        files a 
-    LEFT JOIN  
-        files b
-    WHERE
-        b.lang="' . $lang . '" 
-    AND
-        a.lang=\'en\' 
-    AND
-        b.name = a.name 
-    AND
-        b.dir = a.dir 
-    AND
-        a.revision = b.revision
-    GROUP BY
-        b.lang
-  ';
-
-    $result = $idx->query($sql);
-    return $result->fetchArray();
 }
 
 // Return an array
@@ -572,43 +500,18 @@ function get_stats_old($idx, $lang)
     return $result;
 }
 
-
+// Returns number of untranslated files for specified $lang
 function get_stats_notrans($idx, $lang)
 {
-    $sql = 'SELECT
-        COUNT(a.name) as total, 
-        sum(b.size) as size 
-    FROM
-        files a, 
-    dirs d
-    LEFT JOIN
-        files b
-    ON 
-        a.dir = b.dir 
-    AND
-        a.name = b.name
-    WHERE
-        a.lang="' . $lang . '" 
-    AND
-    b.lang="en"
-    AND
-        a.revision is NULL
-    AND
-        a.size is NULL 
-    AND
-        a.dir = d.id';
+    $sql = "SELECT COUNT(a.name) AS total, SUM(b.size) as size 
+        FROM files a, dirs d
+        LEFT JOIN files b ON  a.dir = b.dir AND a.name = b.name
+        WHERE a.lang = '$lang' AND b.lang='en' AND a.revision IS NULL AND a.size IS NULL  AND a.dir = d.id";
 
     $result = $idx->query($sql);
-
     $r = $result->fetchArray();
 
     return array($r['total'], $r['size']);
-    if (sqlite_num_rows($result)) {
-        $r = $result->fetchArray();
-        return array($r['total'], $r['size']);
-    } else {
-        return array(0,0);
-    }
 }
 
 function get_stats_wip($idx, $lang)

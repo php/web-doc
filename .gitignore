@@ -4,4 +4,5 @@ include/jpgraph
 shared
 sqlite
 svn
+www/images
 www/robots.txt
