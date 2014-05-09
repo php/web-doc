@@ -40,7 +40,7 @@ function site_header()
 
     require __DIR__ . '/../shared/templates/header.inc';
 
-   echo '<section class="mainscreen">';
+    echo '<section class="mainscreen">';
 }
 
 function site_footer($SECONDSCREEN = false)
