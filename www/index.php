@@ -3,27 +3,6 @@ include_once '../include/init.inc.php';
 
 site_header(true);
 ?>
-<style>.panel {
-    margin:0;
-    background:#E2E4EF;
-    border:1px solid #C4C9DF;
-    border-radius:2px;
-}
-
-.panel .headline, .panel .body, .panel > a {
-    padding:.75rem 1rem;
-    margin:0;
-}
-
-.panel .body {
-  background-color: #fff;
-  border-radius: 0 0 2px 2px;
-}
-
-.panel ul {
-  margin: 0;
-  padding-left: 5px;
-}</style>
 
 <h2>What is this site?</h2>
 <p>There are different documentation
