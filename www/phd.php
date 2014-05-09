@@ -16,6 +16,8 @@ function bugl($number)
 site_header();
 ?>
 
+<h2>PhD: PHP DocBook Rendering System</h2>
+
 <p>For PhD documentation see the <a href="/phd/docs/">PhD: The definitive guide to PHP's DocBook Rendering System</a> section.</p>
 <p>PhD releases:</p>
 
