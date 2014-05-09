@@ -27,12 +27,12 @@ function get_svn_dir($project)
     return $GLOBALS['PROJECTS'][$project][1] . '/';
 }
 
-function site_header($has_sidebar = false)
+function site_header()
 {
-    $TITLE = 'Documentation Tools';
-	$SUBDOMAIN = 'doc';
-	$CSS = array('/styles/doc.css');
-	$LINKS = array(
+   $TITLE = 'Documentation Tools';
+   $SUBDOMAIN = 'doc';
+   $CSS = array('/styles/doc.css');
+   $LINKS = array(
         array('href' => '/revcheck.php', 'text' => 'Documentation Tools'),
         array('href' => '/dochowto/', 'text' => 'Documentation Howto'),
         array('href' => '/phd.php', 'text' => 'PhD Homepage'),
@@ -40,12 +40,7 @@ function site_header($has_sidebar = false)
 
     require __DIR__ . '/../shared/templates/header.inc';
 
-    if ($has_sidebar) {
-        echo '<section class="mainscreen">';
-    }
-    else {
-        echo '<section class="fullscreen">';
-    }
+   echo '<section class="mainscreen">';
 }
 
 function site_footer($SECONDSCREEN = false)
@@ -72,17 +67,17 @@ function nav_languages()
 function nav_tools($lang)
 {
     global $LANGUAGES;
-	$out = '<div class="panel">';
+    $out = '<div class="panel">';
     $out .= '<p class="headline">Tools ('.$LANGUAGES[$lang].' Manual)</p>';
     $out .= '<div class="body">';
-	$out .= '<ul>';
-	$out .= '<li><a href="revcheck.php?p=translators&amp;lang='.$lang.'">Translators</a></li>';
-	$out .= '<li><a href="revcheck.php?p=filesummary&amp;lang='.$lang.'">File summary</a></li>';
-	$out .= '<li><a href="revcheck.php?p=files&amp;lang='.$lang.'">Outdated files</a></li>';
-	$out .= '<li><a href="revcheck.php?p=misstags&amp;lang='.$lang.'">Missing revision numbers</a></li>';
-	$out .= '<li><a href="revcheck.php?p=missfiles&amp;lang='.$lang.'">Untranslated files</a></li>';
-	$out .= '<li><a href="revcheck.php?p=oldfiles&amp;lang='.$lang.'">Not in EN tree</a></li>';
-	$out .= '<li><a href="revcheck.php?p=graph&amp;lang='.$lang.'">Graph</a></li>';
-	$out .= '</ul></div></div>';
+    $out .= '<ul>';
+    $out .= '<li><a href="revcheck.php?p=translators&amp;lang='.$lang.'">Translators</a></li>';
+    $out .= '<li><a href="revcheck.php?p=filesummary&amp;lang='.$lang.'">File summary</a></li>';
+    $out .= '<li><a href="revcheck.php?p=files&amp;lang='.$lang.'">Outdated files</a></li>';
+    $out .= '<li><a href="revcheck.php?p=misstags&amp;lang='.$lang.'">Missing revision numbers</a></li>';
+    $out .= '<li><a href="revcheck.php?p=missfiles&amp;lang='.$lang.'">Untranslated files</a></li>';
+    $out .= '<li><a href="revcheck.php?p=oldfiles&amp;lang='.$lang.'">Not in EN tree</a></li>';
+    $out .= '<li><a href="revcheck.php?p=graph&amp;lang='.$lang.'">Graph</a></li>';
+    $out .= '</ul></div></div>';
     return $out;
 }

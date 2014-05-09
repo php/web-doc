@@ -42,7 +42,7 @@ else {
 	die;
 }
 
-site_header(true);
+site_header();
 switch($tool) {
 	case 'translators':
 		$translators = get_translators($dbhandle, $lang);

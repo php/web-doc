@@ -1,7 +1,7 @@
 <?php
 include_once '../include/init.inc.php';
 
-site_header(true);
+site_header();
 ?>
 
 <h2>What is this site?</h2>
