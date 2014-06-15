@@ -15,8 +15,8 @@ will need to be filled out.
 ### Option A: Copy skeleton files
 This involves copying the skeleton files into the correct location:
 ```
-cp /phpdoc/RFC/skeletons/method.xml classname/methodname.xml   (for new methods)
-cp /phpdoc/RFC/skeletons/function.xml functions/functionname.xml (for new functions)
+cp /phpdoc/RFC/skeletons/method.xml classname/methodname.xml   #for new methods
+cp /phpdoc/RFC/skeletons/function.xml functions/functionname.xml #for new functions
 ```
 
 Note: *classname*, *methodname* and *functionname* are lowercased names of the class, method or function, respectively,
