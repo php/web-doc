@@ -63,7 +63,7 @@ to see which files require update and what have to be changed to sync with Engli
 [Online Editor](http://doc.php.net) or [doc.php.net tools](http://doc.php.net). Second way is described below.
 
 Choose your language from right sidebar and then use "Outdated files" tool. Filter files by directory or username
-(username used here comes from `Mantainer` variable in comment described below). Let's assume that script marked
+(username used here comes from `Mantainer` variable in comment described above). Let's assume that script marked
 `password-needs-rehash.xml` as outdated. Click on filename and you will see *diff* - list of changes between two
 versions of file: your version (current number in EN-Revision in your translation) and newest version in English
 tree. This is sample diff:
@@ -103,7 +103,7 @@ and after changes it should looke like this:
 <!-- $Revision$ -->
 <!-- CREDITS: johnsmith -->
 ```
-Numbers came from diff showed below. If you want to add yourself to credits tag which already exists, separate
+Numbers came from diff showed above. If you want to add yourself to credits tag which already exists, separate
 usernames with coma, i.e.: `<!-- CREDITS: george, johnsmith -->`.
 
 Finally, your translation is up-to-date. It is quite long process but it's simple and logical when you get used to.
