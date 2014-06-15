@@ -29,7 +29,7 @@ Help is available with following command: `$ php docgen.php -h`.
 No, you can't. Edit files before commit. There are two reasons: translators and the fact that temporary
 often becomes permanent, and bogus text is not good.
 
-## Running configure.php ends up Segfaulting, what is up?
+## Running configure.php ends up segfaulting, what is up?
 There are bugs with certain versions of libxml that cause this, so hacks exist to get around it.
 To execute the hack, pass in: `$ php configure.php --disable-segfault-error`.
 Note: This disables some error checking and beautification but raw errors will be shown.
@@ -41,7 +41,7 @@ Newest PHP versions go above the older ones.
 ## In the changelog, a change happened in two PHP versions. How do I enter this?
 Multiple versions are separated by a comma, with the lesser version first. Example: `<entry>5.2.11, 5.3.1</entry>`
 
-## When adding a <note>, should I add a <title>?
+## When adding a note, should I add a title?
 Typically titles are useful for notes, but it's not required. Syntax as follows:
 ```
 <note>
@@ -53,7 +53,7 @@ Typically titles are useful for notes, but it's not required. Syntax as follows:
 ## A feature became available in PHP X.Y.Z, how do I document that?
 Version information for functions is stored inside `versions.xml` within each extension: `phpdoc/en/extname/version.xml`
 Changes to functions, like added parameters, are documented within changelogs for each page
-Example text: **Feature X has been available since PHP X.Y.Z**.
+Example text: *Feature X has been available since PHP X.Y.Z*.
 
 ## A parameter is optional, how is it documented?
 Like normal, except `methodparam` receives the `choice="opt"` attribute, and the `<initializer>` tag is used
@@ -80,7 +80,7 @@ The `&example.outputs;` entity output will always, under all conditions, be the 
 Add the snippet to `en/language-snippets.ent` as an entity and link to the entity within the desired pages.
 This is done so translators can update one version of this text.
 
-## How do I find missing documentation? Or undocumented (proto only) documentation?
+## How do I find missing documentation?
 Missing functions (no associated XML files) can be found like so (assuming a doc checkout, and PhD is installed):
 ```
 php doc-base/configure.php
