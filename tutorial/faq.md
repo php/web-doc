@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-## If a <refentry> should not emit versioning information, what should I do?
+## If a refentry should not emit versioning information, what should I do?
 Add the `role="noversion"` to its `<refentry>`. Example: `<refentry xml:id="reserved.variables.argc" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" role="noversion//">`
 
 ## How do I add a link to a method?
