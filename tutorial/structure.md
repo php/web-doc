@@ -7,10 +7,6 @@ them, but you need it if you want to send your changes to our server.
 This tutorial assumes that you have basic knowledge about SVN. If not, you can read {TODO}. In order to checkout manual
 files, use following command:
 
-### For editors
-`svn checkout https://svn.php.net/repository/phpdoc/modules/doc-en phpdoc`
-
-### For translators
 `svn checkout https://svn.php.net/repository/phpdoc/modules/doc-{LANG} phpdoc`
 
 Both commands will create directory named phpdoc, however, the name can be anything you wish. This directory will
