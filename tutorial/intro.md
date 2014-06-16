@@ -17,6 +17,7 @@ format differs from the rest and it's called *pt_BR* for SVN module and *pt-br* 
 - [Joining the team](joining.md)
 - [Documentation structure](structure.md)
 - [Editing PHP Manual](editing.md)
+- [Translating documentation](translating.md)
 - [Style guidelines](style.md)
 
 ## Appendices
