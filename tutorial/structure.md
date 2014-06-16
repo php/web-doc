@@ -7,14 +7,16 @@ them, but you need it if you want to send your changes to our server.
 This tutorial assumes that you have basic knowledge about SVN. If not, you can read {TODO}. In order to checkout manual
 files, use following command:
 
-`svn checkout https://svn.php.net/repository/phpdoc/modules/doc-{LANG} phpdoc`
+```
+svn checkout https://svn.php.net/repository/phpdoc/modules/doc-{LANG} phpdoc
+```
 
-Both commands will create directory named phpdoc, however, the name can be anything you wish. This directory will
+This command will create directory named phpdoc, however, the name can be anything you wish. This directory will
 contain folder with sources of your language (named *{LANG}*) and *doc-base* with some helpful tools.
 
 ## Files structure
-**Note for translators: ** if any of source files doesn't exists in translation, English file will be used
-while building process. This means that you *cannot* place untranslated files in your translation tree. Otherwise,
+**Note for translators:** if any of source files doesn't exists in translation, English content will be used
+in building process. This means that you *cannot* place untranslated files in your translation tree. Otherwise,
 it will lead to mess, confusion and may break some tools.
 
 Structure of manual sources is rather intuitive. The most complicated part is documentation for extensions

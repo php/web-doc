@@ -28,9 +28,9 @@ username is *johnsmith*:
 ```
 
 `$Revision` is a kind of macro which will be replaced with number of current revision when you commit your changes.
-Revision number you have copied from english file was created this way.
+Revision number you have copied from English file was created this way.
 
-The rule is simple: if your revision number is equal to revision number of english file you've translated, it means
+The rule is simple: if your revision number is equal to revision number of English file you've translated, it means
 that your translation is up-to-date. Otherwise, it needs to be synced.
 
 ## Updating translation of existing file

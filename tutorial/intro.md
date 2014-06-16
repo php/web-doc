@@ -8,11 +8,11 @@ collectively make changes every day. This guide is designed for people who work 
 
 ## Glossary
 This guide use some terminology you have to know. Don't worry, it's easy:
-- **editor** - person who contributes to original english manual
-- **translator** - person who translates english manual into another language
+- **editor** - person who contributes to original English manual
+- **translator** - person who translates English manual into another language
 - **{LANG}** - replace it with your two-letter country code, in example in mailing list address (note: Brazilian Portuguese
-format differs from the rest and it's called `pt_BR` for SVN module and *pt-br* for mailing list sufix). If you edit
-original PHP Manual your language code is `en`.
+format differs from the rest and it's called *pt_BR* for SVN module and *pt-br* for mailing list sufix). If you edit
+original PHP Manual your language code is *en*.
 
 ## Table of Contents
 - [Joining the team](joining.md)
