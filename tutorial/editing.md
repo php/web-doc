@@ -12,7 +12,12 @@ Simply open the files and edit them.
 When adding new functions or methods, there are a couple of options. Either way, the generated (or copied) files
 will need to be filled out.
 
-### Option A: Copy skeleton files
+### Option A: Generating files using docgen
+This is preferred way to generate files for new functions or methods. The `docgen` script is found within 
+the PHP documentation (phpdoc/scripts/docgen/) and uses Reflection to generate documentation (DocBook) files.
+Fill in skeleton files before you commit them!
+
+### Option B: Copy skeleton files
 This involves copying the skeleton files into the correct location:
 ```
 cp /phpdoc/RFC/skeletons/method.xml classname/methodname.xml   #for new methods
@@ -22,9 +27,7 @@ cp /phpdoc/RFC/skeletons/function.xml functions/functionname.xml #for new functi
 Note: *classname*, *methodname* and *functionname* are lowercased names of the class, method or function, respectively,
 not a literal file name.
 
-### Option B: Generating files using docgen
-The `docgen` script is found within the PHP documentation (phpdoc/scripts/docgen/) and uses Reflection to generate
-documentation (DocBook) files. Fill in skeleton files before you commit them!
+Remember about extension [structure](structure.md) when copying those files.
 
 ## Translating documentation
 Translation process has been described in [separate chapter](translating.md).
