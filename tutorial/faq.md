@@ -18,9 +18,6 @@ Note: Usually the problem is a major XML syntax issue.
 ## Is there an online editor?
 Yes, just go to https://edit.php.net
 
-## How often is the documentation built?
-Weekly, but there is special mirror - https://doc.php.net - where documentation is build every six hours.
-
 ## How do I add a link to a method?
 Use `<methodname>Class::Method</methodname>` Note that the case does not matter when adding a link.
 

@@ -22,6 +22,7 @@ format differs from the rest and it's called *pt_BR* for SVN module and *pt-br* 
 
 ## Appendices
 - [FAQ](faq.md)
+- [PHP Manual builds](builds.md)
 
 ## Feedback
 Feedback is most certainly welcome on this document. Without your submissions and input, this document wouldn't exist.

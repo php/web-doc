@@ -50,7 +50,7 @@ If you have access to SVN, you can commit modified files.
 ## Viewing changes online
 Documentation is builded every Friday. It applies to all formats - online, offline HTML files and CHM. However,
 there is a special mirror - http://docs.php.net/ - where manual is updated from sources every six hours. If any
-errors occured, special message will be delivered to your mailinglist (`doc-{LANG}` for translations and `doc` for
-English manual).
+errors occured, special message will be delivered to your lang's mailinglist. Read more about manual builds in 
+[dedicated appendix](builds.md).
 
 Last chapter contains [style guidelines](style.md) you are obliged to follow. Read them carefully.
