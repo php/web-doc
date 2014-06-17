@@ -35,12 +35,6 @@ Then you can use this syntax in documentation:
 ```
 Be sure the file understands the namespace with `xmlns:xlink="http://www.w3.org/1999/xlink"` in the root element.
 
-## In the changelog, which order do the PHP versions go?
-Newest PHP versions go above the older ones.
-
-## In the changelog, a change happened in two PHP versions. How do I enter this?
-Multiple versions are separated by a comma, with the lesser version first. Example: `<entry>5.2.11, 5.3.1</entry>`
-
 ## When adding a note, should I add a title?
 Typically titles are useful for notes, but it's not required. Syntax as follows:
 ```
