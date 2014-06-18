@@ -1,36 +1,40 @@
 # Manual sources structure
 
 ## Downloading sources
-PHP Manual sources are currently stored in Subversion (SVN) repository. You don't need SVN access to checkout (download)
-them, but you need it if you want to send your changes to our server.
+The PHP Manual sources are currently stored in our Subversion (SVN) repository.
+You don't need SVN access to checkout (download) the files, but you do need it
+if you want to send your changes to our server.
 
-This tutorial assumes that you have basic knowledge about SVN. If not, you can read {TODO}. In order to checkout manual
-files, use following command:
+This tutorial assumes that you have basic knowledge about SVN.
+If not, you can read [Version Control with Subversion](http://svnbook.red-bean.com/).
+In order to checkout the manual files, use the following command:
 
 ```
 svn checkout https://svn.php.net/repository/phpdoc/modules/doc-{LANG} phpdoc
 ```
 
-This command will create directory named phpdoc, however, the name can be anything you wish. This directory will
-contain folder with sources of your language (named *{LANG}*) and *doc-base* with some helpful tools.
+This command will create a directory named `phpdoc` (the name can be anything you wish).
+This directory will contain a folder with the sources of your chosen language
+(named *{LANG}*) and a *doc-base* folder, which is home to some helpful tools.
 
 ## Files structure
-**Note for translators:** if any of source files doesn't exists in translation, English content will be used
-in building process. This means that you *cannot* place untranslated files in your translation tree. Otherwise,
-it will lead to mess, confusion and may break some tools.
+**Note for translators:** if any of the source files don't exist in your translation, the English content will be used
+during the building process. This means that you *must not* place untranslated files in your translation tree. Otherwise,
+it will lead to a mess, confusion and may break some tools.
 
-Structure of manual sources is rather intuitive. The most complicated part is documentation for extensions
-(which is the biggest part of manual, because all functions are grouped into extensions).
+The structure of the manual sources is hopefully rather intuitive. The most
+complicated part is the documentation for extensions, which is also the biggest
+part of manual as all functions are grouped into extensions.
 
 The documentation for extensions is located in `/phpdoc/{LANG}/reference/extension_name/`.  For example, 
 the calendar extension documentation exists in  `/phpdoc/{LANG}/reference/calendar/`. There you'll find several files:
 - *book.xml* - acts as the container for the extension and contains the preface. Other files (like examples.xml)
 are included from here.
 - *setup.xml* - includes setup, install and configuration documentation
-- *constants.xml* - lists all constants the extension declares, if any
+- *constants.xml* - lists all constants that the extension declares, if any
 - *configure.xml* - usually this information is in setup.xml, but if the file exists it is magically
 included into setup.xml
-- *examples.xml - various examples
+- *examples.xml* - various examples
 - *foo.xml* - example, foo can be anything specific to a topic. Just be sure to include via book.xml.
 
 A procedural extension (like calendar) also has:
@@ -43,4 +47,4 @@ And OO extensions (such as imagick) contain:
 
 Note: *classname* is the lowercased name of the class, not a literal file or directory name.
 
-Next chapter will discuss how to [edit manual sources](editing.md).
+The next chapter will discuss how to [edit the manual sources](editing.md).

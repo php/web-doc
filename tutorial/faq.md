@@ -1,13 +1,20 @@
 # Frequently Asked Questions
 
 ## I'm about to document a new PHP extension. How should I start?
-Change your working directory to `phpdoc/doc-base/scripts/docgen/` and execute following command:
-`$ php docgen.php -e simplexml -o outdir`. It creates the skeletons that you edit then commit.
+Change your working directory to `phpdoc/doc-base/scripts/docgen/` and execute:
+```
+php docgen.php -e simplexml -o outdir
+```
+
+It creates the skeletons that you edit, and then commit.
+
 Help is available with following command: `$ php docgen.php -h`.
 
 ## I created skeletons that contain a bunch of default text, should I commit it?
-No, you can't. Edit files before commit. There are two reasons: translators and the fact that temporary
-often becomes permanent, and bogus text is not good.
+No! Edit the files, to check the generated content and add more information,
+before committing. Thinking that it is okay to commit the skeleton files because
+you will soon come along and flesh them out might seem like a good idea. However,
+temporary often becomes permanent.
 
 ## Running configure.php ends up segfaulting, what is up?
 There are bugs with certain versions of libxml that cause this, so hacks exist to get around it.
@@ -16,42 +23,45 @@ Note: This disables some error checking and beautification but raw errors will b
 Note: Usually the problem is a major XML syntax issue.
 
 ## Is there an online editor?
-Yes, just go to https://edit.php.net
+Yes, just go to [edit.php.net](https://edit.php.net).
 
 ## How do I add a link to a method?
-Use `<methodname>Class::Method</methodname>` Note that the case does not matter when adding a link.
+Use `<methodname>Class::method</methodname>`. Note that the case does not matter when adding a link.
 
 ## If a refentry should not emit versioning information, what should I do?
-Add the `role="noversion"` to its `<refentry>`. Example: `<refentry xml:id="reserved.variables.argc" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" role="noversion//">`
+Add the `role="noversion"` to its `<refentry>`. Example:
+```
+<refentry xml:id="reserved.variables.argc" xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" role="noversion">
+```
 
 ## How do I add an external link to the documentation?
 All external links are added to `doc-base/entities/global.ent`. Markup looks as follows:
 ```
 <!ENTITY spec.google "http://www.google.com/">
 ```
-Then you can use this syntax in documentation:
+Then you can use this syntax in the documentation:
 ```
 <link xlink:href="&spec.google;">google spec</link>
 ```
-Be sure the file understands the namespace with `xmlns:xlink="http://www.w3.org/1999/xlink"` in the root element.
+Be sure the file understands the `xlink` namespace, by using `xmlns:xlink="http://www.w3.org/1999/xlink"` in the document element.
 
 ## When adding a note, should I add a title?
-Typically titles are useful for notes, but it's not required. Syntax as follows:
+Typically titles are useful for notes, but it's not required.
 ```
 <note>
- <title>foo</title>
- <para>note contents</para>
+ <title>Foo</title>
+ <para>Note contents are here.</para>
 </note>
 ```
 
 ## A feature became available in PHP X.Y.Z, how do I document that?
-Version information for functions is stored inside `versions.xml` within each extension: `phpdoc/en/extname/version.xml`
-Changes to functions, like added parameters, are documented within changelogs for each page
-Example text: *Feature X has been available since PHP X.Y.Z*.
+Version information for functions is stored inside `versions.xml` within
+each extension (e.g. `phpdoc/en/extname/version.xml`). Changes to functions,
+like added parameters, are documented within the changelog section for each page.
 
 ## A parameter is optional, how is it documented?
-Like normal, except `methodparam` receives the `choice="opt"` attribute, and the `<initializer>` tag is used
-to signify the default value. Example syntax:
+Like normal, except `methodparam` receives the `choice="opt"` attribute, and
+the `<initializer>` tag is used to signify the default value.
 ```
 <methodparam choice="opt"><type>bool</type><parameter>httponly</parameter><initializer>false</initializer></methodparam>
 ```
