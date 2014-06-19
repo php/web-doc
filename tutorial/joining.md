@@ -33,4 +33,4 @@ To request one, please fill in [this form](http://php.net/git-php.php).
 Provide links to your work that has already been committed and/or list your current patches.
 Basically, tell us what have done, to prove that you really need this account.
 
-The next chapter will explain how to get the manual sources and how are they [structured](structure.md).
+The next chapter will explain how to get the manual sources and how are they [structured](structure.php).

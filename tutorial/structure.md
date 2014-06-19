@@ -47,4 +47,4 @@ And OO extensions (such as imagick) contain:
 
 Note: *classname* is the lowercased name of the class, not a literal file or directory name.
 
-The next chapter will discuss how to [edit the manual sources](editing.md).
+The next chapter will discuss how to [edit the manual sources](editing.php).

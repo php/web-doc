@@ -21,7 +21,7 @@ The CHM version of the manual is built on a Windows machine and pulled on Friday
 for distribution to mirrors. [Richard][rquadling] maintains these builds.
 
 ## Validation
-Aside from running `php configure.php –with-lang=foo` (see [editing](editing.md))
+Aside from running `php configure.php –with-lang=foo` (see [editing](editing.php))
 for a language, another way to check if the docs validated is by looking at build
 dates on the doc server. See "Doc server builds", above.
 

@@ -18,15 +18,15 @@ This guide uses some terminology that you have to know. Don't worry, it's easy:
   mailing list suffix.
 
 ## Table of Contents
-- [Joining the team](joining.md)
-- [Documentation structure](structure.md)
-- [Editing the PHP Manual](editing.md)
-- [Translating documentation](translating.md)
-- [Style guidelines](style.md)
+- [Joining the team](joining.php)
+- [Documentation structure](structure.php)
+- [Editing the PHP Manual](editing.php)
+- [Translating documentation](translating.php)
+- [Style guidelines](style.php)
 
 ## Appendices
-- [FAQ](faq.md)
-- [PHP Manual builds](builds.md)
+- [FAQ](faq.php)
+- [PHP Manual builds](builds.php)
 
 ## Feedback
 Feedback is most certainly welcome on this document. Without your submissions and input, this document wouldn't exist.

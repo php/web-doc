@@ -3,7 +3,7 @@
 ## Introduction
 When editing or translating the manual, you have to remember some things:
 - use only UTF-8 encoding
-- follow the project's [style guidelines](style.md)
+- follow the project's [style guidelines](style.php)
 
 ## Editing existing documentation
 Simply open the files and edit them.
@@ -26,10 +26,10 @@ cp /phpdoc/RFC/skeletons/function.xml functions/functionname.xml #for new functi
 Note: *classname*, *methodname* and *functionname* are lowercased names of the
 class, method, or function, respectively, not a literal file name.
 
-Remember the extension folder [structure](structure.md) when copying those files.
+Remember the extension folder [structure](structure.php) when copying those files.
 
 ## Translating documentation
-The translation process is described in the [translating chapter](translating.md).
+The translation process is described in the [translating chapter](translating.php).
 
 ## Validating your changes
 Every time you make changes to documentation sources (both English or translation),
@@ -54,9 +54,9 @@ there is a special mirror at [docs.php.net][docs] - where the manual is updated
 from sources every six hours. If any errors occured, a message will be delivered
 to the appropriate mailinglist (`doc-{LANG}@lists.php.net`).
 
-Read more about manual builds in the [builds appendix](builds.md).
+Read more about manual builds in the [builds appendix](builds.php).
 
-The next chapter contains [style guidelines](style.md) that you are obliged to
+The next chapter contains [style guidelines](style.php) that you are obliged to
 follow. Read them carefully.
 
 [docgen]: http://svn.php.net/viewvc/phpdoc/doc-base/trunk/scripts/docgen/
