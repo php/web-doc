@@ -4,7 +4,7 @@
 You will also have to follow other steps from the [editing manual sources](editing.md) section.
 
 Translating documentation into other languages might look like a complicated 
-rocess, but in fact, it's rather simple. 
+process, but in fact, it's rather simple.
 
 Every file in SVN has a *revision number*. It is basically the current version of
 the specified file. We use revisions to check if a file is synchronized with its
