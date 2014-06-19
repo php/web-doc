@@ -8,7 +8,7 @@ php docgen.php -e simplexml -o outdir
 
 It creates the skeletons that you edit, and then commit.
 
-Help is available with following command: `$ php docgen.php -h`.
+Help is available with following command: `php docgen.php -h`.
 
 ## I created skeletons that contain a bunch of default text, should I commit it?
 No! Edit the files, to check the generated content and add more information,
@@ -23,7 +23,7 @@ Note: This disables some error checking and beautification but raw errors will b
 Note: Usually the problem is a major XML syntax issue.
 
 ## Is there an online editor?
-Yes, just go to [edit.php.net](https://edit.php.net).
+Yes, just go to [edit.php.net][editor]. Our wiki contains an [overview of the editor and how to use it][editor-tutorial].
 
 ## How do I add a link to a method?
 Use `<methodname>Class::method</methodname>`. Note that the case does not matter when adding a link.
@@ -56,7 +56,7 @@ Typically titles are useful for notes, but it's not required.
 
 ## A feature became available in PHP X.Y.Z, how do I document that?
 Version information for functions is stored inside `versions.xml` within
-each extension (e.g. `phpdoc/en/extname/version.xml`). Changes to functions,
+each extension (e.g. `phpdoc/en/extname/versions.xml`). Changes to functions,
 like added parameters, are documented within the changelog section for each page.
 
 ## A parameter is optional, how is it documented?
@@ -93,3 +93,6 @@ Examples: `entities/file-entities.ent` and `en/reference/foo/entities.bar.xml`
 ```
 *.xml = svn:eol-style=native;svn:keywords=Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
 ```
+
+[editor]: https://edit.php.net
+[editor-tutorial]: https://wiki.php.net/doc/editor
