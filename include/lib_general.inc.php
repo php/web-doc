@@ -34,7 +34,7 @@ function site_header()
    $CSS = array('/styles/doc.css');
    $LINKS = array(
         array('href' => '/revcheck.php', 'text' => 'Documentation Tools'),
-        array('href' => '/dochowto/', 'text' => 'Documentation Howto'),
+        array('href' => '/tutorial/', 'text' => 'Tutorial for Contributors'),
         array('href' => '/phd.php', 'text' => 'PhD Homepage'),
     );
 
