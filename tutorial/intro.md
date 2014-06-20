@@ -1,9 +1,4 @@
 # PHP Manual Contribution Guide
-This document is in the very early stages of development. If you are a newcomer,
-please look at already existing resources.
-
-More experienced users are welcome to [contribute](http://git.php.net/?p=web/doc.git;a=tree;f=tutorial).
-
 ## Introduction
 PHP is well known for having excellent documentation. Documentation that is created by volunteers who
 collectively make changes every day. This guide is designed for people who work on the official PHP documentation.
