@@ -27,6 +27,9 @@ This guide uses some terminology that you have to know. Don't worry, it's easy:
 ## Appendices
 - [FAQ](faq.php)
 - [PHP Manual builds](builds.php)
+- [Why whitespace is important in phpdoc](whitespace.php)
+- [User Note Editing Guidelines](user-notes.php)
+- [Setting up Documentation environment](local-setup.php)
 
 ## Feedback
 Feedback is most certainly welcome on this document. Without your submissions and input, this document wouldn't exist.
