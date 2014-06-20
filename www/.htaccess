@@ -1,12 +1,10 @@
 RewriteEngine On
 
 # tutorial rewrites
+RewriteRule ^(((.+)/)+)?dochowto(/)?$ /$1tutorial/ [L,R=301]
 RewriteRule ^(((.+)/)+)?tutorial$ /$1tutorial/ [L,R=301]
 RewriteRule ^tutorial/$ /tutorial.php?chapter=intro [L]
 RewriteRule ^tutorial/([a-z\-]*).php$ /tutorial.php?chapter=$1 [L]
-
-# dochowto fix
-RewriteRule ^(((.+)/)+)?dochowto$ /$1dochowto/ [R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
