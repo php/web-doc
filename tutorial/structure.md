@@ -47,4 +47,12 @@ And OO extensions (such as imagick) contain:
 
 Note: *classname* is the lowercased name of the class, not a literal file or directory name.
 
+There are some other important files, not related with extensions.
+- *{LANG}/language-defs.ent* - contains local entities used by this language. Some common ones are
+  the main part titles, but you should also put entities used only by this language's files here.
+- *{LANG}/language-snippets.ent* - longer often used XML snippets translated to this language.
+  Including common warnings, notes, etc.
+- *{LANG}/translation.xml* - this file is used to store all central translation info, like a small
+  intro text for translators and the persons list. This file is not present in the English tree.
+
 The next chapter will discuss how to [edit the manual sources](editing.php).
