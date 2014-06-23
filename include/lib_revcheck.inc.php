@@ -3,7 +3,7 @@
 +----------------------------------------------------------------------+
 | PHP Documentation Tools Site Source Code                             |
 +----------------------------------------------------------------------+
-| Copyright (c) 1997-2011 The PHP Group                                |
+| Copyright (c) 1997-2014 The PHP Group                                |
 +----------------------------------------------------------------------+
 | This source file is subject to version 3.0 of the PHP license,       |
 | that is bundled with this package in the file LICENSE, and is        |
@@ -20,7 +20,6 @@
 */
 
 // A file is criticaly "outdated' if
-define("ALERT_REV",   10); // translation is 10 or more revisions behind the en one
 define("ALERT_SIZE",   3); // translation is  3 or more kB smaller than the en one
 define("ALERT_DATE", -30); // translation is 30 or more days older than the en one
 
@@ -286,8 +285,6 @@ function translator_get_old($idx, $lang)
     AND
         b.lang="en"
     AND
-        b.revision - a.revision < ' . ALERT_REV . '
-    AND
         b.revision != a.revision
     AND
         b.size - a.size < ' . ALERT_SIZE . '
@@ -323,19 +320,13 @@ function translator_get_critical($idx, $lang)
         a.lang="' . $lang . '"
     AND
         b.lang="en"
-    AND
-        (
-            b.revision - a.revision >= ' . ALERT_REV . '
-    OR
-        (
-             b.revision != a.revision
-         AND
-             (
-                     b.size - a.size >= ' . (1024 * ALERT_SIZE) . '
-                  OR 
-                     (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . '
-            )
-             )
+    AND (
+        b.revision != a.revision
+        AND (
+            b.size - a.size >= ' . (1024 * ALERT_SIZE) . '
+            OR
+            (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . '
+        )
     )
     AND
         a.size is not NULL
@@ -439,19 +430,14 @@ function get_stats_critical($idx, $lang)
         a.lang="' . $lang .'" 
     AND
         b.lang="en"
-    AND
-        (
-            b.revision - a.revision >= ' . ALERT_REV . '
-        OR
-            (
-                 b.revision != a.revision
-             AND
-                 (
-                     (b.size - a.size) >= ' . ALERT_SIZE . '
-                  OR
-                     (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . '
-                )
-             )
+    AND (
+		 b.revision != a.revision
+	 AND
+		(
+			 (b.size - a.size) >= ' . ALERT_SIZE . '
+		  OR
+			 (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . '
+		)
         )
 	AND
 		a.revision != "n/a"
@@ -486,8 +472,6 @@ function get_stats_old($idx, $lang)
         a.lang="' . $lang .'" 
     AND
         b.lang="en"
-    AND
-        (b.revision - a.revision) < ' . ALERT_REV . '
     AND
         b.revision != a.revision
     AND
