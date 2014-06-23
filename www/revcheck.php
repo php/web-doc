@@ -68,7 +68,6 @@ switch($tool) {
 <table border="0" cellpadding="4" cellspacing="1">
 <tr>
 <th rowspan="2">Name</th>
-<th rowspan="2">Contact email</th>
 <th rowspan="2">Nick</th>
 <th rowspan="2">SVN</th>
 <th colspan="7">Files maintained</th>
@@ -83,13 +82,10 @@ switch($tool) {
 TRANSLATORS_HEAD;
 
 			foreach ($translators as $nick => $data) {
-				$svn = ($data['svn'] == 'yes') ? '✓' : '&nbsp;';
-
 				echo '<tr>',
-				'<td><a href="/revcheck.php?p=files&amp;user='.$nick.'&amp;lang='.$lang.'">'.$data['name'].'</a></td>',
-				'<td>', $data['mail'], '</td>',
-				'<td>', $nick, '</td>',
-				'<td>', $svn, '</td>',
+				'<td><a href="mailto:'.$data['mail'].'">'.$data['name'].'</a></td>',
+				'<td><a href="/revcheck.php?p=files&amp;user='.$nick.'&amp;lang='.$lang.'">'.$nick.'</a></td>',
+				'<td>'.(($data['svn'] == 'yes') ? '✓' : '&nbsp;').'</td>',
 				'<td>' , @$files_w[$nick]['uptodate'], '</td>',
 				'<td>' , @$files_w[$nick]['old'], '</td>',
 				'<td>' , $files_w[$nick]['critical'], '</td>',
