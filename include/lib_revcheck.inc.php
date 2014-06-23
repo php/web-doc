@@ -235,7 +235,7 @@ function get_misstags($idx, $lang)
      d.name AS dir, b.size AS en_size, a.size AS trans_size, a.name AS name
      FROM files a, dirs d 
      LEFT JOIN files b ON a.dir = b.dir AND a.name = b.name 
-     WHERE a.lang="'.$lang.'" AND b.lang="en" AND a.revision IS NULL
+     WHERE a.lang="'.$lang.'" AND b.lang="en" AND (a.revision IS NULL OR a.revision = "n/a")
      AND a.size IS NOT NULL AND a.dir = d.id';
 
     $result = $idx->query($sql);
@@ -453,6 +453,8 @@ function get_stats_critical($idx, $lang)
                 )
              )
         )
+	AND
+		a.revision != "n/a"
     AND
         a.size is not NULL
     AND
@@ -554,7 +556,7 @@ function get_stats_notag($idx, $lang)
     AND
         b.lang="en"
     AND
-        a.revision is NULL
+        (a.revision is NULL OR a.revision = "n/a")
     AND
         a.size is not NULL
     AND

@@ -162,11 +162,11 @@ TRANSLATORS_HEAD;
 		$misstags = get_misstags($dbhandle, $lang);
 		$num = count($misstags);
 		if (!$num) {
-			echo '<p>Good, all files contain revision comments.</p>';
+			echo '<p>Good, all files contain revision numbers.</p>';
 		}
 		else {
 			echo '<table border="0" cellpadding="3" cellspacing="1" style="text-align:center">';
-			echo '<tr><th rowspan="2">Files without Revision-comment ('.$num.' files):</th><th colspan="3">Sizes in kB</th></tr>';
+			echo '<tr><th rowspan="2">Files without EN-Revision number ('.$num.' files):</th><th colspan="3">Sizes in kB</th></tr>';
 			echo '<tr><th>en</th><th>'.$lang.'</th><th>diff</th></</tr>';
 
 			$last_dir = false;
@@ -191,16 +191,14 @@ TRANSLATORS_HEAD;
 			array (REV_CRITICAL, 'Critical files'),
 			array (REV_WIP,      'Work in progress'),
 			array (REV_NOREV,    'Files without revision number'),
-			array (REV_NOTAG,    'Files without revision tag'),
 			array (REV_NOTRANS,  'Files available for translation')
 		);
 	
 		$file_summary_array = array(
 			REV_UPTODATE => array(0,0),
-			REV_NOREV    => array(0,0),
 			REV_CRITICAL => array(0,0),
 			REV_OLD      => array(0,0),
-			REV_NOTAG    => array(0,0),
+			REV_NOREV    => array(0,0),
 			REV_NOTRANS  => array(0,0),
 			REV_CREDIT   => array(0,0),
 			REV_WIP      => array(0,0)
@@ -210,7 +208,7 @@ TRANSLATORS_HEAD;
 		$file_summary_array[REV_CRITICAL] = get_stats_critical($dbhandle, $lang);
 		$file_summary_array[REV_UPTODATE] = get_stats_uptodate($dbhandle, $lang);
 		$file_summary_array[REV_OLD]      = get_stats_old($dbhandle, $lang);
-		$file_summary_array[REV_NOTAG]    = get_stats_notag($dbhandle, $lang);
+		$file_summary_array[REV_NOREV]    = get_stats_notag($dbhandle, $lang);
 		$file_summary_array[REV_NOTRANS]  = get_stats_notrans($dbhandle, $lang);
 
 		echo '<table border="0" cellpadding="4" cellspacing="1" style="text-align:center;">';
