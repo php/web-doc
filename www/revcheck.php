@@ -247,110 +247,115 @@ TRANSLATORS_HEAD;
 
 		if (empty($dirs)) {
 			echo '<p>Error: no directories found in database.</p>';
+			$sidebar = nav_tools($lang);
+			site_footer($sidebar);
+			die;
+		}
+
+		echo '<p>This tool allows you to check which files in your translation need update. To show the list ';
+		echo 'choose a directory (it doesn\'t works recursively) or translator.</p>';
+		echo '<p>When you click on the filename you will see plaintext diff showing changes between revisions so ';
+		echo 'you will know what has changed in English version and what informations you need to update.<br>';
+		echo 'You can also click on [diff] to show colored diff. If filename is not a link it means that revision ';
+		echo 'number in your translation is unavailable for this file (and you should fix it).</p>';
+		echo '<p>Choose a directory:</p>';
+		echo '<form method="get" action="revcheck.php"><p><select name="dir">';
+		foreach ($dirs as $id => $name) {
+			if (isset($_GET['dir']) && $_GET['dir'] == $id) {
+				$selected = ' selected="selected"';
+			}
+			else {
+				$selected = '';
+			}
+			echo '<option value="'.$id.'"'.$selected.'>'.$name.'</option>';
+		}
+		echo '</select>';
+		echo '<input type="hidden" name="p" value="files">';
+		echo '<input type="hidden" name="lang" value="'.$lang.'">';
+		echo '<input type="submit" value="See outdated files"></p></form>';
+
+		echo '<p>Or choose a translator:</p>';
+		echo '<form method="get" action="revcheck.php"><p><select name="user">';
+		foreach ($users as $id => $user) {
+			if (isset($_GET['user']) && $_GET['user'] == $id) {
+				$selected = ' selected="selected"';
+			}
+			else {
+				$selected = '';
+			}
+			echo '<option value="'.$id.'"'.$selected.'>'.$id.'</option>';
+		}
+		echo '</select>';
+		echo '<input type="hidden" name="p" value="files">';
+		echo '<input type="hidden" name="lang" value="'.$lang.'">';
+		echo '<input type="submit" value="See outdated files"></p></form>';
+
+		// Get outdated files filtered as requested
+		if (isset($_GET['user'])) {
+			$outdated = get_outdated_files($dbhandle, $lang, 'translator', $_GET['user']);
+		}
+		elseif (isset($_GET['dir'])) {
+			$outdated = get_outdated_files($dbhandle, $lang, 'dir', $_GET['dir']);
 		}
 		else {
-			echo '<p>This tool allows you to check which files in your translation need update. To show the list ';
-			echo 'choose a directory (it doesn\'t works recursively) or translator.</p>';
-			echo '<p>When you click on the filename you will see plaintext diff showing changes between revisions so ';
-			echo 'you will know what has changed in English version and what informations you need to update.<br>';
-			echo 'You can also click on [diff] to show colored diff. If filename is not a link it means that revision ';
-			echo 'number in your translation is unavailable for this file (and you should fix it).</p>';
-			echo '<p>Choose a directory:</p>';
-			echo '<form method="get" action="revcheck.php"><p><select name="dir">';
-			foreach ($dirs as $id => $name) {
-				if (isset($_GET['dir']) && $_GET['dir'] == $id) {
-					$selected = ' selected="selected"';
-				}
-				else {
-					$selected = '';
-				}
-				echo '<option value="'.$id.'"'.$selected.'>'.$name.'</option>';
-			}
-			echo '</select>';
-			echo '<input type="hidden" name="p" value="files">';
-			echo '<input type="hidden" name="lang" value="'.$lang.'">';
-			echo '<input type="submit" value="See outdated files"></p></form>';
-			
-			echo '<p>Or choose a translator:</p>';
-			echo '<form method="get" action="revcheck.php"><p><select name="user">';
-			foreach ($users as $id => $user) {
-				if (isset($_GET['user']) && $_GET['user'] == $id) {
-					$selected = ' selected="selected"';
-				}
-				else {
-					$selected = '';
-				}
-				echo '<option value="'.$id.'"'.$selected.'>'.$id.'</option>';
-			}
-			echo '</select>';
-			echo '<input type="hidden" name="p" value="files">';
-			echo '<input type="hidden" name="lang" value="'.$lang.'">';
-			echo '<input type="submit" value="See outdated files"></p></form>';
+			$outdated = get_outdated_files($dbhandle, $lang, 'all');
 		}
 
-		if (!empty($dirs) && (isset($_GET['dir']) || isset($_GET['user']))) {
-			if (isset($_GET['user'])) {
-				$outdated = get_outdated_translator_files($dbhandle, $lang, $_GET['user']);
-			}
-			else {
-				$outdated = get_outdated_files($dbhandle, $lang, $_GET['dir']);
-			}
-			if (empty($outdated)) {
-				echo '<p>Good, it seems that all files are up to date for these conditions.</p>';
-			}
-			else {
-				echo <<<END_OF_MULTILINE
-	<table border="0" cellpadding="4" cellspacing="1" style="text-align:center">
-	<tr>
-	<th rowspan="2">Translated file</th>
-	<th colspan="2">Revision</th>
-	<th rowspan="2">Maintainer</th>
-	<th rowspan="2">Status</th>
-	</tr>
-	<tr>
-	<th>en</th>
-	<th>$lang</th>
-	</tr>
-	<tr><th colspan="5">{$outdated[0]['name']}</th></tr>
+		if (empty($outdated)) {
+			echo '<p>Good, it seems that all files are up to date for these conditions.</p>';
+		}
+		else {
+			echo <<<END_OF_MULTILINE
+<table border="0" cellpadding="4" cellspacing="1" style="text-align:center">
+<tr>
+<th rowspan="2">Translated file</th>
+<th colspan="2">Revision</th>
+<th rowspan="2">Maintainer</th>
+<th rowspan="2">Status</th>
+</tr>
+<tr>
+<th>en</th>
+<th>$lang</th>
+</tr>
+<tr><th colspan="5">{$outdated[0]['name']}</th></tr>
 END_OF_MULTILINE;
-				$last_dir = false;
-				$prev_name = $outdated[0]['name'];
+			$last_dir = false;
+			$prev_name = $outdated[0]['name'];
 
-				foreach ($outdated as $r) {
-					if ($r['name'] != $prev_name) {
-					   echo '<tr><th colspan="5">'.$r['name'].'</th></tr>';
-					   $prev_name = $r['name'];
-					}
-
-					// Make the maintainer a link, if we have that maintainer in the list
-					if ($r['maintainer'] && $r["maintainer"] != 'nobody') {
-						$r["maintainer"] = '<a href="?p=translators&amp;lang=' . $lang . '">' . $r["maintainer"] . '</a>';
-					}
-
-					// If we have a 'numeric' revision diff and it is not zero,
-					// make a link to the SVN repository's diff script
-					if ($r['trans_rev'] !== 'n/a') {
-						$r['short_name'] = '<a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
-						'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '&amp;view=patch">' . $r['file'] . '</a>';
-
-						// Add a [diff] link
-						$r['short_name'] .= ' <a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
-						'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '">[diff]</a>';
-					}
-					else {
-						$r['short_name'] = $r['file'];
-					}
-
-					// Write out the line for the current file (get file name shorter)
-					echo '<tr>'.
-					"<td>{$r['short_name']}</td>".
-					"<td>{$r['en_rev']}</td>" .
-					"<td>{$r['trans_rev']}</td>" .
-					"<td> {$r['maintainer']}</td>" .
-					"<td> {$r['status']}</td></tr>\n";
+			foreach ($outdated as $r) {
+				if ($r['name'] != $prev_name) {
+				   echo '<tr><th colspan="5">'.$r['name'].'</th></tr>';
+				   $prev_name = $r['name'];
 				}
-				echo '</table>';
+
+				// Make the maintainer a link, if we have that maintainer in the list
+				if ($r['maintainer'] && $r["maintainer"] != 'nobody') {
+					$r["maintainer"] = '<a href="?p=translators&amp;lang=' . $lang . '">' . $r["maintainer"] . '</a>';
+				}
+
+				// If we have a 'numeric' revision diff and it is not zero,
+				// make a link to the SVN repository's diff script
+				if ($r['trans_rev'] !== 'n/a') {
+					$r['short_name'] = '<a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
+					'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '&amp;view=patch">' . $r['file'] . '</a>';
+
+					// Add a [diff] link
+					$r['short_name'] .= ' <a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
+					'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '">[diff]</a>';
+				}
+				else {
+					$r['short_name'] = $r['file'];
+				}
+
+				// Write out the line for the current file (get file name shorter)
+				echo '<tr>'.
+				"<td>{$r['short_name']}</td>".
+				"<td>{$r['en_rev']}</td>" .
+				"<td>{$r['trans_rev']}</td>" .
+				"<td> {$r['maintainer']}</td>" .
+				"<td> {$r['status']}</td></tr>\n";
 			}
+			echo '</table>';
 		}
 		echo gen_date($DBLANG);
 	break;
