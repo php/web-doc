@@ -60,7 +60,7 @@ function generate_image($lang, $idx) {
         $percent[] = round($value * 100 / $total);
     }
 
-    $legend = array($percent[0] . '%% up to date ('.$up_to_date.')', $percent[1] . '%% critical ('.$critical.')', $percent[2] . '%% old ('.$old.')', $percent[3] . '%% missing ('.$missing.')', $percent[4] . '%% without revtag ('.$no_tag.')');
+    $legend = array($percent[0] . '%% up to date ('.$up_to_date.')', $percent[1] . '%% critical ('.$critical.')', $percent[2] . '%% old ('.$old.')', $percent[3] . '%% missing ('.$missing.')', $percent[4] . '%% without EN-Revision ('.$no_tag.')');
     $title = 'Details for '.$LANGUAGES[$lang].' PHP Manual';
 
     $graph = new PieGraph(530,300);
