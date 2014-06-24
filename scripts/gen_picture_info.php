@@ -29,19 +29,19 @@ echo "Graphs generated in {$time}s\n";
 function generate_image($lang, $idx) {
     global $LANGUAGES;
 
-    $up_to_date = get_stats_uptodate($idx, $lang);
+    $up_to_date = get_stats($idx, $lang, 'uptodate');
     $up_to_date = $up_to_date[0];
     //
-    $critical = @get_stats_critical($idx, $lang);
+    $critical = @get_stats($idx, $lang, 'critical');
     $critical = $critical[0];
     //
-    $old = @get_stats_old($idx, $lang);
+    $old = @get_stats($idx, $lang, 'old');
     $old = $old[0];
     //
-    $missing = get_stats_notrans($idx, $lang);
+    $missing = get_stats($idx, $lang, 'notrans');
     $missing = $missing[0];
     //
-    $no_tag = @get_stats_notag($idx, $lang);
+    $no_tag = @get_stats($idx, $lang, 'norev');
     $no_tag = $no_tag[0];
 
     $data = array(

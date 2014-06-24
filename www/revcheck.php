@@ -51,10 +51,10 @@ switch($tool) {
 			echo '<p>Error: no translators info found in database.</p>';
 		}
 		else {
-			$uptodate = translator_get_uptodate($dbhandle, $lang);
-			$old      = translator_get_old($dbhandle, $lang);
-			$critical = translator_get_critical($dbhandle, $lang);
-			$wip      = translator_get_wip($dbhandle, $lang);
+			$uptodate = get_translators_stats($dbhandle, $lang, 'uptodate');
+			$old      = get_translators_stats($dbhandle, $lang, 'old');
+			$critical = get_translators_stats($dbhandle, $lang, 'critical');
+			$wip      = get_translators_stats($dbhandle, $lang, 'wip');
 
 			foreach($translators as $nick =>$data) {
 				$files_w[$nick] = array('uptodate' => '', 'old' =>'', 'critical' => '', 'norev' => '', 'wip' => '');
@@ -204,12 +204,12 @@ TRANSLATORS_HEAD;
 			REV_WIP      => array(0,0)
 		);
 
-		$file_summary_array[REV_WIP]      = get_stats_wip($dbhandle, $lang);
-		$file_summary_array[REV_CRITICAL] = get_stats_critical($dbhandle, $lang);
-		$file_summary_array[REV_UPTODATE] = get_stats_uptodate($dbhandle, $lang);
-		$file_summary_array[REV_OLD]      = get_stats_old($dbhandle, $lang);
-		$file_summary_array[REV_NOREV]    = get_stats_notag($dbhandle, $lang);
-		$file_summary_array[REV_NOTRANS]  = get_stats_notrans($dbhandle, $lang);
+		$file_summary_array[REV_WIP]      = get_stats($dbhandle, $lang, 'wip');
+		$file_summary_array[REV_CRITICAL] = get_stats($dbhandle, $lang, 'critical');
+		$file_summary_array[REV_UPTODATE] = get_stats($dbhandle, $lang, 'uptodate');
+		$file_summary_array[REV_OLD]      = get_stats($dbhandle, $lang, 'old');
+		$file_summary_array[REV_NOREV]    = get_stats($dbhandle, $lang, 'norev');
+		$file_summary_array[REV_NOTRANS]  = get_stats($dbhandle, $lang, 'notrans');
 
 		echo '<table border="0" cellpadding="4" cellspacing="1" style="text-align:center;">';
 		echo '<tr><th>File status type</th><th>Number of files</th><th>Percent of files</th><th>Size of files (kB)</th><th>Percent of size</th></tr>';

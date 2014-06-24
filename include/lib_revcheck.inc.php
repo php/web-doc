@@ -187,134 +187,49 @@ function get_misstags($idx, $lang)
     return $tmp;
 }
 
-// Return a string
-function translator_get_wip($idx, $lang)
-{
-    $sql = 'SELECT
-        COUNT(name) AS total,
-        person as nick
-    FROM
-        wip
-    WHERE
-        lang="' . $lang . '"
-    GROUP BY
-        nick
-    ORDER BY
-        nick';
-    $result = $idx->query($sql);
-    $tmp = array();
-    while ($r = $result->fetchArray()) {
-        $tmp[$r['nick']] = $r['total'];
+/**
+ * Returns translators' stats of specified $lang
+ * Replaces old translator_get_wip(), translator_get_old(),
+ * translator_get_critical() and translator_get_uptodate() functions
+ *
+ * @param string  $status  one of [uptodate, old, critical, wip]
+ * @return array
+ */
+function get_translators_stats($idx, $lang, $status) {
+    if ($status == 'wip') { // special case, ehh; does anyone still use this status?
+        $sql = "SELECT COUNT(name) AS total, person AS maintainer
+        FROM wip
+        WHERE lang = '$lang'
+        GROUP BY maintainer";
     }
-    return $tmp;
-}
+    else {
+        $sql = "SELECT COUNT(a.name) AS total, a.maintainer
+        FROM files a
+        LEFT JOIN files b ON a.name = b.name AND a.dir = b.dir
+        WHERE a.lang = '$lang' AND b.lang = 'en' AND a.size IS NOT NULL AND ";
 
-function translator_get_old($idx, $lang)
-{
-    $sql = 'SELECT
-        COUNT(a.name) AS total,
-        a.maintainer as maintainer
-    FROM
-        files a
-    LEFT JOIN
-        files b
-    ON
-        a.name = b.name
-    AND 
-        a.dir = b.dir
-    WHERE
-        a.lang="' . $lang . '"
-    AND
-        b.lang="en"
-    AND
-        b.revision != a.revision
-    AND
-        b.size - a.size < ' . ALERT_SIZE . '
-    AND
-        (b.mdate - a.mdate) / 86400  < ' . ALERT_DATE . '
-    AND
-        a.size is not NULL
-    GROUP BY
-        a.maintainer';
+        if ($status == 'uptodate') {
+            $sql .= 'a.revision = b.revision';
+        }
+        elseif ($status == 'old') {
+            $sql .= 'b.revision != a.revision AND b.size - a.size < ' . ALERT_SIZE . ' AND (b.mdate - a.mdate) / 86400  < ' . ALERT_DATE;
+        }
+        elseif ($status == 'critical') {
+            $sql .= 'b.revision != a.revision AND (b.size - a.size >= ' . (1024 * ALERT_SIZE) . ' OR (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . ')';
+        }
+
+        $sql .= ' GROUP BY a.maintainer';
+    }
 
     $result = $idx->query($sql);
+
     $tmp = array();
     while ($r = $result->fetchArray()) {
         $tmp[$r['maintainer']] = $r['total'];
     }
+
     return $tmp;
 }
-
-function translator_get_critical($idx, $lang)
-{
-    $sql = 'SELECT
-        COUNT(a.name) AS total,
-        a.maintainer as maintainer
-    FROM
-        files a
-    LEFT JOIN
-        files b
-    ON
-        a.name = b.name
-    AND 
-        a.dir = b.dir
-    WHERE
-        a.lang="' . $lang . '"
-    AND
-        b.lang="en"
-    AND (
-        b.revision != a.revision
-        AND (
-            b.size - a.size >= ' . (1024 * ALERT_SIZE) . '
-            OR
-            (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . '
-        )
-    )
-    AND
-        a.size is not NULL
-    GROUP BY
-        a.maintainer
-    ORDER BY
-        a.maintainer';
-    $result = $idx->query($sql);
-    $tmp = array();
-    while ($r = $result->fetchArray()) {
-        $tmp[$r['maintainer']] = $r['total'];
-    }
-    return $tmp;
-}
-
-function translator_get_uptodate($idx, $lang)
-{
-    $sql = 'SELECT
-        COUNT(a.name) AS total,
-        a.maintainer as maintainer
-    FROM
-        files a
-    LEFT JOIN
-        files b
-    ON
-        a.name = b.name
-    AND 
-        a.dir = b.dir
-    WHERE
-        a.lang="' . $lang . '"
-    AND
-        b.lang="en"
-    AND 
-        a.revision = b.revision
-    GROUP BY
-        a.maintainer
-    ORDER BY
-        a.maintainer';
-    $result = $idx->query($sql);
-    $tmp = array();
-    while ($r = $result->fetchArray()) {
-        $tmp[$r['maintainer']] = $r['total'];
-    }
-    return $tmp;
-}
-
 
 function get_translators($idx, $lang)
 {
@@ -327,172 +242,47 @@ function get_translators($idx, $lang)
     return $persons;
 }
 
-// Return an array
-function get_stats_uptodate($idx, $lang)
-{
-    $sql = 'SELECT
-        COUNT(a.name) as total, 
-        SUM(c.size) as size 
-    FROM 
-        files a 
-    LEFT JOIN
-        files c 
-    ON
-        c.name = a.name 
-    AND
-        c.dir = a.dir 
-    WHERE 
-        a.lang="' . $lang . '"
-    AND
-        c.lang="en"
-    AND
-        a.revision = c.revision'; 
+/**
+ * Returns statistics of specified $lang
+ * Replaces old get_stats_uptodate(), get_stats_old(),
+ * get_stats_critical(), get_stats_wip(), get_stats_notrans()
+ * and get_stats_notag() functions
+ *
+ * @param string  $status  one of [uptodate, old, critical, wip, notrans, norev]
+ * @return array
+ */
+function get_stats($idx, $lang, $status) {
+    if ($status == 'wip') { // special case, ehh; does anyone still use this status?
+        $sql = "SELECT COUNT(*) AS total, 0 AS size
+        FROM wip
+        WHERE lang = '$lang'";
+    }
+    else {
+        $sql = "SELECT COUNT(a.name) AS total, SUM(b.size) AS size
+        FROM files a
+        LEFT JOIN files b ON a.name = b.name AND a.dir = b.dir
+        WHERE a.lang = '$lang' AND b.lang = 'en' AND ";
 
-    $result = $idx->query($sql);
-    $r = $result->fetchArray();
-    $result = array($r['total'], $r['size']);
-    return $result;
-}
+        if ($status == 'uptodate') {
+            $sql .= 'a.revision = b.revision';
+        }
+        elseif ($status == 'old') {
+            $sql .= 'b.revision != a.revision AND b.size - a.size < ' . ALERT_SIZE . ' AND (b.mdate - a.mdate) / 86400  < ' . ALERT_DATE . ' AND a.size IS NOT NULL';
+        }
+        elseif ($status == 'critical') {
+            $sql .= 'b.revision != a.revision AND (b.size - a.size >= ' . (1024 * ALERT_SIZE) . ' OR (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . ') AND a.revision != "n/a" AND a.size IS NOT NULL';
+        }
+        elseif ($status == 'norev') {
+            $sql .= '(a.revision IS NULL OR a.revision = "n/a") AND a.size IS NOT NULL';
+        }
+        elseif ($status == 'notrans') {
+            $sql .= 'a.revision IS NULL AND a.size IS NULL';
+        }
+    }
 
-function get_stats_critical($idx, $lang)
-{
-    $sql = 'SELECT
-        COUNT(a.name) as total,
-        sum(b.size) as size
-    FROM
-        files a, 
-        dirs d
-    LEFT JOIN
-        files b 
-    ON 
-        a.dir = b.dir 
-    AND
-        a.name = b.name
-    WHERE
-        a.lang="' . $lang .'" 
-    AND
-        b.lang="en"
-    AND (
-		 b.revision != a.revision
-	 AND
-		(
-			 (b.size - a.size) >= ' . ALERT_SIZE . '
-		  OR
-			 (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . '
-		)
-        )
-	AND
-		a.revision != "n/a"
-    AND
-        a.size is not NULL
-    AND
-        a.dir = d.id';
+    $result = $idx->query($sql)->fetchArray();
 
-    $result = $idx->query($sql);
-
-    $r = $result->fetchArray();
-    $result = array($r['total'], $r['size']);
-    return $result;
-}
-
-// Return an array
-function get_stats_old($idx, $lang)
-{
-    $sql = 'SELECT
-        COUNT(a.name) as total,
-        sum(b.size) as size
-    FROM
-        files a, 
-        dirs d
-    LEFT JOIN
-        files b 
-    ON 
-        a.dir = b.dir 
-    AND
-        a.name = b.name
-    WHERE
-        a.lang="' . $lang .'" 
-    AND
-        b.lang="en"
-    AND
-        b.revision != a.revision
-    AND
-        (b.size - a.size) < ' . ALERT_SIZE . '
-    AND
-        (b.mdate - a.mdate) / 86400  <= ' . ALERT_DATE . '
-    AND
-        a.size is not NULL 
-    AND
-        a.dir = d.id';
-
-    $result = $idx->query($sql);
-
-    $r = $result->fetchArray();
-    $result = array($r['total'], $r['size']);
-    return $result;
-}
-
-// Returns number of untranslated files for specified $lang
-function get_stats_notrans($idx, $lang)
-{
-    $sql = "SELECT COUNT(a.name) AS total, SUM(b.size) as size 
-        FROM files a, dirs d
-        LEFT JOIN files b ON  a.dir = b.dir AND a.name = b.name
-        WHERE a.lang = '$lang' AND b.lang='en' AND a.revision IS NULL AND a.size IS NULL  AND a.dir = d.id";
-
-    $result = $idx->query($sql);
-    $r = $result->fetchArray();
-
-    return array($r['total'], $r['size']);
-}
-
-function get_stats_wip($idx, $lang)
-{
-    $sql = 'SELECT
-        COUNT(*) as total,
-        0 as size
-    FROM
-        wip
-    WHERE
-        lang = "' . $lang . '"';
-
-    $result = $idx->query($sql);
-    $r = $result->fetchArray();
-    return array($r['total'], $r['size']);
-}
-
-
-// Return an array
-function get_stats_notag($idx, $lang)
-{
-    $sql = 'SELECT
-        COUNT(a.name) as total,
-        sum(b.size) as size
-    FROM
-        files a, 
-        dirs d
-    LEFT JOIN
-        files b 
-    ON 
-        a.dir = b.dir 
-    AND
-        a.name = b.name
-    WHERE
-        a.lang="' . $lang .'" 
-    AND
-        b.lang="en"
-    AND
-        (a.revision is NULL OR a.revision = "n/a")
-    AND
-        a.size is not NULL
-    AND
-        a.dir = d.id';
-
-    $result = $idx->query($sql);
-
-    $r = $result->fetchArray();
-    $result = array($r['total'], $r['size']);
-    return $result;
+    return array($result['total'], $result['size']);
 }
 
 function gen_date($file)

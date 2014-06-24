@@ -12,7 +12,7 @@ sort($language);
 $files_EN = count_en_files($idx);
 
 foreach ($language as $lang) {
-    $tmp = get_stats_uptodate($idx, $lang);
+    $tmp = get_stats($idx, $lang, 'uptodate');
 
     $percent_tmp[] = round($tmp[0] * 100 / $files_EN);
     $legend_tmp[] = $lang;
