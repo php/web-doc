@@ -58,81 +58,23 @@ function get_dirs($idx, $lang) {
     return $tmp;
 }
 
-// return an array with the outdated files in $dir
-function get_outdated_files($idx, $lang, $dir)
+// return an array with the outdated files; can be optionally filtered by user or dir
+function get_outdated_files($idx, $lang, $filter = null, $value = null)
 {
-    $sql = 'SELECT
-        a.status as status, 
-        a.name as file, 
-        a.maintainer as maintainer, 
-        c.revision as en_rev, 
-        a.revision as trans_rev,
-        b.name AS name, 
-        a.dir as dir 
-    FROM 
-        files a, 
-        dirs b 
-    LEFT JOIN
-        files c 
-    ON
-        c.name = a.name 
-    AND
-        c.dir = a.dir 
-    WHERE 
-        b.id = a.dir 
-    AND
-        a.lang="' . $lang . '" 
-    AND
-        c.lang="en" 
-    AND
-        a.dir = "' . (int)$dir . '"
-    AND
-        a.revision != c.revision ORDER BY b.name';
-    $result = $idx->query($sql);
-    $tmp = array();
-    while ($r = $result->fetchArray()) {
-        $tmp[] = array(
-        'name' => $r['name'],
-        'en_rev' => $r['en_rev'],
-        'trans_rev' => $r['trans_rev'],
-        'status' => $r['status'],
-        'maintainer' => $r['maintainer'],
-        'file' => $r['file']);
+    $sql = 'SELECT a.status, a.name AS file, a.maintainer, c.revision AS en_rev, a.revision AS trans_rev, b.name AS name, a.dir AS dir
+    FROM files a, dirs b
+    LEFT JOIN files c ON c.name = a.name AND c.dir = a.dir
+    WHERE b.id = a.dir AND a.lang="' . $lang . '" AND a.revision != c.revision AND c.lang="en" ';
+
+    if ($filter == 'dir') {
+        $sql .= 'AND a.dir = '.(int)$value;
+    }
+    elseif ($filter == 'translator') {
+        $sql .= 'AND a.maintainer = "'.SQLite3::escapeString($value).'"';
     }
 
-    return $tmp;
-}
+    $sql .= ' ORDER BY b.name';
 
-// return an array with the outdated files maintained by $user
-function get_outdated_translator_files($idx, $lang, $user)
-{
-    $sql = 'SELECT
-        a.status as status,
-        a.name as file,
-        a.maintainer as maintainer,
-        c.revision as en_rev,
-        a.revision as trans_rev,
-        b.name AS name,
-        a.dir as dir
-    FROM
-        files a,
-        dirs b
-    LEFT JOIN
-        files c
-    ON
-        c.name = a.name
-    AND
-        c.dir = a.dir
-    WHERE
-        b.id = a.dir
-    AND
-        a.lang="' . $lang . '"
-    AND
-        c.lang="en"
-    AND
-        a.maintainer = \'' . SQLite3::escapeString($user) . '\'
-    AND
-        a.revision != c.revision ORDER BY b.name';
     $result = $idx->query($sql);
     $tmp = array();
     while ($r = $result->fetchArray()) {
