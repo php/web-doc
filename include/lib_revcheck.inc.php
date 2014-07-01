@@ -177,7 +177,8 @@ function get_misstags($idx, $lang)
      FROM files a, dirs d 
      LEFT JOIN files b ON a.dir = b.dir AND a.name = b.name 
      WHERE a.lang="'.$lang.'" AND b.lang="en" AND (a.revision IS NULL OR a.revision = "n/a")
-     AND a.size IS NOT NULL AND a.dir = d.id';
+     AND a.size IS NOT NULL AND a.dir = d.id
+     ORDER BY dir, name';
 
     $result = $idx->query($sql);
     while($row = $result->fetchArray()) {
