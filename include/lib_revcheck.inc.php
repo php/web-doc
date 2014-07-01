@@ -26,7 +26,7 @@ define("ALERT_DATE", -30); // translation is 30 or more days older than the en o
 // Return an array of directory containing outdated files
 function get_dirs($idx, $lang) {
     $sql = 'SELECT
-        distinct b.name AS name, 
+        DISTINCT b.name AS name, 
         a.dir AS dir
     FROM 
         files a, 
@@ -45,6 +45,8 @@ function get_dirs($idx, $lang) {
         c.lang="en" 
     AND
         a.revision != c.revision 
+    AND
+        a.revision != "n/a"
     ORDER BY
         b.name';
 
