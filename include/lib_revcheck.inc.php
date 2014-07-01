@@ -64,7 +64,7 @@ function get_outdated_files($idx, $lang, $filter = null, $value = null)
     $sql = 'SELECT a.status, a.name AS file, a.maintainer, c.revision AS en_rev, a.revision AS trans_rev, b.name AS name, a.dir AS dir
     FROM files a, dirs b
     LEFT JOIN files c ON c.name = a.name AND c.dir = a.dir
-    WHERE b.id = a.dir AND a.lang="' . $lang . '" AND a.revision != c.revision AND c.lang="en" ';
+    WHERE b.id = a.dir AND a.lang="' . $lang . '" AND a.revision != c.revision AND a.revision != "n/a" AND c.lang="en" ';
 
     if ($filter == 'dir') {
         $sql .= 'AND a.dir = '.(int)$value;
