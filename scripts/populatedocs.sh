@@ -16,7 +16,8 @@
 # +----------------------------------------------------------------------+
 #
 
-SVNBIN=/usr/bin/svn
+SVNBIN="/usr/bin/env svn"
+GITBIN="/usr/bin/env git"
 pushd .
 
 cd `dirname $0`/..
@@ -42,10 +43,10 @@ fi
 echo "Checking out php-src..."
 if [ -d ${SRCDIR} ]
 then
-  (cd ${SRCDIR} && ${SVNBIN} up)
+  (cd ${SRCDIR} && ${GITBIN} pull)
 else
   BDIR=`basename ${SRCDIR}`
-  ${SVNBIN} co http://svn.php.net/repository/php/php-src/trunk ${BDIR}
+  ${GITBIN} clone https://github.com/php/php-src ${BDIR}
 fi
 
 echo -n "Reverting directory:"
