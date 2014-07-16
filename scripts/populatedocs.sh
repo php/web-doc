@@ -16,7 +16,7 @@
 # +----------------------------------------------------------------------+
 #
 
-SVNBIN=/usr/bin/svn
+SVNBIN="/usr/bin/env svn"
 pushd .
 
 cd `dirname $0`/..
