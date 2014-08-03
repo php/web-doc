@@ -179,7 +179,6 @@ TRANSLATORS_HEAD;
 		echo gen_date($DBLANG);
 	break;
 
-
 	case 'filesummary':
 		$file_types = array(
 			array (REV_UPTODATE, 'Up to date files'),
@@ -194,15 +193,14 @@ TRANSLATORS_HEAD;
 			REV_OUTDATED => array(0,0),
 			REV_NOREV    => array(0,0),
 			REV_NOTRANS  => array(0,0),
-			REV_CREDIT   => array(0,0),
 			REV_WIP      => array(0,0)
 		);
 
-		$file_summary_array[REV_WIP]      = get_stats($dbhandle, $lang, 'wip');
-		$file_summary_array[REV_OUTDATED] = get_stats($dbhandle, $lang, 'outdated');
 		$file_summary_array[REV_UPTODATE] = get_stats($dbhandle, $lang, 'uptodate');
+		$file_summary_array[REV_OUTDATED] = get_stats($dbhandle, $lang, 'outdated');
 		$file_summary_array[REV_NOREV]    = get_stats($dbhandle, $lang, 'norev');
 		$file_summary_array[REV_NOTRANS]  = get_stats($dbhandle, $lang, 'notrans');
+		$file_summary_array[REV_WIP]      = get_stats($dbhandle, $lang, 'wip');
 
 		echo '<table border="0" cellpadding="4" cellspacing="1" style="text-align:center;">';
 		echo '<tr><th>File status type</th><th>Number of files</th><th>Percent of files</th><th>Size of files (kB)</th><th>Percent of size</th></tr>';
@@ -248,9 +246,8 @@ TRANSLATORS_HEAD;
 		echo '<p>This tool allows you to check which files in your translation need update. To show the list ';
 		echo 'choose a directory (it doesn\'t works recursively) or translator.</p>';
 		echo '<p>When you click on the filename you will see plaintext diff showing changes between revisions so ';
-		echo 'you will know what has changed in English version and what informations you need to update.<br>';
-		echo 'You can also click on [diff] to show colored diff. If filename is not a link it means that revision ';
-		echo 'number in your translation is unavailable for this file (and you should fix it).</p>';
+		echo 'you will know what has changed in English version and what informations you need to update.';
+		echo 'You can also click on [diff] to show colored diff.</p>';
 		echo '<p>Choose a directory:</p>';
 		echo '<form method="get" action="revcheck.php"><p><select name="dir">';
 		foreach ($dirs as $id => $name) {
@@ -326,19 +323,13 @@ END_OF_MULTILINE;
 					$r["maintainer"] = '<a href="?p=translators&amp;lang=' . $lang . '">' . $r["maintainer"] . '</a>';
 				}
 
-				// If we have a 'numeric' revision diff and it is not zero,
-				// make a link to the SVN repository's diff script
-				if ($r['trans_rev'] !== 'n/a') {
-					$r['short_name'] = '<a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
-					'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '&amp;view=patch">' . $r['file'] . '</a>';
+				// Make a link to the SVN repository's diff script
+				$r['short_name'] = '<a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
+				'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '&amp;view=patch">' . $r['file'] . '</a>';
 
-					// Add a [diff] link
-					$r['short_name'] .= ' <a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
-					'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '">[diff]</a>';
-				}
-				else {
-					$r['short_name'] = $r['file'];
-				}
+				// Add a [diff] link
+				$r['short_name'] .= ' <a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
+				'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '">[diff]</a>';
 
 				// Write out the line for the current file (get file name shorter)
 				echo '<tr>'.
