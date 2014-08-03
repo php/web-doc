@@ -32,11 +32,8 @@ function generate_image($lang, $idx) {
     $up_to_date = get_stats($idx, $lang, 'uptodate');
     $up_to_date = $up_to_date[0];
     //
-    $critical = @get_stats($idx, $lang, 'critical');
-    $critical = $critical[0];
-    //
-    $old = @get_stats($idx, $lang, 'old');
-    $old = $old[0];
+    $outdated = @get_stats($idx, $lang, 'outdated');
+    $outdated = $outdated[0];
     //
     $missing = get_stats($idx, $lang, 'notrans');
     $missing = $missing[0];
@@ -46,8 +43,7 @@ function generate_image($lang, $idx) {
 
     $data = array(
         $up_to_date,
-        $critical,
-        $old,
+        $outdated,
         $missing,
         $no_tag
     );
@@ -60,7 +56,7 @@ function generate_image($lang, $idx) {
         $percent[] = round($value * 100 / $total);
     }
 
-    $legend = array($percent[0] . '%% up to date ('.$up_to_date.')', $percent[1] . '%% critical ('.$critical.')', $percent[2] . '%% old ('.$old.')', $percent[3] . '%% missing ('.$missing.')', $percent[4] . '%% without EN-Revision ('.$no_tag.')');
+    $legend = array($percent[0] . '%% up to date ('.$up_to_date.')', $percent[1] . '%% outdated ('.$outdated.')', $percent[2] . '%% missing ('.$missing.')', $percent[3] . '%% without EN-Revision ('.$no_tag.')');
     $title = 'Details for '.$LANGUAGES[$lang].' PHP Manual';
 
     $graph = new PieGraph(530,300);
@@ -84,7 +80,7 @@ function generate_image($lang, $idx) {
     $graph->AddText($t1);
 
     $p1 = new PiePlot3D($data);
-    $p1->SetSliceColors(array("#68d888", "#ff6347", "#eee8aa", "#dcdcdc", "#f4a460"));
+    $p1->SetSliceColors(array("#68d888", "#ff6347", "#dcdcdc", "#f4a460"));
     if ($total_files_lang != $up_to_date) {
        $p1->ExplodeAll();
     }

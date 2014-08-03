@@ -52,16 +52,14 @@ switch($tool) {
 		}
 		else {
 			$uptodate = get_translators_stats($dbhandle, $lang, 'uptodate');
-			$old      = get_translators_stats($dbhandle, $lang, 'old');
-			$critical = get_translators_stats($dbhandle, $lang, 'critical');
+			$outdated = get_translators_stats($dbhandle, $lang, 'outdated');
 			$wip      = get_translators_stats($dbhandle, $lang, 'wip');
 
 			foreach($translators as $nick =>$data) {
-				$files_w[$nick] = array('uptodate' => '', 'old' =>'', 'critical' => '', 'norev' => '', 'wip' => '');
+				$files_w[$nick] = array('uptodate' => '', 'outdated' => '', 'norev' => '', 'wip' => '');
 				$files_w[$nick]['uptodate'] = isset($uptodate[$nick]) ? $uptodate[$nick] : '';
 				$files_w[$nick]['wip'] = isset($wip[$nick]) ? $wip[$nick] : '';
-				$files_w[$nick]['old'] = isset($old[$nick]) ? $old[$nick] : '';
-				$files_w[$nick]['critical'] = isset($critical[$nick]) ? $critical[$nick] : '';
+				$files_w[$nick]['outdated'] = isset($outdated[$nick]) ? $outdated[$nick] : '';
 			}
 
 			echo <<<TRANSLATORS_HEAD
@@ -74,8 +72,7 @@ switch($tool) {
 </tr>
 <tr>
 <th>upto-<br>date</th>
-<th>old</th>
-<th>cri-<br>tical</th>
+<th>out-<br>dated</th>
 <th>wip</th>
 <th>sum</th>
 </tr>
@@ -87,8 +84,7 @@ TRANSLATORS_HEAD;
 				'<td><a href="/revcheck.php?p=files&amp;user='.$nick.'&amp;lang='.$lang.'">'.$nick.'</a></td>',
 				'<td>'.(($data['svn'] == 'yes') ? '✓' : '&nbsp;').'</td>',
 				'<td>' , @$files_w[$nick]['uptodate'], '</td>',
-				'<td>' , @$files_w[$nick]['old'], '</td>',
-				'<td>' , $files_w[$nick]['critical'], '</td>',
+				'<td>' , $files_w[$nick]['outdated'], '</td>',
 				'<td>', $files_w[$nick]['wip'], '</td>',
 				'<th>' , @array_sum($files_w[$nick]), '</th>',
 				'</tr>';
@@ -187,8 +183,7 @@ TRANSLATORS_HEAD;
 	case 'filesummary':
 		$file_types = array(
 			array (REV_UPTODATE, 'Up to date files'),
-			array (REV_OLD,      'Old files'),
-			array (REV_CRITICAL, 'Critical files'),
+			array (REV_OUTDATED, 'Outdated files'),
 			array (REV_WIP,      'Work in progress'),
 			array (REV_NOREV,    'Files without revision number'),
 			array (REV_NOTRANS,  'Files available for translation')
@@ -196,8 +191,7 @@ TRANSLATORS_HEAD;
 	
 		$file_summary_array = array(
 			REV_UPTODATE => array(0,0),
-			REV_CRITICAL => array(0,0),
-			REV_OLD      => array(0,0),
+			REV_OUTDATED => array(0,0),
 			REV_NOREV    => array(0,0),
 			REV_NOTRANS  => array(0,0),
 			REV_CREDIT   => array(0,0),
@@ -205,9 +199,8 @@ TRANSLATORS_HEAD;
 		);
 
 		$file_summary_array[REV_WIP]      = get_stats($dbhandle, $lang, 'wip');
-		$file_summary_array[REV_CRITICAL] = get_stats($dbhandle, $lang, 'critical');
+		$file_summary_array[REV_OUTDATED] = get_stats($dbhandle, $lang, 'outdated');
 		$file_summary_array[REV_UPTODATE] = get_stats($dbhandle, $lang, 'uptodate');
-		$file_summary_array[REV_OLD]      = get_stats($dbhandle, $lang, 'old');
 		$file_summary_array[REV_NOREV]    = get_stats($dbhandle, $lang, 'norev');
 		$file_summary_array[REV_NOTRANS]  = get_stats($dbhandle, $lang, 'notrans');
 

@@ -19,10 +19,6 @@
 +----------------------------------------------------------------------+
 */
 
-// A file is criticaly "outdated' if
-define("ALERT_SIZE",   3); // translation is  3 or more kB smaller than the en one
-define("ALERT_DATE", -30); // translation is 30 or more days older than the en one
-
 // Return an array of directory containing outdated files
 function get_dirs($idx, $lang) {
     $sql = 'SELECT
@@ -214,11 +210,8 @@ function get_translators_stats($idx, $lang, $status) {
         if ($status == 'uptodate') {
             $sql .= 'a.revision = b.revision';
         }
-        elseif ($status == 'old') {
-            $sql .= 'b.revision != a.revision AND b.size - a.size < ' . ALERT_SIZE . ' AND (b.mdate - a.mdate) / 86400  < ' . ALERT_DATE;
-        }
-        elseif ($status == 'critical') {
-            $sql .= 'b.revision != a.revision AND (b.size - a.size >= ' . (1024 * ALERT_SIZE) . ' OR (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . ')';
+        elseif ($status == 'outdated') {
+            $sql .= 'b.revision != a.revision';
         }
 
         $sql .= ' GROUP BY a.maintainer';
@@ -269,11 +262,8 @@ function get_stats($idx, $lang, $status) {
         if ($status == 'uptodate') {
             $sql .= 'a.revision = b.revision';
         }
-        elseif ($status == 'old') {
-            $sql .= 'b.revision != a.revision AND b.size - a.size < ' . ALERT_SIZE . ' AND (b.mdate - a.mdate) / 86400  < ' . ALERT_DATE . ' AND a.size IS NOT NULL';
-        }
-        elseif ($status == 'critical') {
-            $sql .= 'b.revision != a.revision AND (b.size - a.size >= ' . (1024 * ALERT_SIZE) . ' OR (b.mdate - a.mdate) / 86400 >= ' . ALERT_DATE . ') AND a.revision != "n/a" AND a.size IS NOT NULL';
+        elseif ($status == 'outdated') {
+            $sql .= 'b.revision != a.revision AND a.revision != "n/a" AND a.size IS NOT NULL';
         }
         elseif ($status == 'norev') {
             $sql .= '(a.revision IS NULL OR a.revision = "n/a") AND a.size IS NOT NULL';
