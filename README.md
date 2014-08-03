@@ -14,11 +14,12 @@ Requirements:
 3. Increase memory limit for PHP scripts to at least 32MB
 4. Fill in two configuration files
 	- `build-ops.sample.php` (rename it to `build-ops.php`)
-		- `@SVNDIR@` - absolute path to dir where scripts will clone `phpdoc-all` to and then use it for generating data
+		- `@SVNDIR@` - absolute path to dir where scripts will clone SVN repos to and then use them for generating data
+		- `@DOCDIR@` - relative path to the directory with documentation in SVN repo
 	- `build-ops-sample` (rename it to `build-ops` [no ext])
 		- `@PHP@` - path to the PHP executable file
-		- `@SVNDIR@` - absolute path to dir where scripts will clone `phpdoc-all` to and then use it for generating data
-		- `@DOCDIR@` - path to the directory with documentation in SVN repo
+		- `@SVNDIR@` - absolute path to dir where scripts will clone SVN repos to and then use them and then use it for generating data
+		- `@DOCDIR@` - relative path to the directory with documentation in SVN repo
 		- `@DOCWEB@` - absolute path to directory with this website
 		- `@SCRIPTSDIR@`- absolute path to `/scripts/` directory
 		- `@SRCDIR@` - path to the directory with PHP source code in SVN repo
