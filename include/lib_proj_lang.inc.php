@@ -57,5 +57,5 @@ $LANGUAGES = array(
     'es'    => 'Spanish',
     'sv'    => 'Swedish',
     'tr'    => 'Turkish',
-    'uk'    => 'Ukraine',
+    'uk'    => 'Ukrainian',
 );
