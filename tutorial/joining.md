@@ -31,7 +31,7 @@ you probably would like to use SVN directly. This requires a PHP.net account.
 To request one, please fill in [this form][request-account].
 
 Provide links to your work that has already been committed and/or list your current patches.
-Basically, tell us what have done, to prove that you really need this account.
+Basically, tell us what you have done, to prove that you really need this account.
 
 The next chapter will explain how to get the manual sources and how are they [structured](structure.php).
 
