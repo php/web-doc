@@ -24,14 +24,14 @@ Your patches will be then reviewed and accepted by someone with SVN access.
 
 Our wiki contains an [overview of the editor and how to use it][editor-tutorial].
 
-## Obtaining SVN access
+## Obtaining GIT access
 If you plan to contribute to the manual regularly, and want to do this more efficiently,
-you probably would like to use SVN directly. This requires a PHP.net account.
+you probably would like to use GIT directly. This requires a PHP.net account.
 
 To request one, please fill in [this form][request-account].
 
 Provide links to your work that has already been committed and/or list your current patches.
-Basically, tell us what have done, to prove that you really need this account.
+Basically, tell us what you have done, to prove that you really need this account.
 
 The next chapter will explain how to get the manual sources and how are they [structured](structure.php).
 
