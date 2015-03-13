@@ -4,7 +4,7 @@ The PHP Manual is written in [DocBook][docbook] and built by [PhD][phd], and
 these builds are rsynced to the mirrors for users to use.
 
 ## Mirror builds
-The [rsync box][rsync.php.net] builds the manuals each week, at 10:46 UTC on Fridays.
+The [rsync box][rsync.php.net] builds the manuals every night, at around 23:00 CST.
 The mirrors then pick up these builds when they sync, which usually happens every hour.
 When a mirror syncs depends on how its cron is set up.
 
