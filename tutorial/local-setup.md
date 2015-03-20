@@ -40,6 +40,7 @@ PDF, Man, Epub, and others, including PHP which is what we use at php.net.
 
 ### Install PhD
 ```
+$ cd path/to/phd/
 $ git clone http://git.php.net/repository/phd.git
 $ php path/to/phd/render.php --help
 ```
