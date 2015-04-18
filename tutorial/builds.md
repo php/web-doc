@@ -39,7 +39,7 @@ then contact the documentation team.
 
 [docbook]: http://www.docbook.org/
 [phd]: http://doc.php.net/phd.php
-[rsync.php.net]: https://wiki.php.net/systems/sc1
+[rsync.php.net]: https://wiki.php.net/systems/sc2
 [docs.php.net]: http://docs.php.net
 [euk2]: https://wiki.php.net/systems/euk2
 [download-docs]: http://docs.php.net/download-docs.php?sizes=1
