@@ -18,7 +18,7 @@ This directory will contain a folder with the sources of your chosen language
 (named *{LANG}*) and a *doc-base* folder, which is home to some helpful tools.
 
 When checking-out manual sources, you can also supply *all* as *{LANG}* making your
-URL `https://svn.php.net/repository/phpdoc/modules/doc-`. This is somehow magical module,
+URL `https://svn.php.net/repository/phpdoc/modules/doc-all`. This is kind of "magical" module,
 which fetches every single language version of the manual, as well as `doc-base` folder
 into your `phpdoc` dir.
 
