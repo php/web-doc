@@ -17,6 +17,11 @@ This command will create a directory named `phpdoc` (the name can be anything yo
 This directory will contain a folder with the sources of your chosen language
 (named *{LANG}*) and a *doc-base* folder, which is home to some helpful tools.
 
+When checking-out manual sources, you can also supply *all* as *{LANG}* making your
+URL `https://svn.php.net/repository/phpdoc/modules/doc-`. This is somehow magical module,
+which fetches every single language version of the manual, as well as `doc-base` folder
+into your `phpdoc` dir.
+
 ## Files structure
 **Note for translators:** if any of the source files don't exist in your translation, the English content will be used
 during the building process. This means that you *must not* place untranslated files in your translation tree. Otherwise,
