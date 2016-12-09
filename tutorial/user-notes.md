@@ -2,9 +2,9 @@
 These are some guidelines to follow when editing user notes in the manual.
 
 To begin editing user notes in the manual, you must have SVN commit access to the manual, and you must either:
-- Subscribe to the php-notes mailing list or newsgroup as described at Mailing Lists, Newsgroups and SVN Modules.
-  As a user submits a new user note, it will appear as a message on the mailing list with links in the footer of
-  the email that enable you to delete, edit, or reject that particular note.
+- Subscribe to the `php-notes` mailing list or newsgroup. As a user submits a new user note, it will appear
+  as a message on the mailing list with links in the footer of the email that enable you to delete, edit,
+  or reject that particular note.
 - Log on to the server at http://master.php.net/manage/user-notes.php using your SVN user ID and password.
   The user notes administration interface enables you to search for user notes that match particular strings
   and edit or change the status of particular notes directly through the Web interface.
@@ -27,7 +27,9 @@ the exact text of the rejection email [here](http://git.php.net/?p=web/master.gi
 
 If for some reason you need to add to a note, first ask yourself if it's worth it. Make sure you're not answering
 a user's question; if you are, then the note doesn't belong there (see above). If you're clarifying a point, see
-if it is appropriate to add the clarification to the manual proper; if it is, add it and *delete* the note (see above). If you still feel that adding your addition to the note will be the best option, then go ahead and add it. Usually, editors add their note in a "Editor's Note" block at the top. Unless you are correcting a minor error, make it obvious that you edited the note.
+if it is appropriate to add the clarification to the manual proper; if it is, add it and *delete* the note (see above).
+If you still feel that adding your addition to the note will be the best option, then go ahead and add it. Usually, editors
+add their note in a "Editor's Note" block at the top. Unless you are correcting a minor error, make it obvious that you edited the note.
 
 If you have some free time and commit access to phpdoc, try going through some of the manual pages and adding some of
 the better notes into the documentation proper. Be sure to *delete* these notes after they're implemented.

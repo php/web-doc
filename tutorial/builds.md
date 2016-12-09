@@ -4,7 +4,7 @@ The PHP Manual is written in [DocBook][docbook] and built by [PhD][phd], and
 these builds are rsynced to the mirrors for users to use.
 
 ## Mirror builds
-The [rsync box][rsync.php.net] builds the manuals every night, at around 23:00 CST.
+The [rsync box][rsync.php.net] builds the manuals every night, at around 5:00 UTC.
 The mirrors then pick up these builds when they sync, which usually happens every hour.
 When a mirror syncs depends on how its cron is set up.
 
@@ -26,10 +26,16 @@ for a language, another way to check if the docs validated is by looking at buil
 dates on the doc server. See "Doc server builds", above.
 
 ## Additional notes
-- If a manual does not validate on Friday, it will not be pushed to the mirrors
-  until it does validate (hopefully, the upcoming Friday).
-- Only active translations are selectable/downloadable, and this is managed in
-  [phpweb/includes/languages.inc][languages.inc]
+- If a manual does not validate on some day, it will not be pushed to the mirrors
+  until it does validate (hopefully, the next day).
+- Only active translations are bulit on rsync box (and then pushed to regular
+  mirrors). This is managed in [web/php/includes/languages.inc][languages.inc]
+- [docs.php.net][docs.php.net] attempts to build all translations (both active)
+  and inactive.
+
+  However, we use `broken-language.txt` file in root of broken
+  translations to disable those very outdated and failing to build
+  for a long time.
 
 ## The humans who manage these
 If there is a problem with the synced builds, it's wise to contact

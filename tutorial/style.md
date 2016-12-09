@@ -49,15 +49,16 @@ Appropriate Use          | Inappropriate Use(s)
 any way                  | anyway, anyways
 appendices               | appendixes
 built-in                 | built in, builtin
-command line             | commandline, CLI
 email                    | e-mail
-example.com              | php.net, google.com
+[example.com][example]   | php.net, google.com
 extension                | module
 Linux                    | linux, *n*x, *nix, *nux, etc
 PHP 5                    | PHP5, PHP-5
 PHP 4.3.0                | PHP 4.3, PHP 4.3.0RC2, PHP 5.0.0BETA, PHP 4.3.0PL1
 superglobals             | super globals, autoglobals
 web server               | webserver
-the foo page (as a link) | click here, go here
+the [Foo Page][example]  | [click here][example], go [here][example]
 Unix                     | UNIX (it's a registered trademark)
 Windows                  | windows (when referring to Microsoft Windows)
+
+[example]: http://example.com

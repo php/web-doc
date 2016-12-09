@@ -1,9 +1,8 @@
 # Editing manual sources
 
 ## Introduction
-When editing or translating the manual, you have to remember some things:
-- use only UTF-8 encoding
-- follow the project's [style guidelines](style.php)
+Before making any changes to the manual - either English version ore
+translation, make sure you read [style guidelines](style.php)!
 
 ## Editing existing documentation
 Simply open the files and edit them.
