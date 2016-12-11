@@ -21,6 +21,7 @@ Requirements:
 		- `@SVNDIR@` - absolute path to dir where scripts will clone SVN repos to and then use them and then use it for generating data
 		- `@DOCDIR@` - relative path to the directory with documentation in SVN repo
 		- `@DOCWEB@` - absolute path to directory with this website
+		- `@PHDDIR@` - absolute path to directory with PhD installed from Git master
 		- `@SCRIPTSDIR@`- absolute path to `/scripts/` directory
 		- `@SRCDIR@` - path to the directory with PHP source code in SVN repo
 5. Configure the virtual host under Apache. Current suggested settings are:

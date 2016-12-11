@@ -1,0 +1,18 @@
+#!/bin/sh/
+
+# This task renders PhD's guide and places it on /phd/docs/
+#
+# Globally installed `phd` is not used yet, because valid
+# renderer is available only in master version at the moment.
+#
+# This will be simplified after next PhD release, but ${PHDDIR}
+# will still be needed for getting latest sources for the Guide.
+
+. `dirname $0`/../../build-ops
+
+cd ${DOCWEB}/www/phd/
+
+${PHP} ${PHDDIR}/render.php -d ${PHDDIR}/docs/phd-guide/phd-guide.xml --package$
+
+mv docs2/php-howto/* docs2/
+rm -r docs2/php-howto/
