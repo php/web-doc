@@ -12,7 +12,7 @@
 
 cd ${DOCWEB}/www/phd/
 
-${PHP} ${PHDDIR}/render.php -d ${PHDDIR}/docs/phd-guide/phd-guide.xml --package$
+${PHP} ${PHDDIR}/render.php -d ${PHDDIR}/docs/phd-guide/phd-guide.xml --package PHP --format howto
 
-mv docs2/php-howto/* docs2/
-rm -r docs2/php-howto/
+mv docs/php-howto/* docs/
+rm -r docs/php-howto/
