@@ -7,18 +7,13 @@ The following is one route, and it assumes:
 - PHP 5.4+ is available
 - Git control version system is available
 - A basic level of shell/terminal usage, or know that shell commands follow a `$` below
-- A desire to build and display the documentation locally
-- Your PHP Documentation path will be: `/tmp/svn/doc-en` (change this no doubt)
-- Your local mirror path will be: `/home/sites/myphpnet/` (change this no doubt)
-- You are using Linux or a Mac (@todo Make this guide Windows friendly)
-- You'll replace `path/to/phd/` with your actual path
 
 If you're interested in simply setting up a local PHP mirror (and NOT build the documentation) then
 please follow the php.net [mirroring guidelines](http://php.net/mirroring) and ignore this document.
 
 ## Checkout the php documentation from SVN
-*Assumptions*: This assumes using /tmp as the root directory, and checkout of the English language.
-Adjust accordingly.
+**Assumptions**: This assumes using `/tmp` as the root directory, and checkout of the English language.
+Adjust accordingly, including paths, especially if you are on Windows.
 
 ```
 $ mkdir /tmp/svn
@@ -40,16 +35,16 @@ PDF, Man, Epub, and others, including PHP which is what we use at php.net.
 
 ### Install PhD
 ```
-$ cd path/to/phd/
+$ cd /tmp
 $ git clone http://git.php.net/repository/phd.git
-$ php path/to/phd/render.php --help
+$ php phd/render.php --help
 ```
 
 ### Use PhD to build the documentation
 ```
 $ cd /tmp/svn/doc-en
 $ php doc-base/configure.php
-$ php path/to/phd/render.php --docbook /tmp/svn/doc-en/doc-base/.manual.xml --package PHP --format php --output mydocs
+$ php /tmp/phd/render.php --docbook /tmp/svn/doc-en/doc-base/.manual.xml --package PHP --format php
 $ cd /tmp/svn/doc-en/mydocs/php-web/
 ```
 
@@ -62,8 +57,9 @@ Alternative: The XHTML format is simple and does not require mirroring the php.n
 website. The following builds manual pages as plain HTML files:
 ```
 $ cd /tmp/svn/doc-en
-$ php path/to/phd/render.php --docbook /tmp/svn/doc-en/doc-base/.manual.xml --package PHP --format xhtml --output mydocs
-$ cd /tmp/svn/doc-en/mydocs/php-chunked-xhtml/
+$ php doc-base/confugre.php
+$ php /tmp/phd/render.php --docbook /tmp/svn/doc-en/doc-base/.manual.xml --package PHP --format xhtml
+$ cd /tmp/phd/output/php-chunked-xhtml/
 $ open function.strlen.html
 ```
 
@@ -75,7 +71,15 @@ $ git clone http://git.php.net/repository/web/php.git /home/sites/myphpnet/
 
 ### Symlink (or move) the generated PHP documentation to your local php.net sources
 ```
-$ ln -s /tmp/svn/doc-en/mydocs/php-web /home/sites/myphpnet/manual/en
+$ ln -s /tmp/phd/output/php-web /home/sites/myphpnet/manual/en
+```
+
+Symlinking can still be done on Windows. Just make sure you run `cmd` *as Administrator*.
+
+```
+$ cd \home\sites\myphpnet\manual\
+$ rmdir /S en
+$ mklink /J \tmp\phd\output\web-php en
 ```
 
 ### Run a webserver
@@ -83,8 +87,8 @@ We are going to use PHP's built-in web server. Please open another terminal inst
 
 ```
 $ cd /home/sites/myphpnet/
-$ php -S 0.0.0.0:4000
+$ php -S localhost:8080
 ```
 
 ## View the new site
-Open [http://localhost:4000/manual/en/](http://localhost:4000/manual/en/) in your browser.
+Open [http://localhost:8080/manual/en/](http://localhost:8080/manual/en/) in your browser.
