@@ -57,7 +57,7 @@ Alternative: The XHTML format is simple and does not require mirroring the php.n
 website. The following builds manual pages as plain HTML files:
 ```
 $ cd /tmp/svn/doc-en
-$ php doc-base/confugre.php
+$ php doc-base/configure.php
 $ php /tmp/phd/render.php --docbook /tmp/svn/doc-en/doc-base/.manual.xml --package PHP --format xhtml
 $ cd /tmp/phd/output/php-chunked-xhtml/
 $ open function.strlen.html
