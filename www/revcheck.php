@@ -243,11 +243,11 @@ TRANSLATORS_HEAD;
 			die;
 		}
 
-		echo '<p>This tool allows you to check which files in your translation need update. To show the list ';
-		echo 'choose a directory (it doesn\'t works recursively) or translator.</p>';
-		echo '<p>When you click on the filename you will see plaintext diff showing changes between revisions so ';
-		echo 'you will know what has changed in English version and what informations you need to update.';
-		echo 'You can also click on [diff] to show colored diff.</p>';
+		echo '<p>This tool allows you to check which files in your translation need updates. To show the list ';
+		echo 'choose a directory (it doesn\'t work recursively) or translator.</p>';
+		echo '<p>When you click on the filename you will see the plaintext diff showing changes between revisions, so ';
+		echo 'you will know what has changed in the English version and which information you need to update.';
+		echo 'You can also click on [diff] to show the colored diff.</p>';
 		echo '<p>Choose a directory:</p>';
 		echo '<form method="get" action="revcheck.php"><p><select name="dir">';
 		foreach ($dirs as $id => $name) {
