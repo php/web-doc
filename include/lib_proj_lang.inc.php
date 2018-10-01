@@ -19,7 +19,6 @@ vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
 |                   Gabor Hojtsy <goba@php.net>                        |
 |                   Sean Coates <sean@php.net>                         |
 +----------------------------------------------------------------------+
-$Id$
 */
 
 // split from lib_general.inc.php

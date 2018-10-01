@@ -1,5 +1,3 @@
-// $Id$
-
 Cronjob Wrapper for Docweb
 
 This directory tree allows pseudo-crontab manipulation whenever CVS updates,

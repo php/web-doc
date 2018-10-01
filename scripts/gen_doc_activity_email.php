@@ -15,7 +15,6 @@
 +----------------------------------------------------------------------+
 | Author:        Philip Olson <philip@php.net>                         |
 +----------------------------------------------------------------------+
-$Id$
 
 Notes: 
 	- This emails the documentation list each # days (7, via cron) with 
