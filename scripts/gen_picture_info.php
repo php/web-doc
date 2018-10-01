@@ -61,7 +61,7 @@ function generate_image($lang, $idx) {
 
     $graph = new PieGraph(530,300);
     $graph->SetShadow();
-    
+
     $graph->title->Set($title);
     $graph->title->Align('left');
     $graph->title->SetFont(FF_FONT1,FS_BOLD);
@@ -72,10 +72,10 @@ function generate_image($lang, $idx) {
     $graph->subtitle->Align('left');
     $graph->subtitle->SetColor('darkred');
 
-    $t1 = new Text(date('m/d/Y')); 
+    $t1 = new Text(date('m/d/Y'));
     $t1->SetPos(522,294);
     $t1->SetFont(FF_FONT1,FS_NORMAL);
-    $t1->Align("right", 'bottom'); 
+    $t1->Align("right", 'bottom');
     $t1->SetColor("black");
     $graph->AddText($t1);
 

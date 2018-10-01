@@ -15,7 +15,7 @@ some improvements from the others on an occasional basis (the PEAR
 documentation team uses a variant of the revcheck developed for phpdoc for
 example). This site is aimed at getting documentation efforts closer, and
 provide more tools and information for manual authors and translators.</p>
-   
+
 <h2>Join Us!</h2>
 <p>The developers of PHP extensions all
 have access to the PHP documentation modules, although the different projects

@@ -43,10 +43,10 @@ function part_get_filename($part) {
 
     // remove webroot-escape attempts
     $filename = str_replace('..', '', $filename);
-    
+
     // remove obsolete slashes
     $filename = preg_replace('#/{2,}#', '/', $filename);
-    
+
     // strip ending slashes
     $filename = rtrim($filename, '/');
 
@@ -111,7 +111,7 @@ if (isset($uri)) {
         // Validate the mime type
         $mime = false;
         foreach ($mime_types as $ext => $type) {
-            
+
             if (substr($uri, -strlen($ext)) == $ext) {
                 $mime = $type;
                 break;
@@ -122,7 +122,7 @@ if (isset($uri)) {
             header("Content-Type: $mime");
             readfile($uri);
             return;
-        } 
+        }
     }
 }
 // script has not exited yet, an error must have occured, display 404.

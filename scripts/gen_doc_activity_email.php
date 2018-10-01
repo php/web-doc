@@ -16,10 +16,10 @@
 | Author:        Philip Olson <philip@php.net>                         |
 +----------------------------------------------------------------------+
 
-Notes: 
-	- This emails the documentation list each # days (7, via cron) with 
+Notes:
+	- This emails the documentation list each # days (7, via cron) with
 	  PHP documentation activity information.
-	- These are only numbers/statistics, so there are no winners or 
+	- These are only numbers/statistics, so there are no winners or
 	  losers except for the documentation.
 Todo:
 	- Add SVN lines changed/added/deleted instead of # commits
@@ -47,7 +47,7 @@ if (!function_exists('sqlite_open')) {
 if (!function_exists('simplexml_load_string')) {
 	echo 'Fail. I require ext/simplexml to work.', PHP_EOL;
 	exit;
-}	
+}
 
 $email_text = <<<TEMPLATE
 
@@ -74,7 +74,7 @@ Those who handled user notes:
 NOTES_HANDLED
 
 ---
-See also: 
+See also:
  - Edit the documentation online: https://edit.php.net/
  - Documentation HOWTO: https://doc.php.net/dochowto/
 
@@ -87,10 +87,10 @@ TEMPLATE;
 $counts = array();
 $text   = '';
 foreach ($svn_modules as $svn_module) {
-	
+
 	$command = "svn log http://svn.php.net/repository/$svn_module --revision \{$time_past}:\{$time_future} --non-interactive --xml";
 	$results = shell_exec($command);
-	
+
 	// Elementless XML file has strlen of 35
 	if (!$results || strlen($results) < 35) {
 		continue;
@@ -130,9 +130,9 @@ $rawbuginfo = file_get_contents('http://bugs.php.net/api.php?type=docs&action=cl
 
 $text = '';
 if (!empty($rawbuginfo)) {
-	
+
 	$buginfo = unserialize($rawbuginfo);
-	
+
 	if (!is_array($buginfo)) {
 		$text = 'Incorrect bugs information gathered.';
 	} else {
@@ -168,9 +168,9 @@ if (is_readable($dbfile) && $db = sqlite_open($dbfile, 0666)) {
 	if ($res) {
 
 		if (sqlite_num_fields($res) > 0) {
-	
+
 			$rows = sqlite_fetch_all($res, SQLITE_ASSOC);
-		
+
 			foreach ($rows as $row) {
 				$text .= sprintf("%20s %5s\n", $row['who'], $row['count']);
 			}

@@ -16,8 +16,8 @@ where you change `{LANG}` to a desired language, such as `en` for only English:
 svn checkout https://svn.php.net/repository/phpdoc/modules/doc-{LANG} phpdoc-{LANG}
 ```
 
-This command creates a directory named `phpdoc-{LANG}` because the source is 
-the first 'svn checkout' argument, and the second argument defines the directory name 
+This command creates a directory named `phpdoc-{LANG}` because the source is
+the first 'svn checkout' argument, and the second argument defines the directory name
 that stores the checked out directories and files (this name can be anything you wish).
 This directory will contain a directory with the sources of your chosen language,
 named *{LANG}*, and also *doc-base* folder, which is home to some helpful tools.
@@ -30,7 +30,7 @@ not a translation, use:
 svn checkout https://svn.php.net/repository/phpdoc/modules/doc-en phpdoc-en
 ```
 
-The "modules" directory used by these examples defines a set of SVN external definitions 
+The "modules" directory used by these examples defines a set of SVN external definitions
 that are configured to checkout multiple source directories. For example:
 
 - *doc-en*: checks out "en" and "doc-base"
@@ -54,7 +54,7 @@ The structure of the manual sources is hopefully rather intuitive. The most
 complicated part is the documentation for extensions, which is also the biggest
 part of manual as all functions are grouped into extensions.
 
-The documentation for extensions is located in `/phpdoc/{LANG}/reference/extension_name/`.  For example, 
+The documentation for extensions is located in `/phpdoc/{LANG}/reference/extension_name/`.  For example,
 the calendar extension documentation exists in  `/phpdoc/{LANG}/reference/calendar/`. There you'll find several files:
 - *book.xml* - acts as the container for the extension and contains the preface. Other files (like examples.xml)
 are included from here.
@@ -69,7 +69,7 @@ A procedural extension (like calendar) also has:
 - *reference.xml* - container for the functions, rarely contains any info
 - *functions/* - folder with one XML file per function that the extension declares
 
-And OO extensions (such as imagick) contain: 
+And OO extensions (such as imagick) contain:
 - *classname.xml* - container for the methods defined by the class, contains also basic info about it
 - *classname/* - folder with one XML per method that the class declares
 

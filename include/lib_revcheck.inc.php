@@ -22,25 +22,25 @@
 // Return an array of directory containing outdated files
 function get_dirs($idx, $lang) {
     $sql = 'SELECT
-        DISTINCT b.name AS name, 
+        DISTINCT b.name AS name,
         a.dir AS dir
-    FROM 
-        files a, 
-        dirs b 
+    FROM
+        files a,
+        dirs b
     LEFT JOIN
-        files c 
+        files c
     ON
-        c.name = a.name 
+        c.name = a.name
     AND
-        c.dir = a.dir 
-    WHERE 
-        b.id = a.dir 
+        c.dir = a.dir
+    WHERE
+        b.id = a.dir
     AND
-        a.lang="' . $lang . '" 
+        a.lang="' . $lang . '"
     AND
-        c.lang="en" 
+        c.lang="en"
     AND
-        a.revision != c.revision 
+        a.revision != c.revision
     AND
         a.revision != "n/a"
     ORDER BY
@@ -112,22 +112,22 @@ function count_en_files($idx)
 function get_missfiles($idx, $lang)
 {
     $sql = 'SELECT
-        d.name as dir, 
-        b.size as size, 
-        a.name as file 
+        d.name as dir,
+        b.size as size,
+        a.name as file
     FROM
-        files a, 
-        dirs d 
+        files a,
+        dirs d
     LEFT JOIN
-        files b 
-    ON 
-        a.dir = b.dir 
+        files b
+    ON
+        a.dir = b.dir
     AND
-        a.name = b.name 
-    WHERE 
-        a.lang="' . $lang . '" 
+        a.name = b.name
+    WHERE
+        a.lang="' . $lang . '"
     AND
-        b.lang="en" 
+        b.lang="en"
     AND
         a.revision IS NULL
     AND
@@ -172,8 +172,8 @@ function get_misstags($idx, $lang)
 {
     $sql = 'SELECT
      d.name AS dir, b.size AS en_size, a.size AS trans_size, a.name AS name
-     FROM files a, dirs d 
-     LEFT JOIN files b ON a.dir = b.dir AND a.name = b.name 
+     FROM files a, dirs d
+     LEFT JOIN files b ON a.dir = b.dir AND a.name = b.name
      WHERE a.lang="'.$lang.'" AND b.lang="en" AND (a.revision IS NULL OR a.revision = "n/a")
      AND a.size IS NOT NULL AND a.dir = d.id
      ORDER BY dir, name';

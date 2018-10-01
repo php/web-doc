@@ -4,7 +4,7 @@
 
 echo "Generating revcheck databases"
 
-# cd back again 
+# cd back again
 cd ${SCRIPTSDIR}
 
 # PHP

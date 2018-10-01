@@ -7,7 +7,7 @@ have been strict and anal about this topic and here's why:
 
 ## Consistent look to the documentation
 All the documentation ends up looking the same within all editors. The indention here is one
-space, no tabs, and only PHP code itself is four spaces as per our [coding standards](http://pear.php.net/manual/en/standards.php). 
+space, no tabs, and only PHP code itself is four spaces as per our [coding standards](http://pear.php.net/manual/en/standards.php).
 This is a beautiful and consistent feature of the PHP manual sources.
 
 ## Pretty diffs

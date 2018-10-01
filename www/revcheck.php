@@ -4,12 +4,12 @@ error_reporting(E_ALL ^ E_NOTICE);
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 
-if (isset($_GET['lang']) && in_array($_GET['lang'], array_keys($LANGUAGES))) { 
-	$lang = $_GET['lang']; 
+if (isset($_GET['lang']) && in_array($_GET['lang'], array_keys($LANGUAGES))) {
+	$lang = $_GET['lang'];
 }
 else {
 	$lang = 'en';
-} 
+}
 
 $lang_name = $LANGUAGES[$lang];
 
@@ -187,7 +187,7 @@ TRANSLATORS_HEAD;
 			array (REV_NOREV,    'Files without revision number'),
 			array (REV_NOTRANS,  'Files available for translation')
 		);
-	
+
 		$file_summary_array = array(
 			REV_UPTODATE => array(0,0),
 			REV_OUTDATED => array(0,0),
