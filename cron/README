@@ -12,4 +12,3 @@ The actual crontab for docweb should look something like this:
 0 0 * * * /path/to/docweb/cron/cron daily
 0 0 * * 1 /path/to/docweb/cron/cron weekly
 0 0 1 * * /path/to/docweb/cron/cron monthly
-
