@@ -1,0 +1,942 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.10.5" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="     http://pear.php.net/dtd/tasks-1.0   http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PhD</name>
+ <channel>doc.php.net</channel>
+ <summary>A PHP based Docbook renderer</summary>
+ <description>PhD is a PHP based Docbook renderer aimed to replace Docbook-XSL and various
+    other requirements needed to build the PHP.net documentation.</description>
+ <lead>
+  <name>Hannes Magnusson</name>
+  <user>bjori</user>
+  <email>bjori@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Moacir de Oliveira</name>
+  <user>moacir</user>
+  <email>moacir@php.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Christian Weiske</name>
+  <user>cweiske</user>
+  <email>cweiske@php.net</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Paul M Jones</name>
+  <user>pmjones</user>
+  <email>pmjones@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Gwynne Raskind</name>
+  <user>gwynne</user>
+  <email>gwynne@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Rudy Nappee</name>
+  <user>loudi</user>
+  <email>loudi@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Richard Quadling</name>
+  <user>rquadling</user>
+  <email>rquadling@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2018-11-13</date>
+ <time>22:25:32</time>
+ <version>
+  <release>1.1.11</release>
+  <api>1.1.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+ <notes>
+- Added new language translations: Norwegian (Bokmål) (Kalle), Ukrainian (KostyaTretyak)
+- Updated language translations: Danish, Swedish (Kalle), Polish (Maciej)
+- File formatting and style consistency changes (Peter Kokot)
+- Render return type in PHP 7 style (PHP package) (Peter)
+- PHP 7.2 compatibility fixes (Thomas Punt)
+- Add support for &lt;type&gt;iterable&lt;/type&gt; (Jiří Pudil)
+- Add a tool for checking language files (Maciej)
+- Initial work on composer support for PhD (Maciej, Peter)
+- Fixes for rendering PhD&apos;s guide as PHP/HowTo (Maciej)
+- Fixing undefined variable notice when $TOC_DEPRECATED is not available (Ben)
+- Improve PHP 7 compatibility by handling highlight_string exceptions. (Adam)
+- Convert SVN -&gt; Git in existing translations (Maciej)
+- Convert language files to INI (Maciej)
+- Better handling for deprecated functions (Maciej)
+- simplesect elements should use the same formatting as sect[2-5] (Adam)
+- Use html5 q for quoting (Hannes)
+- Link to the array|object docs (Hannes)
+- Use var HTML tag for envar DocBook tag (Simion Onea)
+- Fixed breadcrumbs HTML markup (PHP: chunked xhtml) (Maciej)
+- Fixed bug#66408 (Wrong style file in chm documentation) (Andy Burton)
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="c300ba7d2c8083651369ce91b64a5d3b" name="phpdotnet/phd/data/langs/fr.ini" role="php" />
+   <file md5sum="728ab52f4e86ca02987ea15ba4617a62" name="phpdotnet/phd/data/langs/de.ini" role="php" />
+   <file md5sum="76b241b642df62f5d4ea977bd21b9659" name="phpdotnet/phd/data/langs/ja.ini" role="php" />
+   <file md5sum="60ddf6e5d4389217a2ab19af3d46d36a" name="phpdotnet/phd/data/langs/ru.ini" role="php" />
+   <file md5sum="f01830ed69572c49fc9a317bdc536cc4" name="phpdotnet/phd/data/langs/sv.ini" role="php" />
+   <file md5sum="d30c68e709cb74c8d2199460b44aaee3" name="phpdotnet/phd/data/langs/ro.ini" role="php" />
+   <file md5sum="7f0244f48d0245a8a1d58a4437fb7300" name="phpdotnet/phd/data/langs/en.ini" role="php" />
+   <file md5sum="341194839c86883c221b8890c7bb2f45" name="phpdotnet/phd/data/langs/tr.ini" role="php" />
+   <file md5sum="6aa0faead03e68a30156c3f9a3d77c0b" name="phpdotnet/phd/data/langs/it.ini" role="php" />
+   <file md5sum="d2e34fe537b34635496eaaa424920105" name="phpdotnet/phd/data/langs/pl.ini" role="php" />
+   <file md5sum="b842bdddf69d497b8cdb86829ec5991f" name="phpdotnet/phd/data/langs/da.ini" role="php" />
+   <file md5sum="93221d653b274470a86d90d5ff38f8f2" name="phpdotnet/phd/data/langs/bg.ini" role="php" />
+   <file md5sum="edf0588ca0870c72a0d164f70c90094c" name="phpdotnet/phd/data/langs/pt_BR.ini" role="php" />
+   <file md5sum="fb5728e632e1e95b7c81b0a43739f867" name="phpdotnet/phd/data/langs/cs.ini" role="php" />
+   <file md5sum="7d2b77b53b171451e43b27214ef6c882" name="phpdotnet/phd/data/langs/es.ini" role="php" />
+   <file md5sum="eee92d125ce92eb3d9819e14c3e4b763" name="phpdotnet/phd/data/langs/sr.ini" role="php" />
+   <file md5sum="1e485422d3c75f1be948345bb049c656" name="phpdotnet/phd/data/langs/uk.ini" role="php" />
+   <file md5sum="dcbc06eb15259a34609b29ac2f856221" name="phpdotnet/phd/data/langs/no.ini" role="php" />
+   <file md5sum="20f762aeae037526796732a6a71440df" name="phpdotnet/phd/Format/Abstract/Manpage.php" role="php" />
+   <file md5sum="cd6ed892081876815e2e8a7ed50b5683" name="phpdotnet/phd/Format/Abstract/PDF.php" role="php" />
+   <file md5sum="02569f939d3d37ab2022590ee7961394" name="phpdotnet/phd/Format/Abstract/XHTML.php" role="php" />
+   <file md5sum="0c8f4a1bcdab04d9c8f488121a44d20e" name="phpdotnet/phd/Format/Factory.php" role="php" />
+   <file md5sum="c8b7a761da5a2eef1014c193a33cb2d2" name="phpdotnet/phd/Options/Handler.php" role="php" />
+   <file md5sum="70c7e2b93a2178cd9bb75512a695005b" name="phpdotnet/phd/Options/Interface.php" role="php" />
+   <file md5sum="b921096bfc577db969b7d8232880011f" name="phpdotnet/phd/Options/Parser.php" role="php" />
+   <file md5sum="16d0acf165eea10be8bb3ccbc22c541e" name="phpdotnet/phd/Reader/Partial.php" role="php" />
+   <file md5sum="633a6c3adca245fba0932b446fa44307" name="phpdotnet/phd/PI/DBHTMLHandler.php" role="php" />
+   <file md5sum="05176b9cca4b260f8bcb731d2517cc29" name="phpdotnet/phd/PI/PHPDOCHandler.php" role="php" />
+   <file md5sum="372f0407203a477aecda9cc01ef18170" name="phpdotnet/phd/Autoloader.php" role="php" />
+   <file md5sum="16bbd9dfb8878f1ad3989d1dcaf21015" name="phpdotnet/phd/Config.php" role="php">
+    <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+    <tasks:replace from="@phd_version@" to="version" type="package-info" />
+   </file>
+   <file md5sum="a1842902d3ce6dbb17ae5b5f91240f42" name="phpdotnet/phd/Format.php" role="php" />
+   <file md5sum="5883222bcc41af9d67db59a72b94e20f" name="phpdotnet/phd/functions.php" role="php" />
+   <file md5sum="f1de40919476b15e0f86b0d5055c5806" name="phpdotnet/phd/Highlighter.php" role="php" />
+   <file md5sum="d13d4abcf5aca0a1c8374955c1a5de0a" name="phpdotnet/phd/Index.php" role="php" />
+   <file md5sum="d4ae9559906d96ff84e7c091052c520a" name="phpdotnet/phd/MediaManager.php" role="php" />
+   <file md5sum="5901a9c2e6516f4ab3b54fb5f05a097f" name="phpdotnet/phd/ObjectStorage.php" role="php" />
+   <file md5sum="a357b1d93f927fe91952688aa7d7b728" name="phpdotnet/phd/PIHandler.php" role="php" />
+   <file md5sum="448972bc596c0c29586db542210ec972" name="phpdotnet/phd/Reader.php" role="php" />
+   <file md5sum="e4984c15689015a55dbc6dd72af7c513" name="phpdotnet/phd/ReaderKeeper.php" role="php" />
+   <file md5sum="6a96f19d3ec0808a594e5e225512e4d3" name="phpdotnet/phd/Render.php" role="php" />
+   <file md5sum="55433fbfc0ab32ecf7fdbf4853f249b3" name="render.php" role="script">
+    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@php_dir@" to="php_dir" type="pear-config" />
+   </file>
+   <file md5sum="f4c4133e4b389e4fd130b1eceaae43f9" name="phd.bat" role="script">
+    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
+   </file>
+   <file md5sum="0e7d05454930d4a0ddbc582254c6cba2" name="LICENSE" role="doc" />
+   <file md5sum="8df01212153946a2705ffdc441b0d8fd" name="README" role="doc" />
+   <file md5sum="47485917ad4db918a0618e570704a084" name="TODO.RENDERER" role="doc" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.8.0</min>
+   </pearinstaller>
+   <package>
+    <name>PhD_Generic</name>
+    <channel>doc.php.net</channel>
+   </package>
+   <extension>
+    <name>libxml</name>
+   </extension>
+   <extension>
+    <name>xmlreader</name>
+   </extension>
+   <extension>
+    <name>dom</name>
+   </extension>
+   <extension>
+    <name>sqlite3</name>
+   </extension>
+   <extension>
+    <name>zlib</name>
+   </extension>
+  </required>
+  <optional>
+   <package>
+    <name>PhD_PHP</name>
+    <channel>doc.php.net</channel>
+   </package>
+   <package>
+    <name>PhD_PEAR</name>
+    <channel>doc.php.net</channel>
+   </package>
+   <package>
+    <name>PhD_IDE</name>
+    <channel>doc.php.net</channel>
+   </package>
+   <extension>
+    <name>posix</name>
+   </extension>
+   <extension>
+    <name>haru</name>
+   </extension>
+  </optional>
+ </dependencies>
+ <phprelease>
+  <installconditions>
+   <os>
+    <name>windows</name>
+   </os>
+  </installconditions>
+  <filelist>
+   <install as="phd.bat" name="phd.bat" />
+  </filelist>
+ </phprelease>
+ <phprelease>
+  <filelist>
+   <install as="phd" name="render.php" />
+   <ignore name="phd.bat" />
+  </filelist>
+ </phprelease>
+ <changelog>
+  <release>
+   <version>
+    <release>0.1</release>
+    <api>0.1</api>
+   </version>
+   <stability>
+    <release>snapshot</release>
+    <api>devel</api>
+   </stability>
+   <date>2007-10-01</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Initial release
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>devel</api>
+   </stability>
+   <date>2007-10-20</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added example numbering. (Hannes)
+- Improved support for modifiers in fieldsynopsis. (Hannes)
+- Remove () from refname when looking for version info, reported by Paul Reinheimer. (Hannes)
+- Print notes inline with its title, reported by Philip Olson. (Hannes)
+- Check if we have an open &quot;{&quot; before we print &quot;}&quot;. (Hannes)
+- Escape the version info. (Richard Q.)
+- Fixed variablelist titles. (Hannes)
+- Fixed table info titles. (Hannes)
+- Fixed empty table cells, reported by Mark Wiesemann. (Hannes)
+- Fixed table title markup, reported by Richard Q. (Hannes)
+- Fixed non-closing b element for empty &lt;title /&gt;s, reported by Joshua Thompson and Philip Olson. (Hannes)
+- Fixed bug#43013 (Description rather then function name for right arrows on extension pages). (Richard Q.)
+- Fixed bug#42906 (docs.php.net bold instead of links). (Hannes)
+- Fixed bug#42860 (cannot render &lt;orgname&gt; element). (Hannes)
+- Fixed bug#42845 (Copyright page has no TOC). (Hannes)
+- Language support (for autogenerated texts):
+  * Bulgarian (by Kouber Saparev)
+  * Czech (by Jakub Vrana)
+  * German (by Oliver Albers)
+  * Italian (by Marco Cucinato)
+  * Japanese (by TAKAGI Masahiro)
+  * Polish (by Jaroslaw Glowacki)
+  * Brazilian Portuguese (by Diego Feitosa)
+  * Romanian (by Simion Onea)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.0</release>
+    <api>0.2.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>devel</api>
+   </stability>
+   <date>2007-11-08</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added partial rendering. (Hannes)
+- Added various verbosity levels. (Hannes)
+- Added getopt() parsing for few configuration options. (Hannes)
+- Added support for errorcode, symbol and superscript elements (used by few translations). (Hannes)
+- Suppressed the contrib element. (Hannes)
+- Fixed bug#43192 (Chunked HTML output difficult to use without TOC). (Edward Z. Yang)
+- Fixed bug#43191 (build.php fails to included necessary theme dependencies). (Edward Z. Yang, Richard Q)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.1</release>
+    <api>0.2.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>devel</api>
+   </stability>
+   <date>2007-12-30</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Multiple &lt;term&gt;s should be line seperated. (Hannes)
+- Fixed autogenerated links to methods. (Edward Z.)
+- Compressed methodnames in classsynopsis. (Edward Z.)
+- Added HTML headers for the bightml theme. (Hannes)
+- Removed warnings about missing translation files. (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.2</release>
+    <api>0.2.2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>devel</api>
+   </stability>
+   <date>2008-01-30</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Removed support for phnotify. (Hannes)
+- Added index chaching. (Edward Z.)
+- Added option (-l/--list) to list the supported formats/themes.(Hannes)
+- Added support for linkend in fieldsynopsis varnames. (Hannes)
+- Added autogenerated &quot;Edited by&quot; text for &lt;editor&gt;. (Hannes)
+- Added autogenerated &quot;by&quot; text for the first &lt;author&gt; element in &lt;authorgroup&gt;. (Hannes)
+- Added missing closing &quot;}&quot; for classsynopsis. (Hannes)
+- Fixed E_NOTICE on empty references. (Hannes)
+- Fixed weird error message when no arguments are given, reported by Tony. (Hannes)
+- Fixed typos in the argument descriptions (--help), reported by Tony. (Hannes)
+- Fixed bug#43972 (PhD doesn&apos;t warn on missing partial IDs). (Hannes)
+- Fixed bug#43904 (PhD doesn&apos;t detect &lt;section&gt; without xml:id). (Hannes)
+- Fixed bug#43489 (Class synopsis return types are not links). (Hannes)
+- Fixed bug#43440 (Wrong encoding on some parts of the page). (Hannes)
+- Fixed bug#43428 (Empty TOC). (Hannes)
+- Fixed bug#43421 (All intra-document hyperlinks broken in the Single HTML file form of manual). (Hannes)
+- Fixed bug#43416 (Function links do not render as links). (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.3</release>
+    <api>0.2.3</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-03-31</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added initial hCalendar support for &lt;author&gt;. (Hannes)
+- Added initial eRDF support for &lt;refentry&gt;. (Hannes)
+- Added support for &lt;footnote&gt; and &lt;footnoteref&gt;. (Gwynne, Hannes)
+- Added anchor generation for various elements. (Hannes)
+- Added option (-s/--skip) to skip rendering of chunks. (Hannes)
+- Added option (-o/--output) to specify output directory (FR#43193). (Richard)
+- Added support for &lt;sect4&gt; titles . (Gwynne)
+- Added an &apos;infdec&apos; role to &lt;literal&gt; in XHTML. (Gwynne)
+- Fixed couple of typos in PhD info messages. (Richard Q.)
+- Reformatted package.xml for readability and consistency. (Gwynne)
+- Merged README.RENDERER into README and updated README with current information. (Gwynne)
+- Gwynne is a developer of PhD, unfortunately. (Gwynne)
+- Made &apos;Example #&apos; text localizeable. (Gwynne)
+- Added Russion support (for autogenerated texts). (Tony)
+- Updated translations:
+  - Japanese (Masahiro)
+  - Brazilian Portuguese (Felipe)
+  - German (Mark)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.4</release>
+    <api>0.2.4</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-05-24</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Fixed bug#44906 (Missing space after modifier in properties list). (Hannes)
+- Fixed bug#44881 (Class constants with $). (Hannes)
+- Fixed bug#44786 (Remove irrelevant version information). (Hannes)
+- Fixed bug#44785 (Separating &lt;title&gt; from &lt;note&gt;). (Hannes)
+- Fixed bug#44776 (Request for change in titles). (Hannes)
+- Fixed bug#44750 (Request for generic phd logger). (Hannes)
+- Fixed bug#44690 (Please restore manual main page). (Hannes)
+- Added French support (for autogenerated texts). (Yannick)
+- Added Danish support (for autogenerated texts). (Kalle)
+- Added Swedish support (for autogenerated texts). (Kalle)
+- Added experimental option (-c/--color) for color in verbose output. (Gwynne)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-07-24</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added CHM output format. (Rudy)
+- Added KDevelop (Index &amp; Table of contents) output theme. (Rudy)
+- Added Man page output format. (Rudy)
+- Added support for phpdoc:exception. (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.1</release>
+    <api>0.3.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-08-23</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added PDF output format. (Rudy)
+- Added support for phpdoc:classref. (Hannes)
+- Added support for phpdoc:varentry. (Hannes)
+- Added support for the phpdoc howto. (Hannes)
+- Renamed phpdoc:exception to phpdoc:exceptionref. (Hannes)
+- Fixed bug#45627 (Unix manpages using non-standard folder name). (Rudy)
+- Fixed bug#45626 (Unix manpages should be gzipped). (Rudy)
+- Fixed bug#45618 (Bad filenames in man pages). (Rudy)
+- Fixed unclosed div element on set pages. (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.0</release>
+    <api>0.4.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-10-20</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added PEAR XHTML theme. (Rudy, Christian)
+- Added support for new elements (Christian)
+  * glossentry
+  * glossdef
+  * glosslist
+  * important
+  * paramdef
+  * personblurb
+  * phrase
+  * prompt
+  * releaseinfo
+  * spanspec
+  * qandadiv
+- Improved &lt;email&gt; support (now creates mailto: links). (Christian)
+- Chunks without xml:id are no longer chunked. (Christian)
+- Fixed bug#46252 (Class properties links to a function if theres one with the same name). (Hannes)
+- Fixed bug#46094 (and then from now on italic). (Hannes)
+- Fixed bug#45071 (Links to require/include(_once) not rendered). (Hannes)
+- Fixed a bug where it was only possible to pass one parameter to phd.bat. (Kalle)
+- Fixed a bug where it wasn&apos;t possible to have paths with spaces in when using phd.bat. (Kalle)
+- Fixed xhtml validation issue for itemizedlist. (Christian)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.1</release>
+    <api>0.4.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-11-08</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Fixed bug #46413 Weird examples in Unix manual pages (Rudy)
+- Added varlistentries to the CHM index. (Rudy)
+- Language support (for autogenerated texts):
+    * Turkish (by Nilgün Belma Bugüner)
+- Prevent prev/next errors in combination with chunking elements without ids (Christian)
+- Support double nested chunking elements without ids (Christian)
+- Make table captions render properly in peardoc (Christian)
+- add support for &lt;arg&gt; and &lt;cmdsynopsis&gt; used in peardoc (Christian)
+- Fix bug #46415: Don&apos;t chunk first section on parent site when it has children. (Christian)
+- Implement request #46411: Allow random chunking depths (Christian)
+- Implement request #46412: Allow random TOC depths (Christian)
+- Implement request #46493: Implement new pear api linking tag (Christian)
+- Make pear chm theme work (Christian)
+- Make html generated in pear themes nearly 100% valid XHTML (Christian)
+- Make &quot;Prev&quot; links work correctly on last pages (e.g. last in chapter) (Christian)
+- Change double quotes to single ones, gives speedup for pear builds (Brett)
+- Docblock enhancements and Coding Standards fixes (Brett)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.2</release>
+    <api>0.4.2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-12-18</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added support for phd:chunk=&quot;false&quot; attribute on chunks. (Christian)
+- Added Turkish support for CHM. (Nilgun)
+- Added option (-L/--lang language) to use for CHM headers. (Hannes)
+- Added support for orderedlist numeration. (Hannes)
+- Added fallback to PHP_Compat getopt() on Windows. (Christian)
+- Added anchors for tips, warnings, important and notes. (Nilgun)
+- &lt;interfacename&gt; now automagically links to interfaces. (Hannes)
+- Automatically use the phpdoc configure.php generated version
+  information file if it exists. (Hannes)
+- Removed default border for formal tables. (Philip)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.3</release>
+    <api>0.4.3</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-01-17</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Automatically add anchors for refsect roles. (Hannes)
+- Added description for seealso links. (Hannes)
+- Fixed a bug where prefaces had unlisted children. (Hannes)
+- Compressed methodnames in classsynopsis again. (Hannes)
+- Added Next/Prev and Image Zoom buttons to CHM build (Richard Quadling)
+- Fixed bug#46941 (FR: Find broken links). (Hannes)
+- Fixed bug#46931 (wrong order of the META tag in the HEAD element). (Chen Gang)
+- Fixed bug#46924 (parameter elements force incorrect line breaks). (Hannes)
+- Fixed bug#46726 (Incorrect HTML output). (Hannes)
+- Fixed bug#46714 (change deprecated ereg_replace(Since PHP 5.3.0) to preg_replace). (Chen Gang)
+- Fixed bug#45570 (PhD doesn&apos;t use the colspec &quot;align&quot; attribute in xhtml output). (Hannes)
+- Fixed bug#45318 (table colspec rendering issues). (Hannes)
+- Fixed bug#44598 (Much space on &apos;expected output&apos; section). (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.4</release>
+    <api>0.4.4</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-02-16</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Add support for &lt;package&gt; in pear theme (Christian)
+- Replace ereg_replace with preg_replace
+- Implement request #47201: Allow custom source code highlighter (e.g. Geshi) (Christian)
+- Fix HTML problems with empty paragraphs in examples and qandaset questions (Christian)
+- Support &lt;uri&gt; and &lt;screenshot&gt; (Christian)
+- Copy images automatically using MediaManager (Christian)
+- Fixed bug#47362: &lt;h1&gt; tag gets omitted in bightml (Christian)
+- Fixed bug#47196: improve render of initializer tag (Laurent)
+- Fixed encoding issues in the Polish CHM builds. (Jarosław Głowacki)
+- Update polish phd translation (Jarosław Głowacki)
+- Generate syntactically correct php files for pearweb when description or
+  title have a quote in it. (Christian)
+- Improve object orientated version info support (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.5</release>
+    <api>0.4.5</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-02-19</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Fix bug #47408: Same image directory used for each theme (Christian)
+- Fix bug #47413: pear themes don&apos;t work when rendered together at once (Christian)
+- Change copyright year to 2007-2009 (Christian)
+- Fix PEAR chm manual title for french (Laurent)
+- Fix PEAR chm navbar alignment (Laurent)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.6</release>
+    <api>0.4.6</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-03-07</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added language support with unknownversion into phpdotnet theme. (Philip)
+- phpbook/phpbook-xsl/version.xml is no longer used (Hannes)
+- Fix PEAR bug #15967: Wrong ID passed to pearweb manualFooter() (Christian)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.7</release>
+    <api>0.4.7</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-05-07</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added support for &lt;token&gt; (Christian)
+- Added support for &lt;simplesect&gt; (Richard Q, Nilgun)
+- Improved support for &lt;tag&gt; classes (Christian)
+- Improved support for &lt;variablelist&gt; (Nilgun)
+- Updated translations:
+  * Danish (Kalle)
+  * Swedish (Kalle)
+  * Turkish (Nilgun)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.8</release>
+    <api>0.4.8</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-08-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Add support for external troff highlighter in man pages (Christian).
+- Add title attribute to anchor tags so address can be seen in CHM files for external links (Richard Q.).
+- CVS-&gt;SVN langs migration (Philip).
+- Fixed bug#49006 (The manpage format groups function arguments incorrectly). (Moacir)
+- Fixed bug#49005 (Reference sign in function prototypes in the manpage rendering). (Moacir)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.0</release>
+    <api>0.9.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-09-08</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Use namespaces (Moacir)
+- Use PEAR classname conventions (Christian)
+- Add support for dbhtml Process Instructions (PI) (Moacir)
+- Add the --package option (Moacir)
+- Add the Generic Package (Moacir)
+- Add the phpdotnet/phd namespace (Christian)
+- Kill themes and add a concept of &quot;packages&quot; (Moacir)
+- Rewrite indexer (Hannes, Rudy, Moacir)
+- Rewrite program flow (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.1</release>
+    <api>0.9.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-12-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added fallback option to find English files when unable to find translated files (Richard Quadling)
+- Added VERBOSE_ERRORS, VERBOSE_INFO and VERBOSE_WARNINGS to group verbose levels (Richard Quadling)
+- Added VERBOSE_MISSING_ATTRIBUTES verbose level (Richard Quadling)
+- Separated PhD verbose messages into informational and warnings (Richard Quadling)
+- PhD verbose warning messages are colored magenta (Richard Quadling)
+- Added MediaManger-&gt;findFile() method to return full filename of required image (Richard Quadling)
+- Added the --css option (Moacir)
+- Added the --forceindex option (Christian)
+- Fixed bug #45071 - Links to require/include(_once) not rendered (Moacir)
+- Fixed bug #47406 - Add support for external css (Moacir)
+- Fixed bug #48264 - No style for HTML version of php docs (Moacir)
+- Fixed bug #49547 - default of --color is true, not false (Richard Quadling)
+- Fixed bug #49675 - Missing links in SeeAlso (Moacir)
+- Fixed bug #49743 - Problem with functions both procedural and oo (Moacir)
+- Fixed bug #49839 - Patch to clean up peardoc output (Michael Gauthier)
+- Fixed --noindex option which did not work properly (Christian)
+- Fixed --verbose option which did not work properly (Moacir)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-03-11</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Use textual descriptions for VERBOSE_xxx messages (Richard Quadling)
+- Implemented FR#50668 - add xinclude processing in phd. (Shahar Evron)
+- Added support for DBTimestamp Processing Instruction. (Moacir)
+- Added support for edition, inlinemediaobject, exceptionname, firstterm, trademark
+  and edition Docbook5 elements. (Hannes)
+- Updated translations: (Kalle)
+   - Danish
+   - Swedish
+- Disabled colored output on Windows. (Kalle)
+- Fixed bug #45098 - named constants require long opt. (Hannes)
+- Fixed bug #51070 - Double acronym tags in HTML output. (Moacir)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-08-10</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Now searches the include-path for custom package classes in the \phpdotnet\phd namespace (pmjones)
+- Added --ext command line option to specify filename extension (pmjones)
+- Added --saveconfig option to generate a config file to load (Hannes)
+- Added &apos;package_dirs&apos; config option to specify package directories to autoload from (Hannes)
+- Corrected grammar in Danish translation + fixed encoding (Daniel Egeberg)
+- Allow colored output on Windows, but not by default (Richard Quadling)
+- Allow &lt;void/&gt; as return type for methodsynopsis tags rather than &lt;type&gt;void&lt;/type&gt; (Richard Quadling)
+- Added support for &lt;sidebar&gt; (Richard Quadling)
+- Now builds toc/* by default for the PHP package, and added --notoc option to use cached version (Philip)
+- Changed the VERBOSE_DEFAULT error level to exclude VERBOSE_TOC_WRITING messages (Philip)
+- Fixed encoding problems with the function iconv() in the CHM format (Moacir)
+- Fixed the --lang option that was creating an infinite recursion (Moacir)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-03-07</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added support for package cli options (Moacir)
+- Do not disable color configuration settings when loading from phd.config.php on Windows when saved setting is enabled (Richard Quadling)
+- Using saveconfig once no longer saves the config on every call to render (Richard Quadling)
+- Restoring a saved config now correctly sets the error reporting level to the restored verbosity (Richard Quadling)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.1</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-06-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Improved the performance of the indexer by ~ 75%. (Hannes)
+- Added --quit option to quit after processing command line params. Useful when used with --saveconfig to just save the config (Richard Quadling)
+- Output directory can now be nested (for example /rendering/PHP/en) (Richard Quadling)
+- New translations:
+  - Spanish (Pablo Bangueses)
+  - Serbian (Nikola Smolenski)
+- Fixed bug#52664 - &quot;Missing&quot; example#1. (Hannes)
+- Added --packagedir option to use external packages. (Moacir)
+- Added Format::getDebugTree() method to allow the current location in the tree to be reportable. (Richard Quadling)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.2</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-06-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Added phpdoc PI handler to handle manually added version information (bug#51853). (Hannes)
+- Added the possiblity of adding version information for classes (bug#49927). (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.3</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-03-01</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Removed redundant align and valign attributes on table-related tags (Alexey Borzov)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.4</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-04-06</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Bump version
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.5</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-06-07</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Show individual package version in --version. (Hannes)
+- Fixed bug#54217 Warn about nonexisting parameters. (Moacir)
+- Fixed bug#50725 Generate nav links at top of function index (Peter Cowburn)
+- Fixed bug#47392 Option to specify filename for bightmls. (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.6</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-06-16</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Fixed indexing of content with markup. (Hannes)
+- Added support for generate-changelog-for, extension-membership and related phpdoc PI. (Hannes)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.7</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2014-01-01</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Fixed bug#64850 (move placement of space between &lt;type&gt; and &lt;methodname&gt; (Peter)
+- Fixed bug#66316 (HTML is malformed) (Peter)
+- Fixed bug PhD generates garbled chm on PHP 5.4.0 or later. (Yoshinari)
+- Change the unknown version reference to Git, not SVN. (Adam)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.8</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2014-01-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Fixed bug#66400 (Class synopsis missing space between type and method name) (Peter)
+   </notes>
+  </release>
+  <release>
+   <date>2014-03-06</date>
+   <version>
+    <release>1.1.9</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Fixed bug#66644 (Remove ()&apos;s when rendering methodname in constructorsynopsis/destructorsynopsis) (Peter)
+- Removed &lt;em&gt; wrapper around parameters (Levi)
+   </notes>
+  </release>
+  <release>
+   <date>2014-03-21</date>
+   <version>
+    <release>1.1.10</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD Style</license>
+   <notes>
+- Fix phd:chunk=&quot;false&quot; (Adam)
+- Render segmentedlist elements as XHTML tables (Adam)
+   </notes>
+  </release>
+ </changelog>
+</package>
