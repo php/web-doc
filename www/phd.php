@@ -29,6 +29,45 @@ site_header();
 <p>PhD releases:</p>
 
 <section class="version" id="1.1.10">
+<h3><a href="/get/PhD-1.1.11.tgz">Version 1.1.11</a> <?php release_date('13-Nov-2018'); ?></h3>
+<ul>
+  <li>Added new language translations: Norwegian (Bokmål) (Kalle), Ukrainian (KostyaTretyak)</li>
+  <li>Updated language translations: Danish, Swedish (Kalle), Polish (Maciej)</li>
+  <li>File formatting and style consistency changes (Peter Kokot)</li>
+  <li>PHP 7.2 compatibility fixes (Thomas Punt)</li>
+  <li>Add a tool for checking language files (Maciej)</li>
+  <li>Initial work on composer support for PhD (Maciej, Peter)</li>
+  <li>Fixing undefined variable notice when $TOC_DEPRECATED is not available (Ben)</li>
+  <li>Improve PHP 7 compatibility by handling highlight_string exceptions. (Adam)</li>
+  <li>Convert SVN -&gt; Git in existing translations (Maciej)</li>
+  <li>Convert language files to INI (Maciej)</li>
+  <li>
+    <a href="/get/PhD_Generic-1.1.11.tgz">PhD_Generic</a>
+    <ul>
+      <li>simplesect elements should use the same formatting as sect[2-5] (Adam)</li>
+      <li>Use html5 q for quoting (Hannes)</li>
+      <li>Use var HTML tag for envar DocBook tag (Simion Onea)</li>
+    </ul>
+  </li>
+  <li>
+    <a href="/get/PhD_PHP-1.1.11.tgz">PhD_PHP</a>
+    <ul>
+      <li>Render return type in PHP 7 style (PHP package) (Peter)</li>
+      <li>Add support for &lt;type&gt;iterable&lt;/type&gt; (Jiří Pudil)</li>
+      <li>Fixes for rendering PhD's guide as PHP/HowTo (Maciej)</li>
+      <li>Better handling for deprecated functions (Maciej)</li>
+      <li>Link to the array|object docs (Hannes)</li>
+      <li>Fixed breadcrumbs HTML markup (PHP: chunked xhtml) (Maciej)</li>
+      <li><?php bugfix(66408) ?> - Wrong style file in chm documentation (Andy Burton)</li>
+    </ul>
+  </li>
+  <li>
+    <a href="/get/PhD_PEAR-1.1.11.tgz">PhD_PEAR</a>
+  </li>
+</ul>
+</section>
+
+<section class="version" id="1.1.10">
 <h3><a href="/get/PhD-1.1.10.tgz">Version 1.1.10</a> <?php release_date('21-Mar-2014'); ?></h3>
 <ul><li><a href="/get/PhD_Generic-1.1.10.tgz">PhD_Generic</a>
 <ul>
