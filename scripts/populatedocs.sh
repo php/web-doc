@@ -39,7 +39,7 @@ else
   ${SVNBIN} co http://svn.php.net/repository/phpdoc/modules/doc-all ${DOCDIR}
 fi
 
-OTHERSVNDIR="/local/src/docweb/svn/phpdoc-all"
+OTHERSVNDIR="/local/src/phpdoc-all"
 
 if [ ! -d ${OTHERSVNDIR} ]
 then
