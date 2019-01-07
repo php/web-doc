@@ -39,23 +39,5 @@ else
   ${SVNBIN} co http://svn.php.net/repository/phpdoc/modules/doc-all ${DOCDIR}
 fi
 
-OTHERSVNDIR="/local/src/phpdoc-all"
-
-if [ ! -d ${OTHERSVNDIR} ]
-then
-  echo "Making SVN directory: ${OTHERSVNDIR}"
-  /bin/mkdir ${OTHERSVNDIR}
-fi
-
-echo "Changing to the other SVN directory: ${OTHERSVNDIR}"
-cd ${OTHERSVNDIR}
-echo "Checking out PHP docs... the other copy..."
-if [ -d ${DOCDIR} ]
-then
-  (cd ${DOCDIR} && ${SVNBIN} up)
-else
-  ${SVNBIN} co http://svn.php.net/repository/phpdoc/modules/doc-all ${DOCDIR}
-fi
-
 echo -n "Reverting directory:"
 popd
