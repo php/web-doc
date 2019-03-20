@@ -7,7 +7,7 @@ collectively make changes every day. This guide is designed for people who work 
 This guide uses some terminology that you have to know. Don't worry, it's easy:
 - **author** - person who contributes to the original English manual
 - **translator** - person who translates the English manual into another language
-- **{LANG}** - replace it with your two-letter country code, (e.g. when refering
+- **{LANG}** - replace it with your two-letter country code, (e.g. when referring
   to a mailinglist, `doc-{LANG}@lists.php.net`). Note: Brazilian Portuguese differs
   from the rest and it's called *pt_BR* for the SVN module and *pt-br* for the
   mailing list suffix.

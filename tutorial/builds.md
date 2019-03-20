@@ -28,7 +28,7 @@ dates on the doc server. See "Doc server builds", above.
 ## Additional notes
 - If a manual does not validate on some day, it will not be pushed to the mirrors
   until it does validate (hopefully, the next day).
-- Only active translations are bulit on rsync box (and then pushed to regular
+- Only active translations are built on rsync box (and then pushed to regular
   mirrors). This is managed in [web/php/includes/languages.inc][languages.inc]
 - [docs.php.net][docs.php.net] attempts to build all translations (both active)
   and inactive.
