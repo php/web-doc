@@ -5,7 +5,7 @@ Viewing results as a php.net mirror isn't a simple process, but it can be done.
 The following is one route, and it assumes:
 
 - PHP 5.4+ is available
-- SVN control version system is available
+- SVN and Git version control systems are available
 - A basic level of shell/terminal usage, or know that shell commands follow a `$` below
 
 If you're interested in simply setting up a local PHP mirror (and NOT build the documentation) then
