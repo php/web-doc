@@ -22,8 +22,6 @@ The simplest way to get started is by using the [Online Documentation Editor][ed
 which allows you to login via your Facebook/Twitter/Google account and edit the documentation.
 Your patches will be then reviewed and accepted by someone with SVN access.
 
-The preferred way to submit documentation patches are [pull requests](https://github.com/php/doc-en/pulls) (only English for now).
-
 Our wiki contains an [overview of the editor and how to use it][editor-tutorial].
 
 ## Obtaining SVN access
