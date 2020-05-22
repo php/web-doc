@@ -50,7 +50,7 @@ If you have the appropriate [commit karma][karma], you can commit your modified 
 ## Viewing changes online
 Documentation is built every night, at around 23:00 CST, then synced out to the
 website mirrors. However, there is a special mirror at [docs.php.net][docs] - where
-the manual is updated from sources every six hours. If any errors occurred, a message
+the manual is updated from sources every four hours. If any errors occurred, a message
 will be delivered to the appropriate mailinglist (`doc-{LANG}@lists.php.net`).
 
 Read more about manual builds in the [builds appendix](builds.php).
