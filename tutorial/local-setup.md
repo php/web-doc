@@ -74,12 +74,12 @@ $ git clone http://git.php.net/repository/web/php.git /home/sites/myphpnet/
 $ ln -s /tmp/phd/output/php-web /home/sites/myphpnet/manual/en
 ```
 
-Symlinking can still be done on Windows. Just make sure you run `cmd` *as Administrator*.
+Symlinking can also be done on Windows. Just make sure you run `cmd` *as Administrator*.
 
 ```
 $ cd \home\sites\myphpnet\manual\
 $ rmdir /S en
-$ mklink /J \tmp\phd\output\web-php en
+$ mklink /D en \tmp\phd\output\web-php
 ```
 
 ### Run a webserver
