@@ -5,26 +5,26 @@ Viewing results as a php.net mirror isn't a simple process, but it can be done.
 The following is one route, and it assumes:
 
 - PHP 5.4+ is available
-- SVN and Git version control systems are available
+- Git version control system is available
 - A basic level of shell/terminal usage, or know that shell commands follow a `$` below
 
 If you're interested in simply setting up a local PHP mirror (and NOT build the documentation) then
 please follow the php.net [mirroring guidelines](http://php.net/mirroring) and ignore this document.
 
-## Checkout the php documentation from SVN
+## Checkout the php documentation from Git
 **Assumptions**: This assumes using `/tmp` as the root directory, and checkout of the English language.
 Adjust accordingly, including paths, especially if you are on Windows.
 
 ```
-$ mkdir /tmp/svn
-$ cd /tmp/svn
-$ svn co https://svn.php.net/repository/phpdoc/modules/doc-en doc-en
-$ cd /tmp/svn/doc-en
+$ mkdir /tmp/git
+$ cd /tmp/git
+$ git clone https://github.com/php/doc-en.git
+$ cd /tmp/git/doc-en
 ```
 
 ## Validate the PHP Documentation XML
 ```
-$ cd /tmp/svn/doc-en
+$ cd /tmp/git/doc-en
 $ php doc-base/configure.php
 ```
 
@@ -36,16 +36,16 @@ PDF, Man, Epub, and others, including PHP which is what we use at php.net.
 ### Install PhD
 ```
 $ cd /tmp
-$ git clone http://git.php.net/repository/phd.git
+$ git clone https://github.com/php/phd.git
 $ php phd/render.php --help
 ```
 
 ### Use PhD to build the documentation
 ```
-$ cd /tmp/svn/doc-en
+$ cd /tmp/git/doc-en
 $ php doc-base/configure.php
-$ php /tmp/phd/render.php --docbook /tmp/svn/doc-en/doc-base/.manual.xml --package PHP --format php
-$ cd /tmp/svn/doc-en/mydocs/php-web/
+$ php /tmp/phd/render.php --docbook /tmp/git/doc-en/doc-base/.manual.xml --package PHP --format php
+$ cd /tmp/git/doc-en/mydocs/php-web/
 ```
 
 **Note:** This builds the php.net version of the documentation, but does not contain
@@ -56,9 +56,9 @@ module (web-php).
 Alternative: The XHTML format is simple and does not require mirroring the php.net
 website. The following builds manual pages as plain HTML files:
 ```
-$ cd /tmp/svn/doc-en
+$ cd /tmp/git/doc-en
 $ php doc-base/configure.php
-$ php /tmp/phd/render.php --docbook /tmp/svn/doc-en/doc-base/.manual.xml --package PHP --format xhtml
+$ php /tmp/phd/render.php --docbook /tmp/git/doc-en/doc-base/.manual.xml --package PHP --format xhtml
 $ cd /tmp/phd/output/php-chunked-xhtml/
 $ open function.strlen.html
 ```
@@ -66,7 +66,7 @@ $ open function.strlen.html
 ## Set up a local php.net mirror
 ### Clone the php.net sources
 ```
-$ git clone http://git.php.net/repository/web/php.git /home/sites/myphpnet/
+$ git clone https://github.com/php/web-php.git /home/sites/myphpnet/
 ```
 
 ### Symlink (or move) the generated PHP documentation to your local php.net sources

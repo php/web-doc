@@ -58,8 +58,7 @@ Read more about manual builds in the [builds appendix](builds.php).
 The next chapter contains [style guidelines](style.php) that you are obliged to
 follow. Read them carefully.
 
-[docgen]: http://svn.php.net/viewvc/phpdoc/doc-base/trunk/scripts/docgen/
-[doc-base]: http://svn.php.net/viewvc/phpdoc/doc-base/
-[configure.php]: http://svn.php.net/viewvc/phpdoc/doc-base/trunk/configure.php?view=markup
-[karma]: http://svn.php.net/viewvc/SVNROOT/global_avail?view=markup
+[docgen]: https://github.com/php/doc-base/tree/master/scripts/docgen
+[doc-base]: https://github.com/php/doc-base/
+[configure.php]: https://github.com/php/doc-base/blob/master/configure.php
 [docs]: http://docs.php.net/

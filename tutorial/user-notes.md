@@ -12,7 +12,7 @@ To begin editing user notes in the manual, you must have SVN commit access to th
 The thing that seems to confuse the most people is the difference between *rejecting* and *deleting* a note.
 Basically, they both remove the note from the manual, but *rejecting* sends the user an email about the rejection
 with links to support links and other information. Here are some guidelines of when to use each. You can also view
-the exact text of the rejection email [here](http://git.php.net/?p=web/master.git;a=blob;f=manage/user-notes.php;hb=HEAD).
+the exact text of the rejection email [here](https://github.com/php/web-master/blob/master/manage/user-notes.php).
 - If the note is asking for help (support request, *Does this work...?*, etc.) or if the person is reporting a bug,
   *reject* the note. The email will show them the proper place to report such issues.
 - If the note contains useful information appropriate for the manual proper, you may incorporate the information

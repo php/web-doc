@@ -46,8 +46,8 @@ then contact [Peter][salathe] or the [documentation team mailing list][phpdoc-li
 [docs.php.net]: http://docs.php.net
 [euk2]: https://wiki.php.net/systems/euk2
 [download-docs]: http://docs.php.net/download-docs.php?sizes=1
-[fetch-chms]: http://svn.php.net/viewvc/phpdoc/doc-base/trunk/scripts/fetch-chms.php?view=markup
-[languages.inc]: http://git.php.net/?p=web/php.git;a=blob;f=include/languages.inc
+[fetch-chms]: https://github.com/php/doc-base/blob/master/scripts/fetch-chms.php
+[languages.inc]: https://github.com/php/web-php/blob/master/include/languages.inc
 [rquadling]: http://people.php.net/rquadling
 [derick]: http://people.php.net/derick
 [bjori]: http://people.php.net/bjori
