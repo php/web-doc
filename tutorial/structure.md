@@ -1,8 +1,8 @@
 # Manual sources structure
 
 ## Downloading the PHP Documentation Source
-The PHP Manual sources are currently stored in our Subversion (SVN) repository.
-You don't need SVN access to checkout (download) the files, but you do need it
+The PHP Manual sources are currently stored in our Git repository.
+You don't need Git access to checkout (download) the files, but you do need it
 if you want to send your changes to our server.
 
 This tutorial assumes that you have basic terminal and Subversion knowledge, although
@@ -13,11 +13,11 @@ To checkout the documentation source, use a modified version of the following co
 where you change `{LANG}` to a desired language, such as `en` for only English:
 
 ```
-svn checkout https://svn.php.net/repository/phpdoc/modules/doc-{LANG} phpdoc-{LANG}
+git clone https://github.com/php/doc-{LANG}.git phpdoc-{LANG}
 ```
 
 This command creates a directory named `phpdoc-{LANG}` because the source is
-the first 'svn checkout' argument, and the second argument defines the directory name
+the first 'git clone' argument, and the second argument defines the directory name
 that stores the checked out directories and files (this name can be anything you wish).
 This directory will contain a directory with the sources of your chosen language,
 named *{LANG}*, and also *doc-base* folder, which is home to some helpful tools.
@@ -27,20 +27,13 @@ The documentation source is stored under "en". To only edit the source files, an
 not a translation, use:
 
 ```
-svn checkout https://svn.php.net/repository/phpdoc/modules/doc-en phpdoc-en
+git clone https://github.com/php/doc-en.git phpdoc-en
 ```
-
-The "modules" directory used by these examples defines a set of SVN external definitions
-that are configured to checkout multiple source directories. For example:
-
-- *doc-en*: checks out "en" and "doc-base"
-- *doc-fr*: checks out "en", "fr", and "doc-base"
-- *doc-all*: checks out all languages (there are a lot!) along with "en" and "doc-base"
 
 For example, to translate the manual into French, use "doc-fr" instead of "doc-en":
 
 ```
-svn checkout https://svn.php.net/repository/phpdoc/modules/doc-fr phpdoc-fr
+git clone https://github.com/php/doc-fr.git phpdoc-fr
 ```
 
 For additional information about language codes and available translations, see `http://doc.php.net/revcheck.php`.
