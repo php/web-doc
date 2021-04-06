@@ -5,7 +5,7 @@ To begin editing user notes in the manual, you must have SVN commit access to th
 - Subscribe to the `php-notes` mailing list or newsgroup. As a user submits a new user note, it will appear
   as a message on the mailing list with links in the footer of the email that enable you to delete, edit,
   or reject that particular note.
-- Log on to the server at http://master.php.net/manage/user-notes.php using your SVN user ID and password.
+- Log on to the server at https://main.php.net/manage/user-notes.php using your SVN user ID and password.
   The user notes administration interface enables you to search for user notes that match particular strings
   and edit or change the status of particular notes directly through the Web interface.
 
