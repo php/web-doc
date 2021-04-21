@@ -1,8 +1,7 @@
 build-ops
 build-ops.php
 include/jpgraph
-shared
 sqlite
-svn
+git
 www/images
 www/robots.txt
