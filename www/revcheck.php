@@ -4,6 +4,13 @@ error_reporting(E_ALL ^ E_NOTICE);
 include '../include/init.inc.php';
 include '../include/lib_revcheck.inc.php';
 
+// Revision marks used to flag files
+define("REV_UPTODATE", 1); // Up to date files
+define("REV_OUTDATED", 2); // Outdated files
+define("REV_NOREV",    3); // file with revision comment without revision
+define("REV_NOTRANS",  4); // file without translation (utfiles)
+define("REV_WIP",      5); // Work in progress
+
 if (isset($_GET['lang']) && in_array($_GET['lang'], array_keys($LANGUAGES))) {
 	$lang = $_GET['lang'];
 }
@@ -11,7 +18,9 @@ else {
 	$lang = 'en';
 }
 
-$lang_name = $LANGUAGES[$lang];
+if ($lang != 'en' ) $lang_name = $LANGUAGES[$lang];
+
+$tool = '';
 
 if (isset($_GET['p'])) {
 	$tool = $_GET['p'];
@@ -67,7 +76,7 @@ switch($tool) {
 <tr>
 <th rowspan="2">Name</th>
 <th rowspan="2">Nick</th>
-<th rowspan="2">SVN</th>
+<th rowspan="2">Karma</th>
 <th colspan="7">Files maintained</th>
 </tr>
 <tr>
@@ -82,7 +91,7 @@ TRANSLATORS_HEAD;
 				echo '<tr>',
 				'<td><a href="mailto:'.$data['mail'].'">'.$data['name'].'</a></td>',
 				'<td><a href="/revcheck.php?p=files&amp;user='.$nick.'&amp;lang='.$lang.'">'.$nick.'</a></td>',
-				'<td>'.(($data['svn'] == 'yes') ? '✓' : '&nbsp;').'</td>',
+				'<td>'.(($data['karma'] == 'yes') ? '✓' : '&nbsp;').'</td>',
 				'<td>' , @$files_w[$nick]['uptodate'], '</td>',
 				'<td>' , $files_w[$nick]['outdated'], '</td>',
 				'<td>', $files_w[$nick]['wip'], '</td>',
@@ -102,23 +111,23 @@ TRANSLATORS_HEAD;
 		else {
 			$num = count($missfiles);
 			echo '<table border="0" cellpadding="3" cellspacing="1" style="text-align:center">';
-			echo '<tr><th rowspan="1">Available for translation ('.$num.' files):</th><th colspan="1">kB</th></tr>';
+			echo '<tr><th rowspan="1">Available for translation ('.$num.' files):</th><th>Commit Hash</th><th colspan="1">kB</th></tr>';
 
 			$last_dir = false;
 			$total_size = 0;
 			foreach ($missfiles as $miss) {
 				if (!$last_dir || $last_dir != $miss['dir']) {
-					echo '<tr><th colspan="2">'.$miss['dir'].'</th></tr>';
+					echo '<tr><th colspan="3">'.$miss['dir'].'</th></tr>';
 					$last_dir = $miss['dir'];
 				}
-				echo '<tr><td>'.$miss['file'].'</td><td>'.$miss['size'].'</td></tr>';
+				echo '<tr><td>'.$miss['file'].'</td><td>'.$miss['revision'].'</td><td>'.$miss['size'].'</td></tr>';
 				$total_size += $miss['size'];
 				// flush every 200 kbytes
 				if (($total_size % 200) == 0) {
 					flush();
 				}
 			}
-			echo '<tr><th colspan="2">Total Size ('.$num.' files): '.$total_size.' kB</th></tr>';
+			echo '<tr><th colspan="3">Total Size ('.$num.' files): '.$total_size.' kB</th></tr>';
 			echo '</table>';
 		}
 		echo gen_date($DBLANG);
@@ -156,11 +165,12 @@ TRANSLATORS_HEAD;
 
 	case 'misstags':
 		$misstags = get_misstags($dbhandle, $lang);
-		$num = count($misstags);
-		if (!$num) {
+
+		if ($misstags == NULL) {
 			echo '<p>Good, all files contain revision numbers.</p>';
 		}
 		else {
+		 $num = count($misstags);
 			echo '<table border="0" cellpadding="3" cellspacing="1" style="text-align:center">';
 			echo '<tr><th rowspan="2">Files without EN-Revision number ('.$num.' files):</th><th colspan="3">Sizes in kB</th></tr>';
 			echo '<tr><th>en</th><th>'.$lang.'</th><th>diff</th></</tr>';
@@ -324,18 +334,24 @@ END_OF_MULTILINE;
 				}
 
 				// Make a link to the SVN repository's diff script
-				$r['short_name'] = '<a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
-				'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '&amp;view=patch">' . $r['file'] . '</a>';
+				$key = substr($r['name'] . '/' . $r['file'], 1);
+				if ($r['name'] == '/') {
+				    $key = $r['file'];
+    }
+    $d1 = "https://git.php.net/?p=doc/en.git;a=blobdiff_plain;f=$key;hb={$r['en_rev']};hpb={$r['trans_rev']};"; // text
 
-				// Add a [diff] link
-				$r['short_name'] .= ' <a href="http://svn.php.net/viewvc/phpdoc/en/trunk' . $r['name'] . '/' . $r['file'] .
-				'?r1=' . $r['trans_rev'] . '&amp;r2=' . $r['en_rev'] . '">[diff]</a>';
+    $d2 = "https://git.php.net/?p=doc/en.git;a=blobdiff;f=$key;hb={$r['en_rev']};hpb={$r['trans_rev']};";       // html
+    $nm = "<a href='$d1'>{$r['file']}</a> <a href='$d2'>(html)</a>";
+
+    $h1 = "<a href='http://git.php.net/?p=doc/en.git;a=blob;f=$key;hb={$r['en_rev']}'>{$r['en_rev']}</a>";
+
+    $h2 = "<a href='http://git.php.net/?p=doc/en.git;a=blob;f=$key;hb={$r['trans_rev']}'>{$r['trans_rev']}</a>";
 
 				// Write out the line for the current file (get file name shorter)
 				echo '<tr>'.
-				"<td>{$r['short_name']}</td>".
-				"<td>{$r['en_rev']}</td>" .
-				"<td>{$r['trans_rev']}</td>" .
+				"<td style='white-space:nowrap'>{$nm}</td>".
+				"<td>{$h1}</td>" .
+				"<td>{$h2}</td>" .
 				"<td> {$r['maintainer']}</td>" .
 				"<td> {$r['status']}</td></tr>\n";
 			}

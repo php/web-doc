@@ -29,7 +29,7 @@ function generate_image() {
     global $percent, $legend;
 
     // Create the graph. These two calls are always required
-    $graph = new Graph(550,250);
+    $graph = new Graph(600,262);
     $graph->SetScale("textlin");
     $graph->yaxis->scale->SetGrace(20);
 

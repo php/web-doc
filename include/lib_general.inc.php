@@ -13,7 +13,8 @@
 | obtain it through the world-wide-web, please send a note to          |
 | license@php.net so we can mail you a copy immediately.               |
 +----------------------------------------------------------------------+
-| Authors:          Yannick Torres <yannick@php.net>                   |
+| Authors:          Nilgün Belma Bugüner <nilgun@php.net>              |
+|                   Yannick Torres <yannick@php.net>                   |
 |                   Mehdi Achour <didou@php.net>                       |
 |                   Gabor Hojtsy <goba@php.net>                        |
 |                   Sean Coates <sean@php.net>                         |
@@ -29,15 +30,6 @@ function get_svn_dir($project)
 
 function site_header()
 {
-   $TITLE = 'Documentation Tools';
-   $SUBDOMAIN = 'doc';
-   $CSS = array('/styles/doc.css');
-   $LINKS = array(
-        array('href' => '/revcheck.php', 'text' => 'Documentation Tools'),
-        array('href' => '/tutorial/', 'text' => 'Tutorial for Contributors'),
-        array('href' => '/phd.php', 'text' => 'PhD Homepage'),
-    );
-
     require __DIR__ . '/../shared/templates/header.inc';
 
     echo '<section class="mainscreen">';
@@ -45,7 +37,9 @@ function site_header()
 
 function site_footer($SECONDSCREEN = false)
 {
-    echo '</section>';
+   echo '</section><section class="secondscreen">';
+   if ($SECONDSCREEN != false) echo $SECONDSCREEN;
+   echo '</section>';
     require __DIR__ . '/../shared/templates/footer.inc';
 }
 

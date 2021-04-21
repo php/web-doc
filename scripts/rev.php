@@ -13,11 +13,12 @@
 | obtain it through the world-wide-web, please send a note to          |
 | license@php.net so we can mail you a copy immediately.               |
 +----------------------------------------------------------------------+
-| Original Authors: Thomas Sch�fbeck <tom at php dot net>              |
+| Original Authors: Thomas Schöfbeck <tom at php dot net>              |
 |                   Gabor Hojtsy    <goba at php dot net>              |
 |                   Mark Kronsbein    <mk at php dot net>              |
 |                   Jan Fabry     <cheezy at php dot net>              |
 | SQLite version Authors:                                              |
+|                   Nilgün Belma Bugüner <nilgun at php dot net>              |
 |                   Mehdi Achour         <didou at php dot net>        |
 |                   Maciej Sobaczewski   <sobak at php dot net>        |
 +----------------------------------------------------------------------+
@@ -30,7 +31,7 @@ set_time_limit(0);
 include '../include/init.inc.php';
 include '../include/lib_proj_lang.inc.php';
 
-$DOCS = SVN_DIR . DOC_DIR . '/';
+$DOCS = GIT_DIR;
 
 // Test the languages:
 $LANGS = array_keys($LANGUAGES);
@@ -46,8 +47,6 @@ if (count($LANGS) == 0) {
     exit;
 }
 
-$SQL_BUFF = "INSERT INTO dirs (id, name) VALUES (1, '/');\n";
-
 $CREATE = <<<SQL
 
 CREATE TABLE description (
@@ -61,8 +60,9 @@ CREATE TABLE translators (
   nick TEXT,
   name TEXT,
   mail TEXT,
-  svn TEXT,
-  editor TEXT
+  karma TEXT,
+  editor TEXT,
+  UNIQUE (lang, nick)
 );
 
 CREATE TABLE wip (
@@ -74,36 +74,56 @@ CREATE TABLE wip (
 
 CREATE TABLE dirs (
   id INT,
-  name TEXT,
-  UNIQUE (name)
+  path TEXT,
+  UNIQUE (path)
 );
 
 CREATE INDEX dirs_1 ON dirs (id);
 
+CREATE TABLE enfiles (
+  id INT,
+  name TEXT,
+  revision TEXT,
+  size TEXT,
+  mdate TEXT,
+  UNIQUE(id, name)
+);
+
+CREATE INDEX enfiles_1 ON enfiles (id, name);
+
 CREATE TABLE files (
+  id INT,
   lang TEXT,
-  dir TEXT,
   name TEXT,
   revision TEXT,
   size TEXT,
   mdate TEXT,
   maintainer TEXT,
   status TEXT,
-  UNIQUE(lang, dir, name)
+  UNIQUE(lang, id, name)
 );
 
-CREATE INDEX files_1 ON files (dir, name);
-CREATE INDEX files_2 ON files (lang, revision, size, dir);
-CREATE INDEX files_3 ON files (lang, size, mdate, revision, size, dir);
+CREATE INDEX files_1 ON files (lang, id, name, revision);
+CREATE INDEX files_2 ON files (lang, id, name, mdate, revision);
+CREATE INDEX files_3 ON files (lang, id, name, maintainer, mdate, revision);
+
+CREATE TABLE utfiles (
+  id INT,
+  lang TEXT,
+  name TEXT,
+  UNIQUE(lang, id, name)
+);
 
 CREATE TABLE old_files (
   lang TEXT,
-  dir TEXT,
+  path TEXT,
   file TEXT,
   size INT
 );
 
 SQL;
+
+$SQL_BUFF = "INSERT INTO dirs VALUES (1, '/');\n";
 
 /**
 *   Functions
@@ -119,7 +139,7 @@ function parse_translation($lang)
     $translation_xml = $DOCS . $lang . "/translation.xml";
 
     $intro = "No intro available for the {$LANGUAGES[$lang]} translation of the manual.";
-    $charset  = 'iso-8859-1';
+    $charset  = 'utf-8';
 
     if (file_exists($translation_xml)) {
         // Else go on, and load in the file, replacing all
@@ -250,7 +270,10 @@ function do_revcheck($dir = '') {
             || $dir == '/chmonly' || $dir == '/internals' || $dir == '/internals2'
             || $file == 'contributors.ent' || $file == 'contributors.xml'
             || ($dir == '/appendices' && ($file == 'reserved.constants.xml' || $file == 'extensions.xml'))
+            || $file == '.editorconfig'
+            || $file == '.gitignore'
             || $file == 'README'
+            || $file == 'README.md'
             || $file == 'DO_NOT_TRANSLATE'
             || $file == 'rsusi.txt'
             || $file == 'missing-ids.xml'
@@ -260,7 +283,7 @@ function do_revcheck($dir = '') {
                 continue;
             }
 
-            if ($file != '.' && $file != '..' && $file != '.svn' && $dir != '/functions') {
+            if ($file != '.' && $file != '..' && $file != '.git' && $dir != '/functions' && $dir != '/.git' && $dir != '/.github' && $file != '.github') {
 
                 if (is_dir($DOCS . 'en' . $dir.'/' .$file)) {
                     $entriesDir[] = $file;
@@ -269,33 +292,37 @@ function do_revcheck($dir = '') {
                 }
             }
         }
-
+        $cwd = getcwd();
         // Files first
+        $maintainer = NULL;
+        $status = NULL;
         if (sizeof($entriesFiles) > 0 ) {
             foreach($entriesFiles as $file) {
-                $path = $DOCS . 'en' . $dir . '/' . $file;
-
-                $size = intval(filesize($path) / 1024);
-                $date = filemtime($path);
-                $revision = get_original_rev($path);
+                $path = $DOCS . 'en' . $dir . '/';
+                chdir ($path);
+                $size = intval(filesize($file) / 1024);
+                $date = filemtime($file);
+                $revision = `git log -n1 --format=format:"%H" -- {$file};`;
                 $revision = ($revision == 0) ? 'NULL' : "'$revision'";
-
-                $SQL_BUFF .= "INSERT INTO files VALUES ('en', '$id', '$file', $revision, '$size','$date', NULL, NULL);\n";
+                $SQL_BUFF .= "INSERT INTO enfiles VALUES ($id, '$file', $revision, '$size', '$date');\n";
 
                 foreach ($LANGS as $lang) {
                     $path = $DOCS . $lang . $dir . '/' . $file;
                     if (is_file($path)) {
                         $size = intval(filesize($path) / 1024);
                         $date = filemtime($path);
+
                         list($revision, $maintainer, $status) = get_tags($path);
-                        echo " Adding file: $lang$dir/$file\n";
-                        $SQL_BUFF .= "INSERT INTO files VALUES ('$lang', '$id', '$file', $revision, '$size', $date, $maintainer, $status);\n";
+                        echo " Adding file: {$id}, {$lang}, {$file},{$revision}, {$size}, {$date}, {$maintainer}, {$status}\n";
+
+                        $SQL_BUFF .= "INSERT INTO files VALUES ($id, '$lang', '$file', '$revision', '$size', '$date', '$maintainer', '$status');\n";
                     } else {
-                        $SQL_BUFF .= "INSERT INTO files VALUES ('$lang', '$id', '$file', NULL, NULL, NULL, NULL, NULL);\n";
+                        $SQL_BUFF .= "INSERT INTO utfiles VALUES ($id, '$lang', '$file');\n";
                     }
                 }
             }
         }
+        chdir($cwd);
 
         // Directories..
         if (sizeof($entriesDir) > 0) {
@@ -303,19 +330,21 @@ function do_revcheck($dir = '') {
             reset($entriesDir);
 
             foreach ($entriesDir as $Edir) {
-                $path = $DOCS . 'en/' . $dir . '/' . $Edir;
-                $id++;
-                echo "Adding directory: $dir/$Edir (id: $id)\n";
+                if ($Edir != 'figures') {
+                    $path = $DOCS . 'en/' . $dir . '/' . $Edir;
+                    $id++;
+                    echo "Adding directory: $dir/$Edir (id: $id)\n";
 
-                $SQL_BUFF .= "INSERT INTO dirs VALUES (" . $id . ", '$dir/$Edir');\n";
-                do_revcheck($dir . '/' . $Edir);
+                    $SQL_BUFF .= "INSERT INTO dirs VALUES ($id, '$dir/$Edir');\n";
+                    do_revcheck($dir . '/' . $Edir);
+                }
             }
         }
     }
     closedir($dh);
 }
 
-function check_old_files($dir = '', $lang) {
+function check_old_files($lang, $dir = '') {
     global $DOCS, $SQL_BUFF;
     static $id = 1;
 
@@ -328,13 +357,15 @@ function check_old_files($dir = '', $lang) {
             if (
             (!is_dir($DOCS . $lang . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
             || strpos($file, 'entities.') === 0
-            || $dir == '/chmonly' || $dir == '/internals' || $dir == '/internals2'
+            || $dir == '/chmonly' || $dir == '/internals' || $dir == '/internals2' || $dir == '/.git' || $dir == '/.github'
             || $file == 'contributors.ent' || $file == 'contributors.xml'
             || ($dir == '/appendices' && ($file == 'reserved.constants.xml' || $file == 'extensions.xml'))
             || $file == 'README'
+            || $file == 'README.md'
             || $file == 'DO_NOT_TRANSLATE'
             || $file == 'rsusi.txt'
             || $file == 'missing-ids.xml'
+            || $file == 'translation.xml'
             ) {
                 continue;
             }
@@ -369,7 +400,7 @@ function check_old_files($dir = '', $lang) {
             reset($entriesDir);
 
             foreach ($entriesDir as $Edir) {
-                check_old_files($dir . '/' . $Edir, $lang);
+                check_old_files($lang, $dir . '/' . $Edir);
             }
         }
     }
@@ -380,17 +411,17 @@ function get_tags($file) {
     // Read the first 500 chars. The comment should be at
     // the begining of the file
     $fp = @fopen($file, "r") or die("Unable to read $file.");
-    $line = fread($fp, 500);
+    $line = fread($fp, 1024);
     fclose($fp);
 
     // No match before the preg
     $match = array ();
 
     // Check for the translations "revision tag"
-    if (preg_match("/<!--\s*EN-Revision:\s*(\d+)\s*Maintainer:\s*(\\S*)\s*Status:\s*(.+)\s*-->/U",
-    $line, $match)) {
+    $regex = "/<!--\s*EN-Revision:\s*(.+)\s*Maintainer:\s*(.+)\s*Status:\s*(.+)\s*-->/U";
+    if (preg_match ( $regex , $line , $match )) {
         // note the simple quotes
-        return array("'" . trim($match[1]) . "'", "'" . trim($match[2]) . "'", "'" . trim($match[3]) . "'");
+        return array(trim($match[1]),trim($match[2]),trim($match[3]));
     }
 
     // The tag with revision number is not found so search
@@ -410,7 +441,7 @@ function get_original_rev($file) {
     // Read the first 500 chars. The comment should be at
     // the begining of the file
     $fp = @fopen($file, "r") or die ("Unable to read $file.");
-    $line = fread($fp, 500);
+    $line = fread($fp, 1024);
     fclose($fp);
 
     // Return if this was needed (it should be there)
@@ -470,7 +501,7 @@ do_revcheck();
 
 // 4:1 - Recurse in the manuel seeking for old files for each language and fill $SQL_BUFF
 foreach ($LANGS as $lang) {
-    check_old_files('', $lang);
+    check_old_files($lang, '');
 }
 
 // 5 - Query $SQL_BUFF and exit

@@ -5,26 +5,27 @@ please contact us on `php.doc.web` mailing list or contribute by i.e. sending pu
 
 ## Installation
 Requirements:
-- PHP 5
+- PHP 8
 - GD extension (for generating charts)
 - SQLite3
 
 1. Unpack a copy of JpGraph 3.0.7 into `/include/jpgraph/` ([here](http://jpgraph.net/download/download.php?p=1))
-2. You need to run the scripts/populatedocs.sh to fetch all the required documentation for the site.
-3. Increase memory limit for PHP scripts to at least 32MB
-4. Fill in two configuration files
-	- `build-ops.sample.php` (rename it to `build-ops.php`)
-		- `@SVNDIR@` - absolute path to dir where scripts will clone SVN repos to and then use them for generating data
-		- `@DOCDIR@` - relative path to the directory with documentation in SVN repo
-	- `build-ops-sample` (rename it to `build-ops` [no ext])
+2. Increase memory limit for PHP scripts to at least 32MB
+3. Fill in two configuration files
+	- `build-ops.php.sample` (rename it to `build-ops.php`)
+		- `@GITDIR@` - absolute path to dir where scripts will clone SVN repos to and then use them for generating data
+		- `@SQLITEDIR@` - absolute path to directory where the database will be written
+	- `build-ops.sample` (rename it to `build-ops` [no ext])
 		- `@PHP@` - path to the PHP executable file
-		- `@SVNDIR@` - absolute path to dir where scripts will clone SVN repos to and then use them and then use it for generating data
-		- `@DOCDIR@` - relative path to the directory with documentation in SVN repo
-		- `@DOCWEB@` - absolute path to directory with this website
+		- `@GITDIR@` - absolute path to dir where scripts will clone SVN repos to and then use them and then use it for generating data
+		- `@DOCWEB@` - absolute path to `/www/` directory
 		- `@PHDDIR@` - absolute path to directory with PhD installed from Git master
 		- `@SCRIPTSDIR@`- absolute path to `/scripts/` directory
+		- `@SQLITEDIR@` - absolute path to directory where the database will be written
 		- `@SRCDIR@` - path to the directory with PHP source code in SVN repo
-5. Configure the virtual host under Apache. Current suggested settings are:
+4. You need to run the scripts/populatedocs.sh to fetch all the required documentation for the site.
+6. You need to run the scripts/generation.sh to generate the database and graphs
+7. Configure the virtual host under Apache. Current suggested settings are:
 ```
 <VirtualHost 127.0.0.1:80>
  ServerName doc.php.net

@@ -12,31 +12,39 @@
 # | obtain it through the world-wide-web, please send a note to          |
 # | license@php.net so we can mail you a copy immediately.               |
 # +----------------------------------------------------------------------+
-# | Authors: Jacques Marneweck <jacques@php.net>                         |
+# | Authors:          Nilgün Belma Bugüner <nilgun@php.net>              |
+# |                   Jacques Marneweck <jacques@php.net>                |
 # +----------------------------------------------------------------------+
 #
+LANGS="de en es fr it ja pl pt_br ro ru tr uk zh"
 
-SVNBIN="/usr/bin/env svn"
+GITBIN="/usr/bin/env git"
 pushd .
 
 cd `dirname $0`/..
 source ./build-ops
 
-if [ ! -d ${SVNDIR} ]
+if [ ! -d ${GIT_DIR} ]
 then
-  echo "Making SVN directory: ${SVNDIR}"
-  /bin/mkdir ${SVNDIR}
+  echo "Making GIT directory: ${GIT_DIR}"
+  /bin/mkdir ${GIT_DIR}
 fi
 
-echo "Changing to SVN directory: ${SVNDIR}"
-cd ${SVNDIR}
+echo "Changing to GIT directory: ${GIT_DIR}"
+cd ${GIT_DIR}
 
 echo "Checking out PHP docs..."
-if [ -d ${DOCDIR} ]
+if [ -d en ]
 then
-  (cd ${DOCDIR} && ${SVNBIN} up)
+  for L in $LANGS
+  do
+    (cd ${L} && ${GITBIN} pull)
+  done
 else
-  ${SVNBIN} co http://svn.php.net/repository/phpdoc/modules/doc-all ${DOCDIR}
+  for L in $LANGS
+  do
+    ${GITBIN} clone https://github.com/php/doc-${L}.git ${L}
+  done
 fi
 
 echo -n "Reverting directory:"

@@ -2,10 +2,9 @@
 # Please read README.md in the same directory to get more info about filling in this file
 
 PHP=@PHP@
-SVNDIR=@SVNDIR@
-DOCDIR=@DOCDIR@
+GIT_DIR=@GITDIR@
 DOCWEB=@DOCWEB@
 PHDDIR=@PHDDIR@
 SCRIPTSDIR=@SCRIPTSDIR@
-SQLITEDIR=@SQLITEDIR@
+SQLITE_DIR=@SQLITEDIR@
 SRCDIR=@SRCDIR@
