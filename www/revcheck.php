@@ -333,19 +333,22 @@ END_OF_MULTILINE;
 					$r["maintainer"] = '<a href="?p=translators&amp;lang=' . $lang . '">' . $r["maintainer"] . '</a>';
 				}
 
-				// Make a link to the SVN repository's diff script
+				// Make a link to the GIT repository's diff script
 				$key = substr($r['name'] . '/' . $r['file'], 1);
 				if ($r['name'] == '/') {
 				    $key = $r['file'];
-    }
-    $d1 = "https://git.php.net/?p=doc/en.git;a=blobdiff_plain;f=$key;hb={$r['en_rev']};hpb={$r['trans_rev']};"; // text
+				}
+				//text
+				$d1 = "/gitweb/?p=doc/en.git;a=blobdiff_plain;f=$key;hb={$r['en_rev']};hpb={$r['trans_rev']};";
 
-    $d2 = "https://git.php.net/?p=doc/en.git;a=blobdiff;f=$key;hb={$r['en_rev']};hpb={$r['trans_rev']};";       // html
-    $nm = "<a href='$d1'>{$r['file']}</a> <a href='$d2'>(html)</a>";
+				//html
+				$d2 = "/gitweb/?p=doc/en.git;a=blobdiff;f=$key;hb={$r['en_rev']};hpb={$r['trans_rev']};";
 
-    $h1 = "<a href='http://git.php.net/?p=doc/en.git;a=blob;f=$key;hb={$r['en_rev']}'>{$r['en_rev']}</a>";
+				$nm = "<a href='$d1'>{$r['file']}</a> <a href='$d2'>(html)</a>";
 
-    $h2 = "<a href='http://git.php.net/?p=doc/en.git;a=blob;f=$key;hb={$r['trans_rev']}'>{$r['trans_rev']}</a>";
+				$h1 = "<a href='/gitweb/?p=doc/en.git;a=blob;f=$key;hb={$r['en_rev']}'>{$r['en_rev']}</a>";
+
+				$h2 = "<a href='/gitweb/?p=doc/en.git;a=blob;f=$key;hb={$r['trans_rev']}'>{$r['trans_rev']}</a>";
 
 				// Write out the line for the current file (get file name shorter)
 				echo '<tr>'.

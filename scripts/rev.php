@@ -18,9 +18,9 @@
 |                   Mark Kronsbein    <mk at php dot net>              |
 |                   Jan Fabry     <cheezy at php dot net>              |
 | SQLite version Authors:                                              |
-|                   Nilgün Belma Bugüner <nilgun at php dot net>              |
-|                   Mehdi Achour         <didou at php dot net>        |
-|                   Maciej Sobaczewski   <sobak at php dot net>        |
+|                   Nilgün Belma Bugüner <nilgun at php dot net>       |
+|                   Mehdi Achour          <didou at php dot net>       |
+|                   Maciej Sobaczewski    <sobak at php dot net>       |
 +----------------------------------------------------------------------+
 */
 
