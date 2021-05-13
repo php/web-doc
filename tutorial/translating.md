@@ -43,12 +43,26 @@ Otherwise, it needs to be synced.
 Let's assume that you want to update the translation of `in_array()`.
 There are two simple ways to see which files require updating and what has to be changed to sync with the English version:
 using [Online Editor](https://edit.php.net) (required PHP account)
-or [doc.php.net tools](http://doc.php.gpb.moe/tools/revcheck/). The second way is described below.
+or using command line. The second way is described below.
 
-Choose your language from the top and then use the "Outdated files" tool.
-You will get a list of outdated files, their revision, as well as the actual English revision.
+Clone the [doc-base](https://github.com/php/doc-base) repository one level with 
+[doc-en](https://github.com/php/doc-en) and your language repositories, so that the structure is as follows:
 
-To show changes run the following command in your terminal:
+```
+├── doc-base/
+├── en/
+└── {LANG}/
+```
+
+Then run the next script and open `revcheck.html` in any browser: 
+
+```
+php doc-base/scripts/revcheck.php {LANG} > revcheck.html
+```
+
+In "Outdated Files" section you can see actual English revision and yours.
+
+To get diff between revisions, run the script:
 
 ```
 git --no-pager diff 8b5940cadeb4f1c8492f4a7f70743a2be807cf39 68a9c82e06906a5c00e0199307d87dd3739f719b reference/array/functions/in-array.xml
