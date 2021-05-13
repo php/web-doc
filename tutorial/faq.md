@@ -24,6 +24,7 @@ Note: Usually the problem is a major XML syntax issue.
 
 ## Is there an online editor?
 Yes, just go to [edit.php.net][editor]. Our wiki contains an [overview of the editor and how to use it][editor-tutorial].
+PHP account is required.
 
 ## How do I add a link to a method?
 Use `<methodname>Class::method</methodname>`. Note that the case does not matter when adding a link.

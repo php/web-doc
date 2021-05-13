@@ -15,18 +15,15 @@ You should send your message to the `phpdoc@lists.php.net` mailing list.
 You should send your message to the appropriate `doc-{LANG}@lists.php.net` mailing list.
 
 ## Create a doc patch or three
-This step is required to show us that you are a real human, you want to do
-some work and in general know how to do this.
+This step is required to show us that you are a real human,
+you want to do some work and in general, know how to do this.
 
-The simplest way to get started is by using the [Online Documentation Editor][editor].
-which allows you to login via your Facebook/Twitter/Google account and edit the documentation.
-Your patches will be then reviewed and accepted by someone with SVN access.
+The simplest way to get started is by sending patches on GitHub.
+Documentation and translation repositories hosted on GitHub by URL `https://github.com/php/doc-{LANG}`
 
-Our wiki contains an [overview of the editor and how to use it][editor-tutorial].
-
-## Obtaining SVN access
-If you plan to contribute to the manual regularly, and want to do this more efficiently,
-you probably would like to use SVN directly. This requires a PHP.net account.
+## Obtaining GitHub access
+If you plan to contribute to the manual regularly, and want to do this more efficiently, you probably would like to use Git directly.
+It requires a [PHP][github-php] membership on GitHub.
 
 To request one, please fill in [this form][request-account].
 
@@ -36,5 +33,4 @@ Basically, tell us what you have done, to prove that you really need this accoun
 The next chapter will explain how to get the manual sources and how are they [structured](structure.php).
 
 [request-account]: http://php.net/git-php.php
-[editor]: https://edit.php.net
-[editor-tutorial]: https://wiki.php.net/doc/editor
+[github-php]: https://github.com/php/

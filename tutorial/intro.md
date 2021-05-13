@@ -9,7 +9,7 @@ This guide uses some terminology that you have to know. Don't worry, it's easy:
 - **translator** - person who translates the English manual into another language
 - **{LANG}** - replace it with your two-letter country code, (e.g. when referring
   to a mailinglist, `doc-{LANG}@lists.php.net`). Note: Brazilian Portuguese differs
-  from the rest and it's called *pt_BR* for the SVN module and *pt-br* for the
+  from the rest and it's called *pt_br* for the git repository and *pt-br* for the
   mailing list suffix.
 
 ## Table of Contents
