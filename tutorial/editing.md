@@ -1,7 +1,7 @@
 # Editing manual sources
 
 ## Introduction
-Before making any changes to the manual - either English version ore
+Before making any changes to the manual - either English version or
 translation, make sure you read [style guidelines](style.php)!
 
 ## Editing existing documentation
