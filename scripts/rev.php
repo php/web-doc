@@ -23,7 +23,6 @@
 |                   Maciej Sobaczewski    <sobak at php dot net>       |
 +----------------------------------------------------------------------+
 */
-
 error_reporting(E_ALL);
 set_time_limit(0);
 
@@ -49,7 +48,7 @@ if (count($LANGS) == 0) {
 
 $CREATE = <<<SQL
 
-CREATE TABLE description (
+CREATE TABLE descriptions (
   lang TEXT,
   intro TEXT,
   UNIQUE (lang)
@@ -60,17 +59,28 @@ CREATE TABLE translators (
   nick TEXT,
   name TEXT,
   mail TEXT,
-  karma TEXT,
-  editor TEXT,
+   vcs TEXT,
+  files_uptodate INT,
+  files_outdated INT,
+  files_wip INT,
+  files_sum INT,
+  files_other INT,
   UNIQUE (lang, nick)
 );
 
-CREATE TABLE wip (
+CREATE TABLE translated (
+  id INT,
   lang TEXT,
   name TEXT,
-  person TEXT,
-  type TEXT
+  revision TEXT,
+  size INT,
+  maintainer TEXT,
+  status TEXT,
+  syncStatus TEXT,
+  UNIQUE(lang, id, name)
 );
+
+CREATE INDEX translated_1 ON translated (lang, id, name);
 
 CREATE TABLE dirs (
   id INT,
@@ -78,380 +88,375 @@ CREATE TABLE dirs (
   UNIQUE (path)
 );
 
-CREATE INDEX dirs_1 ON dirs (id);
+CREATE INDEX dirs_1 ON dirs (path);
 
 CREATE TABLE enfiles (
   id INT,
   name TEXT,
   revision TEXT,
-  size TEXT,
-  mdate TEXT,
+  size INT,
   UNIQUE(id, name)
 );
 
 CREATE INDEX enfiles_1 ON enfiles (id, name);
 
-CREATE TABLE files (
+CREATE TABLE Untranslated (
   id INT,
   lang TEXT,
   name TEXT,
-  revision TEXT,
-  size TEXT,
-  mdate TEXT,
-  maintainer TEXT,
-  status TEXT,
+  size INT,
   UNIQUE(lang, id, name)
 );
 
-CREATE INDEX files_1 ON files (lang, id, name, revision);
-CREATE INDEX files_2 ON files (lang, id, name, mdate, revision);
-CREATE INDEX files_3 ON files (lang, id, name, maintainer, mdate, revision);
+CREATE INDEX Untrans_1 ON Untranslated (lang, id, name);
 
-CREATE TABLE utfiles (
-  id INT,
-  lang TEXT,
-  name TEXT,
-  UNIQUE(lang, id, name)
-);
-
-CREATE TABLE old_files (
+CREATE TABLE notinen (
   lang TEXT,
   path TEXT,
-  file TEXT,
-  size INT
+  name TEXT,
+  size INT,
+  UNIQUE(lang, path, name)
+);
+
+CREATE INDEX notinen_1 ON notinen (lang, path, name);
+
+CREATE TABLE wip (
+  id INT,
+  lang TEXT,
+  name TEXT,
+  size INT,
+  person TEXT
 );
 
 SQL;
 
-$SQL_BUFF = "INSERT INTO dirs VALUES (1, '/');\n";
+$SQL_BUFF = "";
 
-/**
-*   Functions
-**/
+$enFiles = populateFileTree( 'en' );
+captureGitValues( $gitData );
+foreach ($LANGS as $lang){
+    $trFiles[$lang] = populateFileTree( $lang );
+}
 
-function parse_translation($lang)
+class FileStatusInfo
 {
-    global $SQL_BUFF, $DOCS, $LANGUAGES;
-    echo "Parsing intro..\n";
+    public $path;
+    public $name;
+    public $size;
+    public $hash;
+    public $syncStatus;
+    public $maintainer;
+    public $completion;
+    public $credits;
 
-    // Path to find translation.xml file, set default values,
-    // in case we can't find the translation file
-    $translation_xml = $DOCS . $lang . "/translation.xml";
+    public function getKey()
+    {
+        return trim( $this->path . '/' . $this->name , '/' );
+    }
+}
 
-    $intro = "No intro available for the {$LANGUAGES[$lang]} translation of the manual.";
-    $charset  = 'utf-8';
+class FileStatusEnum
+{
+    const Untranslated      = 'Untranslated';
+    const RevTagProblem     = 'RevTagProblem';
+    const TranslatedWip     = 'TranslatedWip';
+    const TranslatedOk      = 'TranslatedOk';
+    const TranslatedOld     = 'TranslatedOld';
+    const TranslatedCritial = 'TranslatedCritial';
+    const NotInEnTree       = 'NotInEnTree';
+}
 
-    if (file_exists($translation_xml)) {
-        // Else go on, and load in the file, replacing all
-        // space type chars with one space
-        $txml = join("", file($translation_xml));
-        $txml = preg_replace("/\\s+/", " ", $txml);
+class TranslatorInfo
+{
+    public $name;
+    public $email;
+    public $nick;
+    public $vcs;
 
-        // Get encoding for the output, from the translation.xml
-        // file encoding (should be the same as the used encoding
-        // in HTML)
-        if (preg_match("!<\?xml(.+)\?>!U", $txml, $match)) {
-            $xmlinfo = parse_attr_string($match);
-            if (isset($xmlinfo[1]["encoding"])) {
-                $charset = $xmlinfo[1]["encoding"];
-            }
-        }
+    public $files_uptodate;
+    public $files_outdated;
+    public $files_wip;
+    public $files_sum;
+    public $files_other;
 
-        // Get intro text
-        if (preg_match("!<intro>(.+)</intro>!s", $txml, $match)) {
-            $intro = SQLite3::escapeString(@iconv($charset, 'UTF-8//IGNORE', trim($match[1])));
-        }
+    public function __construct() {
+        $this->files_uptodate = 0;
+        $this->files_outdated = 0;
+        $this->files_wip = 0;
+        $this->files_sum = 0;
+        $this->files_other = 0;
     }
 
-    $SQL_BUFF .= "INSERT INTO description VALUES ('$lang', '$intro');\n";
-
-    if (isset($txml)) {
-        // Find all persons matching the pattern
-        if (preg_match_all("!<person (.+)/\\s?>!U", $txml, $matches)) {
-            $default = array('vcs' => 'n/a', 'nick' => 'n/a', 'editor' => 'n/a', 'email' => 'n/a', 'name' => 'n/a');
-            $persons = parse_attr_string($matches[1]);
-
-            foreach ($persons as $person) {
-                $person = array_merge($default, $person);
-                $nick   = SQLite3::escapeString($person['nick']);
-                $name   = SQLite3::escapeString(@iconv($charset, 'UTF-8//IGNORE', $person['name']));
-                $email  = SQLite3::escapeString($person['email']);
-                $vcs    = SQLite3::escapeString($person['vcs']);
-                $editor = SQLite3::escapeString($person['editor']);
-                $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang', '$nick', '$name', '$email', '$vcs', '$editor');\n";
-            }
-        }
-
-        // Get list of work in progress files
-        if (preg_match_all("!<file(.+)/\\s?>!U", $txml, $matches)) {
-            $files = parse_attr_string($matches[1]);
-            foreach ($files as $file) {
-                $name = SQLite3::escapeString($file['name']);
-                $person = SQLite3::escapeString($file['person']);
-                $type = SQLite3::escapeString(isset($file['type']) ? $file['type'] : 'translation');
-                $SQL_BUFF .= "INSERT INTO wip VALUES ('$lang', '$name', '$person', '$type');\n";
-            }
+    public static function getKey( $fileStatus ) {
+        switch ( $fileStatus ) {
+             case FileStatusEnum::RevTagProblem:
+             case FileStatusEnum::TranslatedOld:
+             case FileStatusEnum::TranslatedCritial:
+             case FileStatusEnum::NotInEnTree:
+                return "files_outdated";
+                break;
+            case FileStatusEnum::TranslatedWip:
+                return "files_wip";
+                break;
+            case FileStatusEnum::TranslatedOk:
+                return "files_uptodate";
+                break;
+            default:
+                return "files_other";
         }
     }
-} // parse_translation() function end()
-
+}
 
 // Get a multidimensional array with tag attributes
-function parse_attr_string($tags_attrs)
-{
+function parse_attr_string ( $tags_attrs ) {
     $tag_attrs_processed = array();
 
-    // Go through the tag attributes
-    foreach ($tags_attrs as $attrib_list) {
-
-        // Get attr name and values
+    foreach($tags_attrs as $attrib_list) {
         preg_match_all("!(.+)=\\s*([\"'])\\s*(.+)\\2!U", $attrib_list, $attribs);
 
-        // Assign all attributes to one associative array
         $attrib_array = array();
         foreach ($attribs[1] as $num => $attrname) {
             $attrib_array[trim($attrname)] = trim($attribs[3][$num]);
         }
-        // Collect in order of tags received
+
         $tag_attrs_processed[] = $attrib_array;
     }
-    // Retrun with collected attributes
+
     return $tag_attrs_processed;
 }
 
-function dir_sort($a, $b) {
-    global $DOCS, $dir;
-    $a = $DOCS . 'en' . $dir . '/' . $a;
-    $b = $DOCS . 'en' . $dir . '/' . $b;
-    if (is_dir($a) && is_dir($b)) {
-        return 0;
-    } elseif (is_file($a) && is_file($b)) {
-        return 0;
-    } elseif (is_file($a) && is_dir($b)) {
-        return -1;
-    } elseif (is_dir($a) && is_file($b)) {
-        return 1;
-    } else {
-        return -1;
+function computeTranslatorStatus( $lang, $enFiles, $trFiles )
+{
+    global $SQL_BUFF, $DOCS, $LANGUAGES;
+    $translation_xml = $DOCS . $lang . "/translation.xml";
+    $charset  = 'utf-8';
+
+    if (!file_exists($translation_xml)) {
+        return [];
+    }
+
+    $txml = join("", file($translation_xml));
+    $txml = preg_replace("/\\s+/", " ", $txml);
+
+    $intro = "No intro available for the {$LANGUAGES[$lang]} translation of the manual.";
+    if ( preg_match("!<intro>(.+)</intro>!s", $txml, $match) )
+        $intro = SQLite3::escapeString(@iconv($charset, 'UTF-8//IGNORE', trim($match[1])));
+
+    $SQL_BUFF .= "INSERT INTO descriptions VALUES ('$lang', '$intro');\n";
+
+    $pattern = "!<person(.+)/\\s?>!U";
+    preg_match_all($pattern, $txml, $matches);
+    $translators = parse_attr_string($matches[1]);
+
+    $translatorInfos = [];
+    $unknownInfo = new TranslatorInfo();
+    $unknownInfo->nick = "unknown";
+    $translatorInfos["unknown"] = $unknownInfo;
+
+    foreach ($translators as $key => $translator)
+    {
+        $info = new TranslatorInfo();
+        $info->name = $translator["name"];
+        $info->email = $translator["email"];
+        $info->nick = $translator["nick"];
+        $info->vcs = isset($translator["vcs"]) ? $translator["vcs"] : '';
+
+        $translatorInfos[$info->nick] = $info;
+    }
+
+    foreach( $enFiles as $key => $enFile ) {
+        $info_exists = false;
+        if (array_key_exists($enFile->getKey(), $trFiles)) {
+            $trFile = $trFiles[$enFile->getKey()];
+            $statusKey = TranslatorInfo::getKey($trFile->syncStatus);
+            if (array_key_exists($trFile->maintainer, $translatorInfos)) {
+                $translatorInfos[$trFile->maintainer]->$statusKey++;
+                $translatorInfos[$trFile->maintainer]->files_sum++;
+                $info_exists = true;
+            }
+        }
+        if (!$info_exists) {
+            $translatorInfos["unknown"]->$statusKey++;
+            $translatorInfos["unknown"]->files_sum++;
+        }
+    }
+    foreach ($translatorInfos as $key => $person)
+    {
+        if ($person->nick != "unknown" )
+        {
+            $nick   = SQLite3::escapeString($person->nick);
+            $name   = SQLite3::escapeString(@iconv($charset, 'UTF-8//IGNORE', $person->name));
+            $email  = SQLite3::escapeString($person->email);
+            $vcs    = SQLite3::escapeString($person->vcs);
+
+            $SQL_BUFF .= "INSERT INTO translators VALUES ('$lang',
+            '$nick', '$name', '$email', '$vcs', $person->files_uptodate,
+            $person->files_outdated, $person->files_wip,
+            $person->files_sum, $person->files_other);\n";
+        }
     }
 }
 
-function dir_sort_old($a, $b) {
-    global $DOCS, $dir, $lang;
-    $a = $DOCS . $lang . $dir . '/' . $a;
-    $b = $DOCS . $lang . $dir . '/' . $b;
-    if (is_dir($a) && is_dir($b)) {
-        return 0;
-    } elseif (is_file($a) && is_file($b)) {
-        return 0;
-    } elseif (is_file($a) && is_dir($b)) {
-        return -1;
-    } elseif (is_dir($a) && is_file($b)) {
-        return 1;
-    } else {
-        return -1;
+function populateFileTree( $lang )
+{
+    global $DOCS;
+    $dir = new \DirectoryIterator( $DOCS . $lang );
+    if ( $dir === false )
+    {
+        print "$lang is not a directory.\n";
+        exit;
     }
+    $cwd = getcwd();
+    $ret = array();
+    chdir( $DOCS . $lang );
+    populateFileTreeRecurse( $lang , "." , $ret );
+    chdir( $cwd );
+    return $ret;
 }
 
-function do_revcheck($dir = '') {
-    global $LANGS, $DOCS, $SQL_BUFF;
-    static $id = 1;
-    global $idx;
-
-    if ($dh = opendir($DOCS . 'en/' . $dir)) {
-
-        $entriesDir = array();
-        $entriesFiles = array();
-
-        while (($file = readdir($dh)) !== false) {
-            if (
-            (!is_dir($DOCS . 'en' . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
-            || strpos($file, 'entities.') === 0
-            || $dir == '/chmonly' || $dir == '/internals' || $dir == '/internals2'
-            || $file == 'contributors.ent' || $file == 'contributors.xml'
-            || ($dir == '/appendices' && ($file == 'reserved.constants.xml' || $file == 'extensions.xml'))
-            || $file == '.editorconfig'
-            || $file == '.gitignore'
-            || $file == 'README'
-            || $file == 'README.md'
-            || $file == 'DO_NOT_TRANSLATE'
-            || $file == 'rsusi.txt'
-            || $file == 'missing-ids.xml'
-            || $file == 'license.xml'
-            || $file == 'versions.xml'
-            ) {
-                continue;
-            }
-
-            if ($file != '.' && $file != '..' && $file != '.git' && $dir != '/functions' && $dir != '/.git' && $dir != '/.github' && $file != '.github') {
-
-                if (is_dir($DOCS . 'en' . $dir.'/' .$file)) {
-                    $entriesDir[] = $file;
-                } elseif (is_file($DOCS . 'en' . $dir.'/' .$file)) {
-                    $entriesFiles[] = $file;
-                }
-            }
-        }
-        $cwd = getcwd();
-        // Files first
-        $maintainer = NULL;
-        $status = NULL;
-        if (sizeof($entriesFiles) > 0 ) {
-            foreach($entriesFiles as $file) {
-                $path = $DOCS . 'en' . $dir . '/';
-                chdir ($path);
-                $size = intval(filesize($file) / 1024);
-                $date = filemtime($file);
-                $revision = `git log -n1 --format=format:"%H" -- {$file};`;
-                $revision = ($revision == 0) ? 'NULL' : "'$revision'";
-                $SQL_BUFF .= "INSERT INTO enfiles VALUES ($id, '$file', $revision, '$size', '$date');\n";
-
-                foreach ($LANGS as $lang) {
-                    $path = $DOCS . $lang . $dir . '/' . $file;
-                    if (is_file($path)) {
-                        $size = intval(filesize($path) / 1024);
-                        $date = filemtime($path);
-
-                        list($revision, $maintainer, $status) = get_tags($path);
-                        echo " Adding file: {$id}, {$lang}, {$file},{$revision}, {$size}, {$date}, {$maintainer}, {$status}\n";
-
-                        $SQL_BUFF .= "INSERT INTO files VALUES ($id, '$lang', '$file', '$revision', '$size', '$date', '$maintainer', '$status');\n";
-                    } else {
-                        $SQL_BUFF .= "INSERT INTO utfiles VALUES ($id, '$lang', '$file');\n";
-                    }
-                }
-            }
-        }
-        chdir($cwd);
-
-        // Directories..
-        if (sizeof($entriesDir) > 0) {
-            usort($entriesDir, 'dir_sort');
-            reset($entriesDir);
-
-            foreach ($entriesDir as $Edir) {
-                if ($Edir != 'figures') {
-                    $path = $DOCS . 'en/' . $dir . '/' . $Edir;
-                    $id++;
-                    echo "Adding directory: $dir/$Edir (id: $id)\n";
-
-                    $SQL_BUFF .= "INSERT INTO dirs VALUES ($id, '$dir/$Edir');\n";
-                    do_revcheck($dir . '/' . $Edir);
-                }
-            }
-        }
-    }
-    closedir($dh);
-}
-
-function check_old_files($lang, $dir = '') {
+function populateFileTreeRecurse( $lang , $path , & $output )
+{
     global $DOCS, $SQL_BUFF;
-    static $id = 1;
-
-    if ($dh = opendir($DOCS . $lang . $dir)) {
-
-        $entriesDir = array();
-        $entriesFiles = array();
-
-        while (($file = readdir($dh)) !== false) {
-            if (
-            (!is_dir($DOCS . $lang . $dir.'/' .$file) && !in_array(substr($file, -3), array('xml','ent')) && substr($file, -13) != 'PHPEditBackup' )
-            || strpos($file, 'entities.') === 0
-            || $dir == '/chmonly' || $dir == '/internals' || $dir == '/internals2' || $dir == '/.git' || $dir == '/.github'
-            || $file == 'contributors.ent' || $file == 'contributors.xml'
-            || ($dir == '/appendices' && ($file == 'reserved.constants.xml' || $file == 'extensions.xml'))
-            || $file == 'README'
-            || $file == 'README.md'
-            || $file == 'DO_NOT_TRANSLATE'
-            || $file == 'rsusi.txt'
-            || $file == 'missing-ids.xml'
-            || $file == 'translation.xml'
-            ) {
-                continue;
-            }
-
-            if ($file != '.' && $file != '..' && $file != '.svn' && $dir != '/functions') {
-
-                if (is_dir($DOCS . $lang . $dir.'/' .$file)) {
-                    $entriesDir[] = $file;
-                } elseif (is_file($DOCS . $lang . $dir.'/' .$file)) {
-                    $entriesFiles[] = $file;
-                }
-            }
-        }
-
-        // Files first
-        if (sizeof($entriesFiles) > 0 ) {
-
-            foreach($entriesFiles as $file) {
-                $path_en = $DOCS . 'en/' . $dir . '/' . $file;
-                $path = $DOCS . $lang . $dir . '/' . $file;
-
-                if( !@is_file($path_en) ) {
-                   $size = intval(filesize($path) / 1024);
-                   $SQL_BUFF .= "INSERT INTO old_files VALUES ('$lang', '$dir', '$file', '$size');\n";
-                }
-            }
-        }
-
-        // Directories..
-        if (sizeof($entriesDir) > 0) {
-            usort($entriesDir, 'dir_sort_old');
-            reset($entriesDir);
-
-            foreach ($entriesDir as $Edir) {
-                check_old_files($lang, $dir . '/' . $Edir);
-            }
-        }
+    $dir = new DirectoryIterator( $path );
+    if ( $dir === false )
+    {
+        print "$path is not a directory.\n";
+        exit;
     }
-    closedir($dh);
+    $todoPaths = [];
+    $trimPath = ltrim( $path , "./");
+    foreach( $dir as $entry )
+    {
+        $filename = $entry->getFilename();
+        if ( $filename[0] == '.' )
+            continue;
+        if ( substr( $filename , 0 , 9 ) == "entities." )
+            continue;
+        if ( $entry->isDir() )
+        {
+            $todoPaths[] = $path . '/' . $entry->getFilename();
+            continue;
+        }
+        if ( $entry->isFile() )
+        {
+            $ignoredFileNames = [
+                'README.md',
+                'translation.xml',
+                'readme.first',
+                'license.xml',
+                'extensions.xml',
+                'versions.xml',
+                'book.developer.xml',
+                'contributors.ent',
+                'contributors.xml',
+                'README',
+                'DO_NOT_TRANSLATE',
+                'rsusi.txt',
+                'missing-ids.xml',
+            ];
+
+            $ignoredDirectories = [
+                'chmonly',
+            ];
+
+            if(
+                in_array($trimPath, $ignoredDirectories, true)
+                || in_array($filename, $ignoredFileNames, true)
+                || (strpos($filename, 'entities.') === 0)
+                || !in_array(substr($filename, -3), ['xml','ent'], true)
+                || (substr($filename, -13) === 'PHPEditBackup')
+                || ($trimPath === 'appendices' && (in_array($filename, ['reserved.constants.xml', 'extensions.xml'], true)))
+            ) continue;
+
+            $file = new FileStatusInfo;
+            $file->path = $trimPath;
+            $file->name = $filename;
+            $file->size = filesize( $path . '/' . $filename );
+            $file->syncStatus = null;
+            if ( $lang != 'en' )
+            {
+                parseRevisionTag( $entry->getPathname() , $file );
+                $path_en = $DOCS . 'en/' . $trimPath . '/' . $filename;
+                if( !is_file($path_en) ) //notinen
+                {
+                    $filesize = $file->size < 1024 ? 1 : floor( $file->size / 1024 );
+                    $SQL_BUFF .= "INSERT INTO notinen VALUES ('$lang', '$trimPath', '$filename', $filesize);\n";
+                 } else {
+                    $output[ $file->getKey() ] = $file;
+                 }
+             } else {
+                 $output[ $file->getKey() ] = $file;
+             }
+         }
+    }
+    sort( $todoPaths );
+    foreach( $todoPaths as $path )
+        populateFileTreeRecurse( $lang , $path , $output );
 }
 
-function get_tags($file) {
-    // Read the first 500 chars. The comment should be at
-    // the begining of the file
-    $fp = @fopen($file, "r") or die("Unable to read $file.");
-    $line = fread($fp, 1024);
-    fclose($fp);
+function parseRevisionTag( $filename , FileStatusInfo $file )
+{
+    $fp = fopen( $filename , "r" );
+    $contents = fread( $fp , 1024 );
+    fclose( $fp );
 
     // No match before the preg
     $match = array ();
 
-    // Check for the translations "revision tag"
-    $regex = "/<!--\s*EN-Revision:\s*(.+)\s*Maintainer:\s*(.+)\s*Status:\s*(.+)\s*-->/U";
-    if (preg_match ( $regex , $line , $match )) {
-        // note the simple quotes
-        return array(trim($match[1]),trim($match[2]),trim($match[3]));
+    $regex = "'<!--\s*EN-Revision:\s*(.+)\s*Maintainer:\s*(.+)\s*Status:\s*(.+)\s*-->'U";
+    if (preg_match ($regex , $contents , $match )) {
+        $file->hash = trim( $match[1] );
+        $file->maintainer = trim( $match[2] );
+        $file->completion = trim( $match[3] );
     }
+    if ( $file->hash == null or strlen( $file->hash ) != 40 or
+         $file->maintainer == null or
+         $file->completion == null )
+         $file->syncStatus = FileStatusEnum::RevTagProblem;
 
-    // The tag with revision number is not found so search
-    // for n/a revision comment (comment where revision is not known)
-    if (preg_match("'<!--\s*EN-Revision:\s*(n/a)\s*Maintainer:\s*(\\S*)\s*Status:\s*(.+)\s*-->'U",
-    $line, $match)) {
-        // note the simple quotes
-        return array("'" . trim($match[1]) . "'", "'" . trim($match[2]) . "'", "'" . trim($match[3]) . "'");
+    $regex = "/<!--\s*CREDITS:\s*(.+)\s*-->/U";
+    $match = array();
+    preg_match ( $regex , $contents , $match );
+    if ( count( $match ) == 2 )
+        $file->credits = str_replace( ' ' , '' , trim( $match[1] ) );
+    else
+        $file->credits = '';
+}
+
+function captureGitValues( & $output )
+{
+    global $DOCS;
+    $cwd = getcwd();
+    chdir( $DOCS . 'en' );
+    $fp = popen( "git --no-pager log --name-only" , "r" );
+    $hash = null;
+    $date = null;
+    $utct = new DateTimeZone( "UTC" );
+    while ( ( $line = fgets( $fp ) ) !== false )
+    {
+        if ( substr( $line , 0 , 7 ) == "commit " )
+        {
+            $hash = trim( substr( $line , 7 ) );
+            continue;
+        }
+        if ( strpos( $line , 'Date:' ) === 0 )
+        {
+            $date = trim( substr( $line , 5 ) );
+            continue;
+        }
+        if ( trim( $line ) == "" )
+            continue;
+        if ( substr( $line , 0 , 4 ) == '    ' )
+            continue;
+        if ( strpos( $line , ': ' ) > 0 )
+            continue;
+        $filename = trim( $line );
+        if ( isset( $output[$filename] ) )
+            continue;
+        $output[$filename]['hash'] = $hash;
     }
-
-    // Nothing, return with NULL values
-    return array ("NULL", "NULL", "NULL");
-
-} // get_tags() function end
-
-function get_original_rev($file) {
-    // Read the first 500 chars. The comment should be at
-    // the begining of the file
-    $fp = @fopen($file, "r") or die ("Unable to read $file.");
-    $line = fread($fp, 1024);
-    fclose($fp);
-
-    // Return if this was needed (it should be there)
-    // . is for $ in the preg!
-    preg_match("/<!-- .Revision: (\d+) . -->/", $line, $match);
-    if (!empty($match)) {
-        return $match[1];
-    } else {
-        return 0;
-    }
+    pclose( $fp );
+    chdir( $cwd );
 }
 
 /**
@@ -459,6 +464,61 @@ function get_original_rev($file) {
 **/
 
 $time_start = microtime(true);
+
+$path = null;
+$id = 0;
+asort( $enFiles );
+foreach( $enFiles as $key => $en )
+{
+    if ( $path !== $en->path )
+    {
+        $id++;
+        $path = $en->path;
+        $path2 = $path == '' ? '/' : $path;
+        $SQL_BUFF .= "INSERT INTO dirs VALUES ($id, '$path2');\n";
+    }
+
+    $size = $en->size < 1024 ? 1 : floor( $en->size / 1024 );
+    $filename = $path . ($path == '' ? '' : '/') . $en->name;
+    $en->hash = null;
+    if ( isset( $gitData[ $filename ] ) )
+    {
+        $en->hash = $gitData[ $filename ]['hash'];
+    }
+    else
+        print "Warn: No hash for en/$filename\n";
+
+    $SQL_BUFF .= "INSERT INTO enfiles VALUES ($id, '$en->name', '$en->hash', $size);\n";
+
+    foreach( $LANGS as $lang )
+    {
+        $trFile = isset( $trFiles[$lang][$filename] ) ? $trFiles[$lang][$filename] : null;
+        if ( $trFile == null ) // Untranslated
+        {
+            $SQL_BUFF .= "INSERT INTO Untranslated VALUES ($id, '$lang',
+            '$en->name', $size);\n";
+        } else {
+            if ( $trFile->completion != null && $trFile->completion != "ready" )
+            {
+                $trFile->syncStatus = FileStatusEnum::TranslatedWip;
+                $SQL_BUFF .= "INSERT INTO wip VALUES ($id, '$lang', '$en->name', $size, '$trFile->maintainer');\n";
+                 continue;
+            }
+            if ( $en->hash == $trFile->hash ){
+                $trFile->syncStatus = FileStatusEnum::TranslatedOk;
+            } elseif ( strlen( $trFile->hash ) == 40 ) {
+                $trFile->syncStatus = FileStatusEnum::TranslatedOld;
+            }
+            $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
+            '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
+            '$trFile->completion', '$trFile->syncStatus');\n";
+        }
+    }
+}
+
+foreach( $LANGS as $lang ) {
+    computeTranslatorStatus( $lang, $enFiles, $trFiles[$lang] );
+}
 
 $db_name = SQLITE_DIR . 'rev.php.sqlite';
 $tmp_db = SQLITE_DIR . 'rev.php.tmp.sqlite';
@@ -491,18 +551,10 @@ $db->exec($CREATE);
 
 // 3 - Fill in the description table while cleaning the langs
 // without revision.xml file
-foreach ($LANGS as $id => $lang) {
-    echo "Fetching the $lang description\n";
-    parse_translation($lang);
-}
-
 // 4 - Recurse in the manual seeking for files and fill $SQL_BUFF
-do_revcheck();
 
-// 4:1 - Recurse in the manuel seeking for old files for each language and fill $SQL_BUFF
-foreach ($LANGS as $lang) {
-    check_old_files($lang, '');
-}
+
+
 
 // 5 - Query $SQL_BUFF and exit
 $db->exec('BEGIN TRANSACTION');

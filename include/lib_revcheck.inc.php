@@ -26,23 +26,16 @@ function get_dirs($idx, $lang) {
         b.path AS dir,
         a.name AS name
     FROM
-        files a,
-        dirs b,
-        enfiles c
+        translated a,
+        dirs b
     WHERE
-        a.lang= '$lang'
-    AND
-         a.id = b.id
-    AND
-         c.id = a.id
-    AND
-         a.name = c.name
-    AND
-        a.revision != c.revision
-    AND
-        a.revision != 'n/a'
+        a.lang = '$lang'
+    AND a.id = b.id
+    AND (a.syncStatus = 'TranslatedOld'
+     OR a.syncStatus = 'TranslatedCritial'
+     OR a.syncStatus = 'TranslatedWip')
     ORDER BY
-        b.path";
+        b.id";
 
     $result = $idx->query($sql);
 
@@ -58,10 +51,12 @@ function get_dirs($idx, $lang) {
 function get_outdated_files($idx, $lang, $filter = null, $value = null)
 {
     $sql = "SELECT a.status, a.name AS file, a.maintainer, c.revision AS en_rev, a.revision AS trans_rev, b.path AS dir
-    FROM files a, dirs b, enfiles c
+    FROM translated a, dirs b, enfiles c
     WHERE a.lang = '$lang'
-     AND a.revision != c.revision AND a.revision != 'n/a'
-     AND c.name = a.name AND c.id = a.id AND b.id = a.id";
+      AND c.name = a.name AND c.id = a.id AND b.id = a.id
+      AND (a.syncStatus = 'TranslatedOld'
+      OR a.syncStatus = 'TranslatedCritial'
+      OR a.syncStatus = 'TranslatedWip')";
 
     if ($filter == 'dir') {
         $sql .= " AND b.path = '$value'";
@@ -90,7 +85,7 @@ function get_outdated_files($idx, $lang, $filter = null, $value = null)
 // Return an array of available languages for manual
 function revcheck_available_languages($idx)
 {
-    $result = $idx->query('SELECT lang FROM description');
+    $result = $idx->query('SELECT lang FROM descriptions');
     while ($row = $result->fetchArray(SQLITE3_NUM)) {
 		$tmp[] = $row[0];
 	}
@@ -110,24 +105,23 @@ function count_en_files($idx)
 
 function get_missfiles($idx, $lang)
 {
-    $sql = 'SELECT
+    $sql = "SELECT
         d.path as dir,
-        b.size as size,
+        a.name as file,
         b.revision as revision,
-        a.name as file
+        a.size as size
     FROM
-        utfiles a,
+        Untranslated a,
+        enfiles b,
         dirs d
-    LEFT JOIN
-        enfiles b
-    ON
-        a.id = b.id
+    WHERE
+        a.lang = '$lang'
     AND
         a.name = b.name
-    WHERE
-        a.lang="' . $lang . '"
     AND
-        a.id = d.id';
+        a.id = b.id
+    AND
+        a.id = d.id";
     $result = $idx->query($sql);
 
     while ($r = $result->fetchArray()) {
@@ -139,38 +133,26 @@ function get_missfiles($idx, $lang)
 
 function get_oldfiles($idx, $lang)
 {
-    $sql = 'SELECT
-     path, file, size
-
-     FROM
-     old_files
-
-     WHERE
-     lang="' . $lang . '"';
+    $sql = "SELECT path, name, size
+     FROM  notinen
+     WHERE lang = '$lang'";
 
     $result = $idx->query($sql);
-
     $tmp = array();
-    $special_files = array(
-        'translation.xml'=>1,
-    );
 
     while ($r = $result->fetchArray()) {
-        if (isset($special_files[$r['file']])) continue; // skip some files
-        $tmp[] = array('dir' => $r['path'], 'size' => $r['size'], 'file' => $r['file']);
+        $tmp[] = array('dir' => $r['path'], 'size' => $r['size'], 'file' => $r['name']);
     }
     return $tmp;
 }
 
 function get_misstags($idx, $lang)
 {
-    $sql = 'SELECT
-     d.path AS dir, a.size AS en_size, b.size AS trans_size, a.name AS name
-     FROM enfiles a, dirs d
-     LEFT JOIN files b ON a.id = b.id AND a.name = b.name AND a.id = d.id
-     WHERE b.lang="'.$lang.'" AND (b.revision IS NULL OR b.revision = "n/a")
-     AND b.size IS NOT NULL
-     ORDER BY dir, name';
+    $sql = "SELECT d.path AS dir, a.size AS en_size, b.size AS trans_size, a.name AS name
+     FROM enfiles a, translated b, dirs d
+     WHERE b.lang = '$lang' AND b.syncStatus = 'RevTagProblem'
+     AND a.id = b.id AND a.name = b.name AND a.id = d.id
+     ORDER BY dir, name";
     $tmp = NULL;
     $result = $idx->query($sql);
     while($row = $result->fetchArray()) {
@@ -190,29 +172,22 @@ function get_misstags($idx, $lang)
  */
 function get_translators_stats($idx, $lang, $status) {
     if ($status == 'wip') { // special case, ehh; does anyone still use this status?
-        $sql = "SELECT COUNT(name) AS total, person AS maintainer
-        FROM wip
+        $sql = "SELECT files_wip AS total, nick AS maintainer
+        FROM translators
+        WHERE lang = '$lang'
+        GROUP BY maintainer";
+    } elseif ($status == 'uptodate') {
+        $sql = "SELECT files_uptodate AS total, nick AS maintainer
+        FROM translators
+        WHERE lang = '$lang'
+        GROUP BY maintainer";
+    } elseif ($status == 'outdated') {
+        $sql = "SELECT files_outdated AS total, nick AS maintainer
+        FROM translators
         WHERE lang = '$lang'
         GROUP BY maintainer";
     }
-    else {
-        $sql = "SELECT COUNT(a.name) AS total, a.maintainer
-        FROM files a
-        LEFT JOIN enfiles b ON a.name = b.name AND a.id = b.id
-        WHERE a.lang = '$lang' AND a.size IS NOT NULL AND ";
-
-        if ($status == 'uptodate') {
-            $sql .= 'a.revision = b.revision';
-        }
-        elseif ($status == 'outdated') {
-            $sql .= 'b.revision != a.revision';
-        }
-
-        $sql .= ' GROUP BY a.maintainer';
-    }
-
     $result = $idx->query($sql);
-
     $tmp = array();
     while ($r = $result->fetchArray()) {
         $tmp[$r['maintainer']] = $r['total'];
@@ -223,11 +198,11 @@ function get_translators_stats($idx, $lang, $status) {
 
 function get_translators($idx, $lang)
 {
-    $sql = "SELECT nick, name, mail, karma FROM translators WHERE lang = '$lang' ORDER BY nick COLLATE NOCASE";
+    $sql = "SELECT nick, name, mail, vcs FROM translators WHERE lang = '$lang' ORDER BY nick COLLATE NOCASE";
     $persons = array();
     $result = $idx->query($sql);
     while ($r = $result->fetchArray()) {
-        $persons[$r['nick']] = array('name' => $r['name'], 'mail' => $r['mail'], 'karma' => $r['karma']);
+        $persons[$r['nick']] = array('name' => $r['name'], 'mail' => $r['mail'], 'karma' => $r['vcs']);
     }
     return $persons;
 }
@@ -242,33 +217,32 @@ function get_translators($idx, $lang)
  * @return array
  */
 function get_stats($idx, $lang, $status) {
-    if ($status == 'wip') { // special case, ehh; does anyone still use this status?
-        $sql = "SELECT COUNT(*) AS total, 0 AS size
-        FROM files a, dirs b, enfiles c
-        WHERE lang = '$lang' AND a.status ='wip' AND b.id = a.id AND b.id = c.id AND a.name = c.name";
-    }
-    elseif ($status == 'notrans') {
-        $sql = "SELECT COUNT(a.name) AS total, SUM(c.size) AS size FROM utfiles a, dirs b, enfiles c WHERE a.lang = '$lang' AND b.id = a.id AND b.id = c.id AND a.name = c.name";
-    }
-    else {
-        $sql = "SELECT COUNT(a.name) AS total, SUM(b.size) AS size
-        FROM enfiles a
-        LEFT JOIN files b ON a.name = b.name AND a.id = b.id
-        WHERE b.lang = '$lang' AND ";
+    if ($status == 'wip') {
+        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
+        FROM wip
+        WHERE lang = '$lang' ";
+    } elseif ($status == 'notrans') {
+        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
+        FROM Untranslated
+        WHERE lang = '$lang'";
+    } elseif ($status == 'uptodate') {
+        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
+        FROM translated
+        WHERE lang = '$lang' AND syncStatus = 'TranslatedOk'";
+    } elseif ($status == 'outdated') {
+        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
+        FROM translated
+        WHERE lang = '$lang' AND syncStatus = 'TranslatedOld'";
+    } elseif ($status == 'norev') {
+        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
+        FROM translated
+        WHERE lang = '$lang' AND syncStatus = 'RevTagProblem'";
+    } else { //notinen
+        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
+        FROM notinen WHERE lang = '$lang'";
 
-        if ($status == 'uptodate') {
-            $sql .= 'a.revision = b.revision';
-        }
-        elseif ($status == 'outdated') {
-            $sql .= 'b.revision != a.revision AND a.revision != "n/a" AND a.size IS NOT NULL';
-        }
-        elseif ($status == 'norev') {
-            $sql .= '(a.revision IS NULL OR a.revision = "n/a") AND a.size IS NOT NULL';
-        }
     }
-
     $result = $idx->query($sql)->fetchArray();
-
     return array($result['total'], $result['size']);
 }
 

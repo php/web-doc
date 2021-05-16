@@ -59,7 +59,7 @@ function generate_image($lang, $idx) {
     $legend = array($percent[0] . '%% up to date ('.$up_to_date.')', $percent[1] . '%% outdated ('.$outdated.')', $percent[2] . '%% missing ('.$missing.')', $percent[3] . '%% without EN-Revision ('.$no_tag.')');
     $title = 'Details for '.$LANGUAGES[$lang].' PHP Manual';
 
-    $graph = new PieGraph(630,400);
+    $graph = new PieGraph(680,300);
     $graph->SetShadow();
 
     $graph->title->Set($title);

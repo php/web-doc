@@ -12,19 +12,19 @@ Requirements:
 1. Unpack a copy of JpGraph 3.0.7 into `/include/jpgraph/` ([here](http://jpgraph.net/download/download.php?p=1))
 2. Increase memory limit for PHP scripts to at least 32MB
 3. Fill in two configuration files
-	- `build-ops.php.sample` (rename it to `build-ops.php`)
-		- `@GITDIR@` - absolute path to dir where scripts will clone SVN repos to and then use them for generating data
-		- `@SQLITEDIR@` - absolute path to `/sqlite/` directory
-	- `build-ops.sample` (rename it to `build-ops` [no ext])
-		- `@PHP@` - path to the PHP executable file
-		- `@GITDIR@` - absolute path to dir where scripts will clone SVN repos to and then use them and then use it for generating data
-		- `@DOCWEB@` - absolute path to `/www/` directory
-		- `@PHDDIR@` - absolute path to directory with PhD installed from Git master
-		- `@SCRIPTSDIR@`- absolute path to `/scripts/` directory
-		- `@SQLITEDIR@` - absolute path to `/sqlite/` directory
-		- `@SRCDIR@` - path to the directory with PHP source code in SVN repo
+- `build-ops.php.sample` (rename it to `build-ops.php`)
+- `@GITDIR@` - absolute path to dir where scripts will clone GIT repos to and then use them for generating data
+- `@SQLITEDIR@` - absolute path to `/sqlite/` directory
+- `build-ops.sample` (rename it to `build-ops` [no ext])
+- `@PHP@` - path to the PHP executable file
+- `@GITDIR@` - absolute path to dir where scripts will clone SVN repos to and then use them and then use it for generating data
+- `@DOCWEB@` - absolute path to `/www/` directory
+- `@PHDDIR@` - absolute path to directory with PhD installed from Git master
+- `@SCRIPTSDIR@`- absolute path to `/scripts/` directory
+- `@SQLITEDIR@` - absolute path to `/sqlite/` directory
+- `@SRCDIR@` - path to the directory with PHP source code in GIT repo
 4. You need to run the scripts/populatedocs.sh to fetch all the required documentation for the site.
-6. You need to run the scripts/generation.sh to generate the database and graphs (Time of generation: 921.84918999672 s)
+6. You need to run the scripts/generation.sh to generate the database and graphs (Time of generation: 2.5009639263153 s)
 7. Configure the virtual host under Apache. Current suggested settings are:
 ```
 <VirtualHost 127.0.0.1:80>
