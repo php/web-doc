@@ -46,6 +46,7 @@ function site_header()
 
 function site_footer($SECONDSCREEN = false)
 {
+    echo '</section>';
     require __DIR__ . '/../shared/templates/footer.inc';
 }
 
