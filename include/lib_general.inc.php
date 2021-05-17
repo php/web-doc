@@ -30,6 +30,15 @@ function get_svn_dir($project)
 
 function site_header()
 {
+    $TITLE = 'Documentation Tools';
+    $SUBDOMAIN = 'doc';
+    $CSS = array('/styles/doc.css');
+    $LINKS = array(
+        array('href' => '/revcheck.php', 'text' => 'Documentation Tools'),
+        array('href' => '/tutorial/', 'text' => 'Tutorial for Contributors'),
+        array('href' => '/phd.php', 'text' => 'PhD Homepage'),
+    );
+
     require __DIR__ . '/../shared/templates/header.inc';
 
     echo '<section class="mainscreen">';
@@ -37,9 +46,6 @@ function site_header()
 
 function site_footer($SECONDSCREEN = false)
 {
-   echo '</section><section class="secondscreen">';
-   if ($SECONDSCREEN != false) echo $SECONDSCREEN;
-   echo '</section>';
     require __DIR__ . '/../shared/templates/footer.inc';
 }
 
