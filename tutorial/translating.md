@@ -41,9 +41,23 @@ Otherwise, it needs to be synced.
 
 ## Updating translation of existing file
 Let's assume that you want to update the translation of `in_array()`.
-There are two simple ways to see which files require updating and what has to be changed to sync with the English version:
-using [Online Editor](https://edit.php.net) (required PHP account)
-or using command line. The second way is described below.
+There are three simple ways to see which files require updating and what has to be changed to sync with the English version:
+using [Online Editor](https://edit.php.net) (required PHP account),
+[doc.php.net tools](http://doc.php.net) or command line.
+
+The second and third ways are described below.
+
+### Using the doc.php.net tool
+
+Choose your language from the right sidebar and then use the "Outdated files" tool.
+Filter files by directory or username (username used here comes from the `Mantainer`
+variable in the header comment described above). Let's assume that the tool marked
+`in-array.xml` as outdated. Click on the filename and you will see
+*diff* - list of changes between two versions of file: your version (current
+number in `EN-Revision` in your translation) and newest version in the English source
+tree.
+
+### Using the command line interface
 
 Clone the [doc-base](https://github.com/php/doc-base) repository one level with 
 [doc-en](https://github.com/php/doc-en) and your language repositories, so that the structure is as follows:
@@ -69,6 +83,8 @@ git --no-pager diff 8b5940cadeb4f1c8492f4a7f70743a2be807cf39 68a9c82e06906a5c00e
 ```
 
 where the first revision is yours, and the second one is the current English revision.
+
+### How to update the translation
 
 The example below should what the diff might look like:
 
@@ -106,7 +122,7 @@ and after changes it should look like this:
 <!-- EN-Revision: 68a9c82e06906a5c00e0199307d87dd3739f719b Maintainer: someone Status: ready -->
 <!-- CREDITS: johnsmith -->
 ```
-The new EN-Revision came from the diff shown above. If you want to add
+The new `EN-Revision` came from the diff shown above. If you want to add
 yourself to a CREDITS tag that already exists, separate
 usernames with a comma, i.e.: `<!-- CREDITS: george, johnsmith -->`.
 
