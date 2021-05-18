@@ -498,20 +498,17 @@ foreach( $enFiles as $key => $en )
             $SQL_BUFF .= "INSERT INTO Untranslated VALUES ($id, '$lang',
             '$en->name', $size);\n";
         } else {
-            if ( $trFile->completion != null && $trFile->completion != "ready" )
-            {
-                $trFile->syncStatus = FileStatusEnum::TranslatedWip;
-                $SQL_BUFF .= "INSERT INTO wip VALUES ($id, '$lang', '$en->name', $size, '$trFile->maintainer');\n";
-                 continue;
-            }
             if ( $en->hash == $trFile->hash ){
                 $trFile->syncStatus = FileStatusEnum::TranslatedOk;
             } elseif ( strlen( $trFile->hash ) == 40 ) {
                 $trFile->syncStatus = FileStatusEnum::TranslatedOld;
             }
+            if ( $trFile->completion != null && $trFile->completion != "ready" )
+                $trFile->syncStatus = FileStatusEnum::TranslatedWip;
             $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
             '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
             '$trFile->completion', '$trFile->syncStatus');\n";
+
         }
     }
 }
