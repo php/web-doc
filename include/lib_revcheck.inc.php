@@ -23,19 +23,17 @@
 // Return an array of directory containing outdated files
 function get_dirs($idx, $lang) {
     $sql = "SELECT
-        b.path AS dir,
-        a.name AS name
+        d.path AS dir
     FROM
         translated a,
-        dirs b
+        dirs d
     WHERE
         a.lang = '$lang'
-    AND a.id = b.id
+    AND a.id = d.id
     AND (a.syncStatus = 'TranslatedOld'
-     OR a.syncStatus = 'TranslatedCritial'
-     OR a.syncStatus = 'TranslatedWip')
+    OR   a.syncStatus = 'TranslatedWip')
     ORDER BY
-        b.id";
+        d.id";
 
     $result = $idx->query($sql);
 
@@ -53,10 +51,9 @@ function get_outdated_files($idx, $lang, $filter = null, $value = null)
     $sql = "SELECT a.status, a.name AS file, a.maintainer, c.revision AS en_rev, a.revision AS trans_rev, b.path AS dir
     FROM translated a, dirs b, enfiles c
     WHERE a.lang = '$lang'
-      AND c.name = a.name AND c.id = a.id AND b.id = a.id
+      AND c.name = a.name AND b.id = a.id AND b.id = c.id
       AND (a.syncStatus = 'TranslatedOld'
-      OR a.syncStatus = 'TranslatedCritial'
-      OR a.syncStatus = 'TranslatedWip')";
+       OR  a.syncStatus = 'TranslatedWip')";
 
     if ($filter == 'dir') {
         $sql .= " AND b.path = '$value'";
@@ -217,26 +214,21 @@ function get_translators($idx, $lang)
  * @return array
  */
 function get_stats($idx, $lang, $status) {
+    $sql = "SELECT COUNT(a.name) AS total, SUM(b.size) AS size
+        FROM translated a, enfiles b
+        WHERE a.lang = '$lang' AND a.id = b.id AND a.name = b.name AND ";
     if ($status == 'wip') {
-        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
-        FROM wip
-        WHERE lang = '$lang' ";
+         $sql .= "a.syncStatus = 'TranslatedWip'";
     } elseif ($status == 'notrans') {
         $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
         FROM Untranslated
         WHERE lang = '$lang'";
     } elseif ($status == 'uptodate') {
-        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
-        FROM translated
-        WHERE lang = '$lang' AND syncStatus = 'TranslatedOk'";
+        $sql .= "a.syncStatus = 'TranslatedOk'";
     } elseif ($status == 'outdated') {
-        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
-        FROM translated
-        WHERE lang = '$lang' AND syncStatus = 'TranslatedOld'";
+        $sql .= "syncStatus = 'TranslatedOld'";
     } elseif ($status == 'norev') {
-        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
-        FROM translated
-        WHERE lang = '$lang' AND syncStatus = 'RevTagProblem'";
+        $sql .= "syncStatus = 'RevTagProblem'";
     } else { //notinen
         $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
         FROM notinen WHERE lang = '$lang'";
