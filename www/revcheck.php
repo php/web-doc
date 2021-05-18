@@ -113,7 +113,7 @@ TRANSLATORS_HEAD;
          $last_dir = $miss['dir'];
      }
      $key = $miss['dir'] == '' ? "/" : $miss['dir']."/". $miss['file'];
-     echo "<tr><td><a href='/gitweb/?p=doc/en.git;a=blob;f=$key;hb={$miss['revision']}'>{$miss['file']}</a></td><td>{$miss['revision']}</td><td>{$miss['size']}</td></tr>";
+     echo "<tr><td><a href='https://github.com/php/doc-en/blob/{$miss['revision']}/$key'>{$miss['file']}</a></td><td>{$miss['revision']}</td><td>{$miss['size']}</td></tr>";
      $total_size += $miss['size'];
      // flush every 200 kbytes
      if (($total_size % 200) == 0)
@@ -122,7 +122,7 @@ TRANSLATORS_HEAD;
      echo "<tr><th colspan='3'>Total Size ($num files): $total_size kB</th></tr>";
      echo '</table>';
  }
-	echo gen_date($DBLANG);
+ echo gen_date($DBLANG);
  break;
 
  case 'oldfiles':
@@ -186,40 +186,33 @@ TRANSLATORS_HEAD;
      $files_wip      = get_stats($dbhandle, $lang, 'wip');
      $files_notinen  = get_stats($dbhandle, $lang, 'notinen');
 
+     $files_norev[1] = $files_norev[1] > 0 ? $files_norev[1] : 0;
+     $files_wip[1] = $files_wip[1] > 0 ? $files_wip[1] : 0;
+     $files_notinen[1] = $files_notinen[1] > 0 ? $files_notinen[1] : 0;
+
      echo '<table border="0" cellpadding="4" cellspacing="1" style="text-align:center;">';
      echo '<tr><th>File status type</th><th>Number of files</th><th>Percent of files</th><th>Size of files (kB)</th><th>Percent of size</th></tr>';
 
      $percent[0] = 0;
      $percent[1] = 0;
-     #$percent[0] = count_en_files($dbhandle);
-
-     $percent[0] += $files_uptodate[0];
-     $percent[0] += $files_outdated[0];
-     $percent[0] += $files_norev[0];
-     $percent[0] += $files_notrans[0];
-     $percent[0] += $files_wip[0];
-     $percent[0] += $files_notinen[0];
+     $count = count_en_files($dbhandle);
 
      $percent[1] += $files_uptodate[1];
      $percent[1] += $files_outdated[1];
      $percent[1] += $files_norev[1];
      $percent[1] += $files_notrans[1];
      $percent[1] += $files_wip[1];
-     $percent[1] += $files_notinen[1];
 
-
-     $num_uptodate_percent = number_format($files_uptodate[0] * 100 / $percent[0], 2 );
-     $num_outdated_percent = number_format($files_outdated[0] * 100 / $percent[0], 2 );
-     $num_wip_percent = number_format($files_wip[0] * 100 / $percent[0], 2 );
-     $num_norev_percent = number_format($files_norev[0] * 100 / $percent[0], 2 );
-     $num_notinen_percent = number_format($files_notinen[0] * 100 / $percent[0], 2 );
-     $num_notrans_percent = number_format($files_notrans[0] * 100 / $percent[0], 2 );
+     $num_uptodate_percent = number_format($files_uptodate[0] * 100 / $count, 2 );
+     $num_outdated_percent = number_format($files_outdated[0] * 100 / $count, 2 );
+     $num_wip_percent = number_format($files_wip[0] * 100 / $count, 2 );
+     $num_norev_percent = number_format($files_norev[0] * 100 / $count, 2 );
+     $num_notrans_percent = number_format($files_notrans[0] * 100 / $count, 2 );
 
      $size_uptodate_percent = number_format($files_uptodate[1] * 100 / $percent[1], 2 );
      $size_outdated_percent = number_format($files_outdated[1] * 100 / $percent[1], 2 );
      $size_wip_percent = number_format($files_wip[1] * 100 / $percent[1], 2 );
      $size_norev_percent = number_format($files_norev[1] * 100 / $percent[1], 2 );
-     $size_notinen_percent = number_format($files_notinen[1] * 100 / $percent[1], 2 );
      $size_notrans_percent = number_format($files_notrans[1] * 100 / $percent[1], 2 );
      print <<<HTML
 <tr>
@@ -244,14 +237,14 @@ TRANSLATORS_HEAD;
 <td>Files without revision number</td>
 <td>{$files_norev[0]}</td>
 <td>{$num_norev_percent}%</td>
-<td>{$files_norev[1]}</td>
+<td>$files_norev[1]</td>
 <td>{$size_norev_percent}%</td>
 </tr><tr>
 <td>Not in EN tree</td>
 <td>{$files_notinen[0]}</td>
-<td>{$num_notinen_percent}%</td>
+<td>0.00%</td>
 <td>{$files_notinen[1]}</td>
-<td>{$size_notinen_percent}%</td>
+<td>0.00%</td>
 </tr><tr>
 <td>Files available for translation	</td>
 <td>{$files_notrans[0]}</td>
@@ -260,7 +253,7 @@ TRANSLATORS_HEAD;
 <td>{$size_notrans_percent}%</td>
 </tr><tr>
 <th>Files total</th>
-<th>{$percent[0]}</th>
+<th>$count</th>
 <th>100%</th>
 <th>{$percent[1]}</th
 ><th>100%</th>
@@ -362,15 +355,17 @@ END_OF_MULTILINE;
         if ($r['name'] == '/')
             $key = $r['file'];
 
-        //text
-        $d1 = "/gitweb/?p=doc/en.git;a=blobdiff_plain;f=$key;hb={$r['en_rev']};hpb={$r['trans_rev']};";
-        //html
-        $d2 = "/gitweb/?p=doc/en.git;a=blobdiff;f=$key;hb={$r['en_rev']};hpb={$r['trans_rev']};";
+        // GitHub web diff -- May not work with very old commits
+        $kh = hash( 'sha256' , $key );
+        $d1 = "https://github.com/php/doc-en/compare/{$r['trans_rev']}..{$r['en_rev']}#diff-{$kh}";
+        //plaintext -- Always work
+        $d2 = "?p=plain&amp;lang={$lang}&amp;hbp={$r['trans_rev']}&amp;f=$key";
 
-        $h1 = "<a href='/gitweb/?p=doc/en.git;a=blob;f=$key;hb={$r['en_rev']}'>{$r['en_rev']}</a>";
-        $h2 = "<a href='/gitweb/?p=doc/en.git;a=blob;f=$key;hb={$r['trans_rev']}'>{$r['trans_rev']}</a>";
+        $h1 = "<a href='https://github.com/php/doc-en/blob/{$r['en_rev']}/$key'>{$r['en_rev']}</a>";
 
-        $nm = "<a href='$d1'>{$r['file']}</a> <a href='$d2'>(html)</a>";
+        $h2 = "<a href='https://github.com/php/doc-en/blob/{$r['trans_rev']}/$key'>{$r['trans_rev']}</a>";
+
+        $nm = "<a href='$d2'>{$r['file']}</a> <a href='$d1'>[diff]</a>";
 
         // Write out the line for the current file (get file name shorter)
         echo '<tr>'.
@@ -385,7 +380,20 @@ END_OF_MULTILINE;
  echo gen_date($DBLANG);
  break;
 
-	case 'graph':
+ case 'plain':
+     if (isset($_GET['f'])) {
+       $gitfile = $_GET['f'];
+       if (isset($_GET['hbp'])) $h2 = $_GET['hbp'];
+       $cwd = getcwd();
+       chdir( GIT_DIR . 'en' );
+       $file = `git diff {$h2} -- {$gitfile}`;
+       echo "<pre>", htmlspecialchars($file, ENT_QUOTES, 'UTF-8'), "</pre>";
+       chdir( $cwd );
+     }
+ echo gen_date($DBLANG);
+ break;
+
+ case 'graph':
      $path = "images/revcheck/info_revcheck_php_$lang.png";
      if (is_readable($path)) {
          echo '<img src="'.$path.'" alt="info">';
@@ -408,8 +416,8 @@ END_OF_MULTILINE;
          echo '<h2>Intro for language</h2>';
          echo '<p>'.$intro[0].'</p>';
          echo '<p>Links to available tools are placed on the right sidebar.</p>';
-		   }
-	break;
+     }
+ break;
 }
 
 if ($lang != 'en') {
