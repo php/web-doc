@@ -386,35 +386,11 @@ END_OF_MULTILINE;
         $gitfile = $_GET['f'];
         if (isset($_GET['hbp']))
             $h2 = $_GET['hbp'];
-        $cwd = getcwd();
-        chdir( GIT_DIR . 'en' );
-        $file = `git diff {$h2} -- {$gitfile}`;
-        chdir( $cwd );
-        $raw = htmlspecialchars($file, ENT_XML1, 'UTF-8');
         if (isset($_GET['c']))
             $c = $_GET['c'];
-        if ( $c == 'on' ) {
-            $trans = [ " " => "&nbsp;" ];
-            $lines = explode ( "\n" , $raw );
-            foreach ($lines as $line) {
-                $inline = strtr($line , $trans);
-                $fc = substr($inline , 0 , 1);
-                if ( $fc == "+" ) {
-                    echo "<div style='color:green;font-family:mono'>";
-                } elseif ( $fc == "-" ) {
-                    echo "<div style='color:red;font-family:mono'>";
-                } elseif ( $fc == "@" ) {
-                    echo "<div style='color:blue;font-family:mono'>";
-                } else
-                     echo "<div style='color:gray;font-family:mono'>";
-                echo "$inline</div>\n";
-            }
-            echo "<p></p>";
-        } else
-            echo "<pre style='font-family:mono'>" , $raw , "</pre>";
+        showdiff( GIT_DIR . 'en', $gitfile, $h2, $c );
     }
-
- echo gen_date($DBLANG);
+    echo gen_date($DBLANG);
  break;
 
  case 'graph':

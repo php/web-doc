@@ -238,6 +238,34 @@ function get_stats($idx, $lang, $status) {
     return array($result['total'], $result['size']);
 }
 
+function showdiff ( $dir, $gitfile, $h2, $c )
+{
+    $cwd = getcwd();
+    chdir( $dir );
+    $file = `git diff {$h2} -- {$gitfile}`;
+    chdir( $cwd );
+    $raw = htmlspecialchars( $file, ENT_XML1, 'UTF-8' );
+    if ( $c == 'on' ) {
+        $trans = [ " " => "&nbsp;" ];
+        $lines = explode ( "\n" , $raw );
+        foreach ( $lines as $line ) {
+            $inline = strtr( $line , $trans );
+            $fc = substr( $inline , 0 , 1 );
+            if ( $fc == "+" ) {
+                echo "<div style='color:green;font-family:mono'>";
+            } elseif ( $fc == "-" ) {
+                echo "<div style='color:red;font-family:mono'>";
+            } elseif ( $fc == "@" ) {
+                echo "<div style='color:blue;font-family:mono'>";
+            } else
+                 echo "<div style='color:gray;font-family:mono'>";
+            echo "$inline</div>\n";
+        }
+        echo "<p></p>";
+    } else
+        echo "<pre style='font-family:mono'>" , $raw , "</pre>";
+}
+
 function gen_date($file)
 {
     $unix = filemtime($file);
