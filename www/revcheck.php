@@ -382,14 +382,7 @@ END_OF_MULTILINE;
  break;
 
  case 'plain':
-    if (isset($_GET['f'])) {
-        $gitfile = $_GET['f'];
-        if (isset($_GET['hbp']))
-            $h2 = $_GET['hbp'];
-        if (isset($_GET['c']))
-            $c = $_GET['c'];
-        showdiff( GIT_DIR . 'en', $gitfile, $h2, $c );
-    }
+    showdiff();
     echo gen_date($DBLANG);
  break;
 
