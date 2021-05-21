@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Only run every 4 hours
+HOUR=`/bin/date +%H`
+if [ `expr $HOUR % 4` -ne 0 ]; then
+    exit 0
+fi
+
 # This task run two shell scripts responsible for revision check
 # - populatedocs.sh - checking out SVN docs repository into local filesystem
 # - generation.sh - generating revision check database and charts
