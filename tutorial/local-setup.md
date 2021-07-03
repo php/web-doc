@@ -18,7 +18,7 @@ Adjust accordingly, including paths, especially if you are on Windows.
 ```
 $ mkdir /tmp/git
 $ cd /tmp/git
-$ git clone https://github.com/php/doc-en.git
+$ git clone https://github.com/php/doc-en.git doc-en/en
 $ cd /tmp/git/doc-en
 ```
 
