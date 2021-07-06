@@ -9,3 +9,9 @@ RewriteRule ^tutorial/([a-z\-]*).php$ /tutorial.php?chapter=$1 [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /redirect.php
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(jpg|jpeg|png|gif)$">
+        Header set Cache-Control no-cache
+    </FilesMatch>
+</IfModule>
