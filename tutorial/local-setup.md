@@ -13,20 +13,24 @@ If you're interested in simply setting up a local PHP mirror (and NOT build the 
 please follow the php.net [mirroring guidelines](http://php.net/mirroring) and ignore this document.
 
 ## Checkout the php documentation from Git
-**Assumptions**: This assumes creating a new directory to containing the various repositories necessary to build the
-docs, including checking out the English language repository. Adjust accordingly, including paths, especially if you
-are on Windows.
+**Assumptions**: A working directory `phpdoc` is created and will contain the necessary cloned repositories. This tutorial will reference the directories that repositories are cloned into. Adjust as needed, including paths, especially if you are on Windows. This tutorial will clone at least three repositories:
+ * doc-en (into the `en` directory)
+ * doc-base 
+ * phd
 
+If setting up a local php.net mirror is desired, the `web-php` repository must also be cloned. This is explained in the "Set up a local php.net mirror" section. <!-- a link to the "Set up local php.net mirror" is preferrable, but I'm unsure if [Set up a local php.net mirror](/#set-up-a-local-phpnet-mirror) will work between markdown and doc.php.net since doc.php.net/tutorial/local-setup.php does not have anchor headings --> 
+
+Note that `doc-en` is cloned into the `en` directory below.
 ```
-$ mkdir ~/phpdoc
-$ cd ~/phpdoc
+$ mkdir phpdoc
+$ cd phpdoc
 $ git clone https://github.com/php/doc-en.git en
 $ git clone https://github.com/php/doc-base.git
 ```
 
 ## Validate the PHP Documentation XML
 ```
-$ cd ~/phpdoc
+$ cd phpdoc
 $ php doc-base/configure.php
 ```
 
@@ -37,17 +41,17 @@ PDF, Man, Epub, and others, including PHP which is what we use at php.net.
 
 ### Install PhD
 ```
-$ cd ~/phpdoc
+$ cd phpdoc
 $ git clone https://github.com/php/phd.git
 $ php phd/render.php --help
 ```
 
 ### Use PhD to build the documentation
 ```
-$ cd ~/phpdoc
+$ cd phpdoc
 $ php doc-base/configure.php
-$ php ~/phpdoc/phd/render.php --docbook ~/phpdoc/doc-base/.manual.xml --package PHP --format php
-$ cd ~/phpdoc/output/php-web
+$ php phd/render.php --docbook doc-base/.manual.xml --package PHP --format php
+$ cd output/php-web
 ```
 
 PhD creates the `output` directory and builds the PHP manual files into the `output/php-web` directory.
@@ -59,25 +63,25 @@ php.net. In other words, files like the php.net headers and footers are not buil
 Alternative: The XHTML format is simple and does not require mirroring the php.net
 website. The following builds manual pages as plain HTML files:
 ```
-$ cd ~/phpdoc
+$ cd phpdoc
 $ php doc-base/configure.php
-$ php ~/phpdoc/phd/render.php --docbook ~/phpdoc/doc-base/.manual.xml --package PHP --format xhtml
-$ cd ~/phpdoc/output/php-chunked-xhtml/
+$ php phd/render.php --docbook doc-base/.manual.xml --package PHP --format xhtml
+$ cd output/php-chunked-xhtml/
 $ open function.strlen.html
 ```
 
 ## Set up a local php.net mirror
 ### Clone the php.net sources
 ```
-$ cd ~/phpdoc
+$ cd phpdoc
 $ git clone https://github.com/php/web-php.git myphpnet
 ```
 
 ### Symlink (or move) the generated PHP documentation to your local php.net sources
 ```
-$ cd ~/phpdoc/myphpnet/manual
+$ cd myphpnet/manual
 $ rm -rf en
-$ ln -s ~/phpdoc/output/php-web ~/phpdoc/myphpnet/manual/en
+$ ln -s output/php-web myphpnet/manual/en
 ```
 
 Symlinking can also be done on Windows. Just make sure you run `cmd` *as Administrator*.
@@ -92,7 +96,7 @@ $ mklink /D en \your\path\to\output\web-php
 We are going to use PHP's built-in web server. Please open another terminal instance for this task.
 
 ```
-$ cd ~/phpdoc/myphpnet/
+$ cd phpdoc/myphpnet
 $ php -S localhost:8080
 ```
 
