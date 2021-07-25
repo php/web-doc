@@ -4,27 +4,29 @@ This appendix describes how to check out, build and view the PHP documentation l
 Viewing results as a php.net mirror isn't a simple process, but it can be done.
 The following is one route, and it assumes:
 
-- PHP 5.4+ is available
+- PHP 7.2+ is available
 - Git version control system is available
+- DOM, libXML2, XMLReader, and SQLite3 are available
 - A basic level of shell/terminal usage, or know that shell commands follow a `$` below
 
 If you're interested in simply setting up a local PHP mirror (and NOT build the documentation) then
 please follow the php.net [mirroring guidelines](http://php.net/mirroring) and ignore this document.
 
 ## Checkout the php documentation from Git
-**Assumptions**: This assumes using `/tmp` as the root directory, and checkout of the English language.
-Adjust accordingly, including paths, especially if you are on Windows.
+**Assumptions**: This assumes creating a new directory to containing the various repositories necessary to build the
+docs, including checking out the English language repository. Adjust accordingly, including paths, especially if you
+are on Windows.
 
 ```
-$ mkdir /tmp/git
-$ cd /tmp/git
-$ git clone https://github.com/php/doc-en.git
-$ cd /tmp/git/doc-en
+$ mkdir ~/phpdoc
+$ cd ~/phpdoc
+$ git clone https://github.com/php/doc-en.git en
+$ git clone https://github.com/php/doc-base.git
 ```
 
 ## Validate the PHP Documentation XML
 ```
-$ cd /tmp/git/doc-en
+$ cd ~/phpdoc
 $ php doc-base/configure.php
 ```
 
@@ -35,58 +37,62 @@ PDF, Man, Epub, and others, including PHP which is what we use at php.net.
 
 ### Install PhD
 ```
-$ cd /tmp
+$ cd ~/phpdoc
 $ git clone https://github.com/php/phd.git
 $ php phd/render.php --help
 ```
 
 ### Use PhD to build the documentation
 ```
-$ cd /tmp/git/doc-en
+$ cd ~/phpdoc
 $ php doc-base/configure.php
-$ php /tmp/phd/render.php --docbook /tmp/git/doc-en/doc-base/.manual.xml --package PHP --format php
-$ cd /tmp/git/doc-en/mydocs/php-web/
+$ php ~/phpdoc/phd/render.php --docbook ~/phpdoc/doc-base/.manual.xml --package PHP --format php
+$ cd ~/phpdoc/output/php-web
 ```
 
-**Note:** This builds the php.net version of the documentation, but does not contain
-the files and includes used to run php.net. In other words, files like the php.net
-headers and footers are not built by PhD and are instead stored in a separate git
-module (web-php).
+PhD creates the `output` directory and builds the PHP manual files into the `output/php-web` directory.
+
+**Note:** This builds the php.net version of the documentation, but does not include the necessary files to run
+php.net. In other words, files like the php.net headers and footers are not built by PhD and are instead stored in a
+[separate git module (web-php)](https://github.com/php/web-php).
 
 Alternative: The XHTML format is simple and does not require mirroring the php.net
 website. The following builds manual pages as plain HTML files:
 ```
-$ cd /tmp/git/doc-en
+$ cd ~/phpdoc
 $ php doc-base/configure.php
-$ php /tmp/phd/render.php --docbook /tmp/git/doc-en/doc-base/.manual.xml --package PHP --format xhtml
-$ cd /tmp/phd/output/php-chunked-xhtml/
+$ php ~/phpdoc/phd/render.php --docbook ~/phpdoc/doc-base/.manual.xml --package PHP --format xhtml
+$ cd ~/phpdoc/output/php-chunked-xhtml/
 $ open function.strlen.html
 ```
 
 ## Set up a local php.net mirror
 ### Clone the php.net sources
 ```
-$ git clone https://github.com/php/web-php.git /home/sites/myphpnet/
+$ cd ~/phpdoc
+$ git clone https://github.com/php/web-php.git myphpnet
 ```
 
 ### Symlink (or move) the generated PHP documentation to your local php.net sources
 ```
-$ ln -s /tmp/phd/output/php-web /home/sites/myphpnet/manual/en
+$ cd ~/phpdoc/myphpnet/manual
+$ rm -rf en
+$ ln -s ~/phpdoc/output/php-web ~/phpdoc/myphpnet/manual/en
 ```
 
 Symlinking can also be done on Windows. Just make sure you run `cmd` *as Administrator*.
 
 ```
-$ cd \home\sites\myphpnet\manual\
+$ cd \your\path\to\myphpnet\manual\
 $ rmdir /S en
-$ mklink /D en \tmp\phd\output\web-php
+$ mklink /D en \your\path\to\output\web-php
 ```
 
 ### Run a webserver
 We are going to use PHP's built-in web server. Please open another terminal instance for this task.
 
 ```
-$ cd /home/sites/myphpnet/
+$ cd ~/phpdoc/myphpnet/
 $ php -S localhost:8080
 ```
 
