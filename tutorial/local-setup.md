@@ -81,7 +81,7 @@ $ git clone https://github.com/php/web-php.git myphpnet
 ```
 $ cd myphpnet/manual
 $ rm -rf en
-$ ln -s output/php-web myphpnet/manual/en
+$ ln -s ../../output/php-web en
 ```
 
 Symlinking can also be done on Windows. Just make sure you run `cmd` *as Administrator*.
