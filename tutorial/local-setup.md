@@ -18,7 +18,7 @@ please follow the php.net [mirroring guidelines](http://php.net/mirroring) and i
  * doc-base 
  * phd
 
-If setting up a local php.net mirror is desired, the `web-php` repository must also be cloned. This is explained in the "Set up a local php.net mirror" section. <!-- a link to the "Set up local php.net mirror" is preferrable, but I'm unsure if [Set up a local php.net mirror](/#set-up-a-local-phpnet-mirror) will work between markdown and doc.php.net since doc.php.net/tutorial/local-setup.php does not have anchor headings --> 
+If setting up a local php.net mirror is desired, the `web-php` repository must also be cloned. This is explained in the "Set up a local php.net mirror" section.
 
 Note that `doc-en` is cloned into the `en` directory below.
 ```
