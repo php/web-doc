@@ -4,8 +4,8 @@ require '../include/Parsedown.php';
 
 $parsedown = new Parsedown();
 $chapter = isset($_GET['chapter']) ? $_GET['chapter'] : 'intro';
-$path = '../tutorial/'.str_replace('..', '', $chapter).'.md';
-// Very simple check against local file inclusion, maybe it could be done better way?
+$chapter = preg_replace("/[^a-z0-9-]/", "", $chapter);
+$path = '../tutorial/' . $chapter . '.md';
 
 if (file_exists($path)) {
     $content = file_get_contents($path);
