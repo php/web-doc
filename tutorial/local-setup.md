@@ -4,7 +4,7 @@ This appendix describes how to check out, build and view the PHP documentation l
 Viewing results as a php.net mirror isn't a simple process, but it can be done.
 The following is one route, and it assumes:
 
-- PHP 7.2+, DOM, libXML2, XMLReader, and SQLite3 are available
+- PHP 7.2+, with the following extensions enabled: DOM, libXML2, XMLReader, and SQLite3
 - Git version control system is available
 - A basic level of shell/terminal usage, or know that shell commands follow a `$` below
 
