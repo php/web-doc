@@ -18,7 +18,11 @@ else {
     die;
 }
 
+$edit_url = "https://github.com/php/web-doc/edit/master/tutorial/{$chapter}.md";
+
 site_header();
+
+echo '<p style="text-align: right; font-size: 85%"><a href="' . $edit_url . '">Edit this page</a></p>';
 
 echo $parsedown->text($content);
 
