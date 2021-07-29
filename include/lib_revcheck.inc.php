@@ -248,7 +248,9 @@ function showdiff ()
             $c = $_GET['c'];
         $cwd = getcwd();
         chdir( GIT_DIR . 'en' );
-        $file = `git diff {$h} -- {$gitfile}`;
+        $arg_h = escapeshellarg($h);
+        $arg_f = escapeshellarg($gitfile);
+        $file = `git diff {$arg_h} -- {$arg_f}`;
         chdir( $cwd );
         $raw = htmlspecialchars( $file, ENT_XML1, 'UTF-8' );
         if ( $c == 'on' ) {
