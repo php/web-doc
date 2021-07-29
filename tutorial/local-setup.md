@@ -1,4 +1,4 @@
-# Setting up Documentation environment
+# Setting up a documentation environment
 This appendix describes how to check out, build and view the PHP documentation locally.
 
 Viewing results as a php.net mirror isn't a simple process, but it can be done.

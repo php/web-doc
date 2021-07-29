@@ -9,7 +9,7 @@ This guide uses some terminology that you have to know. Don't worry, it's easy:
 - **translator** - person who translates the English manual into another language
 - **{LANG}** - replace it with your two-letter country code, (e.g. when referring
   to a mailinglist, `doc-{LANG}@lists.php.net`). Note: Brazilian Portuguese differs
-  from the rest and it's called *pt_BR* for the SVN module and *pt-br* for the
+  from the rest and it's called *pt_br* for the Git repo and *pt-br* for the
   mailing list suffix.
 
 ## Table of Contents
@@ -24,7 +24,7 @@ This guide uses some terminology that you have to know. Don't worry, it's easy:
 - [PHP Manual builds](builds.php)
 - [Why whitespace is important in phpdoc](whitespace.php)
 - [User Note Editing Guidelines](user-notes.php)
-- [Setting up Documentation environment](local-setup.php)
+- [Setting up a documentation environment](local-setup.php)
 
 ## Feedback
 Feedback is most certainly welcome on this document. Without your submissions and input, this document wouldn't exist.

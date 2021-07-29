@@ -6,36 +6,26 @@ You will also have to follow other steps from the [editing manual sources](editi
 Translating documentation into other languages might look like a complicated
 process, but in fact, it's rather simple.
 
-Every file in SVN has a *revision number*. It is basically the current version of
-the specified file. We use revisions to check if a file is synchronized with its
+Every file in Git has a *commit hash*. It is basically the current version of
+the specified file. We use commit hashes to check if a file is synchronized with its
 English counterpart: to find out if the translation is up-to-date. That's why every
 file in your translation requires an EN-Revision comment with the following syntax:
 ```
-<!-- EN-Revision: [some number] Maintainer: [username] Status: ready -->
+<!-- EN-Revision: [some commit hash] Maintainer: [username] Status: ready -->
 ```
-The most important part of this comment is the revision number of the English file
+The most important part of this comment is the commit hash of the English file
 that this translated file is based on. Let's see examples:
 
 ## Translating new file
 Say you want to translate the documentation of the `in_array()` function, which
-doesn't exist in your language yet. Open the file `phpdoc/en/reference/array/in-array.xml`
-and copy the revision number. The English file's header might look like this:
+doesn't exist in your language yet. Get the commit hash by changing into the `en` directory and executing the command `git log -n1 --pretty=format:%H -- reference/array/functions/in-array.xml`
+
+For this example, let's say our commit hash is `68a9c82e06906a5c00e0199307d87dd3739f719b`. Let's see how your translated file header
+should look like if we assume that your PHP.net username is *johnsmith*:
 ```
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Revision: 310394 $ -->
+<!-- EN-Revision: 68a9c82e06906a5c00e0199307d87dd3739f719b Maintainer: johnsmith Status: ready -->
 ```
-
-So our revision number is `310394`. Let's see how your translated file header
-should look like if we assume that your SVN username is *johnsmith*:
-```
-<?xml version="1.0" encoding="utf-8"?>
-<!-- EN-Revision: 310394 Maintainer: johnsmith Status: ready -->
-<!-- $Revision$ -->
-```
-
-`$Revision$` is an SVN keyword, which will be replaced with the number of current
-revision when you commit your changes. The revision number that you have copied
-from the English file was created this way.
 
 The rule is simple: if your revision number is equal to the revision number of
 the English file you've translated, then your translation is up-to-date.
@@ -43,21 +33,22 @@ Otherwise, it needs to be synced.
 
 ## Updating translation of existing file
 Let's assume that you want to update the translation of `password_needs_rehash()`.
-There are two simple ways to see which files require updating and what has to be
-changed to sync with English version: using [Online Editor](https://edit.php.net)
-or [doc.php.net tools](http://doc.php.net). The second way is described below.
+One way to see which files require updating, and what has to be
+changed to sync with the English version, is to use the [doc.php.net tools](http://doc.php.net).
 
 Choose your language from the right sidebar and then use the "Outdated files" tool.
 Filter files by directory or username (username used here comes from the `Mantainer`
 variable in the header comment described above). Let's assume that the tool marked
 `password-needs-rehash.xml` as outdated. Click on the filename and you will see
 *diff* - list of changes between two versions of file: your version (current
-number in EN-Revision in your translation) and newest version in the English source
-tree. The example below should what the diff might look like:
+commit hash in EN-Revision in your translation) and newest version in the English source
+tree. The example below shows what the diff might look like:
 
 ```
---- phpdoc/en/trunk/reference/password/functions/password-needs-rehash.xml	2013/06/21 12:24:55	330609
-+++ phpdoc/en/trunk/reference/password/functions/password-needs-rehash.xml	2014/03/24 20:23:27	333093
+diff --git a/reference/password/functions/password-needs-rehash.xml b/reference/password/functions/password-needs-rehash.xml
+index 984eb2dc5c..860758a4a4 100644
+--- a/reference/password/functions/password-needs-rehash.xml
++++ b/reference/password/functions/password-needs-rehash.xml
 @@ -12,8 +12,8 @@
    <methodsynopsis>
     <type>boolean</type><methodname>password_needs_rehash</methodname>
@@ -71,30 +62,25 @@ tree. The example below should what the diff might look like:
     This function checks to see if the supplied hash implements the algorithm
 ```
 
-The first two lines indicate the compared revisions. The first was taken from the
-EN-Revision number and the second is the current version of this file in English.
-
 As you can see, there is a difference between two lines. The `types` for the
 parameters `options` and `algo` in the synopsis had been changed from `string`,
 to `integer` and `array` respectively. You have to perform these changes in your
 translation to make it up-to-date. Open `phpdoc/{LANG}/reference/password/functions/password-needs-rehash.xml`
 and change those lines to match the English version.
 
-Then update the EN-Revision number in the header comment. You can also add your
+Then update the EN-Revision commit hash in the header comment. You can also add your
 credits using the CREDITS tag. Your file header might look like this initially:
 ```
 <?xml version="1.0" encoding="utf-8"?>
-<!-- EN-Revision: 330609 Maintainer: someone Status: ready -->
-<!-- $Revision: 123456$ -->
+<!-- EN-Revision: 6640ca4c12c6bcaf0b2a99e75871f417b38df1a2 Maintainer: someone Status: ready -->
 ```
-and after changes it should looke like this:
+and after changes it should look like this:
 ```
 <?xml version="1.0" encoding="utf-8"?>
-<!-- EN-Revision: 333093 Maintainer: someone Status: ready -->
-<!-- $Revision$ -->
+<!-- EN-Revision: a1b67e45e7c762a917323d260c491c0361040ce4 Maintainer: someone Status: ready -->
 <!-- CREDITS: johnsmith -->
 ```
-The new EN-Revision number came from the diff shown above. If you want to add
+The new EN-Revision commit hash came from the doc tools page. If you want to add
 yourself to a CREDITS tag that already exists, separate
 usernames with a comma, i.e.: `<!-- CREDITS: george, johnsmith -->`.
 

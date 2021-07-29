@@ -1,11 +1,11 @@
 # User Note Editing Guidelines
 These are some guidelines to follow when editing user notes in the manual.
 
-To begin editing user notes in the manual, you must have SVN commit access to the manual, and you must either:
+To begin editing user notes in the manual, you must have a PHP.net account, and you must either:
 - Subscribe to the `php-notes` mailing list or newsgroup. As a user submits a new user note, it will appear
   as a message on the mailing list with links in the footer of the email that enable you to delete, edit,
   or reject that particular note.
-- Log on to the server at https://main.php.net/manage/user-notes.php using your SVN user ID and password.
+- Log on to the server at https://main.php.net/manage/user-notes.php using your PHP.net account username and password.
   The user notes administration interface enables you to search for user notes that match particular strings
   and edit or change the status of particular notes directly through the Web interface.
 
@@ -34,5 +34,5 @@ add their note in a "Editor's Note" block at the top. Unless you are correcting 
 If you have some free time and commit access to phpdoc, try going through some of the manual pages and adding some of
 the better notes into the documentation proper. Be sure to *delete* these notes after they're implemented.
 
-If you are in doubt about what to do with a note, you may ask for help on the `php-notes` mailing list (or `php-doc`,
+If you are in doubt about what to do with a note, you may ask for help on the `php-notes` mailing list (or `phpdoc`,
 if what you're doing involves the documentation proper).

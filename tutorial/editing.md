@@ -1,8 +1,8 @@
 # Editing manual sources
 
 ## Introduction
-Before making any changes to the manual - either English version ore
-translation, make sure you read [style guidelines](style.php)!
+Before making any changes to the manual - either the English version or a
+translation, make sure you have read the [style guidelines](style.php)!
 
 ## Editing existing documentation
 Simply open the files and edit them.
@@ -18,8 +18,8 @@ repository and uses reflection to generate documentation (DocBook) files.
 ### Option B: Copy skeleton files
 This involves copying the skeleton files into the correct location:
 ```
-cp /phpdoc/RFC/skeletons/method.xml classname/methodname.xml   #for new methods
-cp /phpdoc/RFC/skeletons/function.xml functions/functionname.xml #for new functions
+cp doc-base/RFC/skeletons/method.xml classname/methodname.xml   #for new methods
+cp doc-base/RFC/skeletons/function.xml functions/functionname.xml #for new functions
 ```
 
 Note: *classname*, *methodname* and *functionname* are lowercased names of the
@@ -46,6 +46,7 @@ You can commit your changes now.
 
 ## Commit changes
 If you have the appropriate [commit karma][karma], you can commit your modified files.
+Otherwise, create a Pull Request to have your changes reviewed by the team.
 
 ## Viewing changes online
 Documentation is built every night, at around 23:00 CST, then synced out to the
