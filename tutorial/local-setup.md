@@ -31,7 +31,7 @@ $ git clone https://github.com/php/doc-base.git
 ```
 $ php doc-base/configure.php
 ```
-Running `configure.php` will run check and verify that the changes made to the XML validate with Docbook specification. If you receive an error message: resolve the error message and try running the configure.php script again. If you see an ASCII cat, your XML is valid.
+Running `configure.php` will check and validate the XML according to the Docbook specification. If you receive an error message: resolve the error message and try running the configure.php script again. If you see an ASCII cat, your XML is valid.
 
 ## Build the documentation
 We use PhD to build the documentation. It takes the source that `configure.php` generates, and builds
@@ -45,7 +45,7 @@ $ php phd/render.php --help
 ```
 
 ### Use PhD to build the documentation
-As previously stated, there are multiple formats PhD can build the docs, but the two most commonly used for checking changes are XHTML and PHP. Building the docs into PHP requires a web server to view the pages, whereas XHTML does not. For small changes, for example, affects only one page, building docs into XHTML is likely preferable.
+As previously stated, there are multiple formats PhD can build the docs, but the two most commonly used for checking changes are XHTML and PHP. Building the docs into PHP requires a web server to view the pages, whereas XHTML does not. For small changes, building docs into XHTML is likely preferable. An example of a small change is modifying one file.
 ```
 $ php doc-base/configure.php
 $ php phd/render.php --docbook doc-base/.manual.xml --package PHP --format xhtml
