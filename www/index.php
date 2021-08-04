@@ -29,8 +29,8 @@ interested, you should contact the relevant mailing lists. The projects and
 translations have separate mailing lists.</p>
 
 <h2>Latest News!</h2>
-<p>On March 2014 site was almost totally rebuilded. Now it uses same design as
-new php.net pages. Many of tools and features has been removed, because they weren't used.
+<p>In March 2014 site was almost totally rebuilt. Now it uses same design as
+new php.net pages. Many of tools and features have been removed, because they weren't used.
 If you think that site is lacking some of them, please contact us on <code>php.webmaster</code>
 mailing list.</p>
 
