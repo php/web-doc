@@ -438,6 +438,7 @@ function captureGitValues( & $output )
         if ( substr( $line , 0 , 7 ) == "commit " )
         {
             $hash = trim( substr( $line , 7 ) );
+            $skipThisCommit = false;
             continue;
         }
         if ( strpos( $line , 'Date:' ) === 0 )
