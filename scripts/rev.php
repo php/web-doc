@@ -432,6 +432,7 @@ function captureGitValues( & $output )
     $hash = null;
     $date = null;
     $utct = new DateTimeZone( "UTC" );
+    $skipThisCommit = false;
     while ( ( $line = fgets( $fp ) ) !== false )
     {
         if ( substr( $line , 0 , 7 ) == "commit " )
@@ -447,11 +448,19 @@ function captureGitValues( & $output )
         if ( trim( $line ) == "" )
             continue;
         if ( substr( $line , 0 , 4 ) == '    ' )
+        {
+            if ( stristr( $line, '[skip-revcheck]' ) !== false )
+            {
+                $skipThisCommit = true;
+            }
             continue;
+        }
         if ( strpos( $line , ': ' ) > 0 )
             continue;
         $filename = trim( $line );
         if ( isset( $output[$filename] ) )
+            continue;
+        if ( $skipThisCommit )
             continue;
         $output[$filename]['hash'] = $hash;
     }
