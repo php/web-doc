@@ -95,6 +95,7 @@ CREATE TABLE enfiles (
   name TEXT,
   revision TEXT,
   size INT,
+  skip INT,
   UNIQUE(id, name)
 );
 
@@ -432,11 +433,13 @@ function captureGitValues( & $output )
     $hash = null;
     $date = null;
     $utct = new DateTimeZone( "UTC" );
+    $skipThisCommit = 0;
     while ( ( $line = fgets( $fp ) ) !== false )
     {
         if ( substr( $line , 0 , 7 ) == "commit " )
         {
             $hash = trim( substr( $line , 7 ) );
+            $skipThisCommit = 0;
             continue;
         }
         if ( strpos( $line , 'Date:' ) === 0 )
@@ -447,13 +450,20 @@ function captureGitValues( & $output )
         if ( trim( $line ) == "" )
             continue;
         if ( substr( $line , 0 , 4 ) == '    ' )
-            continue;
+        {
+            if ( stristr( $line, '[skip-revcheck]' ) !== false )
+            {
+                 $skipThisCommit = 1;
+             }
+           continue;
+        }
         if ( strpos( $line , ': ' ) > 0 )
             continue;
         $filename = trim( $line );
         if ( isset( $output[$filename] ) )
             continue;
         $output[$filename]['hash'] = $hash;
+        $output[$filename]['skip'] = $skipThisCommit;
     }
     pclose( $fp );
     chdir( $cwd );
@@ -484,11 +494,12 @@ foreach( $enFiles as $key => $en )
     if ( isset( $gitData[ $filename ] ) )
     {
         $en->hash = $gitData[ $filename ]['hash'];
+        $en->skip = $gitData[ $filename ]['skip'];
     }
     else
         print "Warn: No hash for en/$filename\n";
 
-    $SQL_BUFF .= "INSERT INTO enfiles VALUES ($id, '$en->name', '$en->hash', $size);\n";
+    $SQL_BUFF .= "INSERT INTO enfiles VALUES ($id, '$en->name', '$en->hash', $size, '$en->skip');\n";
 
     foreach( $LANGS as $lang )
     {
