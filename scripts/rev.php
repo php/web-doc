@@ -95,7 +95,6 @@ CREATE TABLE enfiles (
   name TEXT,
   revision TEXT,
   size INT,
-  skip INT,
   UNIQUE(id, name)
 );
 
@@ -433,13 +432,13 @@ function captureGitValues( & $output )
     $hash = null;
     $date = null;
     $utct = new DateTimeZone( "UTC" );
-    $skipThisCommit = 0;
+    $skipThisCommit = false;
     while ( ( $line = fgets( $fp ) ) !== false )
     {
         if ( substr( $line , 0 , 7 ) == "commit " )
         {
             $hash = trim( substr( $line , 7 ) );
-            $skipThisCommit = 0;
+            $skipThisCommit = false;
             continue;
         }
         if ( strpos( $line , 'Date:' ) === 0 )
@@ -453,7 +452,7 @@ function captureGitValues( & $output )
         {
             if ( stristr( $line, '[skip-revcheck]' ) !== false )
             {
-                 $skipThisCommit = 1;
+                 $skipThisCommit = true;
              }
            continue;
         }
@@ -499,7 +498,7 @@ foreach( $enFiles as $key => $en )
     else
         print "Warn: No hash for en/$filename\n";
 
-    $SQL_BUFF .= "INSERT INTO enfiles VALUES ($id, '$en->name', '$en->hash', $size, '$en->skip');\n";
+    $SQL_BUFF .= "INSERT INTO enfiles VALUES ($id, '$en->name', '$en->hash', $size);\n";
 
     foreach( $LANGS as $lang )
     {
@@ -516,10 +515,11 @@ foreach( $enFiles as $key => $en )
             }
             if ( $trFile->completion != null && $trFile->completion != "ready" )
                 $trFile->syncStatus = FileStatusEnum::TranslatedWip;
+            if ( $en->skip )
+               $trFile->syncStatus = FileStatusEnum::TranslatedOk;
             $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
             '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
             '$trFile->completion', '$trFile->syncStatus');\n";
-
         }
     }
 }

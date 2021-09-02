@@ -186,6 +186,7 @@ TRANSLATORS_HEAD;
      $files_wip      = get_stats($dbhandle, $lang, 'wip');
      $files_notinen  = get_stats($dbhandle, $lang, 'notinen');
 
+     $files_outdated[1] = $files_outdated[1] > 0 ? $files_outdated[1] : 0;
      $files_norev[1] = $files_norev[1] > 0 ? $files_norev[1] : 0;
      $files_wip[1] = $files_wip[1] > 0 ? $files_wip[1] : 0;
      $files_notinen[1] = $files_notinen[1] > 0 ? $files_notinen[1] : 0;

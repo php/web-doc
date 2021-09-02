@@ -50,7 +50,7 @@ function get_outdated_files($idx, $lang, $filter = null, $value = null)
 {
     $sql = "SELECT a.status, a.name AS file, a.maintainer, c.revision AS en_rev, a.revision AS trans_rev, b.path AS dir
     FROM translated a, dirs b, enfiles c
-    WHERE a.lang = '$lang' AND c.skip = 0
+    WHERE a.lang = '$lang'
       AND c.name = a.name AND b.id = a.id AND b.id = c.id
       AND (a.syncStatus = 'TranslatedOld'
        OR  a.syncStatus = 'TranslatedWip')";
@@ -216,7 +216,7 @@ function get_translators($idx, $lang)
 function get_stats($idx, $lang, $status) {
     $sql = "SELECT COUNT(a.name) AS total, SUM(b.size) AS size
         FROM translated a, enfiles b
-        WHERE a.lang = '$lang' AND a.id = b.id AND a.name = b.name AND b.skip = 0 AND ";
+        WHERE a.lang = '$lang' AND a.id = b.id AND a.name = b.name AND ";
     if ($status == 'wip') {
          $sql .= "a.syncStatus = 'TranslatedWip'";
     } elseif ($status == 'notrans') {
