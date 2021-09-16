@@ -1,4 +1,4 @@
-# PHP Manual Contribution Guide
+phpdoc@lists.php.net# PHP Manual Contribution Guide
 ## Introduction
 PHP is well known for having excellent documentation. Documentation that is created by volunteers who
 collectively make changes every day. This guide is designed for people who work on the official PHP documentation.
