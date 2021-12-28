@@ -253,12 +253,12 @@ function showdiff ()
         $file = `git diff {$arg_h} -- {$arg_f}`;
         chdir( $cwd );
         $raw = htmlspecialchars( $file, ENT_XML1, 'UTF-8' );
-        if ( $c == 'on' ) {
-            $trans = [ " " => "&nbsp;" ];
-            $lines = explode ( "\n" , $raw );
-            foreach ( $lines as $line ) {
-                $inline = strtr( $line , $trans );
-                $fc = substr( $inline , 0 , 1 );
+        $trans = [ " " => "&nbsp;" ];
+        $lines = explode ( "\n" , $raw );
+        foreach ( $lines as $line ) {
+            $inline = strtr( $line , $trans );
+            $fc = substr( $inline , 0 , 1 );
+            if ( $c == 'on' ) {
                 if ( $fc == "+" ) {
                     echo "<div style='color:darkgreen;background-color:#e6ffec;font-family:mono;overflow-wrap:break-word;'>";
                 } elseif ( $fc == "-" ) {
@@ -266,13 +266,16 @@ function showdiff ()
                 } elseif ( $fc == "@" ) {
                    echo "<div style='color:darkblue;background-color:#ddf4ff;font-family:mono;overflow-wrap:break-word;'>";
                 } else
-                     echo "<div style='color:gray;line-height:1.2;font-family:mono'>";
+                     echo "<div style='color:gray;line-height:1.2;font-family:mono;overflow-wrap:break-word;'>";
                 echo "$inline</div>\n";
-            }
-            echo "<p></p>";
-        } else
-            echo "<pre style='font-family:mono'>" , $raw , "</pre>";
-    }
+            } else
+                if ( ($fc == "+") || ($fc == "-") || ($fc == "@"))
+                    echo "<div style='background-color:#f0f0f0;font-family:mono;overflow-wrap:break-word;'>$inline</div>\n";
+                else
+                    echo "<div style='color:gray;font-family:mono;line-height:1.2;overflow-wrap:break-word;'>$inline</div>\n";
+       }
+       echo "<p></p>";
+   }
 }
 
 function gen_date($file)
