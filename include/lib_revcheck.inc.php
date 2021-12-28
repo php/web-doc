@@ -260,13 +260,13 @@ function showdiff ()
                 $inline = strtr( $line , $trans );
                 $fc = substr( $inline , 0 , 1 );
                 if ( $fc == "+" ) {
-                    echo "<div style='color:green;font-family:mono'>";
+                    echo "<div style='color:darkgreen;background-color:#e6ffec;font-family:mono;overflow-wrap:break-word;'>";
                 } elseif ( $fc == "-" ) {
-                    echo "<div style='color:red;font-family:mono'>";
+                    echo "<div style='color:firebrick;background-color:#ffebe9;font-family:mono;overflow-wrap:break-word;'>";
                 } elseif ( $fc == "@" ) {
-                    echo "<div style='color:blue;font-family:mono'>";
+                   echo "<div style='color:darkblue;background-color:#ddf4ff;font-family:mono;overflow-wrap:break-word;'>";
                 } else
-                     echo "<div style='color:gray;font-family:mono'>";
+                     echo "<div style='color:gray;line-height:1.2;font-family:mono'>";
                 echo "$inline</div>\n";
             }
             echo "<p></p>";
