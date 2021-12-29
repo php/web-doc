@@ -255,7 +255,7 @@ function showdiff ()
         $raw = htmlspecialchars( $file, ENT_XML1, 'UTF-8' );
         $trans = [ " " => "&nbsp;" ];
         $lines = explode ( "\n" , $raw );
-        echo "<div style='font:87% mono;overflow-wrap:break-word;'>";
+        echo "<div style='font:87% monospace;overflow-wrap:break-word;'>";
         foreach ( $lines as $line ) {
             $inline = strtr( $line , $trans );
             $fc = substr( $inline , 0 , 1 );
