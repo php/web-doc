@@ -255,26 +255,27 @@ function showdiff ()
         $raw = htmlspecialchars( $file, ENT_XML1, 'UTF-8' );
         $trans = [ " " => "&nbsp;" ];
         $lines = explode ( "\n" , $raw );
+        echo "<div style='font:87% mono;overflow-wrap:break-word;'>";
         foreach ( $lines as $line ) {
             $inline = strtr( $line , $trans );
             $fc = substr( $inline , 0 , 1 );
             if ( $c == 'on' ) {
                 if ( $fc == "+" ) {
-                    echo "<div style='color:darkgreen;background-color:#e6ffec;font-family:mono;overflow-wrap:break-word;'>";
+                    echo "<div style='color:darkgreen;background-color:#e6ffec;'>";
                 } elseif ( $fc == "-" ) {
-                    echo "<div style='color:firebrick;background-color:#ffebe9;font-family:mono;overflow-wrap:break-word;'>";
+                    echo "<div style='color:firebrick;background-color:#ffebe9;'>";
                 } elseif ( $fc == "@" ) {
-                   echo "<div style='color:darkblue;background-color:#ddf4ff;font-family:mono;overflow-wrap:break-word;'>";
+                   echo "<div style='color:darkblue;background-color:#ddf4ff;'>";
                 } else
-                     echo "<div style='color:gray;line-height:1.2;font-family:mono;overflow-wrap:break-word;'>";
+                     echo "<div style='color:gray;line-height:1.2;'>";
                 echo "$inline</div>\n";
             } else
                 if ( ($fc == "+") || ($fc == "-") || ($fc == "@"))
-                    echo "<div style='background-color:#f0f0f0;font-family:mono;overflow-wrap:break-word;'>$inline</div>\n";
+                    echo "<div style='background-color:#f0f0f0;'>$inline</div>\n";
                 else
-                    echo "<div style='color:gray;font-family:mono;line-height:1.2;overflow-wrap:break-word;'>$inline</div>\n";
+                    echo "<div style='color:gray;line-height:1.2;'>$inline</div>\n";
        }
-       echo "<p></p>";
+       echo "</div><p></p>";
    }
 }
 
