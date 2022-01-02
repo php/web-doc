@@ -253,27 +253,70 @@ function showdiff ()
         $file = `git diff {$arg_h} -- {$arg_f}`;
         chdir( $cwd );
         $raw = htmlspecialchars( $file, ENT_XML1, 'UTF-8' );
-        $trans = [ " " => "&nbsp;" ];
         $lines = explode ( "\n" , $raw );
-        echo "<div style='font:87% monospace;overflow-wrap:break-word;'>";
-        foreach ( $lines as $line ) {
-            $inline = strtr( $line , $trans );
-            $fc = substr( $inline , 0 , 1 );
-            if ( $c == 'on' ) {
-                if ( $fc == "+" ) {
-                    echo "<div style='color:darkgreen;background-color:#e6ffec;'>";
-                } elseif ( $fc == "-" ) {
-                    echo "<div style='color:firebrick;background-color:#ffebe9;'>";
-                } elseif ( $fc == "@" ) {
-                   echo "<div style='color:darkblue;background-color:#ddf4ff;'>";
-                } else
-                     echo "<div style='color:gray;line-height:1.2;'>";
-                echo "$inline</div>\n";
-            } else
-                if ( ($fc == "+") || ($fc == "-") || ($fc == "@"))
-                    echo "<div style='background-color:#f0f0f0;'>$inline</div>\n";
-                else
-                    echo "<div style='color:gray;line-height:1.2;'>$inline</div>\n";
+        echo "<div style='font: .75rem monospace; overflow-wrap:break-word; line-height: 1.8; border: 1px solid #ccc; border-radius: 4px;'>";
+
+        $codeStyles = 'flex-grow: 1; min-width: 0; white-space: pre-wrap;';
+        $lineNumberStyles = 'flex: 0 0 40px; text-align: right; user-select: none; padding: 0 8px;';
+
+        // Base gray palette
+        $addBg = 'background-color: #f0f0f0;';
+        $addAccentBg = 'background-color: #d8d8d8;';
+        $delBg = $addBg;
+        $delAccentBg = $addAccentBg;
+        $tagBg = $addBg;
+        $tagAccentBg = $addAccentBg;
+
+        // Override palette for colored diff
+        if ($c == 'on') {
+            $addBg = 'background-color: #e6ffec;';
+            $addAccentBg = 'background-color: #ccffd8;';
+            $delBg = 'background-color: #ffebe9;';
+            $delAccentBg = 'background-color: #ffd7d5;';
+            $tagBg = 'background-color: #eff0f6;';
+            $tagAccentBg = 'background-color: #d4d8e7;';
+        }
+
+        echo "<div style='padding: 12px;'>$gitfile</div>";
+
+        foreach (array_slice($lines, 4) as $line) {
+            $fc = substr( $line , 0 , 1 );
+
+            echo "<div style='display: flex;'>";
+
+            if ($fc == "+") {
+                echo "<div style='$lineNumberStyles $addAccentBg'></div>";
+                echo "<div style='$lineNumberStyles $addAccentBg'>$newLineNumber</div>";
+                echo "<div style='$addBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
+                echo "<div style='$codeStyles $addBg'>" . substr($line, 1) . "</div>\n";
+
+                $newLineNumber++;
+            } else if ($fc == "-") {
+                echo "<div style='$lineNumberStyles $delAccentBg'>$oldLineNumber</div>";
+                echo "<div style='$lineNumberStyles $delAccentBg'></div>";
+                echo "<div style='$delBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
+                echo "<div style='$codeStyles $delBg'>" . substr($line, 1) . "</div>\n";
+
+                $oldLineNumber++;
+            } else if ($fc == "@") {
+                preg_match('/-(\d+),\d+ \+(\d+)/', $line, $matches);
+                $oldLineNumber = $matches[1];
+                $newLineNumber = $matches[2];
+
+                echo "<div style='$lineNumberStyles $tagAccentBg color: #57606a; padding-top: 8px; padding-bottom: 8px;'>...</div>";
+                echo "<div style='$lineNumberStyles $tagAccentBg color: #57606a; padding-top: 8px; padding-bottom: 8px;'>...</div>";
+                echo "<div style='$codeStyles $tagBg color: #57606a; padding: 8px;'>$line</div>\n";
+            } else {
+                echo "<div style='$lineNumberStyles color: gray;'>$oldLineNumber</div>";
+                echo "<div style='$lineNumberStyles color: gray;'>$newLineNumber</div>";
+                echo "<div style='flex: 0 0 20px; text-align: center; user-select: none;'></div>";
+                echo "<div style='$codeStyles color: gray;'>" . substr($line, 1) . "</div>\n";
+
+                $oldLineNumber++;
+                $newLineNumber++;
+            }
+
+            echo '</div>';
        }
        echo "</div><p></p>";
    }
