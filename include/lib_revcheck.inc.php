@@ -256,8 +256,8 @@ function showdiff ()
         $lines = explode ( "\n" , $raw );
         echo "<div style='font: .75rem monospace; overflow-wrap:break-word; line-height: 1.8; border: 1px solid #ccc; border-radius: 4px;'>";
 
-        $codeStyles = 'flex-grow: 1; min-width: 0; white-space: pre-wrap;';
-        $lineNumberStyles = 'flex: 0 0 40px; text-align: right; user-select: none; padding: 0 8px;';
+        $codeStyles = 'flex-grow: 1; min-width: 0; white-space: pre-wrap; padding: 0 4px;';
+        $lineNumberStyles = 'flex: 0 0 40px; text-align: right; user-select: none; padding: 0 4px;';
 
         // Base gray palette
         $addBg = 'background-color: #f0f0f0;';
@@ -287,14 +287,14 @@ function showdiff ()
             if ($fc == "+") {
                 echo "<div style='$lineNumberStyles $addAccentBg'></div>";
                 echo "<div style='$lineNumberStyles $addAccentBg'>$newLineNumber</div>";
-                echo "<div style='$addBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
+                echo "<div style='$addAccentBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
                 echo "<div style='$codeStyles $addBg'>" . substr($line, 1) . "</div>\n";
 
                 $newLineNumber++;
             } else if ($fc == "-") {
                 echo "<div style='$lineNumberStyles $delAccentBg'>$oldLineNumber</div>";
                 echo "<div style='$lineNumberStyles $delAccentBg'></div>";
-                echo "<div style='$delBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
+                echo "<div style='$delAccentBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
                 echo "<div style='$codeStyles $delBg'>" . substr($line, 1) . "</div>\n";
 
                 $oldLineNumber++;
@@ -305,6 +305,7 @@ function showdiff ()
 
                 echo "<div style='$lineNumberStyles $tagAccentBg color: #57606a; padding-top: 8px; padding-bottom: 8px;'>...</div>";
                 echo "<div style='$lineNumberStyles $tagAccentBg color: #57606a; padding-top: 8px; padding-bottom: 8px;'>...</div>";
+                echo "<div style='flex: 0 0 20px; text-align: center; $tagAccentBg'> </div>";
                 echo "<div style='$codeStyles $tagBg color: #57606a; padding: 8px;'>$line</div>\n";
             } else {
                 echo "<div style='$lineNumberStyles color: gray;'>$oldLineNumber</div>";
