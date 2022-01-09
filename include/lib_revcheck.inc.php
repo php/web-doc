@@ -48,7 +48,7 @@ function get_dirs($idx, $lang) {
 // return an array with the outdated files; can be optionally filtered by user or dir
 function get_outdated_files($idx, $lang, $filter = null, $value = null)
 {
-    $sql = "SELECT a.status, a.name AS file, a.maintainer, c.revision AS en_rev, a.revision AS trans_rev, b.path AS dir
+    $sql = "SELECT a.status, a.name AS file, a.maintainer, a.additions, a.deletions, c.revision AS en_rev, a.revision AS trans_rev, b.path AS dir
     FROM translated a, dirs b, enfiles c
     WHERE a.lang = '$lang'
       AND c.name = a.name AND b.id = a.id AND b.id = c.id
@@ -73,7 +73,9 @@ function get_outdated_files($idx, $lang, $filter = null, $value = null)
         'trans_rev' => $r['trans_rev'],
         'status' => $r['status'],
         'maintainer' => $r['maintainer'],
-        'name' => $r['dir']);
+        'name' => $r['dir'],
+        'additions' => $r['additions'],
+        'deletions' => $r['deletions']);
     }
 
     return $tmp;

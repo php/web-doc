@@ -77,6 +77,8 @@ CREATE TABLE translated (
   maintainer TEXT,
   status TEXT,
   syncStatus TEXT,
+  additions INT,
+  deletions INT,
   UNIQUE(lang, id, name)
 );
 
@@ -514,10 +516,20 @@ foreach( $enFiles as $key => $en )
             $SQL_BUFF .= "INSERT INTO Untranslated VALUES ($id, '$lang',
             '$en->name', $size);\n";
         } else {
+            $additions = $deletions = 0;
             if ( $en->hash == $trFile->hash ){
                 $trFile->syncStatus = FileStatusEnum::TranslatedOk;
             } elseif ( strlen( $trFile->hash ) == 40 ) {
                 $trFile->syncStatus = FileStatusEnum::TranslatedOld;
+
+                $cwd = getcwd();
+                chdir( $DOCS . 'en' );
+                preg_match('/(\d+)\s+(\d+)/', `git diff --numstat $trFile->hash -- {$filename}`, $matches);
+                chdir( $cwd );
+
+                if ($matches) {
+                    [, $additions, $deletions] = $matches;
+                }
             }
             if ( $trFile->completion != null && $trFile->completion != "ready" )
                 $trFile->syncStatus = FileStatusEnum::TranslatedWip;
@@ -531,7 +543,7 @@ foreach( $enFiles as $key => $en )
             }
             $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
             '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
-            '$trFile->completion', '$trFile->syncStatus');\n";
+            '$trFile->completion', '$trFile->syncStatus', $additions, $deletions);\n";
         }
     }
 }
