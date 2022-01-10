@@ -279,7 +279,10 @@ function showdiff ()
 
         echo "<div style='padding: 12px;'>$gitfile</div>";
 
-        foreach (array_slice($lines, 4) as $line) {
+        // Count how many lines to skip diff header
+        $diffStartLine = substr_count($raw, "\n", 0, strpos($raw, ' @@'));
+
+        foreach (array_slice($lines, $diffStartLine) as $line) {
             $fc = substr( $line , 0 , 1 );
 
             echo "<div style='display: flex;'>";
