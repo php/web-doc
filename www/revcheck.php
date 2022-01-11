@@ -327,6 +327,7 @@ HTML;
 <table border="0" cellpadding="4" cellspacing="1" style="text-align:center">
 <tr>
 <th rowspan="2">Translated file</th>
+<th rowspan="2">Changes</th>
 <th colspan="2">Revision</th>
 <th rowspan="2">Maintainer</th>
 <th rowspan="2">Status</th>
@@ -335,14 +336,14 @@ HTML;
 <th>en</th>
 <th>$lang</th>
 </tr>
-<tr><th colspan="5">{$outdated[0]['name']}</th></tr>
+<tr><th colspan="6">{$outdated[0]['name']}</th></tr>
 END_OF_MULTILINE;
         $last_dir = false;
         $prev_name = $outdated[0]['name'];
 
         foreach ($outdated as $r) {
             if ($r['name'] != $prev_name) {
-            echo '<tr><th colspan="5">'.$r['name'].'</th></tr>';
+            echo '<tr><th colspan="6">'.$r['name'].'</th></tr>';
             $prev_name = $r['name'];
         }
 
@@ -357,9 +358,6 @@ END_OF_MULTILINE;
             $key = $r['file'];
         //plaintext -color
         $d1 = "?p=plain&amp;lang={$lang}&amp;hbp={$r['trans_rev']}&amp;f=$key&amp;c=on";
-        // GitHub web diff -- May not work with very old commits
-        //$kh = hash( 'sha256' , $key );
-        //"https://github.com/php/doc-en/compare/{$r['trans_rev']}..{$r['en_rev']}#diff-{$kh}";
         //plaintext
         $d2 = "?p=plain&amp;lang={$lang}&amp;hbp={$r['trans_rev']}&amp;f=$key&amp;c=off";
 
@@ -369,9 +367,12 @@ END_OF_MULTILINE;
 
         $nm = "<a href='$d2'>{$r['file']}</a> <a href='$d1'>[diff]</a>";
 
+        $ch = "<span style='color: darkgreen;'>+{$r['additions']}</span> <span style='color: firebrick;'>-{$r['deletions']}</span>";
+
         // Write out the line for the current file (get file name shorter)
-        echo '<tr>'.
-        "<td style='white-space:nowrap'>{$nm}</td>".
+        echo '<tr>' .
+        "<td style='white-space:nowrap'>{$nm}</td>" .
+        "<td style='font-size: 14px; text-align: right;'>{$ch}</td>" .
         "<td>{$h1}</td>" .
         "<td>{$h2}</td>" .
         "<td> {$r['maintainer']}</td>" .

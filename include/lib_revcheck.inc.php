@@ -48,7 +48,7 @@ function get_dirs($idx, $lang) {
 // return an array with the outdated files; can be optionally filtered by user or dir
 function get_outdated_files($idx, $lang, $filter = null, $value = null)
 {
-    $sql = "SELECT a.status, a.name AS file, a.maintainer, c.revision AS en_rev, a.revision AS trans_rev, b.path AS dir
+    $sql = "SELECT a.status, a.name AS file, a.maintainer, a.additions, a.deletions, c.revision AS en_rev, a.revision AS trans_rev, b.path AS dir
     FROM translated a, dirs b, enfiles c
     WHERE a.lang = '$lang'
       AND c.name = a.name AND b.id = a.id AND b.id = c.id
@@ -73,7 +73,9 @@ function get_outdated_files($idx, $lang, $filter = null, $value = null)
         'trans_rev' => $r['trans_rev'],
         'status' => $r['status'],
         'maintainer' => $r['maintainer'],
-        'name' => $r['dir']);
+        'name' => $r['dir'],
+        'additions' => $r['additions'],
+        'deletions' => $r['deletions']);
     }
 
     return $tmp;
@@ -252,6 +254,7 @@ function showdiff ()
         $arg_f = escapeshellarg($gitfile);
         $file = `git diff {$arg_h} -- {$arg_f}`;
         chdir( $cwd );
+        if (!$file) return;
         $raw = htmlspecialchars( $file, ENT_XML1, 'UTF-8' );
         $lines = explode ( "\n" , $raw );
         echo "<div style='font: .75rem monospace; overflow-wrap:break-word; line-height: 1.8; border: 1px solid #ccc; border-radius: 4px;'>";
