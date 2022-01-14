@@ -324,7 +324,7 @@ HTML;
          echo '<p>Good, it seems that all files are up to date for these conditions.</p>';
      } else {
         echo <<<END_OF_MULTILINE
-<table border="0" cellpadding="4" cellspacing="1" style="text-align:center">
+<table>
 <tr>
 <th rowspan="2">Translated file</th>
 <th rowspan="2">Changes</th>
@@ -361,7 +361,9 @@ END_OF_MULTILINE;
         //plaintext
         $d2 = "?p=plain&amp;lang={$lang}&amp;hbp={$r['trans_rev']}&amp;f=$key&amp;c=off";
 
-        $h1 = "<a href='https://github.com/php/doc-en/blob/{$r['en_rev']}/$key'>{$r['en_rev']}</a>";
+        $h1 = '<button class="btn copy" data-clipboard-text="';
+        $h1 .= $r['en_rev'] . '">Copy</button> ';
+        $h1 .= "<a href='https://github.com/php/doc-en/blob/{$r['en_rev']}/$key'>{$r['en_rev']}</a>";
 
         $h2 = "<a href='https://github.com/php/doc-en/blob/{$r['trans_rev']}/$key'>{$r['trans_rev']}</a>";
 
@@ -370,13 +372,16 @@ END_OF_MULTILINE;
         $ch = "<span style='color: darkgreen;'>+{$r['additions']}</span> <span style='color: firebrick;'>-{$r['deletions']}</span>";
 
         // Write out the line for the current file (get file name shorter)
-        echo '<tr>' .
-        "<td style='white-space:nowrap'>{$nm}</td>" .
-        "<td style='font-size: 14px; text-align: right;'>{$ch}</td>" .
-        "<td>{$h1}</td>" .
-        "<td>{$h2}</td>" .
-        "<td> {$r['maintainer']}</td>" .
-        "<td> {$r['status']}</td></tr>\n";
+        echo <<<END_OF_MULTILINE
+<tr style='background-color: #dcdcdc;'>
+  <td style='white-space:nowrap'>{$nm}</td>
+  <td  class='c'>{$ch}</td>
+  <td class="oc">{$h1}</td>
+  <td class='o'>{$h2}</td>
+  <td class='c'>{$r['maintainer']}</td>
+  <td class='c'>{$r['status']}</td>
+</tr>
+END_OF_MULTILINE;
      }
      echo '</table>';
  }
