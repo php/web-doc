@@ -14,51 +14,6 @@
 <!--[if lt IE 9]>
   <script src="//shared.php.net/js/html5shiv.js"></script>
 <![endif]-->
-
-<style type="text/css">
-table {
- margin-left: auto;
- margin-right: auto;
- text-align: left;
- border-spacing: 2px;
- font-size:14px;
-}
-th {
- color: white;
- background-color: #666699;
- padding: 0.2em;
- text-align: center;
- vertical-align: middle;
-}
-td {
- padding: 0.2em 0.3em;
-}
-.oc {
- white-space: nowrap;
- overflow: hidden;
- max-width: 6em;
-}
-.copy {
- margin:0;
- padding: 0;
- font-size:small;
- }
-.copy:hover {
- text-transform: uppercase;
-}
-.copy:active {
- background: aqua;
- font-weight: bold;
-}
-.o {
- white-space: nowrap;
- overflow: hidden;
- max-width: 3em;
-}
-.c {
- text-align: center;
-}
-</style>
 </head>
 <body id="doc">
 
