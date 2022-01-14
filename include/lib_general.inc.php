@@ -42,15 +42,16 @@ function site_header()
     require __DIR__ . '/../shared/templates/header.inc';
    echo <<<END_OF_MULTILINE
 <style type="text/css">
-table { margin-left: auto; margin-right: auto; text-align: left; border-spacing: 2px; font-size:14px;}
+table { margin-left: auto; margin-right: auto; text-align: left; border-spacing: 2px; font-size: 14px;}
 th { color: white; background-color: #666699; padding: 0.2em; text-align: center; vertical-align: middle; }
-td { padding: 0.2em 0.3em; }
-.oc { white-space: nowrap; overflow: hidden; max-width: 6em; }
+td { background-color: #dcdcdc; padding: 0.2em 0.3em; }
+.c { text-align: center; }
+.n { white-space: nowrap; }
+.o3 { overflow: hidden; max-width: 3em; }
+.o6 { overflow: hidden; max-width: 6em; }
 .copy { margin:0; padding: 0; font-size:small; }
 .copy:hover { text-transform: uppercase; }
 .copy:active { background: aqua; font-weight: bold; }
-.o { white-space: nowrap; overflow: hidden; max-width: 3em; }
-.c { text-align: center; }
 </style>
 END_OF_MULTILINE;
     echo '<section class="mainscreen">';

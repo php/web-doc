@@ -65,7 +65,7 @@ switch($tool) {
     }
 
     echo <<<TRANSLATORS_HEAD
-<table border="0" cellpadding="4" cellspacing="1">
+<table class="c">
 <tr>
 <th rowspan="2">Name</th>
 <th rowspan="2">Nick</th>
@@ -102,7 +102,7 @@ TRANSLATORS_HEAD;
          echo '<p>All files translated? Would be nice... but it\'s probably an error :(</p>';
      } else {
          $num = count($missfiles);
-         echo '<table border="0" cellpadding="3" cellspacing="1" style="text-align:center">';
+         echo '<table class="c">';
          echo '<tr><th rowspan="1">Available for translation ('.$num.' files):</th><th>Commit Hash</th><th colspan="1">kB</th></tr>';
 
          $last_dir = false;
@@ -131,7 +131,7 @@ TRANSLATORS_HEAD;
          echo '<p>Good, it seems that this translation doesn\'t contain any file which is not present in English tree.</p>';
      } else {
          $num = count($oldfiles);
-         echo '<table width="400" border="0" cellpadding="3" cellspacing="1" style="text-align:center">';
+         echo '<table class="c">';
          echo '<tr><th rowspan="1">Not in EN tree ('.$num.' files):</th><th colspan="1">kB</th></tr>';
 
          $last_dir = false;
@@ -141,7 +141,7 @@ TRANSLATORS_HEAD;
          echo '<tr><th colspan="2">'.$old['dir'].'</th></tr>';
          $last_dir = $old['dir'];
      }
-     echo '<tr><td>', $old['file'], '</td><td class="r">'.$old['size'].'</td></tr>';
+     echo '<tr><td>', $old['file'], '</td><td>'.$old['size'].'</td></tr>';
      $total_size += $old['size'];
      // flush every 200 kbytes
      if (($total_size % 200) == 0)
@@ -160,7 +160,7 @@ TRANSLATORS_HEAD;
          echo '<p>Good, all files contain revision numbers.</p>';
      } else {
          $num = count($misstags);
-         echo '<table border="0" cellpadding="3" cellspacing="1" style="text-align:center">';
+         echo '<table class="c">';
          echo '<tr><th rowspan="2">Files without EN-Revision number ('.$num.' files):</th><th colspan="3">Sizes in kB</th></tr>';
          echo '<tr><th>en</th><th>'.$lang.'</th><th>diff</th></tr>';
 
@@ -191,7 +191,7 @@ TRANSLATORS_HEAD;
      $files_wip[1] = $files_wip[1] > 0 ? $files_wip[1] : 0;
      $files_notinen[1] = $files_notinen[1] > 0 ? $files_notinen[1] : 0;
 
-     echo '<table border="0" cellpadding="4" cellspacing="1" style="text-align:center;">';
+     echo '<table class="c">';
      echo '<tr><th>File status type</th><th>Number of files</th><th>Percent of files</th><th>Size of files (kB)</th><th>Percent of size</th></tr>';
 
      $percent[0] = 0;
@@ -372,14 +372,15 @@ END_OF_MULTILINE;
         $ch = "<span style='color: darkgreen;'>+{$r['additions']}</span> <span style='color: firebrick;'>-{$r['deletions']}</span>";
 
         // Write out the line for the current file (get file name shorter)
+
         echo <<<END_OF_MULTILINE
-<tr style='background-color: #dcdcdc;'>
-  <td style='white-space:nowrap'>{$nm}</td>
-  <td  class='c'>{$ch}</td>
-  <td class="oc">{$h1}</td>
-  <td class='o'>{$h2}</td>
-  <td class='c'>{$r['maintainer']}</td>
-  <td class='c'>{$r['status']}</td>
+<tr>
+<td class='n'>{$nm}</td>
+<td class='c'>{$ch}</td>
+<td class='n o6'>{$h1}</td>
+<td class='n o3'>{$h2}</td>
+<td class='c'>{$r['maintainer']}</td>
+<td class='c'>{$r['status']}</td>
 </tr>
 END_OF_MULTILINE;
      }
