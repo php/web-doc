@@ -52,7 +52,7 @@ td { padding: 0.2em 0.3em; }
 .o { white-space: nowrap; overflow: hidden; max-width: 3em; }
 .c { text-align: center; }
 </style>
-END_OF_MULTILINE
+END_OF_MULTILINE;
     echo '<section class="mainscreen">';
 }
 
