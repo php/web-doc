@@ -511,7 +511,15 @@ foreach( $enFiles as $key => $en )
         {
             $SQL_BUFF .= "INSERT INTO Untranslated VALUES ($id, '$lang',
             '$en->name', $size);\n";
-        } else {
+        }
+        else if ($trFile->syncStatus == FileStatusEnum::RevTagProblem)
+        {
+            $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
+            '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
+            '$trFile->completion', '$trFile->syncStatus', 0, 0);\n";
+        }
+        else
+        {
             $additions = $deletions = -1;
             if ( $en->hash == $trFile->hash ){
                 $trFile->syncStatus = FileStatusEnum::TranslatedOk;
