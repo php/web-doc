@@ -369,7 +369,10 @@ END_OF_MULTILINE;
 
         $nm = "<a href='$d2'>{$r['file']}</a> <a href='$d1'>[diff]</a>";
 
-        $ch = "<span style='color: darkgreen;'>+{$r['additions']}</span> <span style='color: firebrick;'>-{$r['deletions']}</span>";
+        if ($r['additions'] < 0)
+            $ch = "<span style='color: firebrick;'>no data</span>";
+        else
+            $ch = "<span style='color: darkgreen;'>+{$r['additions']}</span> <span style='color: firebrick;'>-{$r['deletions']}</span>";
 
         // Write out the line for the current file (get file name shorter)
 
