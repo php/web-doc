@@ -294,6 +294,7 @@ function showdiff ()
                 echo "<div style='$lineNumberStyles $addAccentBg'></div>";
                 echo "<div style='$lineNumberStyles $addAccentBg'>$newLineNumber</div>";
                 echo "<div style='$addAccentBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
+                if ($line == "+") $line .= " ";
                 echo "<div style='$codeStyles $addBg'>" . substr($line, 1) . "</div>\n";
 
                 $newLineNumber++;
