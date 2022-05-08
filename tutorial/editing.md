@@ -38,7 +38,7 @@ The necessary [configure.php][configure.php] script is distributed with the
 to do to validate changes is run configure.php:
 ```
 $ cd phpdoc
-$ php configure.php --with-lang={LANG}
+$ php doc-base/configure.php --with-lang={LANG}
 ```
 If your language is English you can omit the `with-lang` argument. When the above
 outputs something like "All good. Saving .manual.xml… done." then you know it validates.
