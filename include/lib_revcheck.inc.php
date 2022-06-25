@@ -286,7 +286,12 @@ function showdiff ()
         $diffStartLine = substr_count($raw, "\n", 0, strpos($raw, " @@"));
 
         foreach (array_slice($lines, $diffStartLine) as $line) {
-            $fc = substr( $line , 0 , 1 );
+            $fc = substr($line, 0, 1);
+
+            $code = substr($line, 1);
+            if ($code === '') {
+                $code = "<br>";
+            }
 
             echo "<div style='display: flex;'>";
 
@@ -294,15 +299,14 @@ function showdiff ()
                 echo "<div style='$lineNumberStyles $addAccentBg'></div>";
                 echo "<div style='$lineNumberStyles $addAccentBg'>$newLineNumber</div>";
                 echo "<div style='$addAccentBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
-                if ($line == "+") $line .= " ";
-                echo "<div style='$codeStyles $addBg'>" . substr($line, 1) . "</div>\n";
+                echo "<div style='$codeStyles $addBg'>" . $code . "</div>\n";
 
                 $newLineNumber++;
             } else if ($fc == "-") {
                 echo "<div style='$lineNumberStyles $delAccentBg'>$oldLineNumber</div>";
                 echo "<div style='$lineNumberStyles $delAccentBg'></div>";
                 echo "<div style='$delAccentBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
-                echo "<div style='$codeStyles $delBg'>" . substr($line, 1) . "</div>\n";
+                echo "<div style='$codeStyles $delBg'>" . $code . "</div>\n";
 
                 $oldLineNumber++;
             } else if ($fc == "@") {
@@ -318,7 +322,7 @@ function showdiff ()
                 echo "<div style='$lineNumberStyles color: gray;'>$oldLineNumber</div>";
                 echo "<div style='$lineNumberStyles color: gray;'>$newLineNumber</div>";
                 echo "<div style='flex: 0 0 20px; text-align: center; user-select: none;'></div>";
-                echo "<div style='$codeStyles color: gray;'>" . substr($line, 1) . "</div>\n";
+                echo "<div style='$codeStyles color: gray;'>" . $code . "</div>\n";
 
                 $oldLineNumber++;
                 $newLineNumber++;
