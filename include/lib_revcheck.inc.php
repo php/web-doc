@@ -253,6 +253,7 @@ function showdiff ()
         $arg_h = escapeshellarg($h);
         $arg_f = escapeshellarg($gitfile);
         $file = `git diff {$arg_h} -- {$arg_f}`;
+        $hash = `git log -n 1 --pretty=format:%H -- {$arg_f}`;
         chdir( $cwd );
         if (!$file) return;
         $raw = htmlspecialchars( $file, ENT_XML1, 'UTF-8' );
@@ -280,7 +281,7 @@ function showdiff ()
             $tagAccentBg = 'background-color: #d4d8e7;';
         }
 
-        echo "<div style='padding: 12px;'>$gitfile</div>";
+        echo "<div style='padding: 12px;'>$gitfile<br/>$hash</div>";
 
         // Count how many lines to skip diff header
         $diffStartLine = substr_count($raw, "\n", 0, strpos($raw, " @@"));
