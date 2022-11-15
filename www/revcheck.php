@@ -102,26 +102,50 @@ TRANSLATORS_HEAD;
          echo '<p>All files translated? Would be nice... but it\'s probably an error :(</p>';
      } else {
          $num = count($missfiles);
+         $last_dir = false;
+         $first_dir = false;
+         echo '<p>Choose a directory:</p>';
+         echo '<form method="get" action="revcheck.php"><p><select name="dir">';
+         foreach ($missfiles as $miss) {
+             if (isset($_GET['dir']) && $_GET['dir'] == $miss['dir']) {
+                 $selected = ' selected="selected"';
+             } else {
+                 $selected = '';
+             }
+             if (!$last_dir || $last_dir != $miss['dir']) {
+                 echo '<option value="'.$miss['dir'].'"'.$selected.'>'.$miss['dir'].'</option>';
+                 $last_dir = $miss['dir'];
+                 if (!$first_dir) $first_dir = $last_dir;
+             }
+         }
+         echo '</select>';
+         echo '<input type="hidden" name="p" value="missfiles">';
+         echo '<input type="hidden" name="lang" value="'.$lang.'">';
+         echo '<input type="submit" value="See untranslated files"></p></form>';
+
          echo '<table class="c">';
-         echo '<tr><th rowspan="1">Available for translation ('.$num.' files):</th><th>Commit Hash</th><th colspan="1">kB</th></tr>';
+         echo '<tr><th rowspan="1">Available for translation</th><th>Commit Hash</th><th colspan="1">kB</th></tr>';
 
          $last_dir = false;
          $total_size = 0;
+         $dir = isset($_GET['dir']) ? $_GET['dir'] : $first_dir;
          foreach ($missfiles as $miss) {
-         if (!$last_dir || $last_dir != $miss['dir']) {
-         echo '<tr><th colspan="3">'.$miss['dir'].'</th></tr>';
-         $last_dir = $miss['dir'];
+             if ($dir == $miss['dir']) {
+                 if (!$last_dir || $last_dir != $miss['dir']) {
+                     echo '<tr><th colspan="3">'.$miss['dir'].'</th></tr>';
+                     $last_dir = $miss['dir'];
+                 }
+                 $key = $miss['dir'] == '' ? "/" : $miss['dir']."/". $miss['file'];
+                 echo "<tr><td><a href='https://github.com/php/doc-en/blob/{$miss['revision']}/$key'>{$miss['file']}</a></td><td>{$miss['revision']}</td><td>{$miss['size']}</td></tr>";
+                 $total_size += $miss['size'];
+                 // flush every 200 kbytes
+                 if (($total_size % 200) == 0)
+                     flush();
+             }
+         }
+         echo "<tr><th colspan='3'>Total Size: $total_size kB</th></tr>";
+         echo '</table>';
      }
-     $key = $miss['dir'] == '' ? "/" : $miss['dir']."/". $miss['file'];
-     echo "<tr><td><a href='https://github.com/php/doc-en/blob/{$miss['revision']}/$key'>{$miss['file']}</a></td><td>{$miss['revision']}</td><td>{$miss['size']}</td></tr>";
-     $total_size += $miss['size'];
-     // flush every 200 kbytes
-     if (($total_size % 200) == 0)
-         flush();
-     }
-     echo "<tr><th colspan='3'>Total Size ($num files): $total_size kB</th></tr>";
-     echo '</table>';
- }
  echo gen_date($DBLANG);
  break;
 
