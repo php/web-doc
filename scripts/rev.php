@@ -514,12 +514,15 @@ foreach( $enFiles as $key => $en )
         }
         else if ($trFile->syncStatus == FileStatusEnum::RevTagProblem)
         {
+            $trSize = $trFile->size < 1024 ? 1 : floor( $trFile->size / 1024 );
             $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
-            '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
+            '$en->name', '$trFile->hash', $trSize, '$trFile->maintainer',
             '$trFile->completion', '$trFile->syncStatus', 0, 0);\n";
         }
         else
         {
+            $trSize = $trFile->size < 1024 ? 1 : floor( $trFile->size / 1024 );
+
             $additions = $deletions = -1;
             if ( $en->hash == $trFile->hash ){
                 $trFile->syncStatus = FileStatusEnum::TranslatedOk;
@@ -547,7 +550,7 @@ foreach( $enFiles as $key => $en )
                     $trFile->syncStatus = FileStatusEnum::TranslatedOk;
             }
             $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
-            '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
+            '$en->name', '$trFile->hash', $trSize, '$trFile->maintainer',
             '$trFile->completion', '$trFile->syncStatus', $additions, $deletions);\n";
         }
     }
