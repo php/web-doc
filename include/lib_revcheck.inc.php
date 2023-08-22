@@ -252,7 +252,9 @@ function showdiff ()
         chdir( GIT_DIR . 'en' );
         $arg_h = escapeshellarg($h);
         $arg_f = escapeshellarg($gitfile);
-        $file = `git diff {$arg_h} -- {$arg_f}`;
+        $file = `git diff --ignore-space-at-eol {$arg_h} -- {$arg_f}`;
+        if ($file == null)
+            $file = `git diff {$arg_h} -- {$arg_f}`;
         $hash = `git log -n 1 --pretty=format:%H -- {$arg_f}`;
         chdir( $cwd );
         if (!$file) return;
