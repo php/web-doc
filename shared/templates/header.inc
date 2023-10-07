@@ -14,7 +14,7 @@
 <!--[if lt IE 9]>
   <script src="//shared.php.net/js/html5shiv.js"></script>
 <![endif]-->
-  </head>
+</head>
 <body id="doc">
 
 <div class="wrap">

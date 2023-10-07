@@ -77,6 +77,8 @@ CREATE TABLE translated (
   maintainer TEXT,
   status TEXT,
   syncStatus TEXT,
+  additions INT,
+  deletions INT,
   UNIQUE(lang, id, name)
 );
 
@@ -359,13 +361,19 @@ function populateFileTreeRecurse( $lang , $path , & $output )
                 'chmonly',
             ];
 
+            $ignoredFullPaths = [
+                'appendices/reserved.constants.xml',
+                'appendices/extensions.xml',
+                'reference/datetime/timezones.xml',
+            ];
+
             if(
                 in_array($trimPath, $ignoredDirectories, true)
                 || in_array($filename, $ignoredFileNames, true)
                 || (strpos($filename, 'entities.') === 0)
                 || !in_array(substr($filename, -3), ['xml','ent'], true)
                 || (substr($filename, -13) === 'PHPEditBackup')
-                || ($trimPath === 'appendices' && (in_array($filename, ['reserved.constants.xml', 'extensions.xml'], true)))
+                || (in_array($trimPath . '/' .$filename, $ignoredFullPaths, true))
             ) continue;
 
             $file = new FileStatusInfo;
@@ -430,30 +438,35 @@ function captureGitValues( & $output )
     chdir( $DOCS . 'en' );
     $fp = popen( "git --no-pager log --name-only" , "r" );
     $hash = null;
-    $date = null;
-    $utct = new DateTimeZone( "UTC" );
+    $skipThisCommit = false;
+
     while ( ( $line = fgets( $fp ) ) !== false )
     {
         if ( substr( $line , 0 , 7 ) == "commit " )
         {
             $hash = trim( substr( $line , 7 ) );
+            $skipThisCommit = false;
             continue;
         }
         if ( strpos( $line , 'Date:' ) === 0 )
-        {
-            $date = trim( substr( $line , 5 ) );
             continue;
-        }
         if ( trim( $line ) == "" )
             continue;
         if ( substr( $line , 0 , 4 ) == '    ' )
-            continue;
+        {
+            if ( stristr( $line, '[skip-revcheck]' ) !== false )
+            {
+                 $skipThisCommit = true;
+             }
+           continue;
+        }
         if ( strpos( $line , ': ' ) > 0 )
             continue;
         $filename = trim( $line );
         if ( isset( $output[$filename] ) )
             continue;
         $output[$filename]['hash'] = $hash;
+        $output[$filename]['skip'] = $skipThisCommit;
     }
     pclose( $fp );
     chdir( $cwd );
@@ -484,6 +497,7 @@ foreach( $enFiles as $key => $en )
     if ( isset( $gitData[ $filename ] ) )
     {
         $en->hash = $gitData[ $filename ]['hash'];
+        $en->skip = $gitData[ $filename ]['skip'];
     }
     else
         print "Warn: No hash for en/$filename\n";
@@ -497,18 +511,44 @@ foreach( $enFiles as $key => $en )
         {
             $SQL_BUFF .= "INSERT INTO Untranslated VALUES ($id, '$lang',
             '$en->name', $size);\n";
-        } else {
+        }
+        else if ($trFile->syncStatus == FileStatusEnum::RevTagProblem)
+        {
+            $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
+            '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
+            '$trFile->completion', '$trFile->syncStatus', 0, 0);\n";
+        }
+        else
+        {
+            $additions = $deletions = -1;
             if ( $en->hash == $trFile->hash ){
                 $trFile->syncStatus = FileStatusEnum::TranslatedOk;
-            } elseif ( strlen( $trFile->hash ) == 40 ) {
+            } elseif ( $trFile->hash != null and strlen( $trFile->hash ) == 40 ) {
                 $trFile->syncStatus = FileStatusEnum::TranslatedOld;
+
+                $cwd = getcwd();
+                chdir( $DOCS . 'en' );
+                $subject = `git diff --numstat $trFile->hash -- {$filename}`;
+                chdir( $cwd );
+                if ( $subject ) {
+                   preg_match('/(\d+)\s+(\d+)/', $subject, $matches);
+                   if ($matches)
+                       [, $additions, $deletions] = $matches;
+                }
             }
             if ( $trFile->completion != null && $trFile->completion != "ready" )
                 $trFile->syncStatus = FileStatusEnum::TranslatedWip;
+            if ( $en->skip ) {
+                $cwd = getcwd();
+                chdir( $DOCS . 'en' );
+                $hashes = explode ( "\n" , `git log -2 --format=%H -- {$filename}` );
+                chdir( $cwd );
+                if ( $hashes[1] == $trFile->hash )
+                    $trFile->syncStatus = FileStatusEnum::TranslatedOk;
+            }
             $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
             '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
-            '$trFile->completion', '$trFile->syncStatus');\n";
-
+            '$trFile->completion', '$trFile->syncStatus', $additions, $deletions);\n";
         }
     }
 }

@@ -65,7 +65,7 @@ switch($tool) {
     }
 
     echo <<<TRANSLATORS_HEAD
-<table border="0" cellpadding="4" cellspacing="1">
+<table class="c">
 <tr>
 <th rowspan="2">Name</th>
 <th rowspan="2">Nick</th>
@@ -102,26 +102,50 @@ TRANSLATORS_HEAD;
          echo '<p>All files translated? Would be nice... but it\'s probably an error :(</p>';
      } else {
          $num = count($missfiles);
-         echo '<table border="0" cellpadding="3" cellspacing="1" style="text-align:center">';
-         echo '<tr><th rowspan="1">Available for translation ('.$num.' files):</th><th>Commit Hash</th><th colspan="1">kB</th></tr>';
+         $last_dir = false;
+         $first_dir = false;
+         echo '<p>Choose a directory:</p>';
+         echo '<form method="get" action="revcheck.php"><p><select name="dir">';
+         foreach ($missfiles as $miss) {
+             if (isset($_GET['dir']) && $_GET['dir'] == $miss['dir']) {
+                 $selected = ' selected="selected"';
+             } else {
+                 $selected = '';
+             }
+             if (!$last_dir || $last_dir != $miss['dir']) {
+                 echo '<option value="'.$miss['dir'].'"'.$selected.'>'.$miss['dir'].'</option>';
+                 $last_dir = $miss['dir'];
+                 if (!$first_dir) $first_dir = $last_dir;
+             }
+         }
+         echo '</select>';
+         echo '<input type="hidden" name="p" value="missfiles">';
+         echo '<input type="hidden" name="lang" value="'.$lang.'">';
+         echo '<input type="submit" value="See untranslated files"></p></form>';
+
+         echo '<table class="c">';
+         echo '<tr><th rowspan="1">Available for translation</th><th>Commit Hash</th><th colspan="1">kB</th></tr>';
 
          $last_dir = false;
          $total_size = 0;
+         $dir = isset($_GET['dir']) ? $_GET['dir'] : $first_dir;
          foreach ($missfiles as $miss) {
-         if (!$last_dir || $last_dir != $miss['dir']) {
-         echo '<tr><th colspan="3">'.$miss['dir'].'</th></tr>';
-         $last_dir = $miss['dir'];
+             if ($dir == $miss['dir']) {
+                 if (!$last_dir || $last_dir != $miss['dir']) {
+                     echo '<tr><th colspan="3">'.$miss['dir'].'</th></tr>';
+                     $last_dir = $miss['dir'];
+                 }
+                 $key = $miss['dir'] == '' ? "/" : $miss['dir']."/". $miss['file'];
+                 echo "<tr><td><a href='https://github.com/php/doc-en/blob/{$miss['revision']}/$key'>{$miss['file']}</a></td><td>{$miss['revision']}</td><td>{$miss['size']}</td></tr>";
+                 $total_size += $miss['size'];
+                 // flush every 200 kbytes
+                 if (($total_size % 200) == 0)
+                     flush();
+             }
+         }
+         echo "<tr><th colspan='3'>Total Size: $total_size kB</th></tr>";
+         echo '</table>';
      }
-     $key = $miss['dir'] == '' ? "/" : $miss['dir']."/". $miss['file'];
-     echo "<tr><td><a href='https://github.com/php/doc-en/blob/{$miss['revision']}/$key'>{$miss['file']}</a></td><td>{$miss['revision']}</td><td>{$miss['size']}</td></tr>";
-     $total_size += $miss['size'];
-     // flush every 200 kbytes
-     if (($total_size % 200) == 0)
-         flush();
-     }
-     echo "<tr><th colspan='3'>Total Size ($num files): $total_size kB</th></tr>";
-     echo '</table>';
- }
  echo gen_date($DBLANG);
  break;
 
@@ -131,7 +155,7 @@ TRANSLATORS_HEAD;
          echo '<p>Good, it seems that this translation doesn\'t contain any file which is not present in English tree.</p>';
      } else {
          $num = count($oldfiles);
-         echo '<table width="400" border="0" cellpadding="3" cellspacing="1" style="text-align:center">';
+         echo '<table class="c">';
          echo '<tr><th rowspan="1">Not in EN tree ('.$num.' files):</th><th colspan="1">kB</th></tr>';
 
          $last_dir = false;
@@ -141,7 +165,7 @@ TRANSLATORS_HEAD;
          echo '<tr><th colspan="2">'.$old['dir'].'</th></tr>';
          $last_dir = $old['dir'];
      }
-     echo '<tr><td>', $old['file'], '</td><td class="r">'.$old['size'].'</td></tr>';
+     echo '<tr><td>', $old['file'], '</td><td>'.$old['size'].'</td></tr>';
      $total_size += $old['size'];
      // flush every 200 kbytes
      if (($total_size % 200) == 0)
@@ -160,7 +184,7 @@ TRANSLATORS_HEAD;
          echo '<p>Good, all files contain revision numbers.</p>';
      } else {
          $num = count($misstags);
-         echo '<table border="0" cellpadding="3" cellspacing="1" style="text-align:center">';
+         echo '<table class="c">';
          echo '<tr><th rowspan="2">Files without EN-Revision number ('.$num.' files):</th><th colspan="3">Sizes in kB</th></tr>';
          echo '<tr><th>en</th><th>'.$lang.'</th><th>diff</th></tr>';
 
@@ -186,11 +210,12 @@ TRANSLATORS_HEAD;
      $files_wip      = get_stats($dbhandle, $lang, 'wip');
      $files_notinen  = get_stats($dbhandle, $lang, 'notinen');
 
+     $files_outdated[1] = $files_outdated[1] > 0 ? $files_outdated[1] : 0;
      $files_norev[1] = $files_norev[1] > 0 ? $files_norev[1] : 0;
      $files_wip[1] = $files_wip[1] > 0 ? $files_wip[1] : 0;
      $files_notinen[1] = $files_notinen[1] > 0 ? $files_notinen[1] : 0;
 
-     echo '<table border="0" cellpadding="4" cellspacing="1" style="text-align:center;">';
+     echo '<table class="c">';
      echo '<tr><th>File status type</th><th>Number of files</th><th>Percent of files</th><th>Size of files (kB)</th><th>Percent of size</th></tr>';
 
      $percent[0] = 0;
@@ -323,9 +348,10 @@ HTML;
          echo '<p>Good, it seems that all files are up to date for these conditions.</p>';
      } else {
         echo <<<END_OF_MULTILINE
-<table border="0" cellpadding="4" cellspacing="1" style="text-align:center">
+<table>
 <tr>
 <th rowspan="2">Translated file</th>
+<th rowspan="2">Changes</th>
 <th colspan="2">Revision</th>
 <th rowspan="2">Maintainer</th>
 <th rowspan="2">Status</th>
@@ -334,14 +360,14 @@ HTML;
 <th>en</th>
 <th>$lang</th>
 </tr>
-<tr><th colspan="5">{$outdated[0]['name']}</th></tr>
+<tr><th colspan="6">{$outdated[0]['name']}</th></tr>
 END_OF_MULTILINE;
         $last_dir = false;
         $prev_name = $outdated[0]['name'];
 
         foreach ($outdated as $r) {
             if ($r['name'] != $prev_name) {
-            echo '<tr><th colspan="5">'.$r['name'].'</th></tr>';
+            echo '<tr><th colspan="6">'.$r['name'].'</th></tr>';
             $prev_name = $r['name'];
         }
 
@@ -356,25 +382,34 @@ END_OF_MULTILINE;
             $key = $r['file'];
         //plaintext -color
         $d1 = "?p=plain&amp;lang={$lang}&amp;hbp={$r['trans_rev']}&amp;f=$key&amp;c=on";
-        // GitHub web diff -- May not work with very old commits
-        //$kh = hash( 'sha256' , $key );
-        //"https://github.com/php/doc-en/compare/{$r['trans_rev']}..{$r['en_rev']}#diff-{$kh}";
         //plaintext
         $d2 = "?p=plain&amp;lang={$lang}&amp;hbp={$r['trans_rev']}&amp;f=$key&amp;c=off";
 
-        $h1 = "<a href='https://github.com/php/doc-en/blob/{$r['en_rev']}/$key'>{$r['en_rev']}</a>";
+        $h1 = '<button class="btn copy" data-clipboard-text="';
+        $h1 .= $r['en_rev'] . '">Copy</button> ';
+        $h1 .= "<a href='https://github.com/php/doc-en/blob/{$r['en_rev']}/$key'>{$r['en_rev']}</a>";
 
         $h2 = "<a href='https://github.com/php/doc-en/blob/{$r['trans_rev']}/$key'>{$r['trans_rev']}</a>";
 
         $nm = "<a href='$d2'>{$r['file']}</a> <a href='$d1'>[diff]</a>";
 
+        if ($r['additions'] < 0)
+            $ch = "<span style='color: firebrick;'>no data</span>";
+        else
+            $ch = "<span style='color: darkgreen;'>+{$r['additions']}</span> <span style='color: firebrick;'>-{$r['deletions']}</span>";
+
         // Write out the line for the current file (get file name shorter)
-        echo '<tr>'.
-        "<td style='white-space:nowrap'>{$nm}</td>".
-        "<td>{$h1}</td>" .
-        "<td>{$h2}</td>" .
-        "<td> {$r['maintainer']}</td>" .
-        "<td> {$r['status']}</td></tr>\n";
+
+        echo <<<END_OF_MULTILINE
+<tr>
+<td class='n'>{$nm}</td>
+<td class='c'>{$ch}</td>
+<td class='n o6'>{$h1}</td>
+<td class='n o3'>{$h2}</td>
+<td class='c'>{$r['maintainer']}</td>
+<td class='c'>{$r['status']}</td>
+</tr>
+END_OF_MULTILINE;
      }
      echo '</table>';
  }

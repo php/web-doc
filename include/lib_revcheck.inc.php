@@ -48,7 +48,7 @@ function get_dirs($idx, $lang) {
 // return an array with the outdated files; can be optionally filtered by user or dir
 function get_outdated_files($idx, $lang, $filter = null, $value = null)
 {
-    $sql = "SELECT a.status, a.name AS file, a.maintainer, c.revision AS en_rev, a.revision AS trans_rev, b.path AS dir
+    $sql = "SELECT a.status, a.name AS file, a.maintainer, a.additions, a.deletions, c.revision AS en_rev, a.revision AS trans_rev, b.path AS dir
     FROM translated a, dirs b, enfiles c
     WHERE a.lang = '$lang'
       AND c.name = a.name AND b.id = a.id AND b.id = c.id
@@ -73,7 +73,9 @@ function get_outdated_files($idx, $lang, $filter = null, $value = null)
         'trans_rev' => $r['trans_rev'],
         'status' => $r['status'],
         'maintainer' => $r['maintainer'],
-        'name' => $r['dir']);
+        'name' => $r['dir'],
+        'additions' => $r['additions'],
+        'deletions' => $r['deletions']);
     }
 
     return $tmp;
@@ -250,29 +252,89 @@ function showdiff ()
         chdir( GIT_DIR . 'en' );
         $arg_h = escapeshellarg($h);
         $arg_f = escapeshellarg($gitfile);
-        $file = `git diff {$arg_h} -- {$arg_f}`;
+        $file = `git diff --ignore-space-at-eol {$arg_h} -- {$arg_f}`;
+        if ($file == null)
+            $file = `git diff {$arg_h} -- {$arg_f}`;
+        $hash = `git log -n 1 --pretty=format:%H -- {$arg_f}`;
         chdir( $cwd );
+        if (!$file) return;
         $raw = htmlspecialchars( $file, ENT_XML1, 'UTF-8' );
-        if ( $c == 'on' ) {
-            $trans = [ " " => "&nbsp;" ];
-            $lines = explode ( "\n" , $raw );
-            foreach ( $lines as $line ) {
-                $inline = strtr( $line , $trans );
-                $fc = substr( $inline , 0 , 1 );
-                if ( $fc == "+" ) {
-                    echo "<div style='color:green;font-family:mono'>";
-                } elseif ( $fc == "-" ) {
-                    echo "<div style='color:red;font-family:mono'>";
-                } elseif ( $fc == "@" ) {
-                    echo "<div style='color:blue;font-family:mono'>";
-                } else
-                     echo "<div style='color:gray;font-family:mono'>";
-                echo "$inline</div>\n";
+        $lines = explode ( "\n" , $raw );
+        echo "<div style='font: .75rem monospace; overflow-wrap:break-word; line-height: 1.8; border: 1px solid #ccc; border-radius: 4px;'>";
+
+        $codeStyles = 'flex-grow: 1; min-width: 0; white-space: pre-wrap; padding: 0 4px;';
+        $lineNumberStyles = 'flex: 0 0 40px; text-align: right; user-select: none; padding: 0 4px;';
+
+        // Base gray palette
+        $addBg = 'background-color: #f0f0f0;';
+        $addAccentBg = 'background-color: #d8d8d8;';
+        $delBg = $addBg;
+        $delAccentBg = $addAccentBg;
+        $tagBg = $addBg;
+        $tagAccentBg = $addAccentBg;
+
+        // Override palette for colored diff
+        if ($c == 'on') {
+            $addBg = 'background-color: #e6ffec;';
+            $addAccentBg = 'background-color: #ccffd8;';
+            $delBg = 'background-color: #ffebe9;';
+            $delAccentBg = 'background-color: #ffd7d5;';
+            $tagBg = 'background-color: #eff0f6;';
+            $tagAccentBg = 'background-color: #d4d8e7;';
+        }
+
+        echo "<div style='padding: 12px;'>$gitfile<br/>$hash</div>";
+
+        // Count how many lines to skip diff header
+        $diffStartLine = substr_count($raw, "\n", 0, strpos($raw, " @@"));
+
+        foreach (array_slice($lines, $diffStartLine) as $line) {
+            $fc = substr($line, 0, 1);
+
+            $code = substr($line, 1);
+            if ($code === '') {
+                $code = "<br>";
             }
-            echo "<p></p>";
-        } else
-            echo "<pre style='font-family:mono'>" , $raw , "</pre>";
-    }
+
+            echo "<div style='display: flex;'>";
+
+            if ($fc == "+") {
+                echo "<div style='$lineNumberStyles $addAccentBg'></div>";
+                echo "<div style='$lineNumberStyles $addAccentBg'>$newLineNumber</div>";
+                echo "<div style='$addAccentBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
+                echo "<div style='$codeStyles $addBg'>" .  $code . "</div>\n";
+
+                $newLineNumber++;
+            } else if ($fc == "-") {
+                echo "<div style='$lineNumberStyles $delAccentBg'>$oldLineNumber</div>";
+                echo "<div style='$lineNumberStyles $delAccentBg'></div>";
+                echo "<div style='$delAccentBg flex: 0 0 20px; text-align: center; user-select: none;'>$fc</div>";
+                echo "<div style='$codeStyles $delBg'>" .  $code . "</div>\n";
+
+                $oldLineNumber++;
+            } else if ($fc == "@") {
+                preg_match('/-(\d+),\d+ \+(\d+)/', $line, $matches);
+                $oldLineNumber = $matches[1];
+                $newLineNumber = $matches[2];
+
+                echo "<div style='$lineNumberStyles $tagAccentBg color: #57606a; padding-top: 8px; padding-bottom: 8px;'>...</div>";
+                echo "<div style='$lineNumberStyles $tagAccentBg color: #57606a; padding-top: 8px; padding-bottom: 8px;'>...</div>";
+                echo "<div style='flex: 0 0 20px; text-align: center; $tagAccentBg'> </div>";
+                echo "<div style='$codeStyles $tagBg color: #57606a; padding: 8px;'>$line</div>\n";
+            } else {
+                echo "<div style='$lineNumberStyles color: gray;'>$oldLineNumber</div>";
+                echo "<div style='$lineNumberStyles color: gray;'>$newLineNumber</div>";
+                echo "<div style='flex: 0 0 20px; text-align: center; user-select: none;'></div>";
+                echo "<div style='$codeStyles color: gray;'>" .  $code . "</div>\n";
+
+                $oldLineNumber++;
+                $newLineNumber++;
+            }
+
+            echo '</div>';
+       }
+       echo "</div><p></p>";
+   }
 }
 
 function gen_date($file)
