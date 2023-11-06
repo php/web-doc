@@ -2,7 +2,7 @@
 # Please read README.md in the same directory to get more info about filling in this file
 
 PHP=@PHP@
-GIT_DIR=@GITDIR@
+GITDIR=@GITDIR@
 DOCWEB=@DOCWEB@
 PHDDIR=@PHDDIR@
 SCRIPTSDIR=@SCRIPTSDIR@

@@ -24,8 +24,8 @@ Requirements:
 - `@SQLITEDIR@` - absolute path to `/sqlite/` directory
 - `@SRCDIR@` - path to the directory with PHP source code in GIT repo
 4. You need to run the scripts/populatedocs.sh to fetch all the required documentation for the site.
-6. You need to run the scripts/generation.sh to generate the database and graphs (Time of generation: 2.5009639263153 s)
-7. Configure the virtual host under Apache. Current suggested settings are:
+5. You need to run the scripts/generation.sh to generate the database and graphs (Time of generation: 2.5009639263153 s)
+6. Configure the virtual host under Apache. Current suggested settings are:
 ```
 <VirtualHost 127.0.0.1:80>
  ServerName doc.php.net

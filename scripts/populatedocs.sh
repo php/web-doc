@@ -24,14 +24,14 @@ pushd .
 cd `dirname $0`/..
 source ./build-ops
 
-if [ ! -d ${GIT_DIR} ]
+if [ ! -d ${GITDIR} ]
 then
-  echo "Making GIT directory: ${GIT_DIR}"
-  /bin/mkdir ${GIT_DIR}
+  echo "Making GIT directory: ${GITDIR}"
+  /bin/mkdir ${GITDIR}
 fi
 
-echo "Changing to GIT directory: ${GIT_DIR}"
-cd ${GIT_DIR}
+echo "Changing to GIT directory: ${GITDIR}"
+cd ${GITDIR}
 
 echo "Checking out PHP docs..."
 if [ -d en ]
