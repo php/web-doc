@@ -472,6 +472,11 @@ function captureGitValues( & $output )
     chdir( $cwd );
 }
 
+function transformSize(int $size): int 
+{
+    return $size < 1024 ? 1 : floor( $size / 1024 );
+}
+
 /**
 *   Script execution
 **/
@@ -491,7 +496,7 @@ foreach( $enFiles as $key => $en )
         $SQL_BUFF .= "INSERT INTO dirs VALUES ($id, '$path2');\n";
     }
 
-    $size = $en->size < 1024 ? 1 : floor( $en->size / 1024 );
+    $size = transformSize($en->size);
     $filename = $path . ($path == '' ? '' : '/') . $en->name;
     $en->hash = null;
     if ( isset( $gitData[ $filename ] ) )
@@ -515,7 +520,7 @@ foreach( $enFiles as $key => $en )
         else if ($trFile->syncStatus == FileStatusEnum::RevTagProblem)
         {
             $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
-            '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
+            '$en->name', '$trFile->hash', transformSize($trFile->size), '$trFile->maintainer',
             '$trFile->completion', '$trFile->syncStatus', 0, 0);\n";
         }
         else
@@ -547,7 +552,7 @@ foreach( $enFiles as $key => $en )
                     $trFile->syncStatus = FileStatusEnum::TranslatedOk;
             }
             $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
-            '$en->name', '$trFile->hash', $size, '$trFile->maintainer',
+            '$en->name', '$trFile->hash', transformSize($trFile->size), '$trFile->maintainer',
             '$trFile->completion', '$trFile->syncStatus', $additions, $deletions);\n";
         }
     }
