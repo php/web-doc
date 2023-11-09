@@ -11,6 +11,7 @@ The following is one route, and it assumes:
 If you're interested in simply setting up a local PHP mirror (and NOT build the documentation) then
 please follow the php.net [mirroring guidelines](http://php.net/mirroring) and ignore this document.
 
+<a id="checkout-docs-from-git"></a>
 ## Checkout the php documentation from Git
 **Assumptions**: A working directory `phpdoc` is created and will contain the necessary cloned repositories. This tutorial will reference the directories that repositories are cloned into. Adjust as needed, including paths, especially if you are on Windows. This tutorial will clone at least three repositories:
  * doc-en (into the `en` directory)
