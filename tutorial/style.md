@@ -38,7 +38,9 @@ Example: `<entry>5.2.11, 5.3.1</entry>`
 ## General Grammar
 The PHP Manual should be written with particular attention to general English grammar. Contractions should be used
 appropriately. Special attention should be applied to sentence construction when using prepositions (i.e., sentences
-should not end in prepositions).
+should not end in prepositions). If a statement includes a conditional conjunction, the condition being met should come 
+before the independent clause. The previous statement is an example of how a conditional conjuction should be formatted.
+See [PR#1565](https://github.com/php/doc-en/pull/1565) for another example.
 
 ## PHP Manual Terms
 Various non-english, technical terms are used throughout the PHP Manual, without clear indication of their appropriate
