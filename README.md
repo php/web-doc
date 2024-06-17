@@ -17,7 +17,6 @@ Requirements:
 - `@SQLITEDIR@` - absolute path to `/sqlite/` directory
 - `build-ops.sample` (rename it to `build-ops` [no ext])
 - `@PHP@` - path to the PHP executable file
-- `@GITDIR@` - absolute path to dir where scripts will clone GIT repos to and then use them and then use it for generating data
 - `@DOCWEB@` - absolute path to `/www/` directory
 - `@PHDDIR@` - absolute path to directory with PhD installed from Git master
 - `@SCRIPTSDIR@`- absolute path to `/scripts/` directory
