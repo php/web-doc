@@ -10,7 +10,7 @@ site_header();
   This site has instructions and tools for building, translating, and
   maintaining the 
   <a href="https://www.php.net/docs.php">PHP Documentation</a>, which
-  is currently availabe in nine languages plus the original English.
+  is currently available in multiple languages plus the original English.
 </p>
 
 <h2>Join Us!</h2>
