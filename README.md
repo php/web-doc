@@ -1,7 +1,25 @@
 # doc.php.net
-This repository contains files of doc.php.net, site created to help documentation contributors doing their job by
-providing them useful tools, statistics etc. Site has been partly rewritten in March 2014. If you have suggestions,
-please contact us on `php.doc.web` mailing list or contribute by i.e. sending pull request to this repo.
+
+This repository contains files of doc.php.net, the site for documentation
+contributors to find useful guides, tools, statistics etc.
+
+## Running a local version
+
+This can be run using PHP's [built-in web server][webserver]
+for local development. For the guide pages to work, you also
+need a local clone of the `doc-base` repository.
+
+```sh
+$ git clone https://github.com/php/web-doc.git
+$ git clone https://github.com/php/doc-base.git
+$ cd web-doc
+$ BASE_DOCS_PATH="${PWD}/../doc-base/docs" php -S localhost:8080 router.php
+```
+
+The instructions below here are older and you may need to adapt them to
+run the tools for showing translation information.
+
+---
 
 ## Installation
 Requirements:
