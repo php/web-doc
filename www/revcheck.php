@@ -24,6 +24,13 @@ if ($lang == 'en') {
     $tool = 'default';
 }
 
+if (!defined('SQLITE_DIR')) {
+    site_header();
+    echo "<p>Unable to find SQLite database with revisions.</p>";
+    site_footer();
+    die;
+}
+
 $DBLANG = SQLITE_DIR . 'rev.php.sqlite';
 
 // Check if db connection can be established and if revcheck for requested lang exists

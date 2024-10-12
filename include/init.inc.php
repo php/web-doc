@@ -21,7 +21,10 @@
 */
 
 // get paths
-require_once(dirname(realpath(__FILE__)) . '/../build-ops.php');
+$build_ops = dirname(realpath(__FILE__)) . '/../build-ops.php';
+if (file_exists($build_ops)) {
+    require_once($build_ops);
+}
 
 // Cache is considered stale after (seconds):
 define('CACHE_BUGS_COUNT', 300); // 300 = 5mins
