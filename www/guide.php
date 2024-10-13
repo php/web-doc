@@ -9,7 +9,6 @@ $chapter = ($_GET['chapter'] ?? $_SERVER['PATH_INFO']) ?: 'README';
 $chapter = preg_replace('/\.md$/', '', $chapter);
 $chapter = preg_replace("/[^a-z0-9-]/i", "", $chapter);
 $path = $BASE_DOCS_PATH . '/' . $chapter . '.md';
-error_log("looking for $path");
 
 if (file_exists($path)) {
     $content = file_get_contents($path);
@@ -17,7 +16,7 @@ if (file_exists($path)) {
 else {
     header('HTTP/1.1 404 Not Found');
     $_SERVER["REDIRECT_STATUS"] = '404';
-    $uri = '/tutorial/'.$chapter;
+    $uri = '/guide/'.$chapter;
     require 'error.php';
     die;
 }
