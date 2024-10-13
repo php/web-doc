@@ -430,7 +430,7 @@ END_OF_MULTILINE;
 
  case 'graph':
      $path = "images/revcheck/info_revcheck_php_$lang.png";
-     if (is_readable($path)) {
+     if (is_readable(__DIR__ . "/" . $path)) {
          echo '<img src="'.$path.'" alt="info">';
          echo gen_date($DBLANG);
      } else {
