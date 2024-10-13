@@ -60,7 +60,12 @@ END_OF_MULTILINE;
 function site_footer($SECONDSCREEN = false)
 {
     echo '</section>';
-   echo <<<END_OF_MULTILINE
+    if ($SECONDSCREEN) {
+        echo '<section class="secondscreen">',
+            $SECONDSCREEN,
+            '</section>';
+    }
+    echo <<<END_OF_MULTILINE
 <script src="//cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
 <script>
   var clipboard = new ClipboardJS('.btn');
