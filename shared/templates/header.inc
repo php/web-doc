@@ -26,7 +26,7 @@
       <a href="/" class="home"><img src="//www.php.net/images/logos/php-logo.svg" width="48" height="24" alt="php"><span class="subdomain">doc</span></a>
       <ul>
         <li><a href="/guide/">How to Contribute</a></li>
-        <li><a href="/revcheck.php">Documentation Tools</a></li>
+        <li><a href="/revcheck.php">Translation Status</a></li>
         <li><a href="/phd.php">PhD Homepage</a></li>
       </ul>
     </div>

@@ -34,8 +34,8 @@ function site_header()
     $SUBDOMAIN = 'doc';
     $CSS = array('/styles/doc.css');
     $LINKS = array(
-        array('href' => '/revcheck.php', 'text' => 'Documentation Tools'),
-        array('href' => '/tutorial/', 'text' => 'Tutorial for Contributors'),
+        array('href' => '/guide/', 'text' => 'How to Contribute'),
+        array('href' => '/revcheck.php', 'text' => 'Translation Status'),
         array('href' => '/phd.php', 'text' => 'PhD Homepage'),
     );
 
