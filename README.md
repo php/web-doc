@@ -13,6 +13,7 @@ need a local clone of the `doc-base` repository.
 $ git clone https://github.com/php/web-doc.git
 $ git clone https://github.com/php/doc-base.git
 $ cd web-doc
+$ git clone https://github.com/php/web-shared.git shared
 $ BASE_DOCS_PATH="${PWD}/../doc-base/docs" php -S localhost:8080 router.php
 ```
 
