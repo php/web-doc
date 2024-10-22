@@ -33,7 +33,7 @@ if (file_exists($build_ops)) {
     define('GIT_DIR', $GIT_DIR);
 
     $SQLITE_DIR = getenv('SQLITE_DIR');
-    if ($SQLITE == '') {
+    if ($SQLITE_DIR == '') {
         die("Don't know where to place SQLite database, set `SQLITE_DIR` enviromment variable!");
     }
     $SQLITE_DIR .= (substr($SQLITE_DIR, -1) == '/' ? '' : '/');
