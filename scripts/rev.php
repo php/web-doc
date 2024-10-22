@@ -34,7 +34,8 @@ $time_start = microtime(true);
 
 function mark_time($time_start, $message)
 {
-    static $last = $time_start;
+    static $last = null;
+    if (!$last) $last = $time_start;
     $now = microtime(true);
     $time = $now - $time_start;
     $since_last = $now - $last;
