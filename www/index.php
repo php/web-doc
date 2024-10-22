@@ -1,5 +1,20 @@
 <?php
-include_once '../include/init.inc.php';
+include_once __DIR__ . '/../include/init.inc.php';
+
+$requestUri = $_SERVER['REQUEST_URI'];
+$matches = [];
+
+if (preg_match('#^/guide(/.*)?$#i', $requestUri, $matches)) {
+    if ($matches[1] == '') {
+        header("301 Moved Permanently");
+        header("Location: /guide/");
+        exit;
+    }
+    // Strip the leading / for guide.php
+    $_GET['chapter'] = substr($matches[1],1);
+    include 'guide.php';
+    exit;
+}
 
 site_header();
 ?>

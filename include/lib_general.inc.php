@@ -34,8 +34,8 @@ function site_header()
     $SUBDOMAIN = 'doc';
     $CSS = array('/styles/doc.css');
     $LINKS = array(
-        array('href' => '/revcheck.php', 'text' => 'Documentation Tools'),
-        array('href' => '/tutorial/', 'text' => 'Tutorial for Contributors'),
+        array('href' => '/guide/', 'text' => 'How to Contribute'),
+        array('href' => '/revcheck.php', 'text' => 'Translation Status'),
         array('href' => '/phd.php', 'text' => 'PhD Homepage'),
     );
 
@@ -60,7 +60,7 @@ END_OF_MULTILINE;
 function site_footer($SECONDSCREEN = false)
 {
     echo '</section>';
-   echo <<<END_OF_MULTILINE
+    echo <<<END_OF_MULTILINE
 <script src="//cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
 <script>
   var clipboard = new ClipboardJS('.btn');

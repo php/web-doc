@@ -1,5 +1,6 @@
 <?php
-include '../include/init.inc.php';
+
+require_once __DIR__ . '/../include/init.inc.php';
 
 site_header();
 

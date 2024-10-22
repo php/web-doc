@@ -1,8 +1,8 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
 
-include '../include/init.inc.php';
-include '../include/lib_revcheck.inc.php';
+require_once __DIR__ . '/../include/init.inc.php';
+require_once __DIR__ . '/../include/lib_revcheck.inc.php';
 
 if (isset($_GET['lang']) && in_array($_GET['lang'], array_keys($LANGUAGES))) {
     $lang = $_GET['lang'];
@@ -22,6 +22,13 @@ if (isset($_GET['p'])) {
 // Prevent viewing other tools in EN
 if ($lang == 'en') {
     $tool = 'default';
+}
+
+if (!defined('SQLITE_DIR')) {
+    site_header();
+    echo "<p>Unable to find SQLite database with revisions.</p>";
+    site_footer();
+    die;
 }
 
 $DBLANG = SQLITE_DIR . 'rev.php.sqlite';
@@ -423,7 +430,7 @@ END_OF_MULTILINE;
 
  case 'graph':
      $path = "images/revcheck/info_revcheck_php_$lang.png";
-     if (is_readable($path)) {
+     if (is_readable(__DIR__ . "/" . $path)) {
          echo '<img src="'.$path.'" alt="info">';
          echo gen_date($DBLANG);
      } else {

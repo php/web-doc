@@ -146,6 +146,7 @@ class FileStatusInfo
     public $name;
     public $size;
     public $hash;
+    public $skip;
     public $syncStatus;
     public $maintainer;
     public $completion;
@@ -359,6 +360,7 @@ function populateFileTreeRecurse( $lang , $path , & $output )
 
             $ignoredDirectories = [
                 'chmonly',
+                'output',
             ];
 
             $ignoredFullPaths = [

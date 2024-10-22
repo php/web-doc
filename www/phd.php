@@ -1,5 +1,6 @@
 <?php
-require '../include/init.inc.php';
+
+require_once __DIR__ . '/../include/init.inc.php';
 
 // Changelog helpers
 function bugfix($number)

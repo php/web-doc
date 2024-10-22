@@ -21,7 +21,24 @@
 */
 
 // get paths
-require_once(dirname(realpath(__FILE__)) . '/../build-ops.php');
+$build_ops = dirname(realpath(__FILE__)) . '/../build-ops.php';
+if (file_exists($build_ops)) {
+    require_once($build_ops);
+} else {
+    $GIT_DIR = getenv('GIT_DIR');
+    if ($GIT_DIR == '') {
+        die("Unable to find Git repositories, set `GIT_DIR` environment variable!");
+    }
+    $GIT_DIR .= (substr($GIT_DIR, -1) == '/' ? '' : '/');
+    define('GIT_DIR', $GIT_DIR);
+
+    $SQLITE_DIR = getenv('SQLITE_DIR');
+    if ($SQLITE == '') {
+        die("Don't know where to place SQLite database, set `SQLITE_DIR` enviromment variable!");
+    }
+    $SQLITE_DIR .= (substr($SQLITE_DIR, -1) == '/' ? '' : '/');
+    define('SQLITE_DIR', $SQLITE_DIR);
+}
 
 // Cache is considered stale after (seconds):
 define('CACHE_BUGS_COUNT', 300); // 300 = 5mins
