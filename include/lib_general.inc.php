@@ -103,7 +103,7 @@ function nav_tools($lang)
     $out .= '<li><a href="revcheck.php?p=misstags&amp;lang='.$lang.'">Missing revision numbers</a></li>';
     $out .= '<li><a href="revcheck.php?p=missfiles&amp;lang='.$lang.'">Untranslated files</a></li>';
     $out .= '<li><a href="revcheck.php?p=oldfiles&amp;lang='.$lang.'">Not in EN tree</a></li>';
-    $out .= '<li><a href="revcheck.php?p=graph&amp;lang='.$lang.'">Graph</a></li>';
-    $out .= '</ul></div></div>';
+    $out .= '</ul>';
+    $out .= '</div></div>';
     return $out;
 }

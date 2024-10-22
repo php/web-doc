@@ -429,18 +429,9 @@ END_OF_MULTILINE;
  break;
 
  case 'graph':
-     $path = "images/revcheck/info_revcheck_php_$lang.png";
-     if (is_readable(__DIR__ . "/" . $path)) {
-         echo '<img src="'.$path.'" alt="info">';
-         echo gen_date($DBLANG);
-     } else {
-         echo "<p>Can't find graph.</p>";
-     }
- break;
-
  default:
      if ($lang == 'en') {
-         echo '<img src="images/revcheck/info_revcheck_php_all_lang.png" alt="Info" class="chart">';
+         echo '<img src="img-status-all.php" width="662" height="262" alt="Info" class="chart">';
          echo '<p>This is all what we can show for original manual. To get more tools, please select translation language.</p>';
          echo gen_date($DBLANG);
          $sidebar = nav_languages();
@@ -450,6 +441,8 @@ END_OF_MULTILINE;
          $intro = $intro_result->fetchArray();
          echo '<h2>Intro for language</h2>';
          echo '<p>'.$intro[0].'</p>';
+         echo '<img src="img-status-lang.php?lang=', $lang, '" width="680" height="300" alt="info">';
+         echo gen_date($DBLANG);
          echo '<p>Links to available tools are placed on the right sidebar.</p>';
      }
  break;
