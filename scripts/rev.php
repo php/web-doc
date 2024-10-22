@@ -167,6 +167,7 @@ class FileStatusInfo
     public $size;
     public $hash;
     public $skip;
+    public $hashes;
     public $syncStatus;
     public $maintainer;
     public $completion;
@@ -548,7 +549,7 @@ foreach( $enFiles as $key => $en )
 
                 $cwd = getcwd();
                 chdir( $DOCS . 'en' );
-                $subject = `git diff --numstat $trFile->hash -- {$filename}`;
+                $subject = `git diff --numstat {$trFile->hash} -- {$filename}`;
                 chdir( $cwd );
                 if ( $subject ) {
                    preg_match('/(\d+)\s+(\d+)/', $subject, $matches);
@@ -559,11 +560,13 @@ foreach( $enFiles as $key => $en )
             if ( $trFile->completion != null && $trFile->completion != "ready" )
                 $trFile->syncStatus = FileStatusEnum::TranslatedWip;
             if ( $en->skip ) {
-                $cwd = getcwd();
-                chdir( $DOCS . 'en' );
-                $hashes = explode ( "\n" , `git log -2 --format=%H -- {$filename}` );
+                if (!$en->hashes) {
+                    $cwd = getcwd();
+                    chdir( $DOCS . 'en' );
+                    $en->hashes = explode ( "\n" , `git log -2 --format=%H -- {$filename}` );
+                }
                 chdir( $cwd );
-                if ( $hashes[1] == $trFile->hash )
+                if ( $en->hashes[1] == $trFile->hash )
                     $trFile->syncStatus = FileStatusEnum::TranslatedOk;
             }
             $SQL_BUFF .= "INSERT INTO translated VALUES ($id, '$lang',
