@@ -25,9 +25,9 @@ $build_ops = dirname(realpath(__FILE__)) . '/../build-ops.php';
 if (file_exists($build_ops)) {
     require_once($build_ops);
 } else {
-    $GIT_DIR = getenv('GIT_DIR');
+    $GIT_DIR = getenv('PHPDOC_GIT_DIR');
     if ($GIT_DIR == '') {
-        die("Unable to find Git repositories, set `GIT_DIR` environment variable!");
+        die("Unable to find Git repositories, set `PHPDOC_GIT_DIR` environment variable!");
     }
     $GIT_DIR .= (substr($GIT_DIR, -1) == '/' ? '' : '/');
     define('GIT_DIR', $GIT_DIR);
