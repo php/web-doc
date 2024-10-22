@@ -249,13 +249,14 @@ function showdiff ()
         if (isset($_GET['c']))
             $c = $_GET['c'];
         $cwd = getcwd();
+        $safedir = 'safe.directory=' . GIT_DIR . 'en';
         chdir( GIT_DIR . 'en' );
         $arg_h = escapeshellarg($h);
         $arg_f = escapeshellarg($gitfile);
-        $file = `git diff --ignore-space-at-eol {$arg_h} -- {$arg_f}`;
+        $file = `git -c {$safedir} diff --ignore-space-at-eol {$arg_h} -- {$arg_f}`;
         if ($file == null)
-            $file = `git diff {$arg_h} -- {$arg_f}`;
-        $hash = `git log -n 1 --pretty=format:%H -- {$arg_f}`;
+            $file = `git -c {$safedir} diff {$arg_h} -- {$arg_f}`;
+        $hash = `git -c {$safedir} log -n 1 --pretty=format:%H -- {$arg_f}`;
         chdir( $cwd );
         if (!$file) return;
         $raw = htmlspecialchars( $file, ENT_XML1, 'UTF-8' );
