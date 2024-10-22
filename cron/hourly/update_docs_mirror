@@ -1,6 +1,0 @@
-#!/bin/sh
-rsync -avzC --timeout=600 --delete --delete-after \
-    --include='distributions/*.exe' \
-    --exclude='manual/**' \
-    --exclude='distributions/manual/**' \
-    rsync.php.net::phpweb /local/Web/sites/docs.php.net
