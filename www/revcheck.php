@@ -192,17 +192,16 @@ TRANSLATORS_HEAD;
      } else {
          $num = count($misstags);
          echo '<table class="c">';
-         echo '<tr><th rowspan="2">Files without EN-Revision number ('.$num.' files):</th><th colspan="3">Sizes in kB</th></tr>';
-         echo '<tr><th>en</th><th>'.$lang.'</th><th>diff</th></tr>';
+         echo '<tr><th>Files without EN-Revision number ('.$num.' files):</th></tr>';
 
          $last_dir = false;
 
          foreach ($misstags as $row) {
              if (!$last_dir || $last_dir != $row['dir']) {
-             echo '<tr><th colspan="4">'.$row['dir'].'</th></tr>';
+             echo '<tr><th>'.$row['dir'].'</th></tr>';
              $last_dir = $row['dir'];
           }
-          echo '<tr><td>'.$row['name'].'</td><td>'.$row['en_size'].'</td><td>'.$row['trans_size'].'</td><td>'.(intval($row['en_size'] - $row['trans_size'])).'</td></tr>';
+          echo '<tr><td>'.$row['name'].'</td></tr>';
      }
      echo '</table>';
  }
