@@ -30,6 +30,19 @@ set_time_limit(0);
 include '../include/init.inc.php';
 include '../include/lib_proj_lang.inc.php';
 
+$time_start = microtime(true);
+
+function mark_time($time_start, $message)
+{
+    static $last = $time_start;
+    $now = microtime(true);
+    $time = $now - $time_start;
+    $since_last = $now - $last;
+    $last = $now;
+
+    echo sprintf("Mark: %s: %.02fs elapsed, %.02f since last\n", $message, $time, $since_last);
+}
+
 $DOCS = GIT_DIR;
 
 // Test the languages:
@@ -135,9 +148,16 @@ SQL;
 $SQL_BUFF = "";
 
 $enFiles = populateFileTree( 'en' );
+
+mark_time($time_start, "Populated 'en' tree");
+
 captureGitValues( $gitData );
+
+mark_time($time_start, "Captured Git hashes");
+
 foreach ($LANGS as $lang){
     $trFiles[$lang] = populateFileTree( $lang );
+    mark_time($time_start, "Populated '{$lang}' tree");
 }
 
 class FileStatusInfo
@@ -478,8 +498,6 @@ function captureGitValues( & $output )
 *   Script execution
 **/
 
-$time_start = microtime(true);
-
 $path = null;
 $id = 0;
 asort( $enFiles );
@@ -555,9 +573,13 @@ foreach( $enFiles as $key => $en )
     }
 }
 
+mark_time($time_start, "Computed 'enfiles', 'translated', and 'Untranslated'");
+
 foreach( $LANGS as $lang ) {
     computeTranslatorStatus( $lang, $enFiles, $trFiles[$lang] );
 }
+
+mark_time($time_start, "Computed translator status");
 
 $db_name = SQLITE_DIR . 'rev.php.sqlite';
 $tmp_db = SQLITE_DIR . 'rev.php.tmp.sqlite';
@@ -600,6 +622,8 @@ $db->exec('BEGIN TRANSACTION');
 $db->exec($SQL_BUFF);
 $db->exec('COMMIT');
 $db->close();
+
+mark_time($time_start, "Populated SQLite database");
 
 echo "Copying temporary database to final database\n";
 
