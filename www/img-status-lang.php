@@ -1,13 +1,12 @@
 <?php
-$time_start = microtime(true);
 
-include '../include/jpgraph/src/jpgraph.php';
-include '../include/jpgraph/src/jpgraph_pie.php';
-include '../include/jpgraph/src/jpgraph_pie3d.php';
+require_once __DIR__ . '/../include/jpgraph/src/jpgraph.php';
+require_once __DIR__ . '/../include/jpgraph/src/jpgraph_pie.php';
+require_once __DIR__ . '/../include/jpgraph/src/jpgraph_pie3d.php';
 
-include '../include/init.inc.php';
-include '../include/lib_revcheck.inc.php';
-include '../include/lib_proj_lang.inc.php';
+require_once __DIR__ . '/../include/init.inc.php';
+require_once __DIR__ . '/../include/lib_revcheck.inc.php';
+require_once __DIR__ . '/../include/lib_proj_lang.inc.php';
 
 $idx = new SQLite3(SQLITE_DIR . 'rev.php.sqlite');
 
@@ -16,15 +15,11 @@ $available_langs = revcheck_available_languages($idx);
 $langs = array_keys($LANGUAGES);
 foreach ($langs as $lang) {
     if (!in_array($lang, $available_langs)) {
-        echo "Documentation for $lang language does not exist.\n";
+        die("Information for $lang language does not exist.");
     } else {
         generate_image($lang, $idx);
-        echo "Generated images/revcheck/info_revcheck_php_$lang.png\n";
     }
 }
-
-$time = round(microtime(true) - $time_start, 3);
-echo "Graphs generated in {$time}s\n";
 
 function generate_image($lang, $idx) {
     global $LANGUAGES;
@@ -90,5 +85,5 @@ function generate_image($lang, $idx) {
     $p1->SetLegends($legend);
 
     $graph->Add($p1);
-    $graph->Stroke("../www/images/revcheck/info_revcheck_php_$lang.png");
+    $graph->Stroke();
 }
