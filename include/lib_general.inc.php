@@ -94,7 +94,9 @@ function nav_tools($lang)
 {
     global $LANGUAGES;
     $out = '<div class="panel">';
-    $out .= '<p class="headline">Tools ('.$LANGUAGES[$lang].' Manual)</p>';
+    $out .= '<p class="headline">';
+    $out .= '<a href="revcheck.php?lang='.$lang.'">Tools ('.$LANGUAGES[$lang].' Manual)</a>';
+    $out .= '</p>';
     $out .= '<div class="body">';
     $out .= '<ul>';
     $out .= '<li><a href="revcheck.php?p=translators&amp;lang='.$lang.'">Translators</a></li>';
