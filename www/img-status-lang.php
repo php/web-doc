@@ -12,13 +12,13 @@ $idx = new SQLite3(SQLITE_DIR . 'rev.php.sqlite');
 
 $available_langs = revcheck_available_languages($idx);
 
+$lang = $_GET['lang'];
 $langs = array_keys($LANGUAGES);
-foreach ($langs as $lang) {
-    if (!in_array($lang, $available_langs)) {
-        die("Information for $lang language does not exist.");
-    } else {
-        generate_image($lang, $idx);
-    }
+
+if (!in_array($lang, $available_langs)) {
+    die("Information for $lang language does not exist.");
+} else {
+    generate_image($lang, $idx);
 }
 
 function generate_image($lang, $idx) {
