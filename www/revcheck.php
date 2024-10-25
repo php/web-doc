@@ -298,14 +298,6 @@ HTML;
      // we need a dir to browse
      $dirs = get_dirs($dbhandle, $lang);
      $users = get_translators($dbhandle, $lang);
-     /*
-     if (empty($dirs)) {
-         echo '<p>Error: no directories found in database.</p>';
-         $sidebar = nav_tools($lang);
-         site_footer($sidebar);
-         die;
-     }
-     */
      echo '<p>This tool allows you to check which files in your translation need updates. To show the list ';
      echo 'choose a directory (it doesn\'t work recursively) or translator.</p>';
      echo '<p>When you click on the filename you will see the plaintext diff showing changes between revisions, so ';
@@ -448,6 +440,6 @@ END_OF_MULTILINE;
 }
 
 if ($lang != 'en') {
-    $sidebar = nav_tools($lang);
+    $sidebar = nav_languages($lang);
     site_footer($sidebar);
 }

@@ -75,37 +75,28 @@ END_OF_MULTILINE;
     require __DIR__ . '/../shared/templates/footer.inc';
 }
 
-function nav_languages()
+function nav_languages($lang = null)
 {
     global $LANGUAGES;
     $out = '<div class="panel">';
-    $out .= '<p class="headline"><a href="revcheck.php">Translation status</a></p>';
+    $out .= '<p class="headline"><a href="/revcheck.php">Translation status</a></p>';
     $out .= '<div class="body">';
     $out .= '<ul>';
     foreach ($LANGUAGES as $code => $name)
     {
-        $out .='<li><a href="revcheck.php?lang='.$code.'">'.$name.'</a></li>';
+        $out .= '<li><a href="/revcheck.php?lang='.$code.'">'.$name.'</a>';
+        if ($lang === $code) {
+            $out .= '<ul>';
+            $out .= '<li><a href="/revcheck.php?p=translators&amp;lang='.$lang.'">Translators</a></li>';
+            $out .= '<li><a href="/revcheck.php?p=filesummary&amp;lang='.$lang.'">File summary</a></li>';
+            $out .= '<li><a href="/revcheck.php?p=files&amp;lang='.$lang.'">Outdated files</a></li>';
+            $out .= '<li><a href="/revcheck.php?p=misstags&amp;lang='.$lang.'">Missing revision numbers</a></li>';
+            $out .= '<li><a href="/revcheck.php?p=missfiles&amp;lang='.$lang.'">Untranslated files</a></li>';
+            $out .= '<li><a href="/revcheck.php?p=oldfiles&amp;lang='.$lang.'">Not in EN tree</a></li>';
+            $out .= '</ul>';
+        }
+        $out .= '</li>';
     }
     $out .= '</ul></div></div>';
-    return $out;
-}
-
-function nav_tools($lang)
-{
-    global $LANGUAGES;
-    $out = '<div class="panel">';
-    $out .= '<p class="headline">';
-    $out .= '<a href="revcheck.php?lang='.$lang.'">Tools ('.$LANGUAGES[$lang].' Manual)</a>';
-    $out .= '</p>';
-    $out .= '<div class="body">';
-    $out .= '<ul>';
-    $out .= '<li><a href="revcheck.php?p=translators&amp;lang='.$lang.'">Translators</a></li>';
-    $out .= '<li><a href="revcheck.php?p=filesummary&amp;lang='.$lang.'">File summary</a></li>';
-    $out .= '<li><a href="revcheck.php?p=files&amp;lang='.$lang.'">Outdated files</a></li>';
-    $out .= '<li><a href="revcheck.php?p=misstags&amp;lang='.$lang.'">Missing revision numbers</a></li>';
-    $out .= '<li><a href="revcheck.php?p=missfiles&amp;lang='.$lang.'">Untranslated files</a></li>';
-    $out .= '<li><a href="revcheck.php?p=oldfiles&amp;lang='.$lang.'">Not in EN tree</a></li>';
-    $out .= '</ul>';
-    $out .= '</div></div>';
     return $out;
 }
