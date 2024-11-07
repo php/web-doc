@@ -20,6 +20,13 @@
 +----------------------------------------------------------------------+
 */
 
+function get_language_intro($idx, $lang)
+{
+    $result = $idx->query("SELECT intro FROM descriptions WHERE lang = '$lang'");
+    $answer = $result->fetchArray();
+    return is_array($answer) ? $answer[0] : null;
+}
+
 // Return an array of directory containing outdated files
 function get_dirs($idx, $lang) {
     $sql = "SELECT

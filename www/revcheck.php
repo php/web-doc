@@ -33,20 +33,20 @@ if (!defined('SQLITE_DIR')) {
 
 $DBLANG = SQLITE_DIR . 'rev.php.sqlite';
 
-// Check if db connection can be established and if revcheck for requested lang exists
-if ($dbhandle = new SQLite3($DBLANG)) {
-    $check_lang_tmp = $dbhandle->query("SELECT COUNT(lang) AS count FROM descriptions WHERE lang = '$lang'");
-    $check_lang = $check_lang_tmp->fetchArray();
-    if ($lang != 'en' && $check_lang['count'] < 0) {
-        site_header();
-        echo "<p>This revision check doesn't exist yet.</p>";
-        site_footer();
-        die;
-    }
-}
-else {
+$dbhandle = new SQLite3($DBLANG);
+if (!$dbhandle) {
     site_header();
     echo "<p>Database connection couldn't be established</p>";
+    site_footer();
+    die;
+}
+
+// Check if db connection can be established and if revcheck for requested lang exists
+$lang_intro = get_language_intro($dbhandle, $lang);
+
+if ($lang !== 'en' && is_null($lang_intro)) {
+    site_header();
+    echo "<p>This revision check doesn't exist yet.</p>";
     site_footer();
     die;
 }
@@ -428,10 +428,8 @@ END_OF_MULTILINE;
          $sidebar = nav_languages();
          site_footer($sidebar);
      } else {
-         $intro_result = $dbhandle->query("SELECT intro FROM descriptions WHERE lang = '$lang'");
-         $intro = $intro_result->fetchArray();
          echo '<h2>Intro for language</h2>';
-         echo '<p>'.$intro[0].'</p>';
+         echo '<p>'.$lang_intro.'</p>';
          echo '<img src="img-status-lang.php?lang=', $lang, '" width="680" height="300" alt="info">';
          echo gen_date($DBLANG);
          echo '<p>Links to available tools are placed on the right sidebar.</p>';
