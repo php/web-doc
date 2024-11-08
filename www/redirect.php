@@ -17,7 +17,6 @@
 +----------------------------------------------------------------------+
 */
 
-require_once(__DIR__ . '/../build-ops.php');
 require_once(__DIR__ . '/../include/lib_proj_lang.inc.php');
 
 /* mime types for downloading files */
