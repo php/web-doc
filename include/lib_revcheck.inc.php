@@ -20,27 +20,35 @@
 +----------------------------------------------------------------------+
 */
 
-function get_language_intro($idx, $lang)
-{
-    $result = $idx->query("SELECT intro FROM descriptions WHERE lang = '$lang'");
+$TRANSLATION_STATUSES = [
+    'TranslatedOk'  => 'Up to date',
+    'TranslatedOld' => 'Outdated',
+    'TranslatedWip' => 'Work in progress',
+    'RevTagProblem' => 'No revision tag',
+    'NotInEnTree'   => 'Not in EN tree',
+    'Untranslated'  => 'Available for translation',
+];
+
+function get_language_intro($idx, $lang) {
+    $result = $idx->query("SELECT intro FROM languages WHERE lang = '$lang'");
     $answer = $result->fetchArray();
     return is_array($answer) ? $answer[0] : null;
 }
 
 // Return an array of directory containing outdated files
 function get_dirs($idx, $lang) {
-    $sql = "SELECT
-        d.path AS dir
-    FROM
-        translated a,
-        dirs d
-    WHERE
-        a.lang = '$lang'
-    AND a.id = d.id
-    AND (a.syncStatus = 'TranslatedOld'
-    OR   a.syncStatus = 'TranslatedWip')
-    ORDER BY
-        d.id";
+    $sql = <<<SQL
+        SELECT
+            path AS dir
+        FROM
+            files
+        WHERE
+            lang = '$lang'
+        AND
+            (status = 'TranslatedOld' OR status = 'TranslatedWip')
+        ORDER BY
+            path
+    SQL;
 
     $result = $idx->query($sql);
 
@@ -55,34 +63,39 @@ function get_dirs($idx, $lang) {
 // return an array with the outdated files; can be optionally filtered by user or dir
 function get_outdated_files($idx, $lang, $filter = null, $value = null)
 {
-    $sql = "SELECT a.status, a.name AS file, a.maintainer, a.additions, a.deletions, c.revision AS en_rev, a.revision AS trans_rev, b.path AS dir
-    FROM translated a, dirs b, enfiles c
-    WHERE a.lang = '$lang'
-      AND c.name = a.name AND b.id = a.id AND b.id = c.id
-      AND (a.syncStatus = 'TranslatedOld'
-       OR  a.syncStatus = 'TranslatedWip')";
+    $value = SQLite3::escapeString($value ?? '');
 
-    if ($filter == 'dir') {
-        $sql .= " AND b.path = '$value'";
-    }
-    elseif ($filter == 'translator') {
-        $sql .= ' AND a.maintainer = "'.SQLite3::escapeString($value).'"';
-    }
+    $sql_filter = match ($filter) {
+        'dir' => "AND path = '{$value}'",
+        'translator' => "AND maintainer = '{$value}'",
+        default => ''
+    };
 
-    $sql .= ' ORDER BY b.path';
+    $sql = <<<SQL
+        SELECT
+            status,
+            name AS file,
+            path AS name,
+            maintainer,
+            adds AS additions,
+            dels AS deletions,
+            hashLast as en_rev,
+            hashRvtg as trans_rev
+        FROM
+            files
+        WHERE
+            lang = '{$lang}'
+        AND
+            (status = 'TranslatedOld' OR status = 'TranslatedWip')
+          {$sql_filter}
+        ORDER BY
+            path
+    SQL;
 
     $result = $idx->query($sql);
     $tmp = array();
-    while ($r = $result->fetchArray()) {
-        $tmp[] = array(
-        'file' => $r['file'],
-        'en_rev' => $r['en_rev'],
-        'trans_rev' => $r['trans_rev'],
-        'status' => $r['status'],
-        'maintainer' => $r['maintainer'],
-        'name' => $r['dir'],
-        'additions' => $r['additions'],
-        'deletions' => $r['deletions']);
+    while ($r = $result->fetchArray(SQLITE3_ASSOC)) {
+        $tmp[] = $r;
     }
 
     return $tmp;
@@ -91,7 +104,7 @@ function get_outdated_files($idx, $lang, $filter = null, $value = null)
 // Return an array of available languages for manual
 function revcheck_available_languages($idx)
 {
-    $result = $idx->query('SELECT lang FROM descriptions');
+    $result = $idx->query('SELECT lang FROM languages');
     while ($row = $result->fetchArray(SQLITE3_NUM)) {
 		$tmp[] = $row[0];
 	}
@@ -99,39 +112,26 @@ function revcheck_available_languages($idx)
 	return $tmp;
 }
 
-
-// Return en integer
-function count_en_files($idx)
-{
-    $sql = "SELECT COUNT(name) FROM enfiles";
-    $res = $idx->query($sql);
-    $row = $res->fetchArray();
-    return $row[0];
-}
-
 function get_missfiles($idx, $lang)
 {
-    $sql = "SELECT
-        d.path as dir,
-        a.name as file,
-        b.revision as revision,
-        a.size as size
-    FROM
-        Untranslated a,
-        enfiles b,
-        dirs d
-    WHERE
-        a.lang = '$lang'
-    AND
-        a.name = b.name
-    AND
-        a.id = b.id
-    AND
-        a.id = d.id";
+    $sql = <<<SQL
+        SELECT
+            path AS dir,
+            name AS file,
+            hashLast AS revision,
+            size / 1024 AS size
+        FROM
+            files
+        WHERE
+            lang = '{$lang}'
+        AND
+            status = 'Untranslated'
+    SQL;
+
     $result = $idx->query($sql);
 
-    while ($r = $result->fetchArray()) {
-        $tmp[] = array('dir' => $r['dir'], 'size' => $r['size'], 'revision' => $r['revision'], 'file' => $r['file']);
+    while ($r = $result->fetchArray(SQLITE3_ASSOC)) {
+        $tmp[] = $r;
     }
 
     return $tmp;
@@ -139,26 +139,36 @@ function get_missfiles($idx, $lang)
 
 function get_oldfiles($idx, $lang)
 {
-    $sql = "SELECT path, name, size
-     FROM  notinen
-     WHERE lang = '$lang'";
+    $sql = <<<SQL
+        SELECT
+            path AS dir,
+            name AS file,
+            size / 1024 AS size
+        FROM
+            files
+        WHERE
+            lang = '$lang'
+        AND
+            status = 'NotInEnTree'
+    SQL;
 
     $result = $idx->query($sql);
     $tmp = array();
 
-    while ($r = $result->fetchArray()) {
-        $tmp[] = array('dir' => $r['path'], 'size' => $r['size'], 'file' => $r['name']);
+    while ($r = $result->fetchArray(SQLITE3_ASSOC)) {
+        $tmp[] = $r;
     }
     return $tmp;
 }
 
 function get_misstags($idx, $lang)
 {
-    $sql = "SELECT d.path AS dir, a.size AS en_size, b.size AS trans_size, a.name AS name
-     FROM enfiles a, translated b, dirs d
-     WHERE b.lang = '$lang' AND b.syncStatus = 'RevTagProblem'
-     AND a.id = b.id AND a.name = b.name AND a.id = d.id
-     ORDER BY dir, name";
+    $sql = <<<SQL
+        SELECT path AS dir, name AS name
+          FROM files
+         WHERE lang = '{$lang}' AND status = 'RevTagProblem'
+         ORDER BY dir, name
+    SQL;
     $tmp = NULL;
     $result = $idx->query($sql);
     while($row = $result->fetchArray()) {
@@ -168,83 +178,62 @@ function get_misstags($idx, $lang)
     return $tmp;
 }
 
-/**
- * Returns translators' stats of specified $lang
- * Replaces old translator_get_wip(), translator_get_old(),
- * translator_get_critical() and translator_get_uptodate() functions
- *
- * @param string  $status  one of [uptodate, old, critical, wip]
- * @return array
- */
-function get_translators_stats($idx, $lang, $status) {
-    if ($status == 'wip') { // special case, ehh; does anyone still use this status?
-        $sql = "SELECT files_wip AS total, nick AS maintainer
-        FROM translators
-        WHERE lang = '$lang'
-        GROUP BY maintainer";
-    } elseif ($status == 'uptodate') {
-        $sql = "SELECT files_uptodate AS total, nick AS maintainer
-        FROM translators
-        WHERE lang = '$lang'
-        GROUP BY maintainer";
-    } elseif ($status == 'outdated') {
-        $sql = "SELECT files_outdated AS total, nick AS maintainer
-        FROM translators
-        WHERE lang = '$lang'
-        GROUP BY maintainer";
-    }
-    $result = $idx->query($sql);
-    $tmp = array();
-    while ($r = $result->fetchArray()) {
-        $tmp[$r['maintainer']] = $r['total'];
-    }
-
-    return $tmp;
-}
-
 function get_translators($idx, $lang)
 {
-    $sql = "SELECT nick, name, mail, vcs FROM translators WHERE lang = '$lang' ORDER BY nick COLLATE NOCASE";
-    $persons = array();
+    $sql = <<<SQL
+        SELECT
+            nick, name, email AS mail, vcs AS karma,
+            countOk, countOld, countOther
+        FROM
+            translators
+        WHERE
+            lang = '{$lang}'
+        ORDER BY
+            nick COLLATE NOCASE
+    SQL;
+
     $result = $idx->query($sql);
-    while ($r = $result->fetchArray()) {
-        $persons[$r['nick']] = array('name' => $r['name'], 'mail' => $r['mail'], 'karma' => $r['vcs']);
+    while ($r = $result->fetchArray(SQLITE3_ASSOC)) {
+        $persons[$r['nick']] = $r;
     }
     return $persons;
 }
 
-/**
- * Returns statistics of specified $lang
- * Replaces old get_stats_uptodate(), get_stats_old(),
- * get_stats_critical(), get_stats_wip(), get_stats_notrans()
- * and get_stats_notag() functions
- *
- * @param string  $status  one of [uptodate, old, critical, wip, notrans, norev]
- * @return array
+/*
+ * Returns statistics for specified language
  */
-function get_stats($idx, $lang, $status) {
-    $sql = "SELECT COUNT(a.name) AS total, SUM(b.size) AS size
-        FROM translated a, enfiles b
-        WHERE a.lang = '$lang' AND a.id = b.id AND a.name = b.name AND ";
-    if ($status == 'wip') {
-         $sql .= "a.syncStatus = 'TranslatedWip'";
-    } elseif ($status == 'notrans') {
-        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
-        FROM Untranslated
-        WHERE lang = '$lang'";
-    } elseif ($status == 'uptodate') {
-        $sql .= "a.syncStatus = 'TranslatedOk'";
-    } elseif ($status == 'outdated') {
-        $sql .= "syncStatus = 'TranslatedOld'";
-    } elseif ($status == 'norev') {
-        $sql .= "syncStatus = 'RevTagProblem'";
-    } else { //notinen
-        $sql = "SELECT COUNT(name) AS total, SUM(size) AS size
-        FROM notinen WHERE lang = '$lang'";
+function get_lang_stats($idx, $lang) {
+    $sql = <<<SQL
+        SELECT
+            status,
+            COUNT(*) AS total,
+            SUM(size) / 1024 AS size
+        FROM
+            files
+        WHERE
+            lang = '{$lang}'
+        GROUP BY
+            status
+    SQL;
 
+    $result = $idx->query($sql);
+
+    $stats = [];
+    $total = [ 'total' => 0, 'size' => 0 ];
+
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $stats[$row['status']] = $row;
+        if ($row['status'] != 'NotInEnTree') {
+            $total['total'] += $row['total'];
+            $total['size'] += $row['size'];
+        }
     }
-    $result = $idx->query($sql)->fetchArray();
-    return array($result['total'], $result['size']);
+
+    if ($total['total'] > 0) {
+        $stats['total'] = $total;
+    }
+
+    return $stats;
 }
 
 function showdiff ()

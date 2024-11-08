@@ -5,16 +5,17 @@ require_once __DIR__ . '/../include/jpgraph/src/jpgraph_bar.php';
 require_once __DIR__ . '/../include/init.inc.php';
 require_once __DIR__ . '/../include/lib_revcheck.inc.php';
 
-$idx = new SQLite3(SQLITE_DIR . 'rev.php.sqlite');
+$idx = new SQLite3(SQLITE_DIR . 'status.sqlite');
 
 $language = revcheck_available_languages($idx);
 sort($language);
-$files_EN = count_en_files($idx);
 
 foreach ($language as $lang) {
-    $tmp = get_stats($idx, $lang, 'uptodate');
+    $stats = get_lang_stats($idx, $lang);
 
-    $percent_tmp[] = round($tmp[0] * 100 / $files_EN);
+    if (!$stats) die("No stats for $lang");
+
+    $percent_tmp[] = round($stats['TranslatedOk']['total'] * 100 / $stats['total']['total']);
     $legend_tmp[] = $lang;
 }
 

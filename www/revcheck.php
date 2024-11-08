@@ -31,7 +31,7 @@ if (!defined('SQLITE_DIR')) {
     die;
 }
 
-$DBLANG = SQLITE_DIR . 'rev.php.sqlite';
+$DBLANG = SQLITE_DIR . 'status.sqlite';
 
 $dbhandle = new SQLite3($DBLANG);
 if (!$dbhandle) {
@@ -60,18 +60,14 @@ switch($tool) {
         echo '<p>Error: no translators info found in database.</p>';
     }
     else {
-        $uptodate = get_translators_stats($dbhandle, $lang, 'uptodate');
-        $outdated = get_translators_stats($dbhandle, $lang, 'outdated');
-        $wip      = get_translators_stats($dbhandle, $lang, 'wip');
-
         foreach($translators as $nick =>$data) {
-        $files_w[$nick] = array('uptodate' => '', 'outdated' => '', 'norev' => '', 'wip' => '');
-        $files_w[$nick]['uptodate'] = isset($uptodate[$nick]) ? $uptodate[$nick] : '';
-        $files_w[$nick]['wip'] = isset($wip[$nick]) ? $wip[$nick] : '';
-        $files_w[$nick]['outdated'] = isset($outdated[$nick]) ? $outdated[$nick] : '';
-    }
+            $files_w[$nick] = array('uptodate' => '', 'outdated' => '', 'norev' => '', 'wip' => '');
+            $files_w[$nick]['uptodate'] = $data['countOk'];
+            $files_w[$nick]['wip'] = $data['countOther'];
+            $files_w[$nick]['outdated'] = $data['countOld'];
+        }
 
-    echo <<<TRANSLATORS_HEAD
+        echo <<<TRANSLATORS_HEAD
 <table class="c">
 <tr>
 <th rowspan="2">Name</th>
@@ -87,19 +83,19 @@ switch($tool) {
 </tr>
 TRANSLATORS_HEAD;
 
-    foreach ($translators as $nick => $data) {
-        echo '<tr>',
-        '<td><a href="mailto:'.$data['mail'].'">'.$data['name'].'</a></td>',
-        '<td><a href="/revcheck.php?p=files&amp;user='.$nick.'&amp;lang='.$lang.'">'.$nick.'</a></td>',
-        '<td>'.(($data['karma'] == 'yes') ? '✓' : '&nbsp;').'</td>',
-        '<td>' , @$files_w[$nick]['uptodate'], '</td>',
-        '<td>' , $files_w[$nick]['outdated'], '</td>',
-        '<td>', $files_w[$nick]['wip'], '</td>',
-        '<th>' , @array_sum($files_w[$nick]), '</th>',
-        '</tr>';
-    }
-    echo '</table>';
- }
+        foreach ($translators as $nick => $data) {
+            echo '<tr>',
+            '<td><a href="mailto:'.$data['mail'].'">'.$data['name'].'</a></td>',
+            '<td><a href="/revcheck.php?p=files&amp;user='.$nick.'&amp;lang='.$lang.'">'.$nick.'</a></td>',
+            '<td>'.(($data['karma'] == 'yes') ? '✓' : '&nbsp;').'</td>',
+            '<td>' , @$files_w[$nick]['uptodate'], '</td>',
+            '<td>' , $files_w[$nick]['outdated'], '</td>',
+            '<td>', $files_w[$nick]['wip'], '</td>',
+            '<th>' , @array_sum($files_w[$nick]), '</th>',
+            '</tr>';
+        }
+        echo '</table>';
+     }
  echo gen_date($DBLANG);
  break;
 
@@ -209,88 +205,36 @@ TRANSLATORS_HEAD;
  break;
 
  case 'filesummary':
-     $files_uptodate = get_stats($dbhandle, $lang, 'uptodate');
-     $files_outdated = get_stats($dbhandle, $lang, 'outdated');
-     $files_norev    = get_stats($dbhandle, $lang, 'norev');
-     $files_notrans  = get_stats($dbhandle, $lang, 'notrans');
-     $files_wip      = get_stats($dbhandle, $lang, 'wip');
-     $files_notinen  = get_stats($dbhandle, $lang, 'notinen');
-
-     $files_outdated[1] = $files_outdated[1] > 0 ? $files_outdated[1] : 0;
-     $files_norev[1] = $files_norev[1] > 0 ? $files_norev[1] : 0;
-     $files_wip[1] = $files_wip[1] > 0 ? $files_wip[1] : 0;
-     $files_notinen[1] = $files_notinen[1] > 0 ? $files_notinen[1] : 0;
+     $stats = get_lang_stats($dbhandle, $lang);
 
      echo '<table class="c">';
      echo '<tr><th>File status type</th><th>Number of files</th><th>Percent of files</th><th>Size of files (kB)</th><th>Percent of size</th></tr>';
 
-     $percent[0] = 0;
-     $percent[1] = 0;
-     $count = count_en_files($dbhandle);
+     foreach ($TRANSLATION_STATUSES as $status => $description) {
+         echo
+            '<tr>',
+            '<td>', $description, '</td>',
+            '<td>', $stats[$status]['total'] ?? 0, '</td>',
+            '<td>',
+            sprintf('%.2f%%', 100 * (($stats[$status]['total'] ?? 0) / $stats['total']['total'])),
+            '</td>',
+            '<td>', $stats[$status]['size'] ?? 0, '</td>',
+            '<td>',
+            sprintf('%.2f%%', 100 * (($stats[$status]['size'] ?? 0) / $stats['total']['size'])),
+            '</td>',
+            '</tr>';
+     }
+     echo
+        '<tr>',
+        '<th>Total</th>',
+        '<th>', $stats['total']['total'] ?? 0, '</th>',
+        '<th>100.00%</th>',
+        '<th>', $stats['total']['size'] ?? 0, '</th>',
+        '<th>100.00%</th>',
+        '</tr>';
+     echo '</table>';
 
-     $percent[1] += $files_uptodate[1];
-     $percent[1] += $files_outdated[1];
-     $percent[1] += $files_norev[1];
-     $percent[1] += $files_notrans[1];
-     $percent[1] += $files_wip[1];
-
-     $num_uptodate_percent = number_format($files_uptodate[0] * 100 / $count, 2 );
-     $num_outdated_percent = number_format($files_outdated[0] * 100 / $count, 2 );
-     $num_wip_percent = number_format($files_wip[0] * 100 / $count, 2 );
-     $num_norev_percent = number_format($files_norev[0] * 100 / $count, 2 );
-     $num_notrans_percent = number_format($files_notrans[0] * 100 / $count, 2 );
-
-     $size_uptodate_percent = number_format($files_uptodate[1] * 100 / $percent[1], 2 );
-     $size_outdated_percent = number_format($files_outdated[1] * 100 / $percent[1], 2 );
-     $size_wip_percent = number_format($files_wip[1] * 100 / $percent[1], 2 );
-     $size_norev_percent = number_format($files_norev[1] * 100 / $percent[1], 2 );
-     $size_notrans_percent = number_format($files_notrans[1] * 100 / $percent[1], 2 );
-     print <<<HTML
-<tr>
-<td>Up to date files</td>
-<td>{$files_uptodate[0]}</td>
-<td>{$num_uptodate_percent}%</td>
-<td>{$files_uptodate[1]}</td>
-<td>{$size_uptodate_percent}%</td>
-</tr><tr>
-<td>Outdated files</td>
-<td>{$files_outdated[0]}</td>
-<td>{$num_outdated_percent}%</td>
-<td>{$files_outdated[1]}</td>
-<td>{$size_outdated_percent}%</td>
-</tr><tr>
-<td>Work in progress</td>
-<td>{$files_wip[0]}</td>
-<td>{$num_wip_percent}%</td>
-<td>{$files_wip[1]}</td>
-<td>{$size_wip_percent}%</td>
-</tr><tr>
-<td>Files without revision number</td>
-<td>{$files_norev[0]}</td>
-<td>{$num_norev_percent}%</td>
-<td>$files_norev[1]</td>
-<td>{$size_norev_percent}%</td>
-</tr><tr>
-<td>Not in EN tree</td>
-<td>{$files_notinen[0]}</td>
-<td>0.00%</td>
-<td>{$files_notinen[1]}</td>
-<td>0.00%</td>
-</tr><tr>
-<td>Files available for translation	</td>
-<td>{$files_notrans[0]}</td>
-<td>{$num_notrans_percent}%</td>
-<td>{$files_notrans[1]}</td>
-<td>{$size_notrans_percent}%</td>
-</tr><tr>
-<th>Files total</th>
-<th>$count</th>
-<th>100%</th>
-<th>{$percent[1]}</th
-><th>100%</th>
-</tr></table>
-HTML;
- echo gen_date($DBLANG);
+     echo gen_date($DBLANG);
  break;
 
 
