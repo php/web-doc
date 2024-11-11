@@ -8,7 +8,7 @@ require_once __DIR__ . '/../include/init.inc.php';
 require_once __DIR__ . '/../include/lib_revcheck.inc.php';
 require_once __DIR__ . '/../include/lib_proj_lang.inc.php';
 
-$idx = new SQLite3(SQLITE_DIR . 'rev.php.sqlite');
+$idx = new SQLite3(SQLITE_DIR . 'status.sqlite');
 
 $available_langs = revcheck_available_languages($idx);
 
@@ -23,17 +23,15 @@ if (!in_array($lang, $available_langs)) {
 function generate_image($lang, $idx) {
     global $LANGUAGES;
 
-    $up_to_date = get_stats($idx, $lang, 'uptodate');
-    $up_to_date = $up_to_date[0];
+    $stats = get_lang_stats($idx, $lang);
+
+    $up_to_date = $stats['TranslatedOk']['total'] ?? 0;
     //
-    $outdated = @get_stats($idx, $lang, 'outdated');
-    $outdated = $outdated[0];
+    $outdated = $stats['TranslatedOld']['total'] ?? 0;
     //
-    $missing = get_stats($idx, $lang, 'notrans');
-    $missing = $missing[0];
+    $missing = $stats['Untranslated']['total'] ?? 0;
     //
-    $no_tag = @get_stats($idx, $lang, 'norev');
-    $no_tag = $no_tag[0];
+    $no_tag = $stats['RevTagProblem']['total'] ?? 0;
 
     $data = array(
         $up_to_date,
