@@ -52,6 +52,13 @@ td { background-color: #dcdcdc; padding: 0.2em 0.3em; }
 .copy { margin:0; padding: 0; font-size:small; }
 .copy:hover { text-transform: uppercase; }
 .copy:active { background: aqua; font-weight: bold; }
+pre {
+    background: white;
+    border: solid 1px rgb(214, 214, 214);
+    padding: 0.75rem;
+    overflow: auto;
+    font: normal 0.875rem/1.5rem "Source Code Pro", monospace;
+}
 </style>
 END_OF_MULTILINE;
     echo '<section class="mainscreen">';
