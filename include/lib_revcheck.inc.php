@@ -249,7 +249,8 @@ function showdiff ()
         chdir( GIT_DIR . 'en' );
         $arg_h = escapeshellarg($h);
         $arg_f = escapeshellarg($gitfile);
-        $file = `git -c {$safedir} diff --ignore-space-at-eol {$arg_h} -- {$arg_f}`;
+        echo "git -c {$safedir} diff -b --word-diff=porcelain {$arg_h} -- {$arg_f}";
+        $file = `git -c {$safedir} diff -b --word-diff=porcelain {$arg_h} -- {$arg_f}`;
         if ($file == null)
             $file = `git -c {$safedir} diff {$arg_h} -- {$arg_f}`;
         $hash = `git -c {$safedir} log -n 1 --pretty=format:%H -- {$arg_f}`;
