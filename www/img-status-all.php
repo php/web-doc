@@ -35,7 +35,7 @@ $graph->ygrid->SetFill(true,'#EFEFEF@0.5','#BBCCFF@0.5');
 $graph->SetShadow();
 
 // Adjust the margin a bit to make more room for titles
-$graph->img->SetMargin(50,30,20,40);
+$graph->img->SetMargin(50,30,35,40);
 
 // Create a bar pot
 $bplot = new BarPlot($percent);
