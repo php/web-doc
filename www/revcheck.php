@@ -19,8 +19,8 @@ if (isset($_GET['p'])) {
     $tool = $_GET['p'];
 }
 
-// Prevent viewing other tools in EN
-if ($lang == 'en') {
+// Prevent viewing other tools in EN (except alllangs)
+if ($lang == 'en' && $tool !== 'alllangs') {
     $tool = 'default';
 }
 
@@ -363,11 +363,77 @@ END_OF_MULTILINE;
     echo gen_date($DBLANG);
  break;
 
+ case 'alllangs':
+     $dirs_en = get_dirs_en($dbhandle);
+     $selected_dir = isset($_GET['dir']) ? $_GET['dir'] : ($dirs_en[0] ?? '');
+
+     echo '<h2>Translation status across all languages</h2>';
+     echo '<p>Choose a directory to see the translation status of each file across all languages.</p>';
+     echo '<form method="get" action="revcheck.php"><p><select name="dir">';
+     foreach ($dirs_en as $d) {
+         $sel = ($d === $selected_dir) ? ' selected="selected"' : '';
+         $display = $d === '' ? '/' : $d;
+         echo '<option value="' . htmlspecialchars($d) . '"' . $sel . '>' . htmlspecialchars($display) . '</option>';
+     }
+     echo '</select>';
+     echo '<input type="hidden" name="p" value="alllangs">';
+     echo '<input type="hidden" name="lang" value="en">';
+     echo '<input type="submit" value="Show status"></p></form>';
+
+     $files_matrix = get_files_all_langs($dbhandle, $selected_dir);
+
+     if (empty($files_matrix)) {
+         echo '<p>No files found in this directory.</p>';
+     } else {
+         $langs = array_keys($LANGUAGES);
+
+         echo '<table class="c">';
+         echo '<tr><th>File</th>';
+         foreach ($langs as $l) {
+             echo '<th>' . htmlspecialchars($l) . '</th>';
+         }
+         echo '</tr>';
+
+         foreach ($files_matrix as $filename => $statuses) {
+             echo '<tr>';
+             echo '<td class="n" style="text-align:left;">' . htmlspecialchars($filename) . '</td>';
+             foreach ($langs as $l) {
+                 $status = $statuses[$l] ?? 'Untranslated';
+                 [$label, $color] = match ($status) {
+                     'TranslatedOk'  => ['&#10003;', '#ccebc5'],
+                     'TranslatedOld' => ['old', '#fbb4ae'],
+                     'TranslatedWip' => ['wip', '#fed9a6'],
+                     'RevTagProblem' => ['tag', '#ffffcc'],
+                     'Untranslated'  => ['&mdash;', '#e0e0e0'],
+                     'NotInEnTree'   => ['?', '#decbe4'],
+                     default         => ['?', '#ffffff'],
+                 };
+                 echo '<td style="background-color:' . $color . ';" title="' . htmlspecialchars($TRANSLATION_STATUSES[$status] ?? $status) . '">' . $label . '</td>';
+             }
+             echo '</tr>';
+         }
+         echo '</table>';
+
+         echo '<p>';
+         echo '<span style="background-color:#ccebc5;padding:2px 6px;">&#10003;</span> Up to date &nbsp; ';
+         echo '<span style="background-color:#fbb4ae;padding:2px 6px;">old</span> Outdated &nbsp; ';
+         echo '<span style="background-color:#fed9a6;padding:2px 6px;">wip</span> Work in progress &nbsp; ';
+         echo '<span style="background-color:#ffffcc;padding:2px 6px;">tag</span> Missing revision tag &nbsp; ';
+         echo '<span style="background-color:#e0e0e0;padding:2px 6px;">&mdash;</span> Untranslated';
+         echo '</p>';
+     }
+
+     echo gen_date($DBLANG);
+     $sidebar = nav_languages();
+     site_footer($sidebar);
+ break;
+
  case 'graph':
  default:
      if ($lang == 'en') {
          echo '<img src="img-status-all.php" width="662" height="262" alt="Info" class="chart">';
          echo '<p>This is all what we can show for original manual. To get more tools, please select translation language.</p>';
+         echo '<p><a href="?p=alllangs&amp;lang=en">View translation status across all languages</a></p>';
          echo gen_date($DBLANG);
          $sidebar = nav_languages();
          site_footer($sidebar);

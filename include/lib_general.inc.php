@@ -89,6 +89,9 @@ function nav_languages($lang = null)
     $out .= '<p class="headline"><a href="/revcheck.php">Translation status</a></p>';
     $out .= '<div class="body">';
     $out .= '<ul>';
+    if ($lang === null) {
+        $out .= '<li><a href="/revcheck.php?p=alllangs&amp;lang=en">All languages</a></li>';
+    }
     foreach ($LANGUAGES as $code => $name)
     {
         $out .= '<li><a href="/revcheck.php?lang='.$code.'">'.$name.'</a>';

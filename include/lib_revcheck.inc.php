@@ -334,6 +334,82 @@ function showdiff ()
    }
 }
 
+// Return an array of distinct directories from the EN tree
+function get_dirs_en($idx) {
+    $sql = <<<SQL
+        SELECT DISTINCT
+            path AS dir
+        FROM
+            files
+        WHERE
+            lang = 'en'
+        ORDER BY
+            path
+    SQL;
+
+    $result = $idx->query($sql);
+
+    $tmp = [];
+    while ($r = $result->fetchArray()) {
+        $tmp[] = $r['dir'];
+    }
+
+    return $tmp;
+}
+
+// Return a matrix of file statuses across all translation languages for a given directory
+function get_files_all_langs($idx, $dir) {
+    global $LANGUAGES;
+
+    $dir = SQLite3::escapeString($dir);
+
+    // Get all EN files for this directory
+    $sql_en = <<<SQL
+        SELECT
+            name
+        FROM
+            files
+        WHERE
+            lang = 'en'
+        AND
+            path = '{$dir}'
+        ORDER BY
+            name
+    SQL;
+
+    $result = $idx->query($sql_en);
+    $files = [];
+    while ($r = $result->fetchArray(SQLITE3_ASSOC)) {
+        $files[$r['name']] = [];
+    }
+
+    // For each language, get the status of files in this directory
+    foreach (array_keys($LANGUAGES) as $lang) {
+        $lang = SQLite3::escapeString($lang);
+
+        $sql = <<<SQL
+            SELECT
+                name,
+                status
+            FROM
+                files
+            WHERE
+                lang = '{$lang}'
+            AND
+                path = '{$dir}'
+        SQL;
+
+        $result = $idx->query($sql);
+        while ($r = $result->fetchArray(SQLITE3_ASSOC)) {
+            if (isset($files[$r['name']])) {
+                $files[$r['name']][$lang] = $r['status'];
+            }
+        }
+    }
+
+    return $files;
+}
+
 function gen_date($file)
 {
     $unix = filemtime($file);
