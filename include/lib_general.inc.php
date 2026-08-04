@@ -100,6 +100,8 @@ function nav_languages($lang = null)
             $out .= '<li><a href="/revcheck.php?p=misstags&amp;lang='.$lang.'">Missing revision numbers</a></li>';
             $out .= '<li><a href="/revcheck.php?p=missfiles&amp;lang='.$lang.'">Untranslated files</a></li>';
             $out .= '<li><a href="/revcheck.php?p=oldfiles&amp;lang='.$lang.'">Not in EN tree</a></li>';
+            $out .= '<li><a href="/revcheck.php?p=brokenfiles&amp;lang='.$lang.'">Broken XML</a></li>';
+            $out .= '<li><a href="/revcheck.php?p=donottranslate&amp;lang='.$lang.'">Do not translate</a></li>';
             $out .= '</ul>';
         }
         $out .= '</li>';

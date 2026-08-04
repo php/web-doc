@@ -27,7 +27,14 @@ $TRANSLATION_STATUSES = [
     'RevTagProblem' => 'No revision tag',
     'NotInEnTree'   => 'Not in EN tree',
     'Untranslated'  => 'Available for translation',
+    'XmlBroken'     => 'Broken XML',
+    'DoNotTranslate' => 'Marked do not translate',
 ];
+
+// Files marked do not translate are never expected to be translated, so
+// they are listed but never counted against a translation. This matches
+// the totals of doc-base scripts/revcheck.php and genrevdb.php.
+$TRANSLATION_STATUSES_OFF_TOTAL = [ 'DoNotTranslate' ];
 
 function get_language_intro($idx, $lang) {
     $result = $idx->query("SELECT intro FROM languages WHERE lang = '$lang'");
@@ -161,6 +168,40 @@ function get_oldfiles($idx, $lang)
     return $tmp;
 }
 
+function get_brokenfiles($idx, $lang)
+{
+    $sql = <<<SQL
+        SELECT path AS dir, name AS name, xmlError AS error, size / 1024 AS size
+          FROM files
+         WHERE lang = '{$lang}' AND status = 'XmlBroken'
+         ORDER BY dir, name
+    SQL;
+
+    $result = $idx->query($sql);
+    $tmp = array();
+    while ($r = $result->fetchArray(SQLITE3_ASSOC)) {
+        $tmp[] = $r;
+    }
+    return $tmp;
+}
+
+function get_donottranslate($idx, $lang)
+{
+    $sql = <<<SQL
+        SELECT path AS dir, name AS name, size / 1024 AS size
+          FROM files
+         WHERE lang = '{$lang}' AND status = 'DoNotTranslate'
+         ORDER BY dir, name
+    SQL;
+
+    $result = $idx->query($sql);
+    $tmp = array();
+    while ($r = $result->fetchArray(SQLITE3_ASSOC)) {
+        $tmp[] = $r;
+    }
+    return $tmp;
+}
+
 function get_misstags($idx, $lang)
 {
     $sql = <<<SQL
@@ -221,9 +262,12 @@ function get_lang_stats($idx, $lang) {
     $stats = [];
     $total = [ 'total' => 0, 'size' => 0 ];
 
+    global $TRANSLATION_STATUSES_OFF_TOTAL;
+
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $stats[$row['status']] = $row;
-        if ($row['status'] != 'NotInEnTree') {
+        if ($row['status'] != 'NotInEnTree'
+            && !in_array($row['status'], $TRANSLATION_STATUSES_OFF_TOTAL)) {
             $total['total'] += $row['total'];
             $total['size'] += $row['size'];
         }
