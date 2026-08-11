@@ -1,6 +1,5 @@
 build-ops
 build-ops.php
-include/jpgraph
 sqlite
 git
 log

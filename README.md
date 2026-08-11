@@ -9,10 +9,6 @@ This can be run using PHP's [built-in web server](https://www.php.net/features.c
 for local development. For the guide pages to work, you also
 need a local clone of the `doc-base` repository.
 
-To generate the images for translation status, the GD extension
-is required.
-[JpGraph](https://jpgraph.net/download/) needs to be in `/include/jpgraph/`.
-
 To generate the translation status, you'll also need the English version
 of the documentation and whatever languages you want to generate data
 about.
