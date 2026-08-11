@@ -180,6 +180,63 @@ TRANSLATORS_HEAD;
  echo gen_date($DBLANG);
  break;
 
+ case 'brokenfiles':
+     $brokenfiles = get_brokenfiles($dbhandle, $lang);
+
+     if (!$brokenfiles) {
+         echo '<p>Good, all translated files are valid XML.</p>';
+     } else {
+         $num = count($brokenfiles);
+         echo '<p>These files do not parse as XML. The manual build may fail, or silently ';
+         echo 'drop their contents, so they need a fix before anything else.</p>';
+         echo '<table class="c">';
+         echo '<tr><th>Broken XML files ('.$num.' files):</th><th>Error</th><th>kB</th></tr>';
+
+         $last_dir = false;
+         foreach ($brokenfiles as $row) {
+             if (!$last_dir || $last_dir != $row['dir']) {
+                 echo '<tr><th colspan="3">'.htmlspecialchars($row['dir']).'</th></tr>';
+                 $last_dir = $row['dir'];
+             }
+             echo '<tr>',
+                 '<td>', htmlspecialchars($row['name']), '</td>',
+                 '<td>', htmlspecialchars($row['error']), '</td>',
+                 '<td>', $row['size'], '</td>',
+                 '</tr>';
+         }
+         echo '</table>';
+     }
+     echo gen_date($DBLANG);
+ break;
+
+ case 'donottranslate':
+     $donottranslate = get_donottranslate($dbhandle, $lang);
+
+     if (!$donottranslate) {
+         echo '<p>No source file is marked do not translate.</p>';
+     } else {
+         $num = count($donottranslate);
+         echo '<p>These English files carry a <code>&lt;?do-not-translate?&gt;</code> mark. They are ';
+         echo 'not expected to be translated, and are left out of the totals of this translation.</p>';
+         echo '<table class="c">';
+         echo '<tr><th>Marked do not translate ('.$num.' files):</th><th>kB</th></tr>';
+
+         $last_dir = false;
+         foreach ($donottranslate as $row) {
+             if (!$last_dir || $last_dir != $row['dir']) {
+                 echo '<tr><th colspan="2">'.htmlspecialchars($row['dir']).'</th></tr>';
+                 $last_dir = $row['dir'];
+             }
+             echo '<tr>',
+                 '<td>', htmlspecialchars($row['name']), '</td>',
+                 '<td>', $row['size'], '</td>',
+                 '</tr>';
+         }
+         echo '</table>';
+     }
+     echo gen_date($DBLANG);
+ break;
+
  case 'misstags':
      $misstags = get_misstags($dbhandle, $lang);
 
@@ -211,16 +268,21 @@ TRANSLATORS_HEAD;
      echo '<tr><th>File status type</th><th>Number of files</th><th>Percent of files</th><th>Size of files (kB)</th><th>Percent of size</th></tr>';
 
      foreach ($TRANSLATION_STATUSES as $status => $description) {
+         // A status kept out of the total has no meaningful share of it.
+         $offTotal = in_array($status, $TRANSLATION_STATUSES_OFF_TOTAL);
+
          echo
             '<tr>',
             '<td>', $description, '</td>',
             '<td>', $stats[$status]['total'] ?? 0, '</td>',
             '<td>',
-            sprintf('%.2f%%', 100 * (($stats[$status]['total'] ?? 0) / $stats['total']['total'])),
+            $offTotal ? 'n/a'
+                : sprintf('%.2f%%', 100 * (($stats[$status]['total'] ?? 0) / $stats['total']['total'])),
             '</td>',
             '<td>', $stats[$status]['size'] ?? 0, '</td>',
             '<td>',
-            sprintf('%.2f%%', 100 * (($stats[$status]['size'] ?? 0) / $stats['total']['size'])),
+            $offTotal ? 'n/a'
+                : sprintf('%.2f%%', 100 * (($stats[$status]['size'] ?? 0) / $stats['total']['size'])),
             '</td>',
             '</tr>';
      }
