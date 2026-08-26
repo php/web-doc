@@ -52,6 +52,7 @@ if ($lang !== 'en' && is_null($lang_intro)) {
 }
 
 site_header();
+header('Cache-Control: public, max-age=3600');
 switch($tool) {
  case 'translators':
     $translators = get_translators($dbhandle, $lang);
