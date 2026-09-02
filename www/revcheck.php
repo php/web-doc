@@ -51,7 +51,7 @@ if ($lang !== 'en' && is_null($lang_intro)) {
     die;
 }
 
-site_header();
+site_header(['cache_control' => 3600]);
 switch($tool) {
  case 'translators':
     $translators = get_translators($dbhandle, $lang);
