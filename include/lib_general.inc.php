@@ -28,7 +28,7 @@ function get_svn_dir($project)
     return $GLOBALS['PROJECTS'][$project][1] . '/';
 }
 
-function site_header()
+function site_header(array $config = [])
 {
     $TITLE = 'Documentation Tools';
     $SUBDOMAIN = 'doc';
@@ -38,6 +38,7 @@ function site_header()
         array('href' => '/revcheck.php', 'text' => 'Translation Status'),
         array('href' => '/phd.php', 'text' => 'PhD Homepage'),
     );
+    $CONFIG = $config;
 
     require __DIR__ . '/../shared/templates/header.inc';
    echo <<<END_OF_MULTILINE
