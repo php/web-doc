@@ -25,17 +25,23 @@ if ($lang == 'en') {
 }
 
 if (!defined('SQLITE_DIR')) {
-    site_header();
+    site_header(['http_response_code' => 500]);
     echo "<p>Unable to find SQLite database with revisions.</p>";
     site_footer();
     die;
 }
 
 $DBLANG = SQLITE_DIR . 'status.sqlite';
+if (!file_exists($DBLANG)) {
+    site_header(['http_response_code' => 500]);
+    echo "<p>Database file doesn't exist</p>";
+    site_footer();
+    die;
+}
 
 $dbhandle = new SQLite3($DBLANG);
 if (!$dbhandle) {
-    site_header();
+    site_header(['http_response_code' => 500]);
     echo "<p>Database connection couldn't be established</p>";
     site_footer();
     die;
@@ -45,7 +51,7 @@ if (!$dbhandle) {
 $lang_intro = get_language_intro($dbhandle, $lang);
 
 if ($lang !== 'en' && is_null($lang_intro)) {
-    site_header();
+    site_header(['http_response_code' => 404]);
     echo "<p>This revision check doesn't exist yet.</p>";
     site_footer();
     die;
