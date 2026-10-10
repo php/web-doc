@@ -42,6 +42,12 @@ site_header();
   projects and translations have separate mailing lists.
 </p>
 
+<p>
+  If your language is not available yet, the guide on
+  <a href="/guide/new-language.md">starting a new translation</a> explains
+  how to get one started and what is needed to make it official.
+</p>
+
 <?php
 $sidebar = nav_languages();
 echo site_footer($sidebar);
